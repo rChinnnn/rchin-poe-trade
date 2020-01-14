@@ -21,10 +21,44 @@
       res.send("Hello world! POE Trade is ready!");
     });
 
+    app.post('/tradeTest', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call tradeTest(post) API")
+      console.log(req.body)
+      res.send("trade tool is ready!");
+    });
+
+    // post searchJson to garena POE trade API
     app.post('/trade', function (req, res) {
       console.log(moment().format('HH:mm:ss'), "call trade(post) API")
-      console.log(req.body)
-      res.send("post API is ready!");
+      console.log(req.body.searchJson)
+
+      var options = {
+        url: 'https://web.poe.garena.tw/api/trade/search/%E9%8D%8A%E9%AD%94%E8%81%AF%E7%9B%9F',
+        method: 'post',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        json: req.body.searchJson
+      }
+      // var options = {
+      //   url: 'https://www.pathofexile.com/api/trade/data/static', // 各物品image
+      //   method: 'get',
+      //   headers: {
+      //     'Accept': '*/*',
+      //   },
+      // }
+      request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          console.log(body.id)
+          // console.log(body.total)
+          res.send(body.id);
+        } else {
+          console.log(error)
+        }
+      });
+
+
     });
 
     let server = app.listen(3031, function () {
