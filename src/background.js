@@ -32,6 +32,10 @@ function createWindow() {
     width: 500,
     height: 500,
     webPreferences: {
+      defaultFontFamily: {
+        standard: "Microsoft YaHei"
+      },
+      defaultFontSize: 14,
       nodeIntegration: true,
       webSecurity: false,
       // nodeIntegrationInWorker: true
