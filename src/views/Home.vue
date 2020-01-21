@@ -2,7 +2,13 @@
 <div class="home">
   <HelloWorld msg="" />
   <div v-if="count == 0">
-    <button @click="apiTest"> 點我測試程式是否能正常執行 </button> {{testResponse}}
+    <button v-show="!testResponse" @click="apiTest"> 點我測試程式是否能正常執行 </button> 
+    <h4> {{testResponse}} </h4>
+    <h4 v-show="testResponse">使用說明：於遊戲中將滑鼠停在物品上，按下 Ctrl+C 即可輕鬆查價</h4>
+  </div>
+  <div>
+    只顯示線上 <input type="checkbox" v-model="isOnline">
+    是否直購 <input type="checkbox" v-model="isPriced">
   </div>
   <div>已搜尋次數 {{ count }} </div>
   <div>搜尋狀態 {{ status }} </div>
@@ -25,10 +31,12 @@ export default {
   },
   data() {
     return {
-      copyText: '',
       count: 0,
-      status: '目前只支援搜尋傳奇道具與命運卡！',
+      status: `目前版本支援搜尋傳奇道具、通貨(催化劑.凋落油瓶.精髓.化石.裂痕碎片)、命運卡.聖甲蟲.預言`,
+      copyText: '',
       testResponse: '',
+      isOnline: true,
+      isPriced: true,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -55,7 +63,8 @@ export default {
         "sort": {
           "price": "asc"
         }
-      }
+      },
+      newLine: navigator.userAgent.indexOf('Mac OS X') > -1 ? '\n' : '\r\n' // Mac 與 Windows 換行差異
     }
   },
   created() {
@@ -92,15 +101,15 @@ export default {
         })
         .then((response) => {
           this.count += 1;
-          this.status = `物品交易ID: ${response.data}`
+          this.status = `此次物品搜尋ID: ${response.data}`
           window.open(`https://web.poe.garena.tw/trade/search/%E9%8D%8A%E9%AD%94%E8%81%AF%E7%9B%9F/${response.data}`, '_blank', 'nodeIntegration=no')
         })
         .catch(function (error) {
           console.log(error);
         })
-    }, 200),
+    }, 300),
     statsAPI() { // 詞綴 api
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`,)
+      this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
         .then((response) => {
           // this.testResponse = response.data
         })
@@ -113,25 +122,107 @@ export default {
     copyText: function () {
 
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件 只有可以轉成JSON格式的物件才可以這樣用
+      const NL = this.newLine
 
       let item = this.copyText;
       let posRarity = item.indexOf(': ')
-      let firstN = item.indexOf('\n')
-      let secondN = item.indexOf('\n', item.indexOf('\n') + 1)
+      let firstN = item.indexOf(NL)
+      let secondN = item.indexOf(NL, item.indexOf(NL) + 1)
       let Rarity = item.substring(posRarity + 2, firstN).trim()
       let searchName = item.substring(firstN + 1, secondN)
 
-      if (Rarity === "傳奇") {
-        this.searchJson.query.name = searchName
-        this.searchTrade(this.searchJson)
+      if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
+        if (item.indexOf('未鑑定') === -1) { // 已鑑定
+          this.searchJson.query.name = searchName
+          this.searchTrade(this.searchJson)
+        } else { // 未鑑定(但會搜到相同基底)
+          this.searchJson.query.type = searchName
+          this.searchJson.query.filters = {
+            "type_filters": {
+              "filters": {
+                "rarity": {
+                  "option": "unique"
+                }
+              }
+            }
+          }
+          this.searchTrade(this.searchJson)
+        }
       } else if (Rarity === "命運卡") {
         this.searchJson.query.type = searchName
         this.searchTrade(this.searchJson)
+      } else if (Rarity === "通貨") {
+        this.searchJson.query.type = searchName
+        this.searchTrade(this.searchJson)
+      } else if (Rarity === "普通" && (item.indexOf('可以透過聖殿實驗室或個人的地圖裝置來使用此物品。') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴。') > -1)) { // 地圖碎片、聖甲蟲
+        this.searchJson.query.type = searchName
+        this.searchTrade(this.searchJson)
+      } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
+        this.searchJson.query.name = searchName
+        this.searchTrade(this.searchJson)
+      } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
+        let mapPos = item.substring(item.indexOf('地圖階級:') + 5) // 地圖階級截斷字串
+        let mapPosEnd = mapPos.indexOf(NL) // 地圖階級換行定位點
+        let mapTier = parseInt(mapPos.substring(0, mapPosEnd).trim(), 10)
+        this.searchJson.query.filters = { // 指定地圖階級
+          "map_filters": {
+            "filters": {
+              "map_tier": {
+                "min": mapTier
+              }
+            }
+          }
+        }
+        if (Rarity === "傳奇" && item.indexOf('未鑑定') > -1) { // 未鑑定傳奇地圖
+          this.searchJson.query.type = {
+            "option": searchName
+          }
+          this.searchJson.query.type.discriminator = "warfortheatlas"
+          this.searchJson.query.filters.type_filters = {
+            "filters": {
+              "rarity": {
+                "option": "unique"
+              }
+            }
+          }
+        } else { // 已鑑定傳奇地圖
+          this.searchJson.query.name = searchName
+        }
+        this.searchTrade(this.searchJson)
+        console.log(this.searchJson)
       } else {
-        this.status = `目前只支援搜尋傳奇道具與命運卡！`
+        this.status = `目前版本支援搜尋傳奇道具、通貨(催化劑.凋落油瓶.精髓.化石.裂痕碎片)、命運卡.聖甲蟲.預言`
         // this.copyText = `Rarity：${Rarity}、length: ${Rarity.length}`
       }
     },
+    isOnline: function () {
+      if (this.isOnline) {
+        this.searchJson_Def.query.status.option = 'online'
+        this.searchJson.query.status.option = 'online'
+      } else {
+        this.searchJson_Def.query.status.option = 'any'
+        this.searchJson.query.status.option = 'any'
+      }
+      if (JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+        this.searchTrade(this.searchJson)
+      }
+    },
+    isPriced: function () {
+      if (this.isPriced) {
+        this.searchJson_Def.query.filters.trade_filters.filters.sale_type.option = 'priced'
+        this.searchJson.query.filters.trade_filters.filters.sale_type.option = 'priced'
+      } else {
+        this.searchJson_Def.query.filters.trade_filters.filters.sale_type.option = 'unpriced'
+        this.searchJson.query.filters.trade_filters.filters.sale_type.option = 'unpriced'
+      }
+      if (JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+        this.searchTrade(this.searchJson)
+      }
+    },
+
+  },
+  computed: {
+
   },
 }
 </script>
