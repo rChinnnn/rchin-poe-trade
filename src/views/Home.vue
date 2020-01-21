@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       count: 0,
-      status: `目前版本支援搜尋傳奇道具、通貨(催化劑.凋落油瓶.精髓.化石.裂痕碎片)、命運卡.聖甲蟲.預言`,
+      status: `目前版本支援搜尋傳奇道具.地圖、通貨(催化劑.凋落油瓶.精髓.化石.裂痕碎片)、命運卡.聖甲蟲.預言.技能寶石(含品質)`,
       copyText: '',
       testResponse: '',
       isOnline: true,
@@ -123,13 +123,13 @@ export default {
 
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件 只有可以轉成JSON格式的物件才可以這樣用
       const NL = this.newLine
-
+      
       let item = this.copyText;
       let posRarity = item.indexOf(': ')
       let firstN = item.indexOf(NL)
       let secondN = item.indexOf(NL, item.indexOf(NL) + 1)
       let Rarity = item.substring(posRarity + 2, firstN).trim()
-      let searchName = item.substring(firstN + 1, secondN)
+      let searchName = item.substring(firstN + 2, secondN) // Windows(+2), Mac(+1)
 
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
         if (item.indexOf('未鑑定') === -1) { // 已鑑定
@@ -154,13 +154,31 @@ export default {
       } else if (Rarity === "通貨") {
         this.searchJson.query.type = searchName
         this.searchTrade(this.searchJson)
+      } else if (Rarity === "寶石") {
+        this.searchJson.query.type = searchName
+        let quality = 0
+        if (item.indexOf('品質: +') > -1) {
+          let quaPos = item.substring(item.indexOf('品質: +') +5 ) // 品質截斷字串
+          let quaPosEnd = quaPos.indexOf('% (augmented)') // 品質定位點
+          quality = parseInt(quaPos.substring(0, quaPosEnd).trim(), 10)
+        }
+        this.searchJson.query.filters = {
+          "misc_filters": {
+            "filters": {
+             "quality": {
+               "min": quality
+             } 
+            }
+          }
+        }
+        this.searchTrade(this.searchJson)
       } else if (Rarity === "普通" && (item.indexOf('可以透過聖殿實驗室或個人的地圖裝置來使用此物品。') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴。') > -1)) { // 地圖碎片、聖甲蟲
         this.searchJson.query.type = searchName
         this.searchTrade(this.searchJson)
       } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
         this.searchJson.query.name = searchName
         this.searchTrade(this.searchJson)
-      } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
+      } else if (Rarity === "傳奇" && item.indexOf('地圖階級') > -1) { // 傳奇地圖搜尋
         let mapPos = item.substring(item.indexOf('地圖階級:') + 5) // 地圖階級截斷字串
         let mapPosEnd = mapPos.indexOf(NL) // 地圖階級換行定位點
         let mapTier = parseInt(mapPos.substring(0, mapPosEnd).trim(), 10)
@@ -173,7 +191,10 @@ export default {
             }
           }
         }
-        if (Rarity === "傳奇" && item.indexOf('未鑑定') > -1) { // 未鑑定傳奇地圖
+        if (item.indexOf('未鑑定') > -1) { // 未鑑定傳奇地圖
+          if (searchName.indexOf('精良的') > -1) {
+            searchName = searchName.substring(4)
+          }
           this.searchJson.query.type = {
             "option": searchName
           }
@@ -191,7 +212,7 @@ export default {
         this.searchTrade(this.searchJson)
         console.log(this.searchJson)
       } else {
-        this.status = `目前版本支援搜尋傳奇道具、通貨(催化劑.凋落油瓶.精髓.化石.裂痕碎片)、命運卡.聖甲蟲.預言`
+        this.status = `目前版本支援搜尋傳奇道具.地圖、通貨(催化劑.凋落油瓶.精髓.化石.裂痕碎片)、命運卡.聖甲蟲.預言.技能寶石(含品質)`
         // this.copyText = `Rarity：${Rarity}、length: ${Rarity.length}`
       }
     },
