@@ -2,14 +2,12 @@
 <div class="home">
   <HelloWorld msg="" />
   <div v-if="count == 0">
-    <button v-show="!testResponse" @click="apiTest"> 點我測試程式是否能正常執行 </button> 
+    <button v-show="!testResponse" @click="apiTest"> 點我測試程式是否能正常執行 </button>
     <h4> {{testResponse}} </h4>
     <h4 v-show="testResponse">使用說明：於遊戲中將滑鼠停在物品上，按下 Ctrl+C 即可輕鬆查價</h4>
   </div>
-  <div>
-    只顯示線上 <input type="checkbox" v-model="isOnline">
-    是否直購 <input type="checkbox" v-model="isPriced">
-  </div>
+  <div><b>只顯示線上</b><input type="checkbox" v-model="isOnline"></div>
+  <div><b>是否直購</b><input type="checkbox" v-model="isPriced"></div>
   <div>已搜尋次數 {{ count }} </div>
   <div>搜尋狀態 {{ status }} </div>
 </div>
@@ -32,7 +30,7 @@ export default {
   data() {
     return {
       count: 0,
-      status: `目前版本支援搜尋傳奇道具.地圖、通貨(催化劑.凋落油瓶.精髓.化石.裂痕碎片)、命運卡.聖甲蟲.預言.技能寶石(含品質)`,
+      status: `目前版本尚未支援搜尋稀有裝備(黃裝)及鍊魔器官`,
       copyText: '',
       testResponse: '',
       isOnline: true,
@@ -101,8 +99,9 @@ export default {
         })
         .then((response) => {
           this.count += 1;
-          this.status = `此次物品搜尋ID: ${response.data}`
-          window.open(`https://web.poe.garena.tw/trade/search/%E9%8D%8A%E9%AD%94%E8%81%AF%E7%9B%9F/${response.data}`, '_blank', 'nodeIntegration=no')
+          response.data.total = response.data.total == "100000" ? `${response.data.total}+` : response.data.total
+          this.status = `此次物品搜尋ID: ${response.data.id}, 總共 ${response.data.total} 筆符合`
+          window.open(`https://web.poe.garena.tw/trade/search/%E9%8D%8A%E9%AD%94%E8%81%AF%E7%9B%9F/${response.data.id}`, '_blank', 'nodeIntegration=no')
         })
         .catch(function (error) {
           console.log(error);
@@ -121,9 +120,9 @@ export default {
   watch: {
     copyText: function () {
 
-      this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件 只有可以轉成JSON格式的物件才可以這樣用
+      this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
       const NL = this.newLine
-      
+
       let item = this.copyText;
       let posRarity = item.indexOf(': ')
       let firstN = item.indexOf(NL)
@@ -136,6 +135,9 @@ export default {
           this.searchJson.query.name = searchName
           this.searchTrade(this.searchJson)
         } else { // 未鑑定(但會搜到相同基底)
+          if (searchName.indexOf('精良的') > -1) { // 未鑑定的品質傳奇物品
+            searchName = searchName.substring(4)
+          }
           this.searchJson.query.type = searchName
           this.searchJson.query.filters = {
             "type_filters": {
@@ -158,27 +160,29 @@ export default {
         this.searchJson.query.type = searchName
         let quality = 0
         if (item.indexOf('品質: +') > -1) {
-          let quaPos = item.substring(item.indexOf('品質: +') +5 ) // 品質截斷字串
+          let quaPos = item.substring(item.indexOf('品質: +') +5 ) // 品質截斷字串 (包含'品質: +'前的字串全截斷)
           let quaPosEnd = quaPos.indexOf('% (augmented)') // 品質定位點
           quality = parseInt(quaPos.substring(0, quaPosEnd).trim(), 10)
         }
         this.searchJson.query.filters = {
           "misc_filters": {
             "filters": {
-             "quality": {
-               "min": quality
-             } 
+              "quality": {
+                "min": quality
+              }
             }
           }
         }
         this.searchTrade(this.searchJson)
-      } else if (Rarity === "普通" && (item.indexOf('可以透過聖殿實驗室或個人的地圖裝置來使用此物品。') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴。') > -1)) { // 地圖碎片、聖甲蟲
+      } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('前往試練者廣場使用此物品進入帝王迷宮') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1)) {
+        // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器
         this.searchJson.query.type = searchName
         this.searchTrade(this.searchJson)
       } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
         this.searchJson.query.name = searchName
         this.searchTrade(this.searchJson)
-      } else if (Rarity === "傳奇" && item.indexOf('地圖階級') > -1) { // 傳奇地圖搜尋
+      } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
+
         let mapPos = item.substring(item.indexOf('地圖階級:') + 5) // 地圖階級截斷字串
         let mapPosEnd = mapPos.indexOf(NL) // 地圖階級換行定位點
         let mapTier = parseInt(mapPos.substring(0, mapPosEnd).trim(), 10)
@@ -191,7 +195,7 @@ export default {
             }
           }
         }
-        if (item.indexOf('未鑑定') > -1) { // 未鑑定傳奇地圖
+        if (Rarity === "傳奇" && item.indexOf('未鑑定') > -1) { // 未鑑定傳奇地圖
           if (searchName.indexOf('精良的') > -1) {
             searchName = searchName.substring(4)
           }
@@ -206,13 +210,74 @@ export default {
               }
             }
           }
-        } else { // 已鑑定傳奇地圖
+        } else if (Rarity === "傳奇") { // 已鑑定傳奇地圖
           this.searchJson.query.name = searchName
+        } else if (item.indexOf('區域被塑界者控制 (implicit)') > -1) { // 塑界者地圖
+          this.searchJson.query.stats[0].filters[0] = {
+            "id": "implicit.stat_1792283443",
+            "value": {
+              "option": "1"
+            }
+          }
+        } else if (item.indexOf('區域被異界尊師控制 (implicit)') > -1) { // 尊師地圖
+          this.searchJson.query.stats[0].filters[0] = {
+            "id": "implicit.stat_1792283443",
+            "value": {
+              "option": "2"
+            }
+          }
+          if (item.indexOf('地圖被異界．奴役佔據 (implicit)') > -1) { // 尊師守衛地圖 守衛地圖不指定最低階級
+            delete this.searchJson.query.filters.map_filters
+            this.searchJson.query.stats[0].filters.push({
+              "id": "implicit.stat_3624393862",
+              "value": {
+                "option": "1"
+              }
+            })
+          } else if (item.indexOf('地圖被異界．根除佔據 (implicit)') > -1) {
+            delete this.searchJson.query.filters.map_filters
+            this.searchJson.query.stats[0].filters.push({
+              "id": "implicit.stat_3624393862",
+              "value": {
+                "option": "2"
+              }
+            })
+          } else if (item.indexOf('地圖被異界．干擾佔據 (implicit)') > -1) {
+            delete this.searchJson.query.filters.map_filters
+            this.searchJson.query.stats[0].filters.push({
+              "id": "implicit.stat_3624393862",
+              "value": {
+                "option": "3"
+              }
+            })
+          } else if (item.indexOf('地圖被異界．淨化佔據 (implicit)') > -1) {
+            delete this.searchJson.query.filters.map_filters
+            this.searchJson.query.stats[0].filters.push({
+              "id": "implicit.stat_3624393862",
+              "value": {
+                "option": "4"
+              }
+            })
+          }
+        } else if (item.indexOf('凋落的') > -1) {
+          this.searchJson.query.filters.map_filters.filters.map_blighted = {
+            "option": "true"
+          }
+        } else { // 白.藍.黃圖，單純抓地圖階級，不管地圖名稱
+          this.searchJson.query.filters.map_filters.filters.map_blighted = { // 過濾凋落圖
+            "option": "false"
+          }
+          this.searchJson.query.filters.type_filters = {
+            "filters": {
+              "rarity": {
+                "option": "nonunique"
+              }
+            }
+          }
         }
         this.searchTrade(this.searchJson)
-        console.log(this.searchJson)
       } else {
-        this.status = `目前版本支援搜尋傳奇道具.地圖、通貨(催化劑.凋落油瓶.精髓.化石.裂痕碎片)、命運卡.聖甲蟲.預言.技能寶石(含品質)`
+        this.status = `目前版本尚未支援搜尋稀有裝備(黃裝)及鍊魔器官`
         // this.copyText = `Rarity：${Rarity}、length: ${Rarity.length}`
       }
     },

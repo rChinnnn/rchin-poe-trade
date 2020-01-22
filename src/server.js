@@ -43,9 +43,8 @@
       }
       request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          console.log(`searchID: ${body.id}`)
-          // console.log(body.total)
-          res.send(body.id);
+          console.log(`searchID: ${body.id}, searchTotal: ${body.total}`)
+          res.send({id: body.id, total: body.total});
         } else {
           res.send(error);
           console.log(error)
