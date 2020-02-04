@@ -14,7 +14,7 @@
     }));
     app.use(bodyParser.json({
       "limit": "102400kb"
-    })); // 提高 post 接收的大小(10MB)
+    }));
 
     // API router
     app.get('/', function (req, res) {
