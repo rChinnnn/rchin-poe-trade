@@ -29,8 +29,8 @@ protocol.registerSchemesAsPrivileged([{
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 500,
-    height: 500,
+    width: 700,
+    height: 550,
     webPreferences: {
       defaultFontFamily: {
         standard: "Microsoft YaHei"

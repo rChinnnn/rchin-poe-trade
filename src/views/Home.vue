@@ -6,11 +6,44 @@
     <h4> {{testResponse}} </h4>
     <h4 v-show="testResponse">使用說明：於遊戲中將滑鼠停在物品上，按下 Ctrl+C 即可輕鬆查價</h4>
   </div>
-  <div><b>只顯示線上</b><input type="checkbox" v-model="isOnline"></div>
-  <div><b>是否直購</b><input type="checkbox" v-model="isPriced"></div>
+  <div><b>只顯示線上 </b><input type="checkbox" v-model="isOnline"> <b>是否直購 </b><input type="checkbox" v-model="isPriced"></div>
+  <!-- <div><b>是否直購</b><input type="checkbox" v-model="isPriced"></div> -->
+  <div class="d-inline-flex p-2 bd-highlight" v-if="searchStats.length > 0">
+    <table>
+      <tr>
+        <th>是否查詢</th>
+        <th>詞綴內容</th>
+        <th>最小值</th>
+        <th>最大值</th>
+      </tr>
+      <tr v-for="(item, index) in searchStats" :key="index" :style="item.isSearch ? '' : 'background-color: #e9ecef'">
+        <td style="width: 70px;">
+          <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
+        </td>
+        <td>{{ item.text }} </td>
+        <td style="width: 50px;">
+          <b-form-input v-model.number="item.min" :value="item.min ? item.min : ''" :disabled="!item.min || !item.isSearch" size="sm" type="number" debounce="500"></b-form-input>
+        </td>
+        <td style="width: 50px;">
+          <b-form-input v-model.number="item.max" :style="item.max && (item.max < item.min) ? 'background-color: #fc3232' : ''" :value="item.max ? item.max : ''" :disabled="!item.min || !item.isSearch" size="sm" type="number" debounce="500"></b-form-input>
+        </td>
+      </tr>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
   <div>已搜尋次數 {{ count }} </div>
   <div>搜尋狀態 {{ status }} </div>
-  <div class="MapCopy">
+  <!-- <div class="MapCopy">
     <h5>輿圖區域名稱複製</h5>
     <b-button-group>
       <b-button disabled variant="info">
@@ -40,7 +73,7 @@
       <b-button @click="mapAreaCopy('Success')">Success</b-button>
       <b-button @click="mapAreaCopy('Info')">Info</b-button>
     </b-button-group>
-  </div>
+  </div> -->
 </div>
 </template>
 
@@ -49,6 +82,7 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import hotkeys from "hotkeys-js";
 var _ = require('lodash');
+var stringSimilarity = require('string-similarity');
 const {
   clipboard
 } = require('electron')
@@ -66,7 +100,12 @@ export default {
       testResponse: '',
       isOnline: true,
       isPriced: true,
-      stats: {},
+      searchStats: [], // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
+      pseudoStats: [], // 偽屬性
+      explicitStats: [], // 隨機屬性
+      implicitStats: [], // 固定屬性
+      enchantStats: [], // 附魔
+      craftedStats: [], // 已工藝
       headers: {
         'Content-Type': 'application/json',
       },
@@ -140,11 +179,29 @@ export default {
           console.log(error);
         })
     }, 300),
-    statsAPI() { // 詞綴 api
+    statsAPI() { // 詞綴 API
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
         .then((response) => {
-          this.stats = response.data
-          // console.log(this.stats.result[1].entries) // 隨機屬性的 Array {id: "", text: "", type: "explicit"}
+          response.data.result[0].entries.forEach((element, index) => { // 偽屬性
+            this.pseudoStats.push(element.text, element.id)
+          })
+          response.data.result[1].entries.forEach((element, index) => { // 隨機屬性
+            this.explicitStats.push(element.text, element.id)
+          })
+          response.data.result[2].entries.forEach((element, index) => { // 固定屬性
+            this.implicitStats.push(element.text, element.id)
+          })
+          response.data.result[4].entries.forEach((element, index) => { // 附魔
+            this.enchantStats.push(element.text, element.id)
+          })
+          response.data.result[5].entries.forEach((element, index) => { // 已工藝
+            this.craftedStats.push(element.text, element.id)
+          })
+          // console.log('偽屬性長度:', this.pseudoStats.length)
+          // console.log('隨機屬性長度:', this.explicitStats.length)
+          // console.log('固定屬性長度:', this.implicitStats.length)
+          // console.log('附魔屬性長度:', this.enchantStats.length)
+          // console.log('已工藝屬性長度:', this.craftedStats.length)
         })
         .catch(function (error) {
           console.log(error);
@@ -153,7 +210,7 @@ export default {
     mapAreaCopy(name) {
       clipboard.writeText(name)
     },
-    similarity(s1, s2) { // 字串吻合度比較
+    similarity(s1, s2) { // 字串吻合度比較 this.similarity(第一字串.第二字串)
       var longer = s1;
       var shorter = s2;
       if (s1.length < s2.length) {
@@ -192,14 +249,38 @@ export default {
       }
       return costs[s2.length];
     },
+    clickToSearch() {
+      this.searchJson.query.stats[0].filters = []
+      this.searchStats.forEach((element, index) => {
+        if (element.isSearch) {
+          let value = {}
+          if (element.min && element.max) {
+            value.min = element.min
+            value.max = element.max
+          } else if (element.min) {
+            value.min = element.min
+          } else if (element.max) {
+            value.max = element.max
+          }
+          this.searchJson.query.stats[0].filters.push({
+            "id": element.id,
+            "disabled": false,
+            "value": value
+          })
+        }
+      })
+      this.searchTrade(this.searchJson)
+    }
   },
   watch: {
     copyText: function () {
-
+      let item = this.copyText;
+      if (item.indexOf('稀有度') === -1) { // POE 內的文字必定有稀有度
+        return
+      }
+      this.searchStats = []
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
       const NL = this.newLine
-
-      let item = this.copyText;
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
       let posRarity = item.indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
@@ -207,36 +288,36 @@ export default {
       let itemBasic = itemArray[2]
 
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
-        if (item.indexOf('未鑑定') === -1) { // 已鑑定
+        if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
           this.searchJson.query.name = searchName
+          let tempStat = []
           if (searchName === "看守之眼") { // 尊師三相珠寶 
-            // console.log(itemArray.length) // Mac 兩詞珠寶 => length = 19
-            let explicit = this.stats.result[1].entries // 隨機屬性的 Array {id: "", text: "", type: "explicit"}
-            console.log(explicit)
-            // console.log(itemArray[11]) // 第一詞：被紀律影響時 +7% 法術傷害格擋率
-            // console.log(itemArray[12]) // 第二詞：被清晰影響時被擊中，17% 承受的傷害轉化為魔力，在 4 秒內回復
-            // console.log(this.similarity(itemArray[11], "被紀律影響時 #% 法術傷害格擋率"))
-            // console.log(this.similarity(itemArray[11], "被紀律影響時增加 #% 能量護盾回復率"))
-            // console.log(this.similarity(itemArray[12], "被清晰影響時被擊中，#% 承受的傷害轉化為魔力，在 4 秒內回復"))
-            explicit.forEach((element, index) => {
-              if (this.similarity(itemArray[11], element.text) > 0.75) { // 第一詞比較
-                console.log(`物品上詞綴: ${itemArray[11]}\n第一詞ID: ${element.id}\n第一詞詞綴: ${element.text}\n吻合率: ${this.similarity(itemArray[11], element.text)}`)
-                // this.searchJson.query.stats[0].filters[0] = {
-                //   "id": element.id
-                // }
-                this.searchJson.query.stats[0].filters.push({
-                  "id": element.id
+            tempStat.push(stringSimilarity.findBestMatch(itemArray[11], this.explicitStats))
+            tempStat.push(stringSimilarity.findBestMatch(itemArray[12], this.explicitStats))
+            tempStat.push(stringSimilarity.findBestMatch(itemArray[13], this.explicitStats))
+            tempStat.forEach((element, index) => { // 比對詞綴
+              if (element.bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
+                let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
+                let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
+                let randomMinValue = 0 // 預設詞綴隨機數值最小值為0
+                for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
+                  if (itemStatArray[index] !== matchStatArray[index]) {
+                    randomMinValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
+                  }
+                }
+                this.searchStats.push({
+                  "id": element.ratings[element.bestMatchIndex + 1].target,
+                  "text": element.bestMatch.target,
+                  "min": randomMinValue,
+                  "max": '',
+                  "isSearch": true,
                 })
+                // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
               }
-              if (this.similarity(itemArray[12], element.text) > 0.75) { // 第二詞比較
-                console.log(`物品上詞綴: ${itemArray[12]}\n第二詞ID: ${element.id}\n第二詞詞綴: ${element.text}\n吻合率: ${this.similarity(itemArray[12], element.text)}`)
-                // this.searchJson.query.stats[0].filters.push({
-                //   "id": element.id
-                // })
-              }
-            });
+            })
+            return
           }
-        } else { // 未鑑定(但會搜到相同基底)
+        } else { // 未鑑定傳奇(但會搜到相同基底)
           if (searchName.indexOf('精良的') > -1) { // 未鑑定的品質傳奇物品
             searchName = searchName.substring(4)
           }
