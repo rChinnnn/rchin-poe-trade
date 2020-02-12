@@ -26,6 +26,7 @@
     "moment": "^2.24.0",
     "path": "^0.12.7",
     "request": "^2.88.0",
+    "request-promise": "^4.2.5",
     "string-similarity": "^4.0.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",

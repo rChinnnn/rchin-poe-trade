@@ -4,6 +4,7 @@
     let express = require('express');
     let app = express();
     const request = require('request');
+    const rp = require('request-promise');
     const cheerio = require('cheerio');
     const moment = require('moment');
     const bodyParser = require("body-parser");
@@ -31,8 +32,8 @@
     app.post('/trade', function (req, res) {
       console.log(moment().format('HH:mm:ss'), "Call trade(post) API")
       console.log(req.body.searchJson)
-
-      var options = {
+      let fetchResultID = [] // 儲存得到的 result ID, 10 個 ID 為一陣列
+      let options = {
         url: 'https://web.poe.garena.tw/api/trade/search/%E9%8D%8A%E9%AD%94%E8%81%AF%E7%9B%9F',
         method: 'post',
         headers: {
@@ -44,7 +45,18 @@
       request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(`searchID: ${body.id}, searchTotal: ${body.total}`)
-          res.send({id: body.id, total: body.total});
+          body.result.forEach((element, index) => {
+            let idx = index <= 9 ? 0 : parseInt((index % 100) / 10)
+            if (!Array.isArray(fetchResultID[idx])) {
+              fetchResultID[idx] = []
+            }
+            fetchResultID[idx].push(element)
+          });
+          res.send({
+            id: body.id,
+            total: body.total,
+            fetchResultID: fetchResultID
+          });
         } else {
           res.send(error);
           console.log(error)
