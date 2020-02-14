@@ -43,7 +43,6 @@
   </div>
   <div>已搜尋次數 {{ count }} </div>
   <div>搜尋狀態 {{ status }} </div>
-  <div>{{fetchResult}}</div>
   <!-- <div class="MapCopy">
     <h5>輿圖區域名稱複製</h5>
     <b-button-group>
@@ -75,23 +74,32 @@
       <b-button @click="mapAreaCopy('Info')">Info</b-button>
     </b-button-group>
   </div> -->
+  <PriceAnalysis v-if="fetchID.length !== 0" :fetchID="fetchID" :fetchQueryID="fetchQueryID"></PriceAnalysis>
 </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import PriceAnalysis from '@/components/PriceAnalysis.vue'
 import hotkeys from "hotkeys-js";
+
+var axios = require('axios');
+var rateLimit = require('axios-rate-limit');
 var _ = require('lodash');
 var stringSimilarity = require('string-similarity');
 const {
   clipboard
 } = require('electron')
-
+const http = rateLimit(axios.create(), {
+  maxRequests: 3,
+  perMilliseconds: 2500,
+})
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    HelloWorld,
+    PriceAnalysis
   },
   data() {
     return {
@@ -107,9 +115,8 @@ export default {
       implicitStats: [], // 固定屬性
       enchantStats: [], // 附魔
       craftedStats: [], // 已工藝
-      fetchResultID: [], // 得到的 result ID, 10 個 ID 為一陣列
+      fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       fetchQueryID: '',
-      fetchResult: [],
       headers: {
         'Content-Type': 'application/json',
       },
@@ -177,7 +184,7 @@ export default {
           this.count += 1;
           response.data.total = response.data.total == "100000" ? `${response.data.total}+` : response.data.total
           this.status = `此次物品搜尋ID: ${response.data.id}, 總共 ${response.data.total} 筆符合`
-          this.fetchResultID = response.data.fetchResultID
+          this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
           window.open(`https://web.poe.garena.tw/trade/search/%E9%8D%8A%E9%AD%94%E8%81%AF%E7%9B%9F/${response.data.id}`, '_blank', 'nodeIntegration=no')
         })
@@ -490,30 +497,8 @@ export default {
         this.searchTrade(this.searchJson)
       }
     },
-    fetchResultID: function () {
-      for (let index = 0; index < 4; index++) {
-        if (this.fetchResultID[index].length == 0) {
-          return
-        }
-        if (!Array.isArray(this.fetchResult[index])) {
-          this.fetchResult[index] = []
-        }
-        this.axios.get(`https://web.poe.garena.tw/api/trade/fetch/${this.fetchResultID[index]}?query=${this.fetchQueryID}`)
-          .then((response) => {
-            console.log(index + 1)
-            this.fetchResult[index] = response.data.result
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-      }
-      setTimeout(() => {
-        console.log(this.fetchResult)
-      }, 1000);
-    }
   },
   computed: {
-
   },
 }
 </script>
