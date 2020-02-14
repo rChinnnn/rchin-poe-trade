@@ -74,7 +74,9 @@
       <b-button @click="mapAreaCopy('Info')">Info</b-button>
     </b-button-group>
   </div> -->
-  <PriceAnalysis v-if="fetchID.length !== 0" :fetchID="fetchID" :fetchQueryID="fetchQueryID"></PriceAnalysis>
+  <div v-if="fetchID.length !== 0">
+    <PriceAnalysis :fetchID="fetchID" :fetchQueryID="fetchQueryID"></PriceAnalysis>
+  </div>
 </div>
 </template>
 
@@ -498,8 +500,7 @@ export default {
       }
     },
   },
-  computed: {
-  },
+  computed: {},
 }
 </script>
 

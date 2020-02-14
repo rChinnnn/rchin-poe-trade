@@ -1,7 +1,25 @@
 <template>
 <div>
   <h5>PriceAnalysis</h5>
-  <div> {{fetchID}} </div>
+  <!-- <div> {{fetchResult}} </div> -->
+
+  <div class="d-inline-flex p-2 bd-highlight">
+    <table>
+      <tr>
+        <th>Price</th>
+      </tr>
+      <tr v-for="(item, index) in fetchResult.flat(Infinity)" :key="index">
+        <td>
+          {{ item.listing.price }}
+        </td>
+      </tr>
+      <tfoot>
+        <tr>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </div>
 </template>
 
@@ -25,14 +43,16 @@ export default {
   components: {},
   data() {
     return {
-      fetchResult: [],
+      fetchResult: '',
     }
   },
   created() {
 
   },
   mounted() {
-    console.log(this.fetchID)
+    setTimeout(() => {
+      console.log(this.fetchResult.flat(Infinity))
+    }, 1500);
   },
   methods: {
     hotkeyPressed() {
@@ -43,17 +63,18 @@ export default {
     fetchID: {
       immediate: true,
       handler(val) {
-        console.log(val)
         var vm = this
+        vm.fetchResult = []
         for (let index = 0; index < (val.length >= 3 ? 3 : val.length); index++) {
-          if (!Array.isArray(this.fetchResult[index])) {
-            vm.fetchResult[index] = []
-          }
+          // if (!Array.isArray(this.fetchResult[index])) {
+          //   this.fetchResult[index] = []
+          //   console.log(this.fetchResult)
+          //   console.log('---')
+          // }
           http.get(`https://web.poe.garena.tw/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
             .then((response) => {
               console.log(index + 1)
-              vm.fetchResult[index] = response.data.result
-              console.log(vm.fetchResult)
+              this.fetchResult[index] = response.data.result
             })
             .catch(function (error) {
               console.log(error);
@@ -63,7 +84,9 @@ export default {
     },
   },
   computed: {
-
+    fetchResultPrice() {
+      return this.fetchResult.flat(Infinity)
+    }
   },
 }
 </script>
