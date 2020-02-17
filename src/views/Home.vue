@@ -118,6 +118,11 @@ export default {
       enchantStats: [], // 附魔
       craftedStats: [], // 已工藝
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
+      fetchResult: [
+        [],
+        [],
+        []
+      ],
       fetchQueryID: '',
       headers: {
         'Content-Type': 'application/json',
@@ -499,6 +504,21 @@ export default {
         this.searchTrade(this.searchJson)
       }
     },
+    // fetchID: function () {
+    //   for (let index = 0; index < (this.fetchID.length >= 3 ? 3 : this.fetchID.length); index++) {
+    //     // if (!Array.isArray(this.fetchResult[index])) {
+    //     //   this.fetchResult[index] = []
+    //     // }
+    //     http.get(`https://web.poe.garena.tw/api/trade/fetch/${this.fetchID[index]}?query=${this.fetchQueryID}`)
+    //       .then((response) => {
+    //         console.log(index + 1)
+    //         this.fetchResult[index].push(response.data.result)
+    //       })
+    //       .catch(function (error) {
+    //         console.log(error);
+    //       })
+    //   }
+    // },
   },
   computed: {},
 }
