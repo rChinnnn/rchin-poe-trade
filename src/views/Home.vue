@@ -43,6 +43,7 @@
   </div>
   <div>已搜尋次數 {{ count }} </div>
   <div>搜尋狀態 {{ status }} </div>
+  <h5>{{ searchName }}</h5>
   <!-- <div class="MapCopy">
     <h5>輿圖區域名稱複製</h5>
     <b-button-group>
@@ -118,11 +119,7 @@ export default {
       enchantStats: [], // 附魔
       craftedStats: [], // 已工藝
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
-      fetchResult: [
-        [],
-        [],
-        []
-      ],
+      searchName: '',
       fetchQueryID: '',
       headers: {
         'Content-Type': 'application/json',
@@ -305,6 +302,7 @@ export default {
       let posRarity = item.indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
       let searchName = itemArray[1]
+      this.searchName = `搜尋物品名稱：${itemArray[1]}`
       let itemBasic = itemArray[2]
 
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
@@ -504,21 +502,6 @@ export default {
         this.searchTrade(this.searchJson)
       }
     },
-    // fetchID: function () {
-    //   for (let index = 0; index < (this.fetchID.length >= 3 ? 3 : this.fetchID.length); index++) {
-    //     // if (!Array.isArray(this.fetchResult[index])) {
-    //     //   this.fetchResult[index] = []
-    //     // }
-    //     http.get(`https://web.poe.garena.tw/api/trade/fetch/${this.fetchID[index]}?query=${this.fetchQueryID}`)
-    //       .then((response) => {
-    //         console.log(index + 1)
-    //         this.fetchResult[index].push(response.data.result)
-    //       })
-    //       .catch(function (error) {
-    //         console.log(error);
-    //       })
-    //   }
-    // },
   },
   computed: {},
 }

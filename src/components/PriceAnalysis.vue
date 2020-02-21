@@ -1,16 +1,13 @@
 <template>
 <div>
-  <h5>PriceAnalysis</h5>
-  <!-- <div> {{fetchResult}} </div> -->
-
   <div class="d-inline-flex p-2 bd-highlight">
     <table>
       <tr>
-        <th>Price</th>
+        <th>PriceAnalysis</th>
       </tr>
-      <tr v-for="(item, index) in fetchResult.flat(Infinity)" :key="index">
+      <tr v-for="(item, index) in collectionRepeat" :key="index">
         <td>
-          {{ item.listing.price.currency }} x {{ item.listing.amount.currency }}
+          [ 標價：{{ item.currency }} x {{ item.amount }}] * {{ item.count }}
         </td>
       </tr>
       <tfoot>
@@ -43,11 +40,7 @@ export default {
   components: {},
   data() {
     return {
-      fetchResult: [
-        [],
-        [],
-        []
-      ],
+      fetchResult: [],
     }
   },
   created() {
@@ -67,10 +60,15 @@ export default {
     fetchID: {
       immediate: true,
       handler(val) {
+        this.fetchResult = [
+          [],
+          [],
+          []
+        ]
         for (let index = 0; index < (val.length >= 3 ? 3 : val.length); index++) {
+          console.log(`https://web.poe.garena.tw/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
           http.get(`https://web.poe.garena.tw/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
             .then((response) => {
-              console.log(index + 1)
               this.fetchResult[index].push(response.data.result)
             })
             .catch(function (error) {
@@ -81,9 +79,23 @@ export default {
     },
   },
   computed: {
-    fetchResultPrice() {
-      return this.fetchResult.flat(Infinity)
-    }
+    fetchResultPrice() { // 取出 result -> listing -> price 物件內容
+      return this.fetchResult.flat(Infinity).map(item => Object.values(item)[1]).map(item => Object.values(item)[Object.values(item).length - 1]);
+    },
+    collectionRepeat() {
+      const result = [...this.fetchResultPrice.reduce((r, e) => { // 計算相同 amount & currency 重複的次數
+        let k = `${e.amount}|${e.currency}`;
+        if (!r.has(k)) r.set(k, {
+          ...e,
+          count: 1
+        })
+        else r.get(k).count++
+        return r;
+      }, new Map).values()]
+
+      return result
+      // return [...new Set(this.fetchResultPrice.map(item => JSON.stringify(item)))].map(item => JSON.parse(item)); // 去除相同 obj
+    },
   },
 }
 </script>

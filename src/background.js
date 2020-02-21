@@ -12,6 +12,7 @@ import {
 import path from 'path'
 const server = require('./server');
 const isDevelopment = process.env.NODE_ENV !== 'production'
+const os = require('os')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -29,8 +30,8 @@ protocol.registerSchemesAsPrivileged([{
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 700,
-    height: 550,
+    width: os.platform() === 'darwin' ? 1200 : 700,
+    height: os.platform() === 'darwin' ? 850 : 550,
     webPreferences: {
       defaultFontFamily: {
         standard: "Microsoft YaHei"
@@ -42,6 +43,11 @@ function createWindow() {
       // preload: path.join(app.getAppPath(), 'preload.js')
     }
   })
+  if (os.platform() === 'darwin') {
+    BrowserWindow.addDevToolsExtension(
+      path.join(os.homedir(), '/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/5.3.3_0')
+    )
+  }
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
