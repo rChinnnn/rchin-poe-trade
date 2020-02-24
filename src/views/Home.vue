@@ -6,7 +6,7 @@
     <h4> {{testResponse}} </h4>
     <h4 v-show="testResponse">使用說明：於遊戲中將滑鼠停在物品上，按下 Ctrl+C 即可輕鬆查價</h4>
   </div>
-  <div><b>只顯示線上 </b><input type="checkbox" v-model="isOnline"> <b>是否直購 </b><input type="checkbox" v-model="isPriced"></div>
+  <div><b>只顯示線上 </b><input type="checkbox" v-model="isOnline"> <b>是否直購 </b><input type="checkbox" v-model="isPriced"> <b>官網查詢 </b><input type="checkbox" v-model="isPopWindow"> </div>
   <!-- <div><b>是否直購</b><input type="checkbox" v-model="isPriced"></div> -->
   <div class="d-inline-flex p-2 bd-highlight" v-if="searchStats.length > 0">
     <table>
@@ -75,8 +75,8 @@
       <b-button @click="mapAreaCopy('Info')">Info</b-button>
     </b-button-group>
   </div> -->
-  <div v-if="fetchID.length !== 0">
-    <PriceAnalysis :fetchID="fetchID" :fetchQueryID="fetchQueryID"></PriceAnalysis>
+  <div v-if="fetchQueryID">
+    <PriceAnalysis :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
   </div>
 </div>
 </template>
@@ -112,6 +112,7 @@ export default {
       testResponse: '',
       isOnline: true,
       isPriced: true,
+      isPopWindow: false,
       searchStats: [], // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
       pseudoStats: [], // 偽屬性
       explicitStats: [], // 隨機屬性
@@ -121,6 +122,7 @@ export default {
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       searchName: '',
       fetchQueryID: '',
+      itemImage: '',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -180,6 +182,7 @@ export default {
         })
     }, 500),
     searchTrade: _.debounce(function (obj) {
+      this.fetchQueryID = ''
       this.axios.post(`http://localhost:3031/trade`, {
           searchJson: obj,
           copyText: this.copyText
@@ -190,7 +193,9 @@ export default {
           this.status = `此次物品搜尋ID: ${response.data.id}, 總共 ${response.data.total} 筆符合`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
-          window.open(`https://web.poe.garena.tw/trade/search/%E9%8D%8A%E9%AD%94%E8%81%AF%E7%9B%9F/${response.data.id}`, '_blank', 'nodeIntegration=no')
+          if (this.isPopWindow) {
+            window.open(`https://web.poe.garena.tw/trade/search/%E9%8D%8A%E9%AD%94%E8%81%AF%E7%9B%9F/${response.data.id}`, '_blank', 'nodeIntegration=no')
+          }
         })
         .catch(function (error) {
           console.log(error);
@@ -302,7 +307,7 @@ export default {
       let posRarity = item.indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
       let searchName = itemArray[1]
-      this.searchName = `搜尋物品名稱：${itemArray[1]}`
+      this.searchName = `物品名稱『${itemArray[1]}』`
       let itemBasic = itemArray[2]
 
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
@@ -479,6 +484,9 @@ export default {
       this.searchTrade(this.searchJson)
     },
     isOnline: function () {
+      if (_.isEmpty(this.searchJson)) {
+        return
+      }
       if (this.isOnline) {
         this.searchJson_Def.query.status.option = 'online'
         this.searchJson.query.status.option = 'online'
@@ -491,6 +499,9 @@ export default {
       }
     },
     isPriced: function () {
+      if (_.isEmpty(this.searchJson)) {
+        return
+      }
       if (this.isPriced) {
         this.searchJson_Def.query.filters.trade_filters.filters.sale_type.option = 'priced'
         this.searchJson.query.filters.trade_filters.filters.sale_type.option = 'priced'
@@ -499,6 +510,14 @@ export default {
         this.searchJson.query.filters.trade_filters.filters.sale_type.option = 'unpriced'
       }
       if (JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+        this.searchTrade(this.searchJson)
+      }
+    },
+    isPopWindow: function () {
+      if (_.isEmpty(this.searchJson)) {
+        return
+      }
+      if (this.isPopWindow && (JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson))) {
         this.searchTrade(this.searchJson)
       }
     },
