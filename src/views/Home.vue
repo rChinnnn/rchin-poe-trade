@@ -3,11 +3,13 @@
   <HelloWorld msg="" />
   <div v-if="count == 0">
     <button v-show="!testResponse" @click="apiTest"> 點我測試程式是否能正常執行 </button>
-    <h4> {{testResponse}} </h4>
-    <h4 v-show="testResponse">使用說明：於遊戲中將滑鼠停在物品上，按下 Ctrl+C 即可輕鬆查價</h4>
+    <h5> {{testResponse}} </h5>
+    <h5 v-show="testResponse">使用說明：於遊戲中將滑鼠停在物品上，按下 Ctrl+C 即可輕鬆查價</h5>
   </div>
   <div><b>只顯示線上 </b><input type="checkbox" v-model="isOnline"> <b>是否直購 </b><input type="checkbox" v-model="isPriced"> <b>官網查詢 </b><input type="checkbox" v-model="isPopWindow"> </div>
   <!-- <div><b>是否直購</b><input type="checkbox" v-model="isPriced"></div> -->
+  <hr>
+  <h5>{{ searchName }}</h5>
   <div class="d-inline-flex p-2 bd-highlight" v-if="searchStats.length > 0">
     <table>
       <tr>
@@ -22,10 +24,10 @@
         </td>
         <td>{{ item.text }} </td>
         <td style="width: 50px;">
-          <b-form-input v-model.number="item.min" :value="item.min ? item.min : ''" :disabled="!item.min || !item.isSearch" size="sm" type="number" debounce="500"></b-form-input>
+          <b-form-input v-model.number="item.min" @change="checkValue($event, item, 'min')" :disabled="!item.isSearch" size="sm" type="number" min="0"></b-form-input>
         </td>
         <td style="width: 50px;">
-          <b-form-input v-model.number="item.max" :style="item.max && (item.max < item.min) ? 'background-color: #fc3232' : ''" :value="item.max ? item.max : ''" :disabled="!item.min || !item.isSearch" size="sm" type="number" debounce="500"></b-form-input>
+          <b-form-input v-model.number="item.max" @change="checkValue($event, item, 'max')" :style="item.max && (item.max < item.min) ? 'background-color: #fc3232' : ''" :disabled="!item.isSearch" size="sm" type="number" min="0"></b-form-input>
         </td>
       </tr>
       <tfoot>
@@ -43,7 +45,6 @@
   </div>
   <div>已搜尋次數 {{ count }} </div>
   <div>搜尋狀態 {{ status }} </div>
-  <h5>{{ searchName }}</h5>
   <!-- <div class="MapCopy">
     <h5>輿圖區域名稱複製</h5>
     <b-button-group>
@@ -75,7 +76,7 @@
       <b-button @click="mapAreaCopy('Info')">Info</b-button>
     </b-button-group>
   </div> -->
-  <div v-if="fetchQueryID">
+  <div v-if="fetchQueryID && isPopWindow">
     <PriceAnalysis :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
   </div>
 </div>
@@ -94,10 +95,6 @@ var stringSimilarity = require('string-similarity');
 const {
   clipboard
 } = require('electron')
-const http = rateLimit(axios.create(), {
-  maxRequests: 3,
-  perMilliseconds: 2500,
-})
 export default {
   name: 'home',
   components: {
@@ -292,7 +289,72 @@ export default {
         }
       })
       this.searchTrade(this.searchJson)
-    }
+    },
+    rareAnalysis(itemArray) {
+
+      let tempStat = []
+      let itemExplicitStats = [] // 該物品固定 + 隨機屬性
+      let itemLevelIndex = 0 // 物品等級於陣列中的位置
+      let itemStatStart = 0 // 物品隨機詞綴初始位置
+      let itemStatEnd = 0 // 物品隨機詞綴最後位置
+
+      itemArray.forEach((element, index) => {
+        if (stringSimilarity.compareTwoStrings(element, '物品等級:') > 0.7) {
+          itemStatStart = index + 2
+        }
+        if (element === "--------" && index == itemStatStart + 1) { // 排除固定詞綴
+          itemStatStart = itemStatStart + 2
+        } else if (element === "--------" && index == itemStatStart + 2) {
+          itemStatStart = itemStatStart + 3
+        }
+        if (element === "--------" && index == itemArray.length - 2) {
+          itemStatEnd = index
+        }
+      });
+      for (let index = itemStatStart; index < (itemStatEnd ? itemStatEnd : itemArray.length); index++) {
+        itemExplicitStats.push(itemArray[index])
+        console.log(stringSimilarity.compareTwoStrings(itemArray[index], '(implicit)'))
+        // if (stringSimilarity.compareTwoStrings(itemArray[index], '(implicit)') ) {
+        //   console.log(itemArray[index])
+        // }
+        if (stringSimilarity.findBestMatch(itemArray[index], this.explicitStats).bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
+          tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
+        }
+      }
+      console.log(itemExplicitStats)
+
+      tempStat.forEach((element, index) => { // 比對詞綴
+        let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
+        let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
+        let randomMinValue = 0 // 預設詞綴隨機數值最小值為 0
+        let randomMaxValue = '' // 預設詞綴隨機數值最小值為空值
+        for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
+          if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
+            randomMaxValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
+          }
+          if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
+            randomMinValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
+          }
+        }
+        this.searchStats.push({
+          "id": element.ratings[element.bestMatchIndex + 1].target,
+          "text": element.bestMatch.target,
+          "min": randomMinValue,
+          "max": randomMaxValue,
+          "isSearch": true,
+        })
+        // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
+      })
+    },
+    checkValue(event, item, ref) {
+      if (event < 0) {
+        if (ref == "min") {
+          item.min = 0
+        } else {
+          item.max = 0
+        }
+      }
+    },
   },
   watch: {
     copyText: function () {
@@ -307,7 +369,7 @@ export default {
       let posRarity = item.indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
       let searchName = itemArray[1]
-      this.searchName = `物品名稱『${itemArray[1]}』`
+      this.searchName = itemArray[2] === "--------" ? `物品名稱『${itemArray[1]}』` : `物品名稱『${itemArray[1]} ${itemArray[2]}』`
       let itemBasic = itemArray[2]
 
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
@@ -476,8 +538,11 @@ export default {
           }
         }
         this.searchTrade(this.searchJson)
+      } else if (Rarity === "稀有") {
+        this.rareAnalysis(itemArray)
+        return
       } else {
-        this.status = `目前版本尚未支援搜尋稀有裝備(黃裝)及鍊魔器官`
+        this.status = `目前版本尚未支援搜尋藍裝及鍊魔器官`
         return
         // this.copyText = `Rarity：${Rarity}、length: ${Rarity.length}`
       }
