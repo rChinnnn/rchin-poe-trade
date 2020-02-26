@@ -205,7 +205,11 @@ export default {
             this.pseudoStats.push(element.text, element.id)
           })
           response.data.result[1].entries.forEach((element, index) => { // 隨機屬性
-            this.explicitStats.push(element.text, element.id)
+            let text = element.text
+            if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (部分)'))
+            }
+            this.explicitStats.push(text, element.id)
           })
           response.data.result[2].entries.forEach((element, index) => { // 固定屬性
             this.implicitStats.push(element.text, element.id)
@@ -323,7 +327,7 @@ export default {
       }
       console.log(itemExplicitStats)
 
-      tempStat.forEach((element, index) => { // 比對詞綴
+      tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
         let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
         let randomMinValue = 0 // 預設詞綴隨機數值最小值為 0
