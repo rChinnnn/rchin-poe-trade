@@ -303,13 +303,16 @@ export default {
       let itemExplicitStats = [] // 該物品固定 + 隨機屬性
       let itemLevelIndex = 0 // 物品等級於陣列中的位置
       let itemStatStart = 0 // 物品隨機詞綴初始位置
-      let itemStatEnd = itemArray.length // 物品隨機詞綴最後位置
+      let itemStatEnd = itemArray.length - 1 // 物品隨機詞綴結束位置
 
       itemArray.forEach((element, index) => {
-        if (stringSimilarity.compareTwoStrings(element, '物品等級:') > 0.7) {
+        if (stringSimilarity.compareTwoStrings(element, '魔符階級:') > 0.7) {
           itemStatStart = index + 2
+        } else if (stringSimilarity.compareTwoStrings(element, '物品等級:') > 0.7) {
+          itemStatStart = index + 2
+          itemLevelIndex = index
         }
-        if (element === "--------" && index == itemArray.length - 2) { // 忽略最後兩筆資訊
+        if (element === "--------" && index !== itemStatStart + 1 && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
         }
       });
@@ -338,25 +341,16 @@ export default {
             tempStat[tempStat.length - 1].type = "隨機"
           }
         }
-        // console.log('偽屬性長度:', this.pseudoStats.length)
-        // console.log('隨機屬性長度:', this.explicitStats.length)
-        // console.log('固定屬性長度:', this.implicitStats.length)
-        // console.log('附魔屬性長度:', this.enchantStats.length)
-        // console.log('已工藝屬性長度:', this.craftedStats.length)
-
-        // if (stringSimilarity.findBestMatch(itemArray[index], this.explicitStats).bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
-        //   tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
-        // }
       }
       console.log(itemExplicitStats)
-      console.log(tempStat)
+      // console.log(tempStat)
       tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
         let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
         let randomMinValue = 0 // 預設詞綴隨機數值最小值為 0
         let randomMaxValue = '' // 預設詞綴隨機數值最小值為空值
         for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
-        // TODO: 數值要能取出負值
+        // TODO: 數值要能取出負值、小數點
           if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
             randomMaxValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
           }
@@ -429,7 +423,30 @@ export default {
                 // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
               }
             })
-            // return
+            return // 選擇詞墜後再搜尋
+          } else if (searchName === "奧爾的崛起") {
+            tempStat.push(stringSimilarity.findBestMatch(itemArray[15], this.explicitStats))
+            tempStat.forEach((element, index) => { // 比對詞綴
+              if (element.bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
+                let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
+                let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
+                let randomMinValue = 0 // 預設詞綴隨機數值最小值為0
+                // for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
+                //   if (itemStatArray[index] !== matchStatArray[index]) {
+                //     randomMinValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
+                //   }
+                // }
+                this.searchStats.push({
+                  "id": element.ratings[element.bestMatchIndex + 1].target,
+                  "text": element.bestMatch.target,
+                  "min": randomMinValue,
+                  "max": '',
+                  "isSearch": true,
+                })
+                // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
+              }
+            })
+            return // 選擇詞墜後再搜尋
           }
         } else { // 未鑑定傳奇(但會搜到相同基底)
           if (searchName.indexOf('精良的') > -1) { // 未鑑定的品質傳奇物品
