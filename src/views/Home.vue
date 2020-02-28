@@ -14,6 +14,7 @@
     <table>
       <tr>
         <th>是否查詢</th>
+        <th>種類</th>
         <th>詞綴內容</th>
         <th>最小值</th>
         <th>最大值</th>
@@ -22,16 +23,18 @@
         <td style="width: 70px;">
           <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
         </td>
+        <td style="width: 50px;" :style="item.type === '隨機' ? '' : 'color: red;'">{{ item.type }} </td>
         <td>{{ item.text }} </td>
-        <td style="width: 50px;">
+        <td style="width: 55px;">
           <b-form-input v-model.number="item.min" @change="checkValue($event, item, 'min')" :disabled="!item.isSearch" size="sm" type="number" min="0"></b-form-input>
         </td>
-        <td style="width: 50px;">
+        <td style="width: 55px;">
           <b-form-input v-model.number="item.max" @change="checkValue($event, item, 'max')" :style="item.max && (item.max < item.min) ? 'background-color: #fc3232' : ''" :disabled="!item.isSearch" size="sm" type="number" min="0"></b-form-input>
         </td>
       </tr>
       <tfoot>
         <tr>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -300,39 +303,60 @@ export default {
       let itemExplicitStats = [] // 該物品固定 + 隨機屬性
       let itemLevelIndex = 0 // 物品等級於陣列中的位置
       let itemStatStart = 0 // 物品隨機詞綴初始位置
-      let itemStatEnd = 0 // 物品隨機詞綴最後位置
+      let itemStatEnd = itemArray.length // 物品隨機詞綴最後位置
 
       itemArray.forEach((element, index) => {
         if (stringSimilarity.compareTwoStrings(element, '物品等級:') > 0.7) {
           itemStatStart = index + 2
         }
-        if (element === "--------" && index == itemStatStart + 1) { // 排除固定詞綴
-          itemStatStart = itemStatStart + 2
-        } else if (element === "--------" && index == itemStatStart + 2) {
-          itemStatStart = itemStatStart + 3
-        }
-        if (element === "--------" && index == itemArray.length - 2) {
+        if (element === "--------" && index == itemArray.length - 2) { // 忽略最後兩筆資訊
           itemStatEnd = index
         }
       });
-      for (let index = itemStatStart; index < (itemStatEnd ? itemStatEnd : itemArray.length); index++) {
-        itemExplicitStats.push(itemArray[index])
-        console.log(stringSimilarity.compareTwoStrings(itemArray[index], '(implicit)'))
-        // if (stringSimilarity.compareTwoStrings(itemArray[index], '(implicit)') ) {
-        //   console.log(itemArray[index])
-        // }
-        if (stringSimilarity.findBestMatch(itemArray[index], this.explicitStats).bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
-          tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
+      for (let index = itemStatStart; index < itemStatEnd; index++) {
+        if (itemArray[index] !== "--------") {
+          itemExplicitStats.push(itemArray[index])
+
+          if (itemArray[index].indexOf('(implicit)') > -1) { // 固定屬性
+            let text = itemArray[index]
+            text = text.substring(0, text.indexOf('(implicit)')) // 刪除(implicit)字串
+            tempStat.push(stringSimilarity.findBestMatch(text, this.implicitStats))
+            tempStat[tempStat.length - 1].type = "固定"
+          } else if (itemArray[index].indexOf('(crafted)') > -1) { // 已工藝屬性
+            let text = itemArray[index]
+            text = text.substring(0, text.indexOf('(crafted)'))
+            tempStat.push(stringSimilarity.findBestMatch(text, this.craftedStats))
+            tempStat[tempStat.length - 1].type = "工藝"
+          } else if (itemArray[index + 1] === "--------" && index + 1 !== itemStatEnd) { // 附魔屬性沒有 enchant 字串，判斷方式不同
+            // TODO: 項鍊塗油的配置屬性為附魔，要再額外判斷
+            // let text = itemArray[index]
+            // text = text.substring(0, text.indexOf('(enchant)')) 
+            tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.enchantStats))
+            tempStat[tempStat.length - 1].type = "附魔"
+          } else { // 隨機屬性
+            tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
+            tempStat[tempStat.length - 1].type = "隨機"
+          }
         }
+        // console.log('偽屬性長度:', this.pseudoStats.length)
+        // console.log('隨機屬性長度:', this.explicitStats.length)
+        // console.log('固定屬性長度:', this.implicitStats.length)
+        // console.log('附魔屬性長度:', this.enchantStats.length)
+        // console.log('已工藝屬性長度:', this.craftedStats.length)
+
+        // if (stringSimilarity.findBestMatch(itemArray[index], this.explicitStats).bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
+        //   tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
+        // }
       }
       console.log(itemExplicitStats)
-
+      console.log(tempStat)
       tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
         let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
         let randomMinValue = 0 // 預設詞綴隨機數值最小值為 0
         let randomMaxValue = '' // 預設詞綴隨機數值最小值為空值
         for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
+        // TODO: 數值要能取出負值
           if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
             randomMaxValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
           }
@@ -346,6 +370,7 @@ export default {
           "min": randomMinValue,
           "max": randomMaxValue,
           "isSearch": true,
+          "type": element.type
         })
         // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
       })
