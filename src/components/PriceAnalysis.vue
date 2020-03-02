@@ -86,6 +86,9 @@ export default {
           []
         ]
         this.itemImage = ''
+        if (val.length == 0) {
+          return
+        }
         this.isLoading = true;
         for (let index = 0; index < (val.length >= 3 ? 3 : val.length); index++) {
           http.get(`https://web.poe.garena.tw/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)

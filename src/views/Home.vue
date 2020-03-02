@@ -25,11 +25,11 @@
         </td>
         <td style="width: 50px;" :style="item.type === '隨機' ? '' : 'color: red;'">{{ item.type }} </td>
         <td>{{ item.text }} </td>
-        <td style="width: 55px;">
-          <b-form-input v-model.number="item.min" @change="checkValue($event, item, 'min')" :disabled="!item.isSearch" size="sm" type="number" min="0"></b-form-input>
+        <td style="width: 45px;">
+          <b-form-input v-model.number="item.min" @dblclick="item.min = ''" :disabled="!item.isSearch || !item.isValue" size="sm" type="number" style="text-align: center;"></b-form-input>
         </td>
-        <td style="width: 55px;">
-          <b-form-input v-model.number="item.max" @change="checkValue($event, item, 'max')" :style="item.max && (item.max < item.min) ? 'background-color: #fc3232' : ''" :disabled="!item.isSearch" size="sm" type="number" min="0"></b-form-input>
+        <td style="width: 45px;">
+          <b-form-input v-model.number="item.max" @dblclick="item.max = ''" :disabled="!item.isSearch || !item.isValue" :style="item.max && (item.max < item.min) ? 'background-color: #fc3232' : ''" size="sm" type="number" style="text-align: center;"></b-form-input>
         </td>
       </tr>
       <tfoot>
@@ -79,7 +79,7 @@
       <b-button @click="mapAreaCopy('Info')">Info</b-button>
     </b-button-group>
   </div> -->
-  <div v-if="fetchQueryID && isPopWindow">
+  <div v-if="fetchQueryID">
     <PriceAnalysis :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
   </div>
 </div>
@@ -215,19 +215,22 @@ export default {
             this.explicitStats.push(text, element.id)
           })
           response.data.result[2].entries.forEach((element, index) => { // 固定屬性
-            this.implicitStats.push(element.text, element.id)
+            let text = element.text
+            if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (部分)'))
+            }
+            this.implicitStats.push(text, element.id)
           })
           response.data.result[4].entries.forEach((element, index) => { // 附魔
             this.enchantStats.push(element.text, element.id)
           })
           response.data.result[5].entries.forEach((element, index) => { // 已工藝
-            this.craftedStats.push(element.text, element.id)
+            let text = element.text
+            if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (部分)'))
+            }
+            this.craftedStats.push(text, element.id)
           })
-          // console.log('偽屬性長度:', this.pseudoStats.length)
-          // console.log('隨機屬性長度:', this.explicitStats.length)
-          // console.log('固定屬性長度:', this.implicitStats.length)
-          // console.log('附魔屬性長度:', this.enchantStats.length)
-          // console.log('已工藝屬性長度:', this.craftedStats.length)
         })
         .catch(function (error) {
           console.log(error);
@@ -347,15 +350,21 @@ export default {
       tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
         let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
-        let randomMinValue = 0 // 預設詞綴隨機數值最小值為 0
-        let randomMaxValue = '' // 預設詞綴隨機數值最小值為空值
+        itemStatArray.length = matchStatArray.length // TODO: 確認(crafted)字串是否有連起來
+        console.log(itemStatArray, matchStatArray)
+        let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
+        let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
         for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
-        // TODO: 數值要能取出負值、小數點
           if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
-            randomMaxValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
+            randomMaxValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+            randomMaxValue = isNaN(randomMaxValue) ? '' : randomMaxValue
           }
           if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
-            randomMinValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
+            randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+            if (matchStatArray[index].indexOf('，#') > -1) { // 處理隨機數值在'，'後的詞綴(無法用空格符號 split)
+              let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('，') + 1)
+              randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
+            }
           }
         }
         this.searchStats.push({
@@ -363,6 +372,7 @@ export default {
           "text": element.bestMatch.target,
           "min": randomMinValue,
           "max": randomMaxValue,
+          "isValue": randomMinValue ? true : false,
           "isSearch": true,
           "type": element.type
         })
@@ -402,26 +412,37 @@ export default {
           if (searchName === "看守之眼") { // 尊師三相珠寶 
             tempStat.push(stringSimilarity.findBestMatch(itemArray[11], this.explicitStats))
             tempStat.push(stringSimilarity.findBestMatch(itemArray[12], this.explicitStats))
-            tempStat.push(stringSimilarity.findBestMatch(itemArray[13], this.explicitStats))
+            if (itemArray[13] !== "--------") {
+              tempStat.push(stringSimilarity.findBestMatch(itemArray[13], this.explicitStats))
+            }
             tempStat.forEach((element, index) => { // 比對詞綴
-              if (element.bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
-                let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
-                let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
-                let randomMinValue = 0 // 預設詞綴隨機數值最小值為0
-                for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
-                  if (itemStatArray[index] !== matchStatArray[index]) {
-                    randomMinValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
+              let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
+              let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
+              let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
+              let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
+              for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
+                if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
+                  randomMaxValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+                  randomMaxValue = isNaN(randomMaxValue) ? '' : randomMaxValue
+                }
+                if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
+                  randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+                  if (matchStatArray[index].indexOf('，#') > -1) { // 處理隨機數值在'，'後的詞綴(無法用空格符號 split)
+                    let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('，') + 1)
+                    randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
                   }
                 }
-                this.searchStats.push({
-                  "id": element.ratings[element.bestMatchIndex + 1].target,
-                  "text": element.bestMatch.target,
-                  "min": randomMinValue,
-                  "max": '',
-                  "isSearch": true,
-                })
-                // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
               }
+              this.searchStats.push({
+                "id": element.ratings[element.bestMatchIndex + 1].target,
+                "text": element.bestMatch.target,
+                "min": randomMinValue,
+                "max": randomMaxValue,
+                "isValue": randomMinValue ? true : false,
+                "type": "傳奇",
+                "isSearch": true,
+              })
+              // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
             })
             return // 選擇詞墜後再搜尋
           } else if (searchName === "奧爾的崛起") {
@@ -430,17 +451,13 @@ export default {
               if (element.bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
                 let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
                 let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
-                let randomMinValue = 0 // 預設詞綴隨機數值最小值為0
-                // for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
-                //   if (itemStatArray[index] !== matchStatArray[index]) {
-                //     randomMinValue = parseInt(itemStatArray[index].replace(/[^0-9]/ig, ""), 10)
-                //   }
-                // }
                 this.searchStats.push({
                   "id": element.ratings[element.bestMatchIndex + 1].target,
                   "text": element.bestMatch.target,
-                  "min": randomMinValue,
+                  "min": '',
                   "max": '',
+                  "isValue": false,
+                  "type": "傳奇",
                   "isSearch": true,
                 })
                 // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
@@ -641,5 +658,12 @@ export default {
 .MapCopy {
   border-top: 1px solid #000;
   padding: 5px;
+}
+
+/* 取消 input 欄位的 step 功能 */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 </style>
