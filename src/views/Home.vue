@@ -122,9 +122,24 @@ export default {
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       searchName: '',
       fetchQueryID: '',
-      itemImage: '',
-      headers: {
-        'Content-Type': 'application/json',
+      itemInf: { // 物品各項資訊
+        Category: '', // 物品分類
+        Basic: '', // 物品基底
+        exBasic: '', // 勢力基底
+        Level: '', // 物品等級
+        Corrupted: false, // 是否污染
+        /* 
+        crusader_item: {option: "true"} // 聖戰君王勢力
+        shaper_item: {option: "true"}   // 塑界者勢力
+        elder_item: {option: "true"}    // 異界尊師勢力
+        redeemer_item: {option: "true"} // 救贖者勢力
+        warlord_item: {option: "true"}  // 總督軍勢力
+        hunter_item: {option: "true"}   // 狩獵者勢力
+        **/
+      },
+      mapInf: { // 地圖各項資訊
+        Level: '', // 地圖階級
+        Basic: '', // 地圖基底
       },
       searchJson: {},
       searchJson_Def: {
@@ -150,7 +165,45 @@ export default {
           "price": "asc"
         }
       },
-      newLine: navigator.userAgent.indexOf('Mac OS X') > -1 ? '\n' : '\r\n' // Mac 與 Windows 換行符號差異
+      newLine: navigator.userAgent.indexOf('Mac OS X') > -1 ? '\n' : '\r\n', // Mac 與 Windows 換行符號差異
+      exJson: {
+        "query": {
+          "status": {
+            "option": "online"
+          },
+          "type": "寶鑽戒指", // 物品基底
+          "stats": [{
+            "type": "and",
+            "filters": []
+          }],
+          "filters": {
+            "misc_filters": {
+              "filters": {
+                "ilvl": { // 物品等級
+                  "min": 86
+                },
+                "crusader_item": { // 勢力區域
+                  "option": "true"
+                },
+                "corrupted": { // 是否污染
+                  "option": "true"
+                },
+              }
+            },
+            "type_filters": {
+              "filters": {
+                "category": { // 物品種類
+                  "option": "accessory.ring", // 戒指
+                  // "option": "accessory.belt", // 腰帶
+                }
+              }
+            }
+          }
+        },
+        "sort": {
+          "price": "asc"
+        }
+      }
     }
   },
   created() {
@@ -478,9 +531,7 @@ export default {
             }
           }
         }
-      } else if (Rarity === "命運卡") {
-        this.searchJson.query.type = searchName
-      } else if (Rarity === "通貨") {
+      } else if (Rarity === "命運卡" || Rarity === "通貨") {
         this.searchJson.query.type = searchName
       } else if (Rarity === "寶石") {
         this.searchJson.query.type = searchName
