@@ -10,6 +10,10 @@
   <!-- <div><b>是否直購</b><input type="checkbox" v-model="isPriced"></div> -->
   <hr>
   <h5>{{ searchName }}</h5>
+  <div style="width: 145px;">
+    <input type="checkbox" v-model="itemExBasic.isSearch" @change="isExBasicSearch">
+    <v-select :options="itemExBasic.option" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
+  </div>
   <div class="d-inline-flex p-2 bd-highlight" v-if="searchStats.length > 0">
     <table>
       <tr>
@@ -122,20 +126,49 @@ export default {
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       searchName: '',
       fetchQueryID: '',
+      allItems: [], // 物品 API 抓回來的資料
+      equipItems: [], // 可裝備的物品資料
+      itemCategory: { // 物品分類
+        option: [],
+        isSearch: false,
+      },
+      itemBasic: { // 物品基底
+        option: [],
+        isSearch: false,
+      },
+      itemExBasic: { // 勢力基底
+        option: [{
+          label: "塑者之物",
+          prop: "shaper_item"
+        }, {
+          label: "尊師之物",
+          prop: "elder_item"
+        }, {
+          label: "聖戰君王物品",
+          prop: "crusader_item"
+        }, {
+          label: "救贖者物品",
+          prop: "redeemer_item"
+        }, {
+          label: "總督軍物品",
+          prop: "warlord_item"
+        }, {
+          label: "狩獵者物品",
+          prop: "hunter_item"
+        }, ],
+        chosenObj: {},
+        isSearch: false,
+      },
+      itemLevel: { // 物品等級
+        value: 0,
+        isSearch: false,
+      },
       itemInf: { // 物品各項資訊
-        Category: '', // 物品分類
-        Basic: '', // 物品基底
-        exBasic: '', // 勢力基底
-        Level: '', // 物品等級
+        Category: '',
+        Basic: '',
+        exBasic: '',
+        Level: '',
         Corrupted: false, // 是否污染
-        /* 
-        crusader_item: {option: "true"} // 聖戰君王勢力
-        shaper_item: {option: "true"}   // 塑界者勢力
-        elder_item: {option: "true"}    // 異界尊師勢力
-        redeemer_item: {option: "true"} // 救贖者勢力
-        warlord_item: {option: "true"}  // 總督軍勢力
-        hunter_item: {option: "true"}   // 狩獵者勢力
-        **/
       },
       mapInf: { // 地圖各項資訊
         Level: '', // 地圖階級
@@ -158,6 +191,12 @@ export default {
                   "option": "priced"
                 }
               }
+            },
+            "misc_filters": {
+              "filters": {}
+            },
+            "type_filters": {
+              "filters": {}
             }
           }
         },
@@ -194,7 +233,6 @@ export default {
               "filters": {
                 "category": { // 物品種類
                   "option": "accessory.ring", // 戒指
-                  // "option": "accessory.belt", // 腰帶
                 }
               }
             }
@@ -213,6 +251,7 @@ export default {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
     this.scanCopy();
     this.statsAPI();
+    this.itemsAPI();
   },
   methods: {
     hotkeyPressed() {
@@ -289,6 +328,182 @@ export default {
           console.log(error);
         })
     },
+    itemsAPI() { // 物品 API
+      this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
+        .then((response) => {
+          this.allItems = response.data.result // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
+          let result = response.data.result
+          result[0].entries.forEach((element, index) => { // "label": "飾品"(250筆) 一般飾品基底起始點 index = 179
+            switch (true) {
+              // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
+              case index >= 179 && index <= 220:
+                element.name = "項鍊"
+                element.option = "accessory.amulet"
+                this.equipItems.push(element)
+                break;
+                // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
+              case index >= 221 && index <= 231:
+                element.name = "腰帶"
+                element.option = "accessory.belt"
+                this.equipItems.push(element)
+                break;
+                // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }  
+              case index >= 232:
+                element.name = "戒指"
+                element.option = "accessory.ring"
+                this.equipItems.push(element)
+                break;
+              default:
+                break;
+            }
+          });
+          result[1].entries.forEach((element, index) => { // "label": "護甲"(733筆) 一般護甲基底起始點 index = 357
+            switch (true) {
+              // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
+              case index >= 357 && index <= 460:
+                element.name = "胸甲"
+                element.option = "armour.chest"
+                this.equipItems.push(element)
+                break;
+                // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
+              case index >= 461 && index <= 514:
+                element.name = "鞋子"
+                element.option = "armour.boots"
+                this.equipItems.push(element)
+                break;
+                // 手套起始點 { "type": "擒拿手套", "text": "擒拿手套" }
+              case index >= 515 && index <= 568:
+                element.name = "手套"
+                element.option = "armour.gloves"
+                this.equipItems.push(element)
+                break;
+                // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
+              case index >= 569 && index <= 634:
+                element.name = "頭部"
+                element.option = "armour.helmet"
+                this.equipItems.push(element)
+                break;
+                // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
+              case index >= 635 && index <= 723:
+                element.name = "盾"
+                element.option = "armour.shield"
+                this.equipItems.push(element)
+                break;
+                // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
+              case index >= 724:
+                element.name = "箭袋"
+                element.option = "armour.quiver"
+                this.equipItems.push(element)
+                break;
+              default:
+                break;
+            }
+          });
+          result[6].entries.forEach((element, index) => { // "label": "珠寶"(146筆) 一般珠寶基底起始點 index = 137
+            switch (true) {
+              // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
+              case index >= 137:
+                element.name = "珠寶"
+                element.option = "jewel"
+                this.equipItems.push(element)
+                break;
+              default:
+                break;
+            }
+          });
+          result[8].entries.forEach((element, index) => { // "label": "武器"(547筆) 一般武器基底起始點 index = 238
+            switch (true) {
+              // 爪起始點 { "type": "拳釘", "text": "拳釘" }
+              case index >= 238 && index <= 262:
+                element.name = "爪"
+                element.option = "weapon.claw"
+                element.weapon = "weapon.one" // "weapon.one" 單手武器
+                this.equipItems.push(element)
+                break;
+                // 匕首起始點 { "type": "玻璃利片", "text": "玻璃利片" }
+              case index >= 263 && index <= 287:
+                element.name = "匕首"
+                element.option = "weapon.dagger"
+                element.weapon = "weapon.one"
+                this.equipItems.push(element)
+                break;
+                // 單手斧起始點 { "type": "鏽斧", "text": "鏽斧" }
+              case index >= 288 && index <= 312:
+                element.name = "單手斧"
+                element.option = "weapon.oneaxe"
+                element.weapon = "weapon.one"
+                this.equipItems.push(element)
+                break;
+                // 單手錘起始點 { "type": "朽木之棒", "text": "朽木之棒" }
+              case index >= 313 && index <= 362:
+                element.name = "單手錘"
+                element.option = "weapon.onemace"
+                element.weapon = "weapon.one"
+                this.equipItems.push(element)
+                break;
+                // 單手劍起始點 { "type": "鏽劍", "text": "鏽劍" }
+              case index >= 363 && index <= 412:
+                element.name = "單手劍"
+                element.option = "weapon.onesword"
+                element.weapon = "weapon.one"
+                this.equipItems.push(element)
+                break;
+                // 法杖起始點 { "type": "朽木法杖", "text": "朽木法杖" }
+              case index >= 413 && index <= 432:
+                element.name = "法杖"
+                element.option = "weapon.wand"
+                element.weapon = "weapon.one"
+                this.equipItems.push(element)
+                break;
+                // { "type": "魚竿", "text": "魚竿" }
+              case index >= 433 && index <= 433:
+                element.name = "釣竿"
+                element.option = "weapon.rod"
+                this.equipItems.push(element)
+                break;
+                // 弓起始點 { "type": "粗製弓", "text": "粗製弓" }
+              case index >= 434 && index <= 458:
+                element.name = "弓"
+                element.option = "weapon.bow"
+                this.equipItems.push(element)
+                break;
+                // 長杖起始點 { "type": "朽木之幹", "text": "朽木之幹" }
+              case index >= 459 && index <= 480:
+                element.name = "長杖"
+                element.option = "weapon.staff"
+                element.weapon = "weapon.twomelee"
+                this.equipItems.push(element)
+                break;
+                // 雙手斧起始點 { "type": "石斧", "text": "石斧" }
+              case index >= 481 && index <= 502:
+                element.name = "雙手斧"
+                element.option = "weapon.twoaxe"
+                element.weapon = "weapon.twomelee"
+                this.equipItems.push(element)
+                break;
+                // 雙手錘起始點 { "type": "朽木巨錘", "text": "朽木巨錘" }
+              case index >= 503 && index <= 524:
+                element.name = "雙手錘"
+                element.option = "weapon.twomace"
+                element.weapon = "weapon.twomelee"
+                this.equipItems.push(element)
+                break;
+                // 雙手劍起始點 { "type": "鏽斑巨劍", "text": "鏽斑巨劍" }
+              case index >= 525:
+                element.name = "雙手劍"
+                element.option = "weapon.twosword"
+                element.weapon = "weapon.twomelee"
+                this.equipItems.push(element)
+                break;
+              default:
+                break;
+            }
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
     mapAreaCopy(name) {
       clipboard.writeText(name)
     },
@@ -353,7 +568,7 @@ export default {
       })
       this.searchTrade(this.searchJson)
     },
-    rareAnalysis(itemArray) {
+    rareStatsAnalysis(itemArray) {
 
       let tempStat = []
       let itemExplicitStats = [] // 該物品固定 + 隨機屬性
@@ -398,13 +613,13 @@ export default {
           }
         }
       }
-      console.log(itemExplicitStats)
+      // console.log(itemExplicitStats)
       // console.log(tempStat)
       tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
         let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
         itemStatArray.length = matchStatArray.length // TODO: 確認(crafted)字串是否有連起來
-        console.log(itemStatArray, matchStatArray)
+        // console.log(itemStatArray, matchStatArray)
         let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
         let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
         for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
@@ -432,6 +647,38 @@ export default {
         // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
       })
     },
+    itemAnalysis(itemArray, matchItem) {
+
+      var itemInf = { // 物品各項資訊
+        Category: '', // 物品分類
+        Basic: '', // 物品基底
+        exBasic: '', // 勢力基底
+        Level: '', // 物品等級
+        Corrupted: false, // 是否污染
+      }
+    },
+    isExBasicSearch() {
+      console.log(this.itemExBasic.isSearch)
+      if (!this.itemExBasic.isSearch && !_.isEmpty(this.itemExBasic.chosenObj) && !_.isEmpty(this.searchJson)) {
+        delete this.searchJson.query.filters.misc_filters.filters[this.itemExBasic.chosenObj.prop] // 刪除勢力選項
+      } else if (this.itemExBasic.isSearch && !_.isEmpty(this.itemExBasic.chosenObj) && !_.isEmpty(this.searchJson)) {
+        this.searchJson.query.filters.misc_filters.filters[this.itemExBasic.chosenObj.prop] = { // 增加目前選擇的勢力
+          "option": "true"
+        }
+      }
+    },
+    exBasicChange(value) {
+      let exSearchItem = _.isEmpty(this.itemExBasic.chosenObj) ? {} : this.itemExBasic.chosenObj.prop // 前一個搜尋的勢力選項
+      if (!_.isEmpty(this.searchJson) && this.searchJson.query.filters.misc_filters.filters.hasOwnProperty(exSearchItem)) {
+        delete this.searchJson.query.filters.misc_filters.filters[exSearchItem] // 刪除前一個勢力選項
+      }
+      if (!_.isEmpty(this.searchJson)) {
+        this.searchJson.query.filters.misc_filters.filters[value.prop] = { // 增加目前選擇的勢力
+          "option": "true"
+        }
+      }
+      this.itemExBasic.chosenObj = value
+    },
     checkValue(event, item, ref) {
       if (event < 0) {
         if (ref == "min") {
@@ -457,6 +704,12 @@ export default {
       let searchName = itemArray[1]
       this.searchName = itemArray[2] === "--------" ? `物品名稱『${itemArray[1]}』` : `物品名稱『${itemArray[1]} ${itemArray[2]}』`
       let itemBasic = itemArray[2]
+
+      this.equipItems.forEach(element => {
+        if (`${itemArray[1]} ${itemArray[2]}`.indexOf(element.text) > -1) {
+          this.itemAnalysis(itemArray, element)
+        }
+      });
 
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
         if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
@@ -653,7 +906,7 @@ export default {
         }
         this.searchTrade(this.searchJson)
       } else if (Rarity === "稀有") {
-        this.rareAnalysis(itemArray)
+        this.rareStatsAnalysis(itemArray)
         return
       } else {
         this.status = `目前版本尚未支援搜尋藍裝及鍊魔器官`

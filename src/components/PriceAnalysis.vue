@@ -95,7 +95,7 @@ export default {
             .then((response) => {
               this.fetchResult[index].push(response.data.result)
               if (this.fetchResult[0].length !== 0 && !this.itemImage) {
-                this.itemImage = `https://web.poe.garena.tw${this.fetchResult[0][0][0].item.icon}`
+                this.itemImage = this.fetchResult[0][0][0].item.icon
                 this.isLoading = false;
               }
             })
