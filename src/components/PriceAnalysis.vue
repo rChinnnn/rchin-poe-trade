@@ -8,7 +8,7 @@
     <table class="table table-striped" v-if="isPriced && collectionCurrency">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">前 30 筆價格分析</th>
+          <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析</th>
         </tr>
       </thead>
       <tbody>

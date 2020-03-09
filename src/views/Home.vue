@@ -1,19 +1,81 @@
 <template>
 <div class="home">
-  <HelloWorld msg="" />
-  <div v-if="count == 0">
-    <button v-show="!testResponse" @click="apiTest"> 點我測試程式是否能正常執行 </button>
+  <!-- <div v-if="count == 0">
+    <b-button v-show="!testResponse" @click="apiTest"> 點我測試程式是否能正常執行 </b-button>
     <h5> {{testResponse}} </h5>
     <h5 v-show="testResponse">使用說明：於遊戲中將滑鼠停在物品上，按下 Ctrl+C 即可輕鬆查價</h5>
-  </div>
-  <div><b>只顯示線上 </b><input type="checkbox" v-model="isOnline"> <b>是否直購 </b><input type="checkbox" v-model="isPriced"> <b>官網查詢 </b><input type="checkbox" v-model="isPopWindow"> </div>
-  <!-- <div><b>是否直購</b><input type="checkbox" v-model="isPriced"></div> -->
+  </div> -->
+  <hr>
+  <b-container class="bv-example-row">
+    <b-row style="padding: 5px;">
+      <b-col align-self="start">
+        <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜尋基本設定</b-button>
+      </b-col>
+      <b-col align-self="center">
+        <!-- TODO:  :disabled="!isSearchJson" -->
+        <b-button v-b-toggle.collapse-2 size="sm" variant="outline-primary">物品基本設定</b-button>
+      </b-col>
+      <b-col align-self="end"> </b-col>
+    </b-row>
+    <b-collapse visible id="collapse-1" class="mt-2">
+      <b-card>
+        <b-row>
+          <b-col>
+            <b-form-checkbox v-model="isOnline" switch :inline="false">
+              <b>只顯示線上</b>
+            </b-form-checkbox>
+          </b-col>
+          <b-col>
+            <b-form-checkbox v-model="isPriced" switch>
+              <b>是否直購</b>
+            </b-form-checkbox>
+          </b-col>
+          <b-col>
+            <b-form-checkbox v-model="isPopWindow" switch>
+              <b>官網查詢</b>
+            </b-form-checkbox>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-collapse>
+  </b-container>
+  <!-- TODO: v-if="isSearchJson" -->
+  <b-container class="bv-example-row">
+    <b-collapse visible id="collapse-2" class="mt-2">
+      <b-card>
+        <b-row class="lesspadding">
+          <b-col sm="4" style="padding-top: 3px;">
+            <b-form-checkbox class="float-right" v-model="itemLevel.isSearch" @input="isLevelSearch" switch>物品等級 (min)</b-form-checkbox>
+          </b-col>
+          <b-col sm="1">
+            <b-form-input v-model.number="itemLevel.value" @input="isLevelSearch" @dblclick="itemLevel.value = ''" :disabled="!itemLevel.isSearch" size="sm" type="number"></b-form-input>
+          </b-col>
+          <b-col sm="3" style="padding-top: 5px;">
+            <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isCategorySearch" switch>物品分類</b-form-checkbox>
+          </b-col>
+          <b-col sm="4">
+            <v-select :options="itemCategory.option" v-model="itemCategory.chosenObj" label="label" @input="categoryChange" :disabled="!itemCategory.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
+          </b-col>
+        </b-row>
+        <b-row class="lesspadding" style="padding-top: 5px;">
+          <b-col sm="3" style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isBasicSearch" switch>物品基底</b-form-checkbox>
+          </b-col>
+          <b-col sm="2">
+            <b-form-input v-model="itemBasic.text" :disabled="true"></b-form-input>
+          </b-col>
+          <b-col sm="3" style="padding-top: 5px;">
+            <b-form-checkbox class="float-right" v-model="itemExBasic.isSearch" @input="isExBasicSearch" switch>勢力基底</b-form-checkbox>
+          </b-col>
+          <b-col sm="4">
+            <v-select :options="itemExBasic.option" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-collapse>
+  </b-container>
   <hr>
   <h5>{{ searchName }}</h5>
-  <div style="width: 145px;">
-    <input type="checkbox" v-model="itemExBasic.isSearch" @change="isExBasicSearch">
-    <v-select :options="itemExBasic.option" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
-  </div>
   <div class="d-inline-flex p-2 bd-highlight" v-if="searchStats.length > 0">
     <table>
       <tr>
@@ -91,7 +153,6 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import PriceAnalysis from '@/components/PriceAnalysis.vue'
 import hotkeys from "hotkeys-js";
 
@@ -105,7 +166,6 @@ const {
 export default {
   name: 'home',
   components: {
-    HelloWorld,
     PriceAnalysis
   },
   data() {
@@ -128,12 +188,17 @@ export default {
       fetchQueryID: '',
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
+      itemLevel: { // 物品等級
+        value: 0,
+        isSearch: false,
+      },
       itemCategory: { // 物品分類
         option: [],
+        chosenObj: {},
         isSearch: false,
       },
       itemBasic: { // 物品基底
-        option: [],
+        text: '',
         isSearch: false,
       },
       itemExBasic: { // 勢力基底
@@ -157,10 +222,6 @@ export default {
           prop: "hunter_item"
         }, ],
         chosenObj: {},
-        isSearch: false,
-      },
-      itemLevel: { // 物品等級
-        value: 0,
         isSearch: false,
       },
       itemInf: { // 物品各項資訊
@@ -210,7 +271,7 @@ export default {
           "status": {
             "option": "online"
           },
-          "type": "寶鑽戒指", // 物品基底
+          "type": "寶鑽戒指", // 物品基底 isBasicSearch
           "stats": [{
             "type": "and",
             "filters": []
@@ -218,10 +279,10 @@ export default {
           "filters": {
             "misc_filters": {
               "filters": {
-                "ilvl": { // 物品等級
+                "ilvl": { // 物品等級 isLevelSearch
                   "min": 86
                 },
-                "crusader_item": { // 勢力區域
+                "crusader_item": { // 勢力區域 isExBasicSearch
                   "option": "true"
                 },
                 "corrupted": { // 是否污染
@@ -231,7 +292,7 @@ export default {
             },
             "type_filters": {
               "filters": {
-                "category": { // 物品種類
+                "category": { // 物品種類 isCategorySearch
                   "option": "accessory.ring", // 戒指
                 }
               }
@@ -647,8 +708,34 @@ export default {
         // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
       })
     },
-    itemAnalysis(itemArray, matchItem) {
+    itemAnalysis(item, matchItem) {
+      const NL = this.newLine
+      this.itemBasic.text = matchItem.text
+      this.itemCategory.option.length = 0
+      if (item.indexOf('物品等級: ') > -1) {
+        let levelPos = item.substring(item.indexOf('物品等級: ') + 5)
+        let levelPosEnd = levelPos.indexOf(NL)
+        this.itemLevel.value = parseInt(levelPos.substring(0, levelPosEnd).trim(), 10)
+      }
+      this.itemCategory.option.push({
+        label: matchItem.name,
+        prop: matchItem.option,
+      })
+      this.itemCategory.chosenObj = {
+        label: matchItem.name,
+        prop: matchItem.option,
+      }
+      if (matchItem.weapon) {
+        this.itemCategory.option.push({
+          label: matchItem.weapon === "weapon.one" ? "單手武器" : "雙手武器",
+          prop: matchItem.weapon === "weapon.one" ? "weapon.one" : "weapon.twomelee",
+        })
+      }
+      this.itemCategory.isSearch = true
+      this.isCategorySearch()
 
+      // TODO: 勢力基底用 array.indexOf(Array) 判斷及後續處理
+      
       var itemInf = { // 物品各項資訊
         Category: '', // 物品分類
         Basic: '', // 物品基底
@@ -657,8 +744,40 @@ export default {
         Corrupted: false, // 是否污染
       }
     },
+    isLevelSearch() {
+      if (!this.itemLevel.isSearch && !_.isEmpty(this.searchJson)) {
+        delete this.searchJson.query.filters.misc_filters.filters.ilvl // 刪除物品等級 filter
+      } else if (this.itemLevel.isSearch && !_.isEmpty(this.searchJson)) {
+        this.searchJson.query.filters.misc_filters.filters.ilvl = { // 增加物品等級最小值 filter
+          "min": this.itemLevel.value
+        }
+      }
+    },
+    isBasicSearch() {
+      if (!this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
+        delete this.searchJson.query.type // 刪除物品基底 filter
+      } else if (this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
+        this.searchJson.query.type = this.itemBasic.text // 增加物品基底 filter
+      }
+    },
+    isCategorySearch() {
+      if (!this.itemCategory.isSearch && !_.isEmpty(this.itemCategory.chosenObj) && !_.isEmpty(this.searchJson)) {
+        delete this.searchJson.query.filters.type_filters.filters.category // 刪除物品種類 filter
+      } else if (this.itemCategory.isSearch && !_.isEmpty(this.itemCategory.chosenObj) && !_.isEmpty(this.searchJson)) {
+        this.searchJson.query.filters.type_filters.filters.category = { // 增加物品種類 filter
+          "option": this.itemCategory.chosenObj.prop
+        }
+      }
+    },
+    categoryChange(value) {
+      if (!_.isEmpty(this.searchJson)) {
+        this.searchJson.query.filters.type_filters.filters.category = { // 修改物品種類 filter
+          "option": this.itemCategory.chosenObj.prop
+        }
+      }
+      this.itemCategory.chosenObj = value
+    },
     isExBasicSearch() {
-      console.log(this.itemExBasic.isSearch)
       if (!this.itemExBasic.isSearch && !_.isEmpty(this.itemExBasic.chosenObj) && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.filters.misc_filters.filters[this.itemExBasic.chosenObj.prop] // 刪除勢力選項
       } else if (this.itemExBasic.isSearch && !_.isEmpty(this.itemExBasic.chosenObj) && !_.isEmpty(this.searchJson)) {
@@ -695,6 +814,7 @@ export default {
       if (item.indexOf('稀有度') === -1) { // POE 內的文字必定有稀有度
         return
       }
+      this.fetchQueryID = ''
       this.searchStats = []
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
       const NL = this.newLine
@@ -707,7 +827,7 @@ export default {
 
       this.equipItems.forEach(element => {
         if (`${itemArray[1]} ${itemArray[2]}`.indexOf(element.text) > -1) {
-          this.itemAnalysis(itemArray, element)
+          this.itemAnalysis(item, element)
         }
       });
 
@@ -954,7 +1074,11 @@ export default {
       }
     },
   },
-  computed: {},
+  computed: {
+    isSearchJson() {
+      return !_.isEmpty(this.searchJson)
+    },
+  },
 }
 </script>
 
@@ -969,5 +1093,10 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.lesspadding div {
+  padding-left: 3px !important;
+  padding-right: 3px !important;
 }
 </style>
