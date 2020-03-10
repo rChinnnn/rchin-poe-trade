@@ -12,10 +12,11 @@
         <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜尋基本設定</b-button>
       </b-col>
       <b-col align-self="center">
-        <!-- TODO:  :disabled="!isSearchJson" -->
-        <b-button v-b-toggle.collapse-2 size="sm" variant="outline-primary">物品基本設定</b-button>
+        <b-button v-b-toggle.collapse-2 :disabled="!isItem" size="sm" variant="outline-primary">物品基本設定</b-button>
       </b-col>
-      <b-col align-self="end"> </b-col>
+      <b-col align-self="end">
+        <b-button v-b-toggle.collapse-3 :disabled="searchStats.length == 0" size="sm" variant="outline-primary">詞綴搜尋設定</b-button>
+      </b-col>
     </b-row>
     <b-collapse visible id="collapse-1" class="mt-2">
       <b-card>
@@ -36,19 +37,23 @@
             </b-form-checkbox>
           </b-col>
         </b-row>
+        <!-- TODO: 選擇各聯盟 -->
       </b-card>
     </b-collapse>
   </b-container>
-  <!-- TODO: v-if="isSearchJson" -->
   <b-container class="bv-example-row">
-    <b-collapse visible id="collapse-2" class="mt-2">
+    <b-collapse :visible="isCollapse && isItem" id="collapse-2" class="mt-2">
       <b-card>
+        <!-- TODO: 全部物品篩選、增加稀有度選項 -->
         <b-row class="lesspadding">
-          <b-col sm="4" style="padding-top: 3px;">
-            <b-form-checkbox class="float-right" v-model="itemLevel.isSearch" @input="isLevelSearch" switch>物品等級 (min)</b-form-checkbox>
+          <b-col sm="3" style="padding-top: 3px;">
+            <b-form-checkbox class="float-right" v-model="itemLevel.isSearch" @input="isLevelSearch" switch>物品等級</b-form-checkbox>
           </b-col>
           <b-col sm="1">
-            <b-form-input v-model.number="itemLevel.value" @input="isLevelSearch" @dblclick="itemLevel.value = ''" :disabled="!itemLevel.isSearch" size="sm" type="number"></b-form-input>
+            <b-form-input v-model.number="itemLevel.min" @input="isLevelSearch" :disabled="!itemLevel.isSearch" size="sm" type="number"></b-form-input>
+          </b-col>
+          <b-col sm="1">
+            <b-form-input v-model.number="itemLevel.max" @input="isLevelSearch" :disabled="!itemLevel.isSearch" :style="itemLevel.max && (itemLevel.max < itemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
           </b-col>
           <b-col sm="3" style="padding-top: 5px;">
             <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isCategorySearch" switch>物品分類</b-form-checkbox>
@@ -58,17 +63,23 @@
           </b-col>
         </b-row>
         <b-row class="lesspadding" style="padding-top: 5px;">
-          <b-col sm="3" style="padding-top: 6px;">
+          <b-col style="padding-top: 6px;">
             <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isBasicSearch" switch>物品基底</b-form-checkbox>
           </b-col>
-          <b-col sm="2">
+          <b-col sm="3">
             <b-form-input v-model="itemBasic.text" :disabled="true"></b-form-input>
           </b-col>
-          <b-col sm="3" style="padding-top: 5px;">
+          <b-col style="padding-top: 5px;">
             <b-form-checkbox class="float-right" v-model="itemExBasic.isSearch" @input="isExBasicSearch" switch>勢力基底</b-form-checkbox>
           </b-col>
           <b-col sm="4">
-            <v-select :options="itemExBasic.option" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
+            <v-select :options="itemExBasic.option" :value="itemExBasic.chosenObj" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col sm="10"></b-col>
+          <b-col sm="2" style="padding-top: 15px;">
+            <b-button v-if="searchStats.length == 0" @click="clickToSearch" variant="outline-primary">查詢</b-button>
           </b-col>
         </b-row>
       </b-card>
@@ -77,40 +88,42 @@
   <hr>
   <h5>{{ searchName }}</h5>
   <div class="d-inline-flex p-2 bd-highlight" v-if="searchStats.length > 0">
-    <table>
-      <tr>
-        <th>是否查詢</th>
-        <th>種類</th>
-        <th>詞綴內容</th>
-        <th>最小值</th>
-        <th>最大值</th>
-      </tr>
-      <tr v-for="(item, index) in searchStats" :key="index" :style="item.isSearch ? '' : 'background-color: #e9ecef'">
-        <td style="width: 70px;">
-          <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
-        </td>
-        <td style="width: 50px;" :style="item.type === '隨機' ? '' : 'color: red;'">{{ item.type }} </td>
-        <td>{{ item.text }} </td>
-        <td style="width: 45px;">
-          <b-form-input v-model.number="item.min" @dblclick="item.min = ''" :disabled="!item.isSearch || !item.isValue" size="sm" type="number" style="text-align: center;"></b-form-input>
-        </td>
-        <td style="width: 45px;">
-          <b-form-input v-model.number="item.max" @dblclick="item.max = ''" :disabled="!item.isSearch || !item.isValue" :style="item.max && (item.max < item.min) ? 'background-color: #fc3232' : ''" size="sm" type="number" style="text-align: center;"></b-form-input>
-        </td>
-      </tr>
-      <tfoot>
+    <b-collapse :visible="isCollapse" id="collapse-3" class="mt-2">
+      <table>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
-            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+          <th>是否查詢</th>
+          <th>種類</th>
+          <th>詞綴內容</th>
+          <th>最小值</th>
+          <th>最大值</th>
+        </tr>
+        <tr v-for="(item, index) in searchStats" :key="index" :style="item.isSearch ? '' : 'background-color: #e9ecef'">
+          <td style="width: 70px;">
+            <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
+          </td>
+          <td style="width: 50px;" :style="item.type === '隨機' ? '' : 'color: red;'">{{ item.type }} </td>
+          <td>{{ item.text }} </td>
+          <td style="width: 45px;">
+            <b-form-input v-model.number="item.min" @dblclick="item.min = ''" :disabled="!item.isSearch || !item.isValue" size="sm" type="number" style="text-align: center;"></b-form-input>
+          </td>
+          <td style="width: 45px;">
+            <b-form-input v-model.number="item.max" @dblclick="item.max = ''" :disabled="!item.isSearch || !item.isValue" :style="item.max && (item.max < item.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number" style="text-align: center;"></b-form-input>
           </td>
         </tr>
-      </tfoot>
-    </table>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </b-collapse>
   </div>
   <div>已搜尋次數 {{ count }} </div>
   <div>搜尋狀態 {{ status }} </div>
@@ -177,6 +190,8 @@ export default {
       isOnline: true,
       isPriced: true,
       isPopWindow: false,
+      isCollapse: true,
+      isItem: false,
       searchStats: [], // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
       pseudoStats: [], // 偽屬性
       explicitStats: [], // 隨機屬性
@@ -189,12 +204,16 @@ export default {
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
       itemLevel: { // 物品等級
-        value: 0,
+        min: 0,
+        max: '',
         isSearch: false,
       },
       itemCategory: { // 物品分類
         option: [],
-        chosenObj: {},
+        chosenObj: {
+          label: "任何",
+          prop: ''
+        },
         isSearch: false,
       },
       itemBasic: { // 物品基底
@@ -221,15 +240,11 @@ export default {
           label: "狩獵者物品",
           prop: "hunter_item"
         }, ],
-        chosenObj: {},
+        chosenObj: {
+          label: "任何",
+          prop: ''
+        },
         isSearch: false,
-      },
-      itemInf: { // 物品各項資訊
-        Category: '',
-        Basic: '',
-        exBasic: '',
-        Level: '',
-        Corrupted: false, // 是否污染
       },
       mapInf: { // 地圖各項資訊
         Level: '', // 地圖階級
@@ -341,6 +356,8 @@ export default {
           copyText: this.copyText
         })
         .then((response) => {
+          // TODO: 選擇各聯盟
+          this.isCollapse = false
           this.count += 1;
           response.data.total = response.data.total == "100000" ? `${response.data.total}+` : response.data.total
           this.status = `此次物品搜尋ID: ${response.data.id}, 總共 ${response.data.total} 筆符合`
@@ -679,8 +696,6 @@ export default {
       tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
         let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
-        itemStatArray.length = matchStatArray.length // TODO: 確認(crafted)字串是否有連起來
-        // console.log(itemStatArray, matchStatArray)
         let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
         let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
         for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
@@ -690,6 +705,7 @@ export default {
           }
           if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
             randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+            randomMinValue = isNaN(randomMinValue) ? '' : randomMinValue
             if (matchStatArray[index].indexOf('，#') > -1) { // 處理隨機數值在'，'後的詞綴(無法用空格符號 split)
               let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('，') + 1)
               randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
@@ -702,21 +718,27 @@ export default {
           "min": randomMinValue,
           "max": randomMaxValue,
           "isValue": randomMinValue ? true : false,
-          "isSearch": true,
+          "isSearch": false,
           "type": element.type
         })
-        // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
       })
     },
-    itemAnalysis(item, matchItem) {
+    itemAnalysis(item, itemArray, matchItem) {
       const NL = this.newLine
-      this.itemBasic.text = matchItem.text
       this.itemCategory.option.length = 0
+      this.itemExBasic.chosenObj = {
+        label: "任何",
+        prop: ''
+      }
+      // 判斷物品基底
+      this.itemBasic.text = matchItem.text
+      // 判斷物品等級
       if (item.indexOf('物品等級: ') > -1) {
         let levelPos = item.substring(item.indexOf('物品等級: ') + 5)
         let levelPosEnd = levelPos.indexOf(NL)
-        this.itemLevel.value = parseInt(levelPos.substring(0, levelPosEnd).trim(), 10)
+        this.itemLevel.min = parseInt(levelPos.substring(0, levelPosEnd).trim(), 10)
       }
+      // 判斷物品分類
       this.itemCategory.option.push({
         label: matchItem.name,
         prop: matchItem.option,
@@ -733,23 +755,56 @@ export default {
       }
       this.itemCategory.isSearch = true
       this.isCategorySearch()
-
-      // TODO: 勢力基底用 array.indexOf(Array) 判斷及後續處理
-      
-      var itemInf = { // 物品各項資訊
-        Category: '', // 物品分類
-        Basic: '', // 物品基底
-        exBasic: '', // 勢力基底
-        Level: '', // 物品等級
-        Corrupted: false, // 是否污染
+      // 判斷勢力基底
+      switch (true) {
+        case itemArray.indexOf('塑者之物') > -1:
+          this.itemExBasic.chosenObj = {
+            label: "塑者之物",
+            prop: "shaper_item"
+          }
+          break;
+        case itemArray.indexOf('尊師之物') > -1:
+          this.itemExBasic.chosenObj = {
+            label: "尊師之物",
+            prop: "elder_item"
+          }
+          break;
+        case itemArray.indexOf('聖戰軍王物品') > -1:
+          this.itemExBasic.chosenObj = {
+            label: "聖戰君王物品",
+            prop: "crusader_item"
+          }
+          break;
+        case itemArray.indexOf('救贖者物品') > -1:
+          this.itemExBasic.chosenObj = {
+            label: "救贖者物品",
+            prop: "redeemer_item"
+          }
+          break;
+        case itemArray.indexOf('總督軍物品') > -1:
+          this.itemExBasic.chosenObj = {
+            label: "總督軍物品",
+            prop: "warlord_item"
+          }
+          break;
+        case itemArray.indexOf('狩獵者物品') > -1:
+          this.itemExBasic.chosenObj = {
+            label: "狩獵者物品",
+            prop: "hunter_item"
+          }
+          break;
+        default:
+          break;
       }
+      this.isExBasicSearch()
     },
     isLevelSearch() {
       if (!this.itemLevel.isSearch && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.filters.misc_filters.filters.ilvl // 刪除物品等級 filter
       } else if (this.itemLevel.isSearch && !_.isEmpty(this.searchJson)) {
         this.searchJson.query.filters.misc_filters.filters.ilvl = { // 增加物品等級最小值 filter
-          "min": this.itemLevel.value
+          "min": this.itemLevel.min,
+          "max": this.itemLevel.max ? this.itemLevel.max : ''
         }
       }
     },
@@ -775,19 +830,19 @@ export default {
           "option": this.itemCategory.chosenObj.prop
         }
       }
-      this.itemCategory.chosenObj = value
+      // this.itemCategory.chosenObj = value
     },
     isExBasicSearch() {
-      if (!this.itemExBasic.isSearch && !_.isEmpty(this.itemExBasic.chosenObj) && !_.isEmpty(this.searchJson)) {
+      if (!this.itemExBasic.isSearch && this.itemExBasic.chosenObj.prop && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.filters.misc_filters.filters[this.itemExBasic.chosenObj.prop] // 刪除勢力選項
-      } else if (this.itemExBasic.isSearch && !_.isEmpty(this.itemExBasic.chosenObj) && !_.isEmpty(this.searchJson)) {
+      } else if (this.itemExBasic.isSearch && this.itemExBasic.chosenObj.prop && !_.isEmpty(this.searchJson)) {
         this.searchJson.query.filters.misc_filters.filters[this.itemExBasic.chosenObj.prop] = { // 增加目前選擇的勢力
           "option": "true"
         }
       }
     },
     exBasicChange(value) {
-      let exSearchItem = _.isEmpty(this.itemExBasic.chosenObj) ? {} : this.itemExBasic.chosenObj.prop // 前一個搜尋的勢力選項
+      let exSearchItem = !this.itemExBasic.chosenObj.prop ? '' : this.itemExBasic.chosenObj.prop // 前一個搜尋的勢力選項
       if (!_.isEmpty(this.searchJson) && this.searchJson.query.filters.misc_filters.filters.hasOwnProperty(exSearchItem)) {
         delete this.searchJson.query.filters.misc_filters.filters[exSearchItem] // 刪除前一個勢力選項
       }
@@ -814,6 +869,8 @@ export default {
       if (item.indexOf('稀有度') === -1) { // POE 內的文字必定有稀有度
         return
       }
+      this.isItem = false
+      this.isCollapse = true
       this.fetchQueryID = ''
       this.searchStats = []
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
@@ -827,7 +884,8 @@ export default {
 
       this.equipItems.forEach(element => {
         if (`${itemArray[1]} ${itemArray[2]}`.indexOf(element.text) > -1) {
-          this.itemAnalysis(item, element)
+          this.itemAnalysis(item, itemArray, element)
+          this.isItem = true
         }
       });
 
@@ -853,6 +911,7 @@ export default {
                 }
                 if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
                   randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+                  randomMinValue = isNaN(randomMinValue) ? '' : randomMinValue
                   if (matchStatArray[index].indexOf('，#') > -1) { // 處理隨機數值在'，'後的詞綴(無法用空格符號 split)
                     let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('，') + 1)
                     randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
@@ -1096,7 +1155,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .lesspadding div {
-  padding-left: 3px !important;
-  padding-right: 3px !important;
+  padding-left: 0px !important;
+  padding-right: 5px !important;
 }
 </style>

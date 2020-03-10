@@ -30,8 +30,8 @@ protocol.registerSchemesAsPrivileged([{
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: os.platform() === 'darwin' ? 1200 : 700,
-    height: os.platform() === 'darwin' ? 850 : 550,
+    width: os.platform() === 'darwin' ? 1350 : 650,
+    height: os.platform() === 'darwin' ? 850 : 750,
     webPreferences: {
       defaultFontFamily: {
         standard: "Microsoft YaHei"

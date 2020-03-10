@@ -15,7 +15,6 @@
         <tr v-for="(item, index) in collectionCurrency" :key="index">
           <td>
             報價：{{ item.amount }} x <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img> / <b>{{ item.count }}</b>筆
-            <!-- 〖 {{ item.amount }} x <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img> 〗 * <b>{{ item.count }}</b> -->
           </td>
         </tr>
       </tbody>
