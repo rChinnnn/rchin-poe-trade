@@ -1,10 +1,5 @@
 <template>
 <div class="home">
-  <!-- <div v-if="count == 0">
-    <b-button v-show="!testResponse" @click="apiTest"> 點我測試程式是否能正常執行 </b-button>
-    <h5> {{testResponse}} </h5>
-    <h5 v-show="testResponse">使用說明：於遊戲中將滑鼠停在物品上，按下 Ctrl+C 即可輕鬆查價</h5>
-  </div> -->
   <hr>
   <b-container class="bv-example-row">
     <b-row style="padding: 5px;">
@@ -14,13 +9,24 @@
       <b-col align-self="center">
         <b-button v-b-toggle.collapse-2 :disabled="!isItem" size="sm" variant="outline-primary">物品基本設定</b-button>
       </b-col>
+      <b-col align-self="center">
+        <b-button v-b-toggle.collapse-3 :disabled="!isMap" size="sm" variant="outline-primary">地圖基本設定</b-button>
+      </b-col>
       <b-col align-self="end">
-        <b-button v-b-toggle.collapse-3 :disabled="searchStats.length == 0" size="sm" variant="outline-primary">詞綴搜尋設定</b-button>
+        <b-button v-b-toggle.collapse-4 :disabled="searchStats.length == 0" size="sm" variant="outline-primary">詞綴搜尋設定</b-button>
       </b-col>
     </b-row>
     <b-collapse visible id="collapse-1" class="mt-2">
       <b-card>
         <b-row>
+          <b-col sm="5" style="padding-left: 25px;">
+            <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
+          </b-col>
+          <b-col sm="3" style="padding-top: 5px;">
+            <b>已搜尋次數 {{ count }}</b>
+          </b-col>
+        </b-row>
+        <b-row style="padding-top: 10px;">
           <b-col>
             <b-form-checkbox v-model="isOnline" switch :inline="false">
               <b>只顯示線上</b>
@@ -28,7 +34,7 @@
           </b-col>
           <b-col>
             <b-form-checkbox v-model="isPriced" switch>
-              <b>是否直購</b>
+              <b>{{ pricedText }}</b>
             </b-form-checkbox>
           </b-col>
           <b-col>
@@ -37,7 +43,6 @@
             </b-form-checkbox>
           </b-col>
         </b-row>
-        <!-- TODO: 選擇各聯盟 -->
       </b-card>
     </b-collapse>
   </b-container>
@@ -85,48 +90,90 @@
       </b-card>
     </b-collapse>
   </b-container>
+  <b-container class="bv-example-row">
+    <b-collapse :visible="isCollapse && isMap" id="collapse-3" class="mt-2">
+      <b-card>
+        <b-row class="lesspadding">
+          <b-col sm="3" style="padding-top: 3px;">
+            <b-form-checkbox class="float-right" v-model="mapLevel.isSearch" @input="isLevelSearch" switch>地圖階級</b-form-checkbox>
+          </b-col>
+          <b-col sm="1">
+            <b-form-input v-model.number="mapLevel.min" @input="isLevelSearch" :disabled="!mapLevel.isSearch" size="sm" type="number"></b-form-input>
+          </b-col>
+          <b-col sm="1">
+            <b-form-input v-model.number="mapLevel.max" @input="isLevelSearch" :disabled="!mapLevel.isSearch" :style="mapLevel.max && (mapLevel.max < mapLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+          </b-col>
+          <b-col style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isBasicSearch" switch>地圖基底</b-form-checkbox>
+          </b-col>
+          <b-col sm="3">
+            <b-form-input v-model="mapBasic.text" :disabled="true"></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="lesspadding" style="padding-top: 5px;">
+          <b-col>
+            <b-form-checkbox switch :inline="false">凋落圖</b-form-checkbox>
+          </b-col>
+          <b-col>
+            <b-form-checkbox switch :inline="false">塑者圖</b-form-checkbox>
+          </b-col>
+          <b-col>
+            <b-form-checkbox switch :inline="false">尊師圖</b-form-checkbox>
+          </b-col>
+          
+        </b-row>
+        <b-row>
+          <b-col sm="10"></b-col>
+          <b-col sm="2" style="padding-top: 15px;">
+            <b-button @click="clickToSearch" disabled variant="outline-primary">查詢</b-button>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-collapse>
+  </b-container>
   <hr>
   <h5>{{ searchName }}</h5>
-  <div class="d-inline-flex p-2 bd-highlight" v-if="searchStats.length > 0">
-    <b-collapse :visible="isCollapse" id="collapse-3" class="mt-2">
-      <table>
-        <tr>
-          <th>是否查詢</th>
-          <th>種類</th>
-          <th>詞綴內容</th>
-          <th>最小值</th>
-          <th>最大值</th>
-        </tr>
-        <tr v-for="(item, index) in searchStats" :key="index" :style="item.isSearch ? '' : 'background-color: #e9ecef'">
-          <td style="width: 70px;">
-            <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
-          </td>
-          <td style="width: 50px;" :style="item.type === '隨機' ? '' : 'color: red;'">{{ item.type }} </td>
-          <td>{{ item.text }} </td>
-          <td style="width: 45px;">
-            <b-form-input v-model.number="item.min" @dblclick="item.min = ''" :disabled="!item.isSearch || !item.isValue" size="sm" type="number" style="text-align: center;"></b-form-input>
-          </td>
-          <td style="width: 45px;">
-            <b-form-input v-model.number="item.max" @dblclick="item.max = ''" :disabled="!item.isSearch || !item.isValue" :style="item.max && (item.max < item.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number" style="text-align: center;"></b-form-input>
-          </td>
-        </tr>
-        <tfoot>
+  <h6>{{ status }}</h6>
+  <b-container class="bv-example-row" v-if="searchStats.length > 0">
+    <b-collapse :visible="isCollapse" id="collapse-4">
+      <table class="table table-sm">
+        <thead class="thead-dark">
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+            <th scope="col">查詢</th>
+            <th scope="col">種類</th>
+            <th scope="col">詞綴內容</th>
+            <th scope="col">最小值</th>
+            <th scope="col">最大值</th>
+          </tr>
+        </thead>
+        <tbody class="searchStats">
+          <tr v-for="(item, index) in searchStats" :key="index" style="padding-top: 5px;" :style="item.isSearch ? '' : 'color: #AAACAD'">
+            <td style="width: 45px;">
+              <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
+            </td>
+            <td style="width: 45px;" :style="item.type === '隨機' ? '' : 'color: red;'" @click="item.isSearch = !item.isSearch">{{ item.type }} </td>
+            <td @click="item.isSearch = !item.isSearch">{{ item.text }} </td>
+            <td style="width: 64px; padding-top: 5px !important;">
+              <div style="padding:0px 4px 0px 6px;">
+                <b-form-input v-if="item.isValue" v-model.number="item.min" @dblclick="item.min = ''" :disabled="!item.isSearch" size="sm" type="number" style="text-align: center;"></b-form-input>
+              </div>
+            </td>
+            <td style="width: 64px; padding-top: 5px !important;">
+              <div style="padding:0px 4px 0px 6px;">
+                <b-form-input v-if="item.isValue" v-model.number="item.max" @dblclick="item.max = ''" :disabled="!item.isSearch" :style="item.max && (item.max < item.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number" style="text-align: center;"></b-form-input>
+              </div>
             </td>
           </tr>
-        </tfoot>
+        </tbody>
       </table>
+      <b-row>
+        <b-col sm="10"></b-col>
+        <b-col sm="2">
+          <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+        </b-col>
+      </b-row>
     </b-collapse>
-  </div>
-  <div>已搜尋次數 {{ count }} </div>
-  <div>搜尋狀態 {{ status }} </div>
+  </b-container>
   <!-- <div class="MapCopy">
     <h5>輿圖區域名稱複製</h5>
     <b-button-group>
@@ -184,14 +231,15 @@ export default {
   data() {
     return {
       count: 0,
-      status: `目前版本尚未支援搜尋稀有裝備(黃裝)及鍊魔器官`,
+      status: '',
       copyText: '',
       testResponse: '',
       isOnline: true,
       isPriced: true,
       isPopWindow: false,
-      isCollapse: true,
+      isCollapse: false,
       isItem: false,
+      isMap: true,
       searchStats: [], // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
       pseudoStats: [], // 偽屬性
       explicitStats: [], // 隨機屬性
@@ -203,6 +251,20 @@ export default {
       fetchQueryID: '',
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
+      mapItems: [], // 地圖集資料
+      leagues: { // 搜尋聯盟 
+        option: ["鍊魔聯盟", "鍊魔聯盟（專家）", "標準模式", "專家模式"],
+        chosenL: "鍊魔聯盟"
+      },
+      mapLevel: { // 地圖階級
+        min: 0,
+        max: '',
+        isSearch: false,
+      },
+      mapBasic: { // 地圖基底
+        text: '',
+        isSearch: false,
+      },
       itemLevel: { // 物品等級
         min: 0,
         max: '',
@@ -353,18 +415,18 @@ export default {
       this.fetchQueryID = ''
       this.axios.post(`http://localhost:3031/trade`, {
           searchJson: obj,
-          copyText: this.copyText
+          copyText: this.copyText,
+          league: this.leagues.chosenL
         })
         .then((response) => {
-          // TODO: 選擇各聯盟
           this.isCollapse = false
           this.count += 1;
           response.data.total = response.data.total == "100000" ? `${response.data.total}+` : response.data.total
-          this.status = `此次物品搜尋ID: ${response.data.id}, 總共 ${response.data.total} 筆符合`
+          this.status = `共 ${response.data.total} 筆符合`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
           if (this.isPopWindow) {
-            window.open(`https://web.poe.garena.tw/trade/search/%E9%8D%8A%E9%AD%94%E8%81%AF%E7%9B%9F/${response.data.id}`, '_blank', 'nodeIntegration=no')
+            window.open(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${response.data.id}`, '_blank', 'nodeIntegration=no')
           }
         })
         .catch(function (error) {
@@ -646,6 +708,9 @@ export default {
       })
       this.searchTrade(this.searchJson)
     },
+    mapAnalysis(itemArray) { // TODO: 地圖分析、設定篩選
+
+    },
     rareStatsAnalysis(itemArray) {
 
       let tempStat = []
@@ -661,7 +726,7 @@ export default {
           itemStatStart = index + 2
           itemLevelIndex = index
         }
-        if (element === "--------" && index !== itemStatStart + 1 && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
+        if (element === "--------" && index !== itemStatStart + 1 && index !== itemStatStart + 2 && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
         }
       });
@@ -872,6 +937,7 @@ export default {
       this.isItem = false
       this.isCollapse = true
       this.fetchQueryID = ''
+      this.status = ''
       this.searchStats = []
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
       const NL = this.newLine
@@ -1132,11 +1198,23 @@ export default {
         this.searchTrade(this.searchJson)
       }
     },
+    'leagues.chosenL': {
+      handler(newVal) {
+        if (_.isEmpty(this.searchJson)) {
+          return
+        }
+        this.searchTrade(this.searchJson)
+      },
+      deep: true
+    }
   },
   computed: {
     isSearchJson() {
       return !_.isEmpty(this.searchJson)
     },
+    pricedText() {
+      return this.isPriced ? "有標價" : "未標價"
+    }
   },
 }
 </script>
@@ -1157,5 +1235,9 @@ input[type=number]::-webkit-outer-spin-button {
 .lesspadding div {
   padding-left: 0px !important;
   padding-right: 5px !important;
+}
+
+tbody.searchStats>tr>td {
+  padding-top: 8px;
 }
 </style>

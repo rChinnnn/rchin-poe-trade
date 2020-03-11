@@ -3,13 +3,15 @@
 import {
   app,
   protocol,
-  BrowserWindow
+  BrowserWindow,
+  globalShortcut
 } from 'electron'
 import {
   createProtocol,
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
 import path from 'path'
+import hotkeys from "hotkeys-js";
 const server = require('./server');
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const os = require('os')
