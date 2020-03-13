@@ -13,7 +13,7 @@
         <b-button v-b-toggle.collapse-3 :disabled="!isMap" size="sm" variant="outline-primary">地圖基本設定</b-button>
       </b-col>
       <b-col align-self="end">
-        <b-button v-b-toggle.collapse-4 :disabled="searchStats.length == 0" size="sm" variant="outline-primary">詞綴搜尋設定</b-button>
+        <b-button v-b-toggle.collapse-2 :disabled="searchStats.length == 0" size="sm" variant="outline-primary">詞綴搜尋設定</b-button>
       </b-col>
     </b-row>
     <b-collapse visible id="collapse-1" class="mt-2">
@@ -49,8 +49,17 @@
   <b-container class="bv-example-row">
     <b-collapse :visible="isCollapse && isItem" id="collapse-2" class="mt-2">
       <b-card>
-        <!-- TODO: 全部物品篩選、增加稀有度選項 -->
+        <!-- TODO: 全部物品篩選 -->
         <b-row class="lesspadding">
+          <b-col sm="5"> </b-col>
+          <b-col sm="3" style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="raritySet.isSearch" @input="isRaritySearch" switch>稀有度</b-form-checkbox>
+          </b-col>
+          <b-col sm="4">
+            <v-select :options="raritySet.option" v-model="raritySet.chosenObj" @input="isRaritySearch" label="label" :disabled="!raritySet.isSearch" :clearable="false" :filterable="false"></v-select>
+          </b-col>
+        </b-row>
+        <b-row class="lesspadding" style="padding-top: 5px;">
           <b-col sm="3" style="padding-top: 3px;">
             <b-form-checkbox class="float-right" v-model="itemLevel.isSearch" @input="isLevelSearch" switch>物品等級</b-form-checkbox>
           </b-col>
@@ -94,6 +103,15 @@
     <b-collapse :visible="isMap" id="collapse-3" class="mt-2">
       <b-card>
         <b-row class="lesspadding">
+          <b-col sm="5"> </b-col>
+          <b-col sm="3" style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="raritySet.isSearch" @input="isRaritySearch" switch>稀有度</b-form-checkbox>
+          </b-col>
+          <b-col sm="4">
+            <v-select :options="raritySet.option" v-model="raritySet.chosenObj" @input="isRaritySearch" label="label" :disabled="!raritySet.isSearch" :clearable="false" :filterable="false"></v-select>
+          </b-col>
+        </b-row>
+        <b-row class="lesspadding" style="padding-top: 5px;">
           <b-col sm="3" style="padding-top: 3px;">
             <b-form-checkbox class="float-right" v-model="mapLevel.isSearch" @input="isMapLevelSearch" switch>地圖階級</b-form-checkbox>
           </b-col>
@@ -104,23 +122,26 @@
             <b-form-input v-model.number="mapLevel.max" @input="isMapLevelSearch" :disabled="!mapLevel.isSearch" :style="mapLevel.max && (mapLevel.max < mapLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
           </b-col>
           <b-col sm="3" style="padding-top: 6px;">
-            <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isBasicSearch" switch>地圖基底</b-form-checkbox>
+            <b-form-checkbox class="float-right" v-model="mapBasic.isSearch" @input="isMapBasicSearch" switch>地圖基底</b-form-checkbox>
           </b-col>
           <b-col sm="4">
-            <b-form-input v-model="mapBasic.text" :disabled="true"></b-form-input>
+            <!-- <b-form-input v-model="mapBasic.chosenM" :disabled="true"></b-form-input> -->
+            <v-select :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" label="label" :disabled="!mapBasic.isSearch" :clearable="false" :filterable="true"></v-select>
           </b-col>
         </b-row>
-        <b-row style="padding-top: 5px;" v-if="isMapDetail">
-          <b-col sm="4">
-            <b-form-checkbox v-model="mapCategory.isShaper" switch :inline="false">塑者領域</b-form-checkbox>
-          </b-col>
-          <b-col sm="4">
-            <b-form-checkbox v-model="mapCategory.isElder" switch :inline="false">尊師領域</b-form-checkbox>
-          </b-col>
-          <b-col sm="4">
-            <b-form-checkbox v-model="mapCategory.isBlighted" switch :inline="false">凋落地區</b-form-checkbox>
-          </b-col>
-        </b-row>
+        <b-collapse :visible="raritySet.chosenObj.label !== '傳奇'">
+          <b-row style="padding-top: 8px;">
+            <b-col sm="4">
+              <b-form-checkbox v-model="mapCategory.isShaper" switch :inline="false">塑者領域</b-form-checkbox>
+            </b-col>
+            <b-col sm="4">
+              <b-form-checkbox v-model="mapCategory.isElder" switch :inline="false">尊師領域</b-form-checkbox>
+            </b-col>
+            <b-col sm="4">
+              <b-form-checkbox v-model="mapCategory.isBlighted" switch :inline="false">凋落地區</b-form-checkbox>
+            </b-col>
+          </b-row>
+        </b-collapse>
         <b-collapse :visible="mapCategory.isElder">
           <b-row style="padding-top: 5px;">
             <b-col sm="4"></b-col>
@@ -143,9 +164,8 @@
   </b-container>
   <hr>
   <h5>{{ searchName }}</h5>
-  <h6>{{ status }}</h6>
   <b-container class="bv-example-row" v-if="searchStats.length > 0">
-    <b-collapse :visible="isCollapse" id="collapse-4">
+    <b-collapse :visible="isCollapse" id="collapse-2">
       <table class="table table-sm">
         <thead class="thead-dark">
           <tr>
@@ -184,8 +204,8 @@
       </b-row>
     </b-collapse>
   </b-container>
-  <!-- <div class="MapCopy">
-    <h5>輿圖區域名稱複製</h5>
+  <h6>{{ status }}</h6>
+  <!-- <div class="MapCopy"> // TODO: 輿圖區域名稱複製 
     <b-button-group>
       <b-button disabled variant="info">
         <b-icon-arrow-up-left></b-icon-arrow-up-left>左上
@@ -250,6 +270,7 @@ export default {
       isCollapse: false,
       isItem: true,
       isMap: false,
+      isMapDetail: false,
       searchStats: [], // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
       pseudoStats: [], // 偽屬性
       explicitStats: [], // 隨機屬性
@@ -261,10 +282,32 @@ export default {
       fetchQueryID: '',
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
-      mapItems: [], // 地圖集資料 TODO: 用 API 資料彙集整理
       leagues: { // 搜尋聯盟 
         option: ["鍊魔聯盟", "鍊魔聯盟（專家）", "標準模式", "專家模式"],
         chosenL: "鍊魔聯盟"
+      },
+      raritySet: { // 稀有度設定
+        option: [{
+          label: "一般",
+          prop: 'normal'
+        }, {
+          label: "魔法",
+          prop: 'magic'
+        }, {
+          label: "稀有",
+          prop: 'rare'
+        }, {
+          label: "傳奇",
+          prop: 'unique'
+        }, {
+          label: "非傳奇",
+          prop: 'nonunique'
+        }, ],
+        chosenObj: {
+          label: "任何",
+          prop: ''
+        },
+        isSearch: false,
       },
       mapLevel: { // 地圖階級
         min: 0,
@@ -297,7 +340,8 @@ export default {
         isSearch: false,
       },
       mapBasic: { // 地圖基底
-        text: '',
+        option: [],
+        chosenM: '無',
         isSearch: false,
       },
       itemLevel: { // 物品等級
@@ -673,6 +717,16 @@ export default {
                 break;
             }
           });
+          result[7].entries.forEach((element, index) => { // "label": "地圖"(631筆) 只抓 warfortheatlas 一般地圖基底
+            switch (true) {
+              // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
+              case index >= 28 && index <= 169:
+                this.mapBasic.option.push(element.text)
+                break;
+              default:
+                break;
+            }
+          });
         })
         .catch(function (error) {
           console.log(error);
@@ -821,12 +875,33 @@ export default {
         })
       })
     },
+    isRaritySearch() {
+      if (!this.raritySet.isSearch && !_.isEmpty(this.searchJson)) {
+        delete this.searchJson.query.filters.type_filters.filters.rarity // 刪除稀有度 filter
+      } else if (this.raritySet.isSearch && !_.isEmpty(this.searchJson)) {
+        this.searchJson.query.filters.type_filters.filters.rarity = { // 增加稀有度 filter
+          "option": this.raritySet.chosenObj.prop
+        }
+        if (this.isMap && this.raritySet.chosenObj.label === '傳奇') {
+          this.mapCategory = {
+            isShaper: false,
+            isElder: false,
+            isBlighted: false
+          }
+        }
+      }
+    },
     itemAnalysis(item, itemArray, matchItem) {
       const NL = this.newLine
       this.itemCategory.option.length = 0
       this.itemExBasic.chosenObj = {
         label: "任何",
         prop: ''
+      }
+      this.raritySet.isSearch = true
+      this.raritySet.chosenObj = {
+        label: "非傳奇",
+        prop: 'nonunique'
       }
       // 判斷物品基底
       this.itemBasic.text = matchItem.text
@@ -951,15 +1026,20 @@ export default {
       }
       this.itemExBasic.chosenObj = value
     },
-    mapAnalysis(item, itemArray, Rarity) { // TODO: 地圖基底分析
+    mapAnalysis(item, itemArray, Rarity) {
       const NL = this.newLine
-      let searchName = itemArray[1]
+      let searchName = ''
       this.isMap = true
       this.isMapDetail = Rarity === "傳奇" ? false : true
       this.mapCategory = {
         isShaper: false,
         isElder: false,
         isBlighted: false
+      }
+      this.raritySet.isSearch = true
+      this.raritySet.chosenObj = {
+        label: "非傳奇",
+        prop: 'nonunique'
       }
       let mapPos = item.substring(item.indexOf('地圖階級:') + 5) // 地圖階級截斷字串
       let mapPosEnd = mapPos.indexOf(NL) // 地圖階級換行定位點
@@ -971,26 +1051,25 @@ export default {
         "min": this.mapLevel.min,
         "max": this.mapLevel.max
       }
+      this.mapBasic.option.forEach(element => {
+        if (item.indexOf(element) > -1) {
+          this.mapBasic.chosenM = element
+        }
+      });
+      this.mapBasic.isSearch = false
       // this.searchJson.query.type = { // TODO? 支援過往地圖類別
       //   "discriminator": "warfortheatlas"
       // }
       this.searchJson.query.filters.map_filters.filters.map_blighted = { // 過濾凋落圖
         "option": "false"
       }
-      if (Rarity === "傳奇" && item.indexOf('未鑑定') > -1) { // 未鑑定傳奇地圖
-        if (searchName.indexOf('精良的') > -1) {
-          searchName = searchName.substring(4)
+      if (Rarity === "傳奇") { //傳奇地圖
+        this.raritySet.isSearch = true
+        this.raritySet.chosenObj = {
+          label: "傳奇",
+          prop: 'unique'
         }
-        this.searchJson.query.type = {
-          "option": searchName
-        }
-        this.searchJson.query.filters.type_filters.filters = {
-          "rarity": {
-            "option": "unique"
-          }
-        }
-      } else if (Rarity === "傳奇") { // 已鑑定傳奇地圖
-        this.searchJson.query.name = searchName
+        this.mapBasic.isSearch = true
       } else if (item.indexOf('區域被塑界者控制 (implicit)') > -1) { // 塑界者地圖
         this.mapCategory.isShaper = true
         this.searchJson.query.stats[0].filters[0] = {
@@ -1061,14 +1140,17 @@ export default {
         this.searchJson.query.filters.map_filters.filters.map_blighted = {
           "option": "true"
         }
-      } else { // 白.藍.黃圖，單純抓地圖階級與地圖名稱
-        this.searchJson.query.filters.type_filters.filters = {
-          "rarity": {
-            "option": "nonunique"
-          }
-        }
+      } else { // error handle
+        this.status = `Oops! 尚未支援搜尋此種地圖`
       }
       this.searchTrade(this.searchJson)
+    },
+    isMapBasicSearch() {
+      if (!this.mapBasic.isSearch && !_.isEmpty(this.searchJson)) {
+        delete this.searchJson.query.type // 刪除地圖基底 filter
+      } else if (this.mapBasic.isSearch && !_.isEmpty(this.searchJson)) {
+        this.searchJson.query.type = this.mapBasic.chosenM // 增加地圖基底 filter
+      }
     },
     isMapLevelSearch() {
       if (!this.mapLevel.isSearch && !_.isEmpty(this.searchJson)) {
@@ -1134,6 +1216,11 @@ export default {
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
         if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
           this.searchJson.query.name = searchName
+          this.raritySet.isSearch = true
+          this.raritySet.chosenObj = {
+            label: "傳奇",
+            prop: 'unique'
+          }
           let tempStat = []
           if (searchName === "看守之眼") { // 尊師三相珠寶 
             tempStat.push(stringSimilarity.findBestMatch(itemArray[11], this.explicitStats))
@@ -1169,7 +1256,6 @@ export default {
                 "type": "傳奇",
                 "isSearch": true,
               })
-              // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
             })
             return // 選擇詞墜後再搜尋
           } else if (searchName === "奧爾的崛起") {
@@ -1196,12 +1282,12 @@ export default {
           if (searchName.indexOf('精良的') > -1) { // 未鑑定的品質傳奇物品
             searchName = searchName.substring(4)
           }
-          this.searchJson.query.type = searchName
-          this.searchJson.query.filters.type_filters.filters = {
-            "rarity": {
-              "option": "unique"
-            }
+          this.raritySet.isSearch = true
+          this.raritySet.chosenObj = {
+            label: "傳奇",
+            prop: 'unique'
           }
+          this.searchJson.query.type = searchName
         }
       } else if (Rarity === "命運卡" || Rarity === "通貨") {
         this.searchJson.query.type = searchName
@@ -1237,7 +1323,7 @@ export default {
         this.rareStatsAnalysis(itemArray)
         return
       } else {
-        this.status = `目前版本尚未支援搜尋藍裝及鍊魔器官`
+        this.status = `目前版本尚未支援搜尋鍊魔器官及非傳奇藥劑`
         return
         // this.copyText = `Rarity：${Rarity}、length: ${Rarity.length}`
       }
@@ -1290,7 +1376,7 @@ export default {
       },
       deep: true
     },
-    'mapCategory.isShaper': {
+    'mapCategory.isShaper': { // TODO: 判斷塑者/尊師/凋落圖方式需重構
       handler(newVal) {
         if (newVal) {
           this.searchJson.query.stats[0].filters.length = 0

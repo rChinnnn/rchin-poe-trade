@@ -32,7 +32,7 @@ protocol.registerSchemesAsPrivileged([{
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: os.platform() === 'darwin' ? 1350 : 650,
+    width: os.platform() === 'darwin' ? 1500 : 650,
     height: os.platform() === 'darwin' ? 850 : 750,
     webPreferences: {
       defaultFontFamily: {
