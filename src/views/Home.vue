@@ -898,11 +898,12 @@ export default {
         label: "任何",
         prop: ''
       }
-      this.raritySet.isSearch = true
       this.raritySet.chosenObj = {
         label: "非傳奇",
         prop: 'nonunique'
       }
+      this.raritySet.isSearch = true
+      this.isRaritySearch()
       // 判斷物品基底
       this.itemBasic.text = matchItem.text
       // 判斷物品等級
@@ -1036,7 +1037,7 @@ export default {
         isElder: false,
         isBlighted: false
       }
-      this.raritySet.isSearch = true
+      this.raritySet.isSearch = false
       this.raritySet.chosenObj = {
         label: "非傳奇",
         prop: 'nonunique'
@@ -1047,10 +1048,7 @@ export default {
       this.mapLevel.min = mapTier
       this.mapLevel.max = mapTier
       this.mapLevel.isSearch = true
-      this.searchJson.query.filters.map_filters.filters.map_tier = { // 指定地圖階級最小 / 最大值 filter
-        "min": this.mapLevel.min,
-        "max": this.mapLevel.max
-      }
+      this.isMapLevelSearch()
       this.mapBasic.option.forEach(element => {
         if (item.indexOf(element) > -1) {
           this.mapBasic.chosenM = element
@@ -1064,12 +1062,14 @@ export default {
         "option": "false"
       }
       if (Rarity === "傳奇") { //傳奇地圖
-        this.raritySet.isSearch = true
         this.raritySet.chosenObj = {
           label: "傳奇",
           prop: 'unique'
         }
+        this.raritySet.isSearch = true
+        this.isRaritySearch()
         this.mapBasic.isSearch = true
+        this.isMapBasicSearch()
       } else if (item.indexOf('區域被塑界者控制 (implicit)') > -1) { // 塑界者地圖
         this.mapCategory.isShaper = true
         this.searchJson.query.stats[0].filters[0] = {
@@ -1194,6 +1194,10 @@ export default {
       this.isMapDetail = false
       this.isItem = false
       this.isCollapse = true
+      this.raritySet.isSearch = false
+      this.itemLevel.isSearch = false
+      this.itemBasic.isSearch = false
+      this.itemExBasic.isSearch = false
       this.fetchQueryID = ''
       this.status = ''
       this.searchStats = []
@@ -1216,11 +1220,12 @@ export default {
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
         if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
           this.searchJson.query.name = searchName
-          this.raritySet.isSearch = true
           this.raritySet.chosenObj = {
             label: "傳奇",
             prop: 'unique'
           }
+          this.raritySet.isSearch = true
+          this.isRaritySearch()
           let tempStat = []
           if (searchName === "看守之眼") { // 尊師三相珠寶 
             tempStat.push(stringSimilarity.findBestMatch(itemArray[11], this.explicitStats))
@@ -1282,11 +1287,12 @@ export default {
           if (searchName.indexOf('精良的') > -1) { // 未鑑定的品質傳奇物品
             searchName = searchName.substring(4)
           }
-          this.raritySet.isSearch = true
           this.raritySet.chosenObj = {
             label: "傳奇",
             prop: 'unique'
           }
+          this.raritySet.isSearch = true
+          this.isRaritySearch()
           this.searchJson.query.type = searchName
         }
       } else if (Rarity === "命運卡" || Rarity === "通貨") {
