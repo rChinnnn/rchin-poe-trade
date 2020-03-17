@@ -1054,7 +1054,7 @@ export default {
       }
     },
     isItemCategorySearch() {
-      if (!this.itemCategory.isSearch && !this.itemCategory.chosenObj.prop && !_.isEmpty(this.searchJson)) {
+      if (!this.itemCategory.isSearch && this.itemCategory.chosenObj.prop && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.filters.type_filters.filters.category // 刪除物品種類 filter
       } else if (this.itemCategory.isSearch && this.itemCategory.chosenObj.prop && !_.isEmpty(this.searchJson)) {
         this.searchJson.query.filters.type_filters.filters.category = { // 增加物品種類 filter
@@ -1272,6 +1272,7 @@ export default {
       }
       this.isMap = false
       this.isItem = false
+      this.isGem = false
       this.raritySet.isSearch = false
       this.itemLevel.isSearch = false
       this.itemBasic.isSearch = false
@@ -1378,7 +1379,13 @@ export default {
       } else if (Rarity === "命運卡" || Rarity === "通貨") {
         this.searchJson.query.type = searchName
       } else if (Rarity === "寶石") {
+        this.isGem = true
         this.gemBasic.chosenG = searchName
+
+        let levelPos = item.substring(item.indexOf('等級: ') + 4)
+        let levelPosEnd = levelPos.indexOf(NL)
+        this.gemLevel.min = parseInt(levelPos.substring(0, levelPosEnd).replace(/[+-]^\D+/g, ''), 10)
+
         let minQuality = 0
         if (item.indexOf('品質: +') > -1) {
           let quaPos = item.substring(item.indexOf('品質: +') + 5) // 品質截斷字串 (包含'品質: +'前的字串全截斷)
@@ -1560,10 +1567,10 @@ tbody.searchStats>tr>td {
 
 .toast-center-center {
   position: absolute;
-  top: 49%;
-  left: 50%;
-  -ms-transform: translateX(-50%) translateY(-50%);
+  top: 48%;
+  left: 35%;
+  /* -ms-transform: translateX(-50%) translateY(-50%);
   -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
 }
 </style>

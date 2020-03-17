@@ -34,9 +34,9 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: os.platform() === 'darwin' ? 1500 : 650,
     height: os.platform() === 'darwin' ? 900 : 900,
-    minWidth: os.platform() === 'darwin' ? 100 : 580,
+    minWidth: os.platform() === 'darwin' ? 100 : 600,
     minHeight: 500,
-    maxWidth: os.platform() === 'darwin' ? 2000 : 650,
+    maxWidth: os.platform() === 'darwin' ? 2000 : 700,
     autoHideMenuBar: true,
     fullscreenable: false,
     webPreferences: {
@@ -78,7 +78,7 @@ function createWindow() {
   globalShortcut.register('F6', () => {
     console.log('F6 is pressed')
     mainWindow.setAlwaysOnTop(false);
-    mainWindow.hide()
+    // mainWindow.hide()
   })
 }
 

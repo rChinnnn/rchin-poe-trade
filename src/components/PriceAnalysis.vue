@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="padding-top: 10px;">
   <div>
     <b-img :src="itemImage" style="max-height:100px;"></b-img>
   </div>
@@ -96,6 +96,7 @@ export default {
               if (this.fetchResult[0].length !== 0 && !this.itemImage) {
                 this.itemImage = this.fetchResult[0][0][0].item.icon
                 this.isLoading = false;
+                // TODO: 改為 isLoading 為 false 時，查詢 pending
               }
             })
             .catch(function (error) {
