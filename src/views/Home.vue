@@ -2,24 +2,27 @@
 <div class="home">
   <hr>
   <b-container class="bv-example-row">
-    <b-row style="padding: 5px;">
-      <b-col align-self="start">
-        <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜尋基本設定</b-button>
+    <b-row class="lesspadding">
+      <b-col align-self="center">
+        <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜尋設定</b-button>
       </b-col>
       <b-col align-self="center">
-        <b-button @click="isItemCollapse = !isItemCollapse" :disabled="!isItem" size="sm" variant="outline-primary">物品基本設定</b-button>
+        <b-button @click="isItemCollapse = !isItemCollapse" :disabled="!isItem" size="sm" variant="outline-primary">物品設定</b-button>
       </b-col>
       <b-col align-self="center">
-        <b-button @click="isMapCollapse = !isMapCollapse" :disabled="!isMap" size="sm" variant="outline-primary">地圖基本設定</b-button>
+        <b-button @click="isStatsCollapse = !isStatsCollapse" :disabled="searchStats.length == 0" size="sm" variant="outline-primary">詞綴設定</b-button>
       </b-col>
-      <b-col align-self="end">
-        <b-button @click="isStatsCollapse = !isStatsCollapse" :disabled="searchStats.length == 0" size="sm" variant="outline-primary">詞綴搜尋設定</b-button>
+      <b-col align-self="center">
+        <b-button @click="isMapCollapse = !isMapCollapse" :disabled="!isMap" size="sm" variant="outline-primary">地圖設定</b-button>
+      </b-col>
+      <b-col align-self="center">
+        <b-button @click="isGemCollapse = !isGemCollapse" :disabled="!isGem" size="sm" variant="outline-primary">技能設定</b-button>
       </b-col>
     </b-row>
     <b-collapse visible id="collapse-1" class="mt-2">
       <b-card>
         <b-row>
-          <b-col sm="5" style="padding-left: 25px;">
+          <b-col sm="5" style="padding-left: 15px;">
             <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
           </b-col>
           <b-col sm="3" style="padding-top: 5px;">
@@ -27,7 +30,7 @@
           </b-col>
         </b-row>
         <b-row style="padding-top: 10px;">
-          <b-col>
+          <b-col style="padding-left: 8px;">
             <b-form-checkbox v-model="isOnline" switch :inline="false">
               <b>只顯示線上</b>
             </b-form-checkbox>
@@ -37,9 +40,52 @@
               <b>{{ pricedText }}</b>
             </b-form-checkbox>
           </b-col>
-          <b-col>
+          <b-col sm="5" style="padding-left: 0px;">
+            <b-form-checkbox v-model="isMapAreaCollapse" switch :inline="false">
+              <b>輿圖區域名稱複製</b>
+            </b-form-checkbox>
           </b-col>
         </b-row>
+        <b-collapse :visible="isMapAreaCollapse">
+          <b-row style="padding-top: 8px;">
+            <b-col sm="12" style="padding-top: 8px;">
+              <b-button-group>
+                <b-button disabled size="" variant="outline-info">
+                  <b-icon-arrow-up-left></b-icon-arrow-up-left>左上
+                </b-button>
+                <b-button @click="mapAreaCopy('特恩之盡')" size="" variant="outline-primary">特恩之盡 (左上內)</b-button>
+                <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
+              </b-button-group>
+            </b-col>
+            <b-col sm="12" style="padding-top: 8px;">
+              <b-button-group>
+                <b-button disabled size="" variant="outline-info">
+                  <b-icon-arrow-up-right></b-icon-arrow-up-right>右上
+                </b-button>
+                <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
+                <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
+              </b-button-group>
+            </b-col>
+            <b-col sm="12" style="padding-top: 8px;">
+              <b-button-group>
+                <b-button disabled size="" variant="outline-info">
+                  <b-icon-arrow-down-left></b-icon-arrow-down-left>左下
+                </b-button>
+                <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
+                <b-button @click="mapAreaCopy('新瓦斯提里')" size="" variant="outline-primary">新瓦斯提里 (左下外)</b-button>
+              </b-button-group>
+            </b-col>
+            <b-col sm="12" style="padding-top: 8px;">
+              <b-button-group>
+                <b-button disabled size="" variant="outline-info">
+                  <b-icon-arrow-down-right></b-icon-arrow-down-right>右下
+                </b-button>
+                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
+                <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
+              </b-button-group>
+            </b-col>
+          </b-row>
+        </b-collapse>
       </b-card>
     </b-collapse>
   </b-container>
@@ -49,13 +95,13 @@
         <!-- TODO: 全部物品篩選 -->
         <b-row class="lesspadding">
           <b-col sm="3" style="padding-top: 6px;">
-            <b-form-checkbox class="float-right" v-model="itemLevel.isSearch" @input="isLevelSearch" switch>物品等級</b-form-checkbox>
+            <b-form-checkbox class="float-right" v-model="itemLevel.isSearch" @input="isItemLevelSearch" switch>物品等級</b-form-checkbox>
           </b-col>
           <b-col sm="1" style="padding-top: 3px;">
-            <b-form-input v-model.number="itemLevel.min" @input="isLevelSearch" :disabled="!itemLevel.isSearch" size="sm" type="number"></b-form-input>
+            <b-form-input v-model.number="itemLevel.min" @input="isItemLevelSearch" :disabled="!itemLevel.isSearch" size="sm" type="number"></b-form-input>
           </b-col>
           <b-col sm="1" style="padding-top: 3px;">
-            <b-form-input v-model.number="itemLevel.max" @input="isLevelSearch" :disabled="!itemLevel.isSearch" :style="itemLevel.max && (itemLevel.max < itemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+            <b-form-input v-model.number="itemLevel.max" @input="isItemLevelSearch" :disabled="!itemLevel.isSearch" :style="itemLevel.max && (itemLevel.max < itemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
           </b-col>
           <b-col sm="3" style="padding-top: 6px;">
             <b-form-checkbox class="float-right" v-model="raritySet.isSearch" @input="isRaritySearch" switch>稀有度</b-form-checkbox>
@@ -66,14 +112,14 @@
         </b-row>
         <b-row class="lesspadding" style="padding-top: 5px;">
           <b-col sm="3" style="padding-top: 6px;">
-            <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isBasicSearch" switch>物品基底</b-form-checkbox>
+            <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isItemBasicSearch" switch>物品基底</b-form-checkbox>
           </b-col>
           <b-col sm="2">
             <b-form-input v-model="itemBasic.text" :disabled="true"></b-form-input>
           </b-col>
           <b-col sm="1"></b-col>
           <b-col sm="2" style="padding-top: 5px;">
-            <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isCategorySearch" switch>物品分類</b-form-checkbox>
+            <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isItemCategorySearch" switch>物品分類</b-form-checkbox>
           </b-col>
           <b-col sm="4">
             <v-select :options="itemCategory.option" v-model="itemCategory.chosenObj" label="label" @input="categoryChange" :disabled="!itemCategory.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
@@ -167,6 +213,49 @@
       </b-card>
     </b-collapse>
   </b-container>
+  <b-container class="bv-example-row">
+    <b-collapse :visible="isGem && isGemCollapse" class="mt-2">
+      <b-card>
+        <b-row class="lesspadding">
+          <b-col sm="3" style="padding-top: 3px;">
+            <b-form-checkbox class="float-right" v-model="gemLevel.isSearch" @input="isGemLevelSearch" switch>技能等級</b-form-checkbox>
+          </b-col>
+          <b-col sm="1">
+            <b-form-input v-model.number="gemLevel.min" @input="isGemLevelSearch" :disabled="!gemLevel.isSearch" size="sm" type="number"></b-form-input>
+          </b-col>
+          <b-col sm="1">
+            <b-form-input v-model.number="gemLevel.max" @input="isGemLevelSearch" :disabled="!gemLevel.isSearch" :style="gemLevel.max && (gemLevel.max < gemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+          </b-col>
+          <b-col sm="3" style="padding-top: 3px;">
+            <b-form-checkbox class="float-right" v-model="gemQuality.isSearch" @input="isGemQualitySearch" switch>技能品質</b-form-checkbox>
+          </b-col>
+          <b-col sm="1">
+            <b-form-input v-model.number="gemQuality.min" @input="isGemQualitySearch" :disabled="!gemQuality.isSearch" size="sm" type="number"></b-form-input>
+          </b-col>
+          <b-col sm="1">
+            <b-form-input v-model.number="gemQuality.max" @input="isGemQualitySearch" :disabled="!gemQuality.isSearch" :style="gemQuality.max && (gemQuality.max < gemQuality.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="lesspadding" style="padding-top: 10px;">
+          <b-col sm="4" style="padding-top: 6px;">
+            <b-form-checkbox v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
+          </b-col>
+          <b-col sm="3" style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="gemBasic.isSearch" @input="isGemBasicSearch" switch>技能基底</b-form-checkbox>
+          </b-col>
+          <b-col sm="5">
+            <v-select :options="gemBasic.option" v-model="gemBasic.chosenG" @input="isGemBasicSearch" label="label" :disabled="!gemBasic.isSearch" :clearable="false" :filterable="true"></v-select>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col sm="10"></b-col>
+          <b-col sm="2" style="padding-top: 15px;">
+            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-collapse>
+  </b-container>
   <hr>
   <h5>{{ searchName }}</h5>
   <b-container class="bv-example-row">
@@ -210,36 +299,6 @@
     </b-collapse>
   </b-container>
   <h6>{{ status }}</h6>
-  <!-- <div class="MapCopy"> // TODO: 輿圖區域名稱複製 
-    <b-button-group>
-      <b-button disabled variant="info">
-        <b-icon-arrow-up-left></b-icon-arrow-up-left>左上
-      </b-button>
-      <b-button @click="mapAreaCopy('Success')">Success</b-button>
-      <b-button @click="mapAreaCopy('Info')">Info</b-button>
-    </b-button-group>
-    <b-button-group>
-      <b-button disabled variant="info">
-        <b-icon-arrow-up-right></b-icon-arrow-up-right>右上
-      </b-button>
-      <b-button @click="mapAreaCopy('Success')">Success</b-button>
-      <b-button @click="mapAreaCopy('Info')">Info</b-button>
-    </b-button-group>
-    <b-button-group>
-      <b-button disabled variant="info">
-        <b-icon-arrow-down-left></b-icon-arrow-down-left>左下
-      </b-button>
-      <b-button @click="mapAreaCopy('Success')">Success</b-button>
-      <b-button @click="mapAreaCopy('Info')">Info</b-button>
-    </b-button-group>
-    <b-button-group>
-      <b-button disabled variant="info">
-        <b-icon-arrow-down-right></b-icon-arrow-down-right>右下
-      </b-button>
-      <b-button @click="mapAreaCopy('Success')">Success</b-button>
-      <b-button @click="mapAreaCopy('Info')">Info</b-button>
-    </b-button-group>
-  </div> -->
   <div v-if="fetchQueryID">
     <b-button @click="popOfficialWebsite" size="sm" variant="outline-primary">官方交易市集</b-button>
     <PriceAnalysis :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
@@ -275,10 +334,13 @@ export default {
       isPriced: true,
       isItem: false,
       isMap: false,
+      isGem: false,
       isCorrupted: false,
       isItemCollapse: true,
       isMapCollapse: true,
+      isGemCollapse: true,
       isStatsCollapse: true,
+      isMapAreaCollapse: false,
       searchStats: [], // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
       pseudoStats: [], // 偽屬性
       explicitStats: [], // 隨機屬性
@@ -395,6 +457,21 @@ export default {
         },
         isSearch: false,
       },
+      gemLevel: { // 技能寶石等級
+        min: 0,
+        max: '',
+        isSearch: false,
+      },
+      gemQuality: { // 技能寶石品質
+        min: 0,
+        max: '',
+        isSearch: false,
+      },
+      gemBasic: { // 技能寶石基底
+        option: [],
+        chosenG: '無',
+        isSearch: false,
+      },
       searchJson: {},
       searchJson_Def: {
         "query": {
@@ -434,7 +511,7 @@ export default {
           "status": {
             "option": "online"
           },
-          "type": "寶鑽戒指", // 物品基底 isBasicSearch
+          "type": "寶鑽戒指", // 物品基底 isItemBasicSearch
           "stats": [{
             "type": "and",
             "filters": []
@@ -442,7 +519,7 @@ export default {
           "filters": {
             "misc_filters": {
               "filters": {
-                "ilvl": { // 物品等級 isLevelSearch
+                "ilvl": { // 物品等級 isItemLevelSearch
                   "min": 86
                 },
                 "crusader_item": { // 勢力區域 isExBasicSearch
@@ -451,11 +528,17 @@ export default {
                 "corrupted": { // 是否污染 isCorruptedSearch
                   "option": "true"
                 },
+                "gem_level": { // 技能等級 isGemLevelSearch
+                  "min": 10
+                },
+                "quality": { // 技能品質 isGemQualitySearch
+                  "min": 10
+                },
               }
             },
             "type_filters": {
               "filters": {
-                "category": { // 物品種類 isCategorySearch
+                "category": { // 物品種類 isItemCategorySearch
                   "option": "accessory.ring", // 戒指
                 }
               }
@@ -735,6 +818,9 @@ export default {
                 break;
             }
           });
+          result[5].entries.forEach((element, index) => { // "label": "技能寶石"(418筆)
+            this.gemBasic.option.push(element.text)
+          });
         })
         .catch(function (error) {
           console.log(error);
@@ -742,45 +828,13 @@ export default {
     },
     mapAreaCopy(name) {
       clipboard.writeText(name)
-    },
-    similarity(s1, s2) { // 字串吻合度比較 this.similarity(第一字串.第二字串)
-      var longer = s1;
-      var shorter = s2;
-      if (s1.length < s2.length) {
-        longer = s2;
-        shorter = s1;
-      }
-      var longerLength = longer.length;
-      if (longerLength == 0) {
-        return 1.0;
-      }
-      return (longerLength - this.editDistance(longer, shorter)) / parseFloat(longerLength);
-    },
-    editDistance(s1, s2) {
-      s1 = s1.toLowerCase();
-      s2 = s2.toLowerCase();
-
-      var costs = new Array();
-      for (var i = 0; i <= s1.length; i++) {
-        var lastValue = i;
-        for (var j = 0; j <= s2.length; j++) {
-          if (i == 0)
-            costs[j] = j;
-          else {
-            if (j > 0) {
-              var newValue = costs[j - 1];
-              if (s1.charAt(i - 1) != s2.charAt(j - 1))
-                newValue = Math.min(Math.min(newValue, lastValue),
-                  costs[j]) + 1;
-              costs[j - 1] = lastValue;
-              lastValue = newValue;
-            }
-          }
-        }
-        if (i > 0)
-          costs[s2.length] = lastValue;
-      }
-      return costs[s2.length];
+      this.$bvToast.toast(`${name} 區域已複製!`, {
+        noCloseButton: true,
+        toaster: 'toast-center-center',
+        variant: 'primary',
+        autoHideDelay: 800,
+        appendToast: false
+      })
     },
     clickToSearch() { // TODO: 重構物品/地圖交替搜尋時邏輯
       if (this.isItem) {
@@ -936,7 +990,7 @@ export default {
         })
       }
       this.itemCategory.isSearch = true
-      this.isCategorySearch()
+      this.isItemCategorySearch()
       // 判斷勢力基底
       this.itemExBasic.isSearch = true
       switch (true) {
@@ -982,7 +1036,7 @@ export default {
       }
       this.isExBasicSearch()
     },
-    isLevelSearch() {
+    isItemLevelSearch() {
       if (!this.itemLevel.isSearch && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.filters.misc_filters.filters.ilvl // 刪除物品等級 filter
       } else if (this.itemLevel.isSearch && !_.isEmpty(this.searchJson)) {
@@ -992,14 +1046,14 @@ export default {
         }
       }
     },
-    isBasicSearch() {
+    isItemBasicSearch() {
       if (!this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.type // 刪除物品基底 filter
       } else if (this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
         this.searchJson.query.type = this.itemBasic.text // 增加物品基底 filter
       }
     },
-    isCategorySearch() {
+    isItemCategorySearch() {
       if (!this.itemCategory.isSearch && !this.itemCategory.chosenObj.prop && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.filters.type_filters.filters.category // 刪除物品種類 filter
       } else if (this.itemCategory.isSearch && this.itemCategory.chosenObj.prop && !_.isEmpty(this.searchJson)) {
@@ -1173,6 +1227,33 @@ export default {
         }
       }
     },
+    isGemBasicSearch() {
+      if (!this.gemBasic.isSearch && !_.isEmpty(this.searchJson)) {
+        delete this.searchJson.query.type // 刪除技能基底 filter
+      } else if (this.gemBasic.isSearch && !_.isEmpty(this.searchJson)) {
+        this.searchJson.query.type = this.gemBasic.chosenG // 增加技能基底 filter
+      }
+    },
+    isGemLevelSearch() {
+      if (!this.gemLevel.isSearch && !_.isEmpty(this.searchJson)) {
+        delete this.searchJson.query.filters.misc_filters.filters.gem_level // 刪除技能等級 filter
+      } else if (this.gemLevel.isSearch && !_.isEmpty(this.searchJson)) {
+        this.searchJson.query.filters.misc_filters.filters.gem_level = { // 指定技能等級最小 / 最大值 filter
+          "min": this.gemLevel.min,
+          "max": this.gemLevel.max
+        }
+      }
+    },
+    isGemQualitySearch() {
+      if (!this.gemQuality.isSearch && !_.isEmpty(this.searchJson)) {
+        delete this.searchJson.query.filters.misc_filters.filters.quality // 刪除技能品質 filter
+      } else if (this.gemQuality.isSearch && !_.isEmpty(this.searchJson)) {
+        this.searchJson.query.filters.misc_filters.filters.quality = { // 指定技能品質最小 / 最大值 filter
+          "min": this.gemQuality.min,
+          "max": this.gemQuality.max
+        }
+      }
+    },
     checkValue(event, item, ref) {
       if (event < 0) {
         if (ref == "min") {
@@ -1194,6 +1275,8 @@ export default {
       this.raritySet.isSearch = false
       this.itemLevel.isSearch = false
       this.itemBasic.isSearch = false
+      this.gemLevel.isSearch = false
+      this.isCorrupted = false
       this.fetchQueryID = ''
       this.status = ''
       this.searchStats = []
@@ -1295,26 +1378,24 @@ export default {
       } else if (Rarity === "命運卡" || Rarity === "通貨") {
         this.searchJson.query.type = searchName
       } else if (Rarity === "寶石") {
-        this.searchJson.query.type = searchName
-        let gemQuality = 0
+        this.gemBasic.chosenG = searchName
+        let minQuality = 0
         if (item.indexOf('品質: +') > -1) {
           let quaPos = item.substring(item.indexOf('品質: +') + 5) // 品質截斷字串 (包含'品質: +'前的字串全截斷)
           let quaPosEnd = quaPos.indexOf('% (augmented)') // 品質定位點
-          gemQuality = parseInt(quaPos.substring(0, quaPosEnd).trim(), 10)
+          minQuality = parseInt(quaPos.substring(0, quaPosEnd).trim(), 10)
         }
+        this.gemQuality.min = minQuality
         if (item.indexOf('瓦爾．') > -1) { // 瓦爾技能
           let vaalPos = item.substring(item.indexOf('瓦爾．'))
           let vaalPosEnd = vaalPos.indexOf(NL)
           let vaalGem = vaalPos.substring(0, vaalPosEnd)
-          this.searchJson.query.type = vaalGem
+          this.gemBasic.chosenG = vaalGem
         }
-        this.searchJson.query.filters.misc_filters = {
-          "filters": {
-            "quality": {
-              "min": gemQuality
-            }
-          }
-        }
+        this.gemBasic.isSearch = true
+        this.isGemBasicSearch()
+        this.gemQuality.isSearch = true
+        this.isGemQualitySearch()
       } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('前往試練者廣場使用此物品進入帝王迷宮') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1)) {
         // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器
         this.searchJson.query.type = searchName
@@ -1475,5 +1556,14 @@ input[type=number]::-webkit-outer-spin-button {
 
 tbody.searchStats>tr>td {
   padding-top: 8px;
+}
+
+.toast-center-center {
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 </style>

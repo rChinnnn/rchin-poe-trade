@@ -34,6 +34,11 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: os.platform() === 'darwin' ? 1500 : 650,
     height: os.platform() === 'darwin' ? 900 : 900,
+    minWidth: os.platform() === 'darwin' ? 100 : 580,
+    minHeight: 500,
+    maxWidth: os.platform() === 'darwin' ? 2000 : 650,
+    autoHideMenuBar: true,
+    fullscreenable: false,
     webPreferences: {
       defaultFontFamily: {
         standard: "Microsoft YaHei"
@@ -43,7 +48,8 @@ function createWindow() {
       webSecurity: false,
       // nodeIntegrationInWorker: true
       // preload: path.join(app.getAppPath(), 'preload.js')
-    }
+    },
+    icon: `${__static}/app.ico`
   })
   if (os.platform() === 'darwin') {
     BrowserWindow.addDevToolsExtension(
@@ -63,6 +69,16 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null
+  })
+  globalShortcut.register('F5', () => {
+    console.log('F5 is pressed')
+    mainWindow.setAlwaysOnTop(true);
+    mainWindow.moveTop()
+  })
+  globalShortcut.register('F6', () => {
+    console.log('F6 is pressed')
+    mainWindow.setAlwaysOnTop(false);
+    mainWindow.hide()
   })
 }
 
