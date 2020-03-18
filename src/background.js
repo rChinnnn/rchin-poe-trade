@@ -71,14 +71,30 @@ function createWindow() {
     mainWindow = null
   })
   globalShortcut.register('F5', () => {
-    console.log('F5 is pressed')
+    console.log('F5 is pressed, setAlwaysOnTop(true), restore()')
+    mainWindow.restore()
+    mainWindow.setOpacity(mainWindow.getOpacity() === 1 ? 0.9 : mainWindow.getOpacity())
     mainWindow.setAlwaysOnTop(true);
-    mainWindow.moveTop()
   })
   globalShortcut.register('F6', () => {
-    console.log('F6 is pressed')
+    console.log('F6 is pressed, minimize()')
+    mainWindow.minimize()
+  })
+  globalShortcut.register('F7', () => {
+    console.log('F7 is pressed, setAlwaysOnTop(false), setOpacity(1)')
+    mainWindow.setOpacity(1)
     mainWindow.setAlwaysOnTop(false);
-    // mainWindow.hide()
+  })
+  globalShortcut.register('PageUp', () => {
+    console.log('PageUp is pressed, setOpacity(+ 0.05)')
+    mainWindow.setOpacity(mainWindow.getOpacity() + 0.05)
+  })
+  globalShortcut.register('PageDown', () => {
+    if (mainWindow.getOpacity() <= 0.6) {
+      return
+    }
+    console.log('PageDown is pressed, setOpacity(- 0.05)')
+    mainWindow.setOpacity(mainWindow.getOpacity() - 0.05)
   })
 }
 

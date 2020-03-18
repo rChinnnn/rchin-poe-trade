@@ -3,9 +3,9 @@
   <div>
     <b-img :src="itemImage" style="max-height:100px;"></b-img>
   </div>
-  <div class="d-inline-flex p-2 bd-highlight">
+  <div v-if="isPriced && fetchID.length !== 0" class="d-inline-flex p-2 bd-highlight">
     <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
-    <table class="table table-striped" v-if="isPriced && collectionCurrency">
+    <table class="table table-striped" v-if="collectionCurrency && !isLoading">
       <thead class="thead-dark">
         <tr>
           <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析</th>
@@ -85,18 +85,41 @@ export default {
           []
         ]
         this.itemImage = ''
-        if (val.length == 0) {
+        // v-if="isPriced && fetchID.length !== 0"
+        if (this.isLoading || !this.isPriced || val.length === 0) {
           return
         }
         this.isLoading = true;
-        for (let index = 0; index < (val.length >= 3 ? 3 : val.length); index++) {
+        this.$emit('loading', this.isLoading);
+        let indexLength = val.length >= 3 ? 3 : val.length
+        for (let index = 0; index < indexLength; index++) {
           http.get(`https://web.poe.garena.tw/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
             .then((response) => {
               this.fetchResult[index].push(response.data.result)
               if (this.fetchResult[0].length !== 0 && !this.itemImage) {
                 this.itemImage = this.fetchResult[0][0][0].item.icon
-                this.isLoading = false;
-                // TODO: 改為 isLoading 為 false 時，查詢 pending
+              }
+              switch (indexLength) {
+                case 1:
+                  if (this.fetchResult[0].length !== 0) {
+                    this.isLoading = false;
+                    this.$emit('loading', this.isLoading);
+                  }
+                  break;
+                case 2:
+                  if (this.fetchResult[0].length !== 0 && this.fetchResult[1].length !== 0) {
+                    this.isLoading = false;
+                    this.$emit('loading', this.isLoading);
+                  }
+                  break;
+                case 3:
+                  if (this.fetchResult[0].length !== 0 && this.fetchResult[1].length !== 0 && this.fetchResult[2].length !== 0) {
+                    this.isLoading = false;
+                    this.$emit('loading', this.isLoading);
+                  }
+                  break;
+                default:
+                  break;
               }
             })
             .catch(function (error) {

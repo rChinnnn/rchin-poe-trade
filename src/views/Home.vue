@@ -31,12 +31,12 @@
         </b-row>
         <b-row style="padding-top: 10px;">
           <b-col style="padding-left: 8px;">
-            <b-form-checkbox v-model="isOnline" switch :inline="false">
+            <b-form-checkbox v-model="isOnline" :disabled="isLoading" switch :inline="false">
               <b>只顯示線上</b>
             </b-form-checkbox>
           </b-col>
           <b-col>
-            <b-form-checkbox v-model="isPriced" switch>
+            <b-form-checkbox v-model="isPriced" :disabled="isLoading" switch>
               <b>{{ pricedText }}</b>
             </b-form-checkbox>
           </b-col>
@@ -299,9 +299,9 @@
     </b-collapse>
   </b-container>
   <h6>{{ status }}</h6>
-  <div v-if="fetchQueryID">
-    <b-button @click="popOfficialWebsite" size="sm" variant="outline-primary">官方交易市集</b-button>
-    <PriceAnalysis :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
+  <div>
+    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" size="sm" variant="outline-primary">官方交易市集</b-button>
+    <PriceAnalysis @loading="detectLoading" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
   </div>
 </div>
 </template>
@@ -330,6 +330,7 @@ export default {
       status: '',
       copyText: '',
       testResponse: '',
+      isLoading: false,
       isOnline: true,
       isPriced: true,
       isItem: false,
@@ -598,10 +599,13 @@ export default {
           console.log(error);
         })
     }, 300),
-    popOfficialWebsite: _.debounce(function () {
+    popOfficialWebsite() {
       shell.openExternal(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
       // window.open(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`, '_blank', 'nodeIntegration=no')
-    }, 1000),
+    },
+    detectLoading(boolean) {
+      this.isLoading = boolean
+    },
     statsAPI() { // 詞綴 API
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
         .then((response) => {
@@ -1267,9 +1271,21 @@ export default {
   watch: {
     copyText: function () {
       let item = this.copyText;
-      if (item.indexOf('稀有度') === -1) { // POE 內的文字必定有稀有度
+      if (item.indexOf('稀有度') === -1 || !this.copyText) { // POE 內的文字必定有稀有度
         return
       }
+      if (this.isLoading) {
+        this.$bvToast.toast(`搜尋太快了! 請放慢一點腳步`, {
+          noCloseButton: true,
+          toaster: 'toast-center-center',
+          variant: 'danger',
+          autoHideDelay: 500,
+          appendToast: false
+        })
+        clipboard.writeText('')
+        return
+      }
+      this.fetchID.length = 0
       this.isMap = false
       this.isItem = false
       this.isGem = false
@@ -1421,32 +1437,19 @@ export default {
       this.searchTrade(this.searchJson)
     },
     isOnline: function () {
-      if (_.isEmpty(this.searchJson)) {
-        return
-      }
-      if (this.isOnline) {
-        this.searchJson_Def.query.status.option = 'online'
-        this.searchJson.query.status.option = 'online'
-      } else {
-        this.searchJson_Def.query.status.option = 'any'
-        this.searchJson.query.status.option = 'any'
-      }
-      if (JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+      let option = this.isOnline ? 'online' : 'any'
+      this.searchJson_Def.query.status.option = option
+      if (!_.isEmpty(this.searchJson) && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+        this.searchJson.query.status.option = option
         this.searchTrade(this.searchJson)
       }
     },
     isPriced: function () {
-      if (_.isEmpty(this.searchJson)) {
-        return
-      }
-      if (this.isPriced) {
-        this.searchJson_Def.query.filters.trade_filters.filters.sale_type.option = 'priced'
-        this.searchJson.query.filters.trade_filters.filters.sale_type.option = 'priced'
-      } else {
-        this.searchJson_Def.query.filters.trade_filters.filters.sale_type.option = 'unpriced'
-        this.searchJson.query.filters.trade_filters.filters.sale_type.option = 'unpriced'
-      }
-      if (JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+      this.fetchID.length = 0
+      let option = this.isPriced ? 'priced' : 'unpriced'
+      this.searchJson_Def.query.filters.trade_filters.filters.sale_type.option = option
+      if (!_.isEmpty(this.searchJson) && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+        this.searchJson.query.filters.trade_filters.filters.sale_type.option = option
         this.searchTrade(this.searchJson)
       }
     },
