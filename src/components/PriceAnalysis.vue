@@ -1,9 +1,9 @@
 <template>
-<div style="padding-top: 10px;">
+<div v-if="isPriced && fetchQueryID" style="padding-top: 10px;">
   <div>
     <b-img :src="itemImage" style="max-height:100px;"></b-img>
   </div>
-  <div v-if="isPriced && fetchID.length !== 0" class="d-inline-flex p-2 bd-highlight">
+  <div class="d-inline-flex p-2 bd-highlight">
     <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
     <table class="table table-striped" v-if="collectionCurrency && !isLoading">
       <thead class="thead-dark">

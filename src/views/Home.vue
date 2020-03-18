@@ -1413,6 +1413,7 @@ export default {
           let vaalPos = item.substring(item.indexOf('瓦爾．'))
           let vaalPosEnd = vaalPos.indexOf(NL)
           let vaalGem = vaalPos.substring(0, vaalPosEnd)
+          this.searchName = `物品名稱『${vaalGem}』`
           this.gemBasic.chosenG = vaalGem
         }
         this.gemBasic.isSearch = true
