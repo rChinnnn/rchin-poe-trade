@@ -1271,7 +1271,7 @@ export default {
   watch: {
     copyText: function () {
       let item = this.copyText;
-      if (item.indexOf('稀有度') === -1 || !this.copyText) { // POE 內的文字必定有稀有度
+      if (item.indexOf('稀有度:') === -1 || !this.copyText) { // POE 內的文字必定有稀有度
         return
       }
       if (this.isLoading) {
