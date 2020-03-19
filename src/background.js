@@ -90,7 +90,7 @@ function createWindow() {
     mainWindow.setOpacity(mainWindow.getOpacity() + 0.05)
   })
   globalShortcut.register('PageDown', () => {
-    if (mainWindow.getOpacity() <= 0.6) {
+    if (mainWindow.getOpacity() <= 0.4) {
       return
     }
     console.log('PageDown is pressed, setOpacity(- 0.05)')
