@@ -46,43 +46,43 @@
             </b-form-checkbox>
           </b-col>
         </b-row>
-        <b-collapse :visible="isMapAreaCollapse">
+        <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
+          <b-row style="padding-top: 15px;">
+            <b-col sm="5">
+              <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
+            </b-col>
+            <b-col sm="3"></b-col>
+            <b-col sm="4">
+              <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
+            </b-col>
+          </b-row>
           <b-row style="padding-top: 8px;">
-            <b-col sm="12" style="padding-top: 8px;">
-              <b-button-group>
-                <b-button disabled size="" variant="outline-info">
-                  <b-icon-arrow-up-left></b-icon-arrow-up-left>左上
-                </b-button>
-                <b-button @click="mapAreaCopy('特恩之盡')" size="" variant="outline-primary">特恩之盡 (左上內)</b-button>
-                <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
-              </b-button-group>
+            <b-col sm="3"></b-col>
+            <b-col sm="3">
+              <b-button @click="mapAreaCopy('特恩之盡')" size="sm" variant="outline-primary">特恩之盡 (左上內)</b-button>
             </b-col>
-            <b-col sm="12" style="padding-top: 8px;">
-              <b-button-group>
-                <b-button disabled size="" variant="outline-info">
-                  <b-icon-arrow-up-right></b-icon-arrow-up-right>右上
-                </b-button>
-                <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
-                <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
-              </b-button-group>
+            <b-col sm="5">
+              <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="sm" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
             </b-col>
-            <b-col sm="12" style="padding-top: 8px;">
-              <b-button-group>
-                <b-button disabled size="" variant="outline-info">
-                  <b-icon-arrow-down-left></b-icon-arrow-down-left>左下
-                </b-button>
-                <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
-                <b-button @click="mapAreaCopy('新瓦斯提里')" size="" variant="outline-primary">新瓦斯提里 (左下外)</b-button>
-              </b-button-group>
+            <b-col sm="1"></b-col>
+          </b-row>
+          <b-row style="padding-top: 8px;">
+            <b-col sm="2"></b-col>
+            <b-col sm="4">
+              <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
             </b-col>
-            <b-col sm="12" style="padding-top: 8px;">
-              <b-button-group>
-                <b-button disabled size="" variant="outline-info">
-                  <b-icon-arrow-down-right></b-icon-arrow-down-right>右下
-                </b-button>
-                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
-                <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
-              </b-button-group>
+            <b-col sm="4">
+              <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
+            </b-col>
+            <b-col sm="2"></b-col>
+          </b-row>
+          <b-row style="padding-top: 8px;">
+            <b-col sm="4">
+              <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary">新瓦斯提里 (左下外)</b-button>
+            </b-col>
+            <b-col sm="4"></b-col>
+            <b-col sm="4">
+              <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
             </b-col>
           </b-row>
         </b-collapse>
@@ -840,7 +840,7 @@ export default {
         appendToast: false
       })
     },
-    clickToSearch() { // TODO: 重構物品/地圖交替搜尋時邏輯
+    clickToSearch() { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
         this.searchJson.query.stats[0].filters.length = 0
       }
@@ -1582,10 +1582,9 @@ tbody.searchStats>tr>td {
   background: rgb(208, 236, 252) !important;
   color: #333 !important;
 }
+
 .vs__dropdown-option--selected {
   background: lightskyblue !important;
   color: #333 !important;
 }
-
-
 </style>
