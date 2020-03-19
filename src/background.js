@@ -39,6 +39,7 @@ function createWindow() {
     maxWidth: os.platform() === 'darwin' ? 2000 : 700,
     autoHideMenuBar: true,
     fullscreenable: false,
+    maximizable: false,
     webPreferences: {
       defaultFontFamily: {
         standard: "Microsoft YaHei"
@@ -51,6 +52,9 @@ function createWindow() {
     },
     icon: `${__static}/app.ico`
   })
+
+  mainWindow.removeMenu()
+
   if (os.platform() === 'darwin') {
     BrowserWindow.addDevToolsExtension(
       path.join(os.homedir(), '/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/5.3.3_0')
@@ -70,6 +74,7 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
   globalShortcut.register('F5', () => {
     console.log('F5 is pressed, setAlwaysOnTop(true), restore()')
     mainWindow.restore()
