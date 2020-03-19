@@ -354,8 +354,8 @@ export default {
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
       leagues: { // 搜尋聯盟 
-        option: ["鍊魔聯盟", "鍊魔聯盟（專家）", "標準模式", "專家模式"],
-        chosenL: "鍊魔聯盟"
+        option: ["譫妄聯盟", "譫妄聯盟（專家）", "標準模式", "專家模式"],
+        chosenL: "譫妄聯盟"
       },
       raritySet: { // 稀有度設定
         option: [{
@@ -1576,4 +1576,15 @@ tbody.searchStats>tr>td {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); */
 }
+
+.vs__dropdown-option--highlight {
+  background: rgb(208, 236, 252) !important;
+  color: #333 !important;
+}
+.vs__dropdown-option--selected {
+  background: lightskyblue !important;
+  color: #333 !important;
+}
+
+
 </style>
