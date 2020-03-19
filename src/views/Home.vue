@@ -51,8 +51,8 @@
             <b-col sm="5">
               <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
             </b-col>
-            <b-col sm="3"></b-col>
-            <b-col sm="4">
+            <b-col sm="2"></b-col>
+            <b-col sm="5">
               <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
             </b-col>
           </b-row>
@@ -67,8 +67,8 @@
             <b-col sm="1"></b-col>
           </b-row>
           <b-row style="padding-top: 8px;">
-            <b-col sm="2"></b-col>
-            <b-col sm="4">
+            <b-col sm="1"></b-col>
+            <b-col sm="5">
               <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
             </b-col>
             <b-col sm="4">
@@ -118,14 +118,14 @@
             <b-form-input v-model="itemBasic.text" :disabled="true"></b-form-input>
           </b-col>
           <b-col sm="1"></b-col>
-          <b-col sm="2" style="padding-top: 5px;">
+          <b-col sm="2" style="padding-top: 6px;">
             <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isItemCategorySearch" switch>物品分類</b-form-checkbox>
           </b-col>
           <b-col sm="4">
             <v-select :options="itemCategory.option" v-model="itemCategory.chosenObj" label="label" @input="categoryChange" :disabled="!itemCategory.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
           </b-col>
         </b-row>
-        <b-row class="lesspadding" style="padding-top: 5px;">
+        <b-row class="lesspadding" style="padding-top: 3px;">
           <b-col sm="3" style="padding-top: 5px;">
             <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
           </b-col>
@@ -137,10 +137,10 @@
             <v-select :options="itemExBasic.option" :value="itemExBasic.chosenObj" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row v-if="searchStats.length == 0">
           <b-col sm="10"></b-col>
           <b-col sm="2" style="padding-top: 15px;">
-            <b-button v-if="searchStats.length == 0" @click="clickToSearch" variant="outline-primary">查詢</b-button>
+            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
           </b-col>
         </b-row>
       </b-card>
@@ -553,7 +553,7 @@ export default {
     }
   },
   created() {
-
+    clipboard.writeText('')
   },
   mounted() {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
@@ -839,6 +839,7 @@ export default {
         autoHideDelay: 800,
         appendToast: false
       })
+      this.isMapAreaCollapse = false
     },
     clickToSearch() { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
@@ -1427,11 +1428,11 @@ export default {
         this.searchJson.query.name = searchName
       } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
-      } else if (Rarity === "稀有") {
+      } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法" )) {
         this.rareStatsAnalysis(itemArray)
         return
       } else {
-        this.status = `目前版本尚未支援搜尋鍊魔器官及非傳奇藥劑`
+        this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官及非傳奇藥劑`
         return
         // this.copyText = `Rarity：${Rarity}、length: ${Rarity.length}`
       }
@@ -1571,8 +1572,8 @@ tbody.searchStats>tr>td {
 
 .toast-center-center {
   position: absolute;
-  top: 48%;
-  left: 35%;
+  top: 40%;
+  left: 38%;
   /* -ms-transform: translateX(-50%) translateY(-50%);
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); */
