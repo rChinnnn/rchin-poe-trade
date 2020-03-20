@@ -885,6 +885,9 @@ export default {
         if (element === "--------" && index !== itemStatStart + 1 && index !== itemStatStart + 2 && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
         }
+        if (itemArray.indexOf('未鑑定') > -1) {
+          itemStatEnd = itemStatStart + 1
+        }
       });
       for (let index = itemStatStart; index < itemStatEnd; index++) {
         if (itemArray[index] !== "--------") {

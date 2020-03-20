@@ -5,7 +5,16 @@
       <b-card border-variant="primary" header="台服 POE 查價工具（1.310.1）" header-bg-variant="primary" header-text-variant="white" align="center">
         <b-card-text>作者：rChinnn</b-card-text>
         <b-card-text>
-          <p><a href="" @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/releases`)" title="GitHub">版本發佈歷史請點我</a></p>
+          <p><a href="" @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/releases`)" title="">版本發佈歷史請點我</a></p>
+        </b-card-text>
+      </b-card>
+    </b-card-group>
+  </div>
+  <div style="padding:5px 30px;">
+    <b-card-group deck>
+      <b-card border-variant="dark" header="熱鍵功能" align="center">
+        <b-card-text>
+          <b-img src="https://i.imgur.com/bdSJA7d.png" style="max-height:190px;"></b-img>
         </b-card-text>
       </b-card>
     </b-card-group>
@@ -18,7 +27,7 @@
         <b-card-text>3. 將滑鼠停在物品上，按下 Ctrl+C </b-card-text>
         <b-card-text>4. 程式將自動判斷此次搜尋物品 </b-card-text>
         <b-card-text>
-          <p><a href="" @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade`)" title="GitHub">詳細使用說明請點我</a></p>
+          <p><a href="" @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade`)" title="">詳細使用說明請點我</a></p>
         </b-card-text>
       </b-card>
     </b-card-group>
