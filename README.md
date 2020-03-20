@@ -96,3 +96,5 @@ POE 快速查價工具 (Built with Electron and Vue.)
 ![](https://i.imgur.com/XWD8aCS.png)
 #### 尊師(守衛)
 ![](https://i.imgur.com/1NrkPjP.png)
+
+## 歐付寶ID： 2247741
