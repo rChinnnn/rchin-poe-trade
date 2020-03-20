@@ -15,6 +15,7 @@ import hotkeys from "hotkeys-js";
 const server = require('./server');
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const os = require('os')
+const localShortcut = require('electron-localshortcut');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -75,26 +76,21 @@ function createWindow() {
     mainWindow = null
   })
 
-  globalShortcut.register('F5', () => {
-    console.log('F5 is pressed, setAlwaysOnTop(true), restore()')
-    mainWindow.restore()
-    mainWindow.setOpacity(mainWindow.getOpacity() === 1 ? 0.9 : mainWindow.getOpacity())
+  localShortcut.register('F5', () => {
+    console.log('F5 is pressed, setAlwaysOnTop(true)')
+    mainWindow.setOpacity(mainWindow.getOpacity() === 1 ? 0.8 : mainWindow.getOpacity())
     mainWindow.setAlwaysOnTop(true);
   })
-  globalShortcut.register('F6', () => {
-    console.log('F6 is pressed, minimize()')
-    mainWindow.minimize()
-  })
-  globalShortcut.register('F7', () => {
-    console.log('F7 is pressed, setAlwaysOnTop(false), setOpacity(1)')
+  localShortcut.register('F6', () => {
+    console.log('F6 is pressed, setAlwaysOnTop(false), setOpacity(1)')
     mainWindow.setOpacity(1)
     mainWindow.setAlwaysOnTop(false);
   })
-  globalShortcut.register('PageUp', () => {
+  localShortcut.register('PageUp', () => {
     console.log('PageUp is pressed, setOpacity(+ 0.05)')
     mainWindow.setOpacity(mainWindow.getOpacity() + 0.05)
   })
-  globalShortcut.register('PageDown', () => {
+  localShortcut.register('PageDown', () => {
     if (mainWindow.getOpacity() <= 0.4) {
       return
     }

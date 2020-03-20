@@ -22,6 +22,7 @@
     "cheerio": "^1.0.0-rc.3",
     "clipboard": "^2.0.4",
     "core-js": "^3.4.4",
+    "electron-localshortcut": "^3.2.1",
     "hotkeys-js": "^3.7.3",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
