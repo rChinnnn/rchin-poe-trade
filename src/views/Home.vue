@@ -553,7 +553,9 @@ export default {
     }
   },
   created() {
-    clipboard.writeText('')
+    if (clipboard.readText().indexOf('稀有度:') > -1) {
+      clipboard.writeText('')
+    }
   },
   mounted() {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
@@ -1428,7 +1430,7 @@ export default {
         this.searchJson.query.name = searchName
       } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
-      } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法" )) {
+      } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法")) {
         this.rareStatsAnalysis(itemArray)
         return
       } else {
