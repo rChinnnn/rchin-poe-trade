@@ -648,16 +648,16 @@ export default {
         .then((response) => {
           this.allItems = response.data.result // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
           let result = response.data.result
-          result[0].entries.forEach((element, index) => { // "label": "飾品"(250筆) 一般飾品基底起始點 index = 179
+          result[0].entries.forEach((element, index) => { // "label": "飾品"(251筆) 一般飾品基底起始點 index = 180
             switch (true) {
               // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
-              case index >= 179 && index <= 220:
+              case index >= 180 && index <= 221:
                 element.name = "項鍊"
                 element.option = "accessory.amulet"
                 this.equipItems.push(element)
                 break;
                 // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
-              case index >= 221 && index <= 231:
+              case index >= 222 && index <= 231:
                 element.name = "腰帶"
                 element.option = "accessory.belt"
                 this.equipItems.push(element)
@@ -672,40 +672,40 @@ export default {
                 break;
             }
           });
-          result[1].entries.forEach((element, index) => { // "label": "護甲"(733筆) 一般護甲基底起始點 index = 357
+          result[1].entries.forEach((element, index) => { // "label": "護甲"(737筆) 一般護甲基底起始點 index = 361
             switch (true) {
               // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
-              case index >= 357 && index <= 460:
+              case index >= 361 && index <= 464:
                 element.name = "胸甲"
                 element.option = "armour.chest"
                 this.equipItems.push(element)
                 break;
                 // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
-              case index >= 461 && index <= 514:
+              case index >= 465 && index <= 518:
                 element.name = "鞋子"
                 element.option = "armour.boots"
                 this.equipItems.push(element)
                 break;
                 // 手套起始點 { "type": "擒拿手套", "text": "擒拿手套" }
-              case index >= 515 && index <= 568:
+              case index >= 519 && index <= 572:
                 element.name = "手套"
                 element.option = "armour.gloves"
                 this.equipItems.push(element)
                 break;
                 // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
-              case index >= 569 && index <= 634:
+              case index >= 573 && index <= 638:
                 element.name = "頭部"
                 element.option = "armour.helmet"
                 this.equipItems.push(element)
                 break;
                 // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
-              case index >= 635 && index <= 723:
+              case index >= 639 && index <= 727:
                 element.name = "盾"
                 element.option = "armour.shield"
                 this.equipItems.push(element)
                 break;
                 // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
-              case index >= 724:
+              case index >= 728:
                 element.name = "箭袋"
                 element.option = "armour.quiver"
                 this.equipItems.push(element)
@@ -714,10 +714,10 @@ export default {
                 break;
             }
           });
-          result[6].entries.forEach((element, index) => { // "label": "珠寶"(146筆) 一般珠寶基底起始點 index = 137
+          result[6].entries.forEach((element, index) => { // "label": "珠寶"(159筆) 一般珠寶基底起始點 index = 137
             switch (true) {
               // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
-              case index >= 137:
+              case index >= 147:
                 element.name = "珠寶"
                 element.option = "jewel"
                 this.equipItems.push(element)
@@ -814,7 +814,7 @@ export default {
                 break;
             }
           });
-          result[7].entries.forEach((element, index) => { // "label": "地圖"(631筆) 只抓 warfortheatlas 一般地圖基底
+          result[7].entries.forEach((element, index) => { // "label": "地圖"(635筆) 只抓 warfortheatlas 一般地圖基底
             switch (true) {
               // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
               case index >= 28 && index <= 169:
