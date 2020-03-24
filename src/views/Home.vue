@@ -134,7 +134,13 @@
             <b-form-checkbox class="float-right" v-model="itemExBasic.isSearch" @input="isExBasicSearch" switch>勢力基底</b-form-checkbox>
           </b-col>
           <b-col sm="4">
-            <v-select :options="itemExBasic.option" :value="itemExBasic.chosenObj" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
+            <v-select class="exBasicIcon" :options="itemExBasic.option" :value="itemExBasic.chosenObj" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何">
+              <template v-slot:option="itemExBasic">
+                <b-img :src="itemExBasic.url"></b-img>
+                {{ itemExBasic.label }}
+              </template>
+            </v-select>
+            <!-- <v-select :options="itemExBasic.option" :value="itemExBasic.chosenObj" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select> -->
           </b-col>
         </b-row>
         <b-row v-if="searchStats.length == 0">
@@ -435,22 +441,28 @@ export default {
       itemExBasic: { // 勢力基底
         option: [{
           label: "塑者之物",
-          prop: "shaper_item"
+          prop: "shaper_item",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/shaper-symbol.png?1582104312019"
         }, {
           label: "尊師之物",
-          prop: "elder_item"
+          prop: "elder_item",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/elder-symbol.png?1582104312011"
         }, {
           label: "聖戰君王物品",
-          prop: "crusader_item"
+          prop: "crusader_item",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/crusader-symbol.png?1582104312011"
         }, {
           label: "救贖者物品",
-          prop: "redeemer_item"
+          prop: "redeemer_item",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/redeemer-symbol.png?1582104312015"
         }, {
           label: "總督軍物品",
-          prop: "warlord_item"
+          prop: "warlord_item",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/warlord-symbol.png?1582104312019"
         }, {
           label: "狩獵者物品",
-          prop: "hunter_item"
+          prop: "hunter_item",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/item/popup/hunter-symbol.png?1582104312015"
         }, ],
         chosenObj: {
           label: "任何",

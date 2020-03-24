@@ -2,20 +2,45 @@
 <div class="about">
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="primary" header="台服 POE 查價工具（1.310.1）" header-bg-variant="primary" header-text-variant="white" align="center">
+      <b-card border-variant="primary" header="台服 POE 查價工具 v1.310.2" header-bg-variant="primary" header-text-variant="white" align="center">
         <b-card-text>作者：rChinnn</b-card-text>
         <b-card-text>
-          <p><a href="" @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/releases`)" title="">版本發佈歷史請點我</a></p>
+          <b-button @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/releases`)" size="sm" variant="outline-primary" class="mb-2">
+            版本發佈歷史請點我
+          </b-button>
         </b-card-text>
       </b-card>
     </b-card-group>
   </div>
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="dark" header="熱鍵功能" align="center">
+      <b-card border-variant="info" header="免責聲明" header-bg-variant="info" header-text-variant="white" align="center">
         <b-card-text>
-          <b-img src="https://i.imgur.com/bdSJA7d.png" style="max-height:190px;"></b-img>
+          <h5>使用此程式者請自行承擔所有可能後果和風險</h5>
         </b-card-text>
+        <b-card-text>此程式並無修改任何記憶體</b-card-text>
+        <b-card-text>運作原理為抓取 POE 遊戲內對物品複製後的文字進行分析，以利快速查價</b-card-text>
+      </b-card>
+    </b-card-group>
+  </div>
+  <div style="padding:5px 30px;">
+    <b-card-group deck>
+      <b-card border-variant="dark" header="熱鍵功能" align="center">
+        <table class="table table-sm">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">按鍵</th>
+              <th scope="col">功能說明</th>
+            </tr>
+          </thead>
+          <tbody class="hotkey">
+            <tr v-for="(item, index) in hotkey" :key="index" style="padding-top: 5px;">
+              <td align="left">{{ item.key }}</td>
+              <td align="left">{{ item.description }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <b-card-text><b style="background-color: lightyellow;">注意事項：所有熱鍵於 POE 遊戲視窗內皆無作用！必須在工具視窗內才能驅動各功能</b></b-card-text>
       </b-card>
     </b-card-group>
   </div>
@@ -27,7 +52,27 @@
         <b-card-text>3. 將滑鼠停在物品上，按下 Ctrl+C </b-card-text>
         <b-card-text>4. 程式將自動判斷此次搜尋物品 </b-card-text>
         <b-card-text>
-          <p><a href="" @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade`)" title="">詳細使用說明請點我</a></p>
+          <b-button @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade`)" size="sm" variant="outline-primary" class="mb-2">
+            詳細使用說明請點我
+          </b-button>
+        </b-card-text>
+      </b-card>
+    </b-card-group>
+  </div>
+  <div style="padding:5px 30px;">
+    <b-card-group deck>
+      <b-card border-variant="dark" header="這是免費程式" align="center">
+        <b-card-text>此程式已在 GitHub 上開源</b-card-text>
+        <b-card-text>歡迎分享給親朋好友使用</b-card-text>
+        <b-card-text>若工具對你有不少幫助，也有餘力的話</b-card-text>
+        <b-card-text>請作者在開發新功能時喝瓶麥香紅茶或一杯咖啡吧：）</b-card-text>
+        <b-card-text>
+          <b-button @click="openLink(`https://p.opay.tw/lE5Yu`)" size="sm" variant="outline-primary" class="mb-2">
+            麥香紅茶（O'Pay） <b-icon icon="credit-card"></b-icon>
+          </b-button> /
+          <b-button @click="openLink(`https://www.buymeacoffee.com/rChinnn`)" size="sm" variant="outline-primary" class="mb-2">
+            Buy me a coffee <b-icon icon="credit-card"></b-icon>
+          </b-button>
         </b-card-text>
       </b-card>
     </b-card-group>
@@ -42,6 +87,23 @@ const {
 } = require('electron')
 
 export default {
+  data() {
+    return {
+      hotkey: [{
+        "key": "F5",
+        "description": "程式顯示在最上層，並且透明化 (可漂浮在POE程式上)"
+      }, {
+        "key": "F6",
+        "description": "程式取消在最上層，並取消透明化"
+      }, {
+        "key": "PageUp",
+        "description": "透明化程度 +5%"
+      }, {
+        "key": "PageDown",
+        "description": "透明化程度 -5%"
+      }, ]
+    }
+  },
   methods: {
     openLink(URL) {
       shell.openExternal(URL)
@@ -49,3 +111,19 @@ export default {
   },
 }
 </script>
+
+<style>
+.card-body {
+  padding: 10px !important;
+}
+
+.card-text p {
+  margin-block-start: 0.5em;
+  margin-block-end: 0em;
+}
+
+tbody.hotkey>tr>td {
+  padding-top: 8px;
+  padding-left: 25px;
+}
+</style>
