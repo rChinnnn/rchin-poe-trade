@@ -282,7 +282,7 @@
               <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
             </td>
             <td style="width: 45px; cursor: pointer; user-select:none;" :style="item.type === '隨機' ? '' : 'color: red;'" @click="item.isSearch = !item.isSearch">{{ item.type }} </td>
-            <td style="cursor: pointer; user-select:none;" @click="item.isSearch = !item.isSearch">{{ item.text }} </td>
+            <td style="cursor: pointer; user-select:none; white-space:pre-wrap;" @click="item.isSearch = !item.isSearch">{{ item.text }} </td>
             <td style="width: 64px; padding-top: 5px !important;">
               <div style="padding:0px 4px 0px 6px;">
                 <b-form-input v-if="item.isValue" v-model.number="item.min" @dblclick="item.min = ''" :disabled="!item.isSearch" size="sm" type="number" style="text-align: center;"></b-form-input>
@@ -353,6 +353,7 @@ export default {
       explicitStats: [], // 隨機屬性
       implicitStats: [], // 固定屬性
       enchantStats: [], // 附魔
+      clusterJewelStats: [], // 星團珠寶附魔詞綴
       craftedStats: [], // 已工藝
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       searchName: '',
@@ -527,7 +528,19 @@ export default {
           "type": "寶鑽戒指", // 物品基底 isItemBasicSearch
           "stats": [{
             "type": "and",
-            "filters": []
+            "filters": [{
+              "id": "enchant.stat_3948993189", // 附魔：星團珠寶(jewel.cluster) 固定詞綴ID
+              "value": { // "附加的小型天賦給予：#"
+                "option": 16 // 1~53
+              },
+              'disabled': false
+            }, {
+              "id": "enchant.stat_2954116742", // 附魔：項鍊塗油 固定詞綴ID
+              "value": { // "配置 #"
+                "option": 32345 // 各技能皆一組 ID
+              },
+              'disabled': false
+            }]
           }],
           "filters": {
             "misc_filters": {
@@ -642,6 +655,11 @@ export default {
           })
           response.data.result[4].entries.forEach((element, index) => { // 附魔
             this.enchantStats.push(element.text, element.id)
+            if (element.id === "enchant.stat_3948993189") { // 星團珠寶固定附魔詞綴
+              element.option.options.forEach((element, index) => {
+                this.clusterJewelStats.push(element.text, (element.id).toString())
+              })
+            }
           })
           response.data.result[5].entries.forEach((element, index) => { // 已工藝
             let text = element.text
@@ -869,6 +887,8 @@ export default {
             value.min = element.min
           } else if (element.max) {
             value.max = element.max
+          } else if (element.option) {
+            value.option = element.option
           }
           this.searchJson.query.stats[0].filters.push({
             "id": element.id,
@@ -915,11 +935,17 @@ export default {
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(stringSimilarity.findBestMatch(text, this.craftedStats))
             tempStat[tempStat.length - 1].type = "工藝"
-          } else if (itemArray[index + 1] === "--------" && index + 1 !== itemStatEnd) { // 附魔屬性沒有 enchant 字串，判斷方式不同
+          } else if ((itemArray[index + 1] === "--------" && index + 1 !== itemStatEnd) || itemArray[index].indexOf('(enchant)') > -1) {
+            // 3.9  附魔屬性沒有 enchant 字串，判斷方式不同
+            // 3.10 星團珠寶的上墜有顯示 enchant 字串了
             // TODO: 項鍊塗油的配置屬性為附魔，要再額外判斷
-            // let text = itemArray[index]
-            // text = text.substring(0, text.indexOf('(enchant)')) 
-            tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.enchantStats))
+            if (itemArray[index].indexOf('(enchant)') > -1) {
+              let text = itemArray[index]
+              text = text.substring(0, text.indexOf('(enchant)'))
+              tempStat.push(stringSimilarity.findBestMatch(text, this.enchantStats))
+            } else {
+              tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.enchantStats))
+            }
             tempStat[tempStat.length - 1].type = "附魔"
           } else { // 隨機屬性
             tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
@@ -932,25 +958,43 @@ export default {
       tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
         let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
+        // console.log(itemExplicitStats[index])
+        // console.log(matchStatArray)
         let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
         let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
-        for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
-          if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
-            randomMaxValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
-            randomMaxValue = isNaN(randomMaxValue) ? '' : randomMaxValue
-          }
-          if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
-            randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
-            randomMinValue = isNaN(randomMinValue) ? '' : randomMinValue
-            if (matchStatArray[index].indexOf('，#') > -1) { // 處理隨機數值在'，'後的詞綴(無法用空格符號 split)
-              let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('，') + 1)
-              randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
+        let optionValue = 0 // 星團珠寶附魔 / 項鍊塗油配置 的 ID
+
+        if (element.ratings[element.bestMatchIndex + 1].target === "enchant.stat_3948993189") {
+          let obj = stringSimilarity.findBestMatch(itemExplicitStats[index], this.clusterJewelStats)
+          // console.log(obj)
+          // console.log(element.bestMatch.target, obj.ratings[obj.bestMatchIndex].target)
+          optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
+          element.bestMatch.target = `附加的小型天賦給予：\n${obj.ratings[obj.bestMatchIndex].target}`
+        } else {
+          for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
+            if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
+              randomMaxValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+              randomMaxValue = isNaN(randomMaxValue) ? '' : randomMaxValue
+            }
+            if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
+              randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+              randomMinValue = isNaN(randomMinValue) ? '' : randomMinValue
+              if (matchStatArray[index]) {
+                if (matchStatArray[index].indexOf('，#') > -1) { // 處理隨機數值在'，'後的詞綴(無法用空格符號 split)
+                  let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('，') + 1)
+                  randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
+                } else if (matchStatArray[index].indexOf('：#') > -1) { // 處理隨機數值在'：'後的詞綴(無法用空格符號 split)
+                  let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('：') + 1)
+                  randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
+                }
+              }
             }
           }
         }
         this.searchStats.push({
           "id": element.ratings[element.bestMatchIndex + 1].target,
           "text": element.bestMatch.target,
+          "option": optionValue,
           "min": randomMinValue,
           "max": randomMaxValue,
           "isValue": randomMinValue ? true : false,
@@ -1445,7 +1489,7 @@ export default {
         this.searchJson.query.name = searchName
       } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
-      } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法")) {
+      } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法" || Rarity === "普通")) {
         this.rareStatsAnalysis(itemArray)
         return
       } else {
