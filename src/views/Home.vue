@@ -1367,9 +1367,11 @@ export default {
       let searchName = itemArray[1]
       this.searchName = itemArray[2] === "--------" ? `物品名稱『${itemArray[1]}』` : `物品名稱『${itemArray[1]} ${itemArray[2]}』`
       let itemBasic = itemArray[2]
+      let itemAnaCount = 0
 
       this.equipItems.forEach(element => {
-        if (`${itemArray[1]} ${itemArray[2]}`.indexOf(element.text) > -1) {
+        if (`${itemArray[1]} ${itemArray[2]}`.indexOf(element.text) > -1 && !itemAnaCount) {
+          itemAnaCount++
           this.itemAnalysis(item, itemArray, element)
           this.isItem = true
           this.isItemCollapse = true
