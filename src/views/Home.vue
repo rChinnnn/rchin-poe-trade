@@ -263,7 +263,7 @@
     </b-collapse>
   </b-container>
   <hr>
-  <h5>{{ searchName }}</h5>
+  <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse">{{ searchName }}</h5>
   <b-container class="bv-example-row">
     <b-collapse :visible="isStatsCollapse && searchStats.length > 0">
       <table class="table table-sm">
@@ -899,8 +899,8 @@ export default {
       })
       this.searchTrade(this.searchJson)
     },
-    rareStatsAnalysis(itemArray) {
-      this.isStatsCollapse = true
+    itemStatsAnalysis(itemArray, rarityFlag) {
+      this.isStatsCollapse = rarityFlag ? false : true
       let tempStat = []
       let itemExplicitStats = [] // 該物品固定 + 隨機屬性
       let itemLevelIndex = 0 // 物品等級於陣列中的位置
@@ -914,6 +914,37 @@ export default {
           itemStatStart = index + 2
           itemLevelIndex = index
         }
+        if (element.indexOf("配置") > -1 && element.indexOf("(enchant)") > -1) {
+          itemArray.splice(index + 1, 1);
+          itemStatEnd--
+        }
+        if (element.indexOf("附加的小型天賦給予：") > -1 && element.indexOf("(enchant)") == -1) { // 有折行的星團珠寶附魔詞綴
+          itemStatEnd-- 
+          switch (true) {
+            case element.indexOf("斧攻擊增加 12% 擊中和異常狀態傷害") > -1:
+              itemArray[index] = `${itemArray[index]}\n劍攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
+              itemArray.splice(index + 1, 1);
+              break;
+            case element.indexOf("長杖攻擊增加 12% 擊中和異常狀態傷害") > -1:
+              itemArray[index] = `${itemArray[index]}\n錘或權杖攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
+              itemArray.splice(index + 1, 1);
+              break;
+            case element.indexOf("爪攻擊增加 12% 擊中和異常狀態傷害") > -1:
+              itemArray[index] = `${itemArray[index]}\n匕首攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
+              itemArray.splice(index + 1, 1);
+              break;
+            case element.indexOf("增加 12% 陷阱傷害") > -1:
+              itemArray[index] = `${itemArray[index]}\n增加 12% 地雷傷害 (enchant)`
+              itemArray.splice(index + 1, 1);
+              break;
+            case element.indexOf("增加 10% 藥劑回復生命") > -1:
+              itemArray[index] = `${itemArray[index]}\n增加 10% 藥劑回復魔力 (enchant)`
+              itemArray.splice(index + 1, 1);
+              break;
+            default:
+              break;
+          }
+        }
         if (element === "--------" && index !== itemStatStart + 1 && index !== itemStatStart + 2 && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
         }
@@ -923,30 +954,25 @@ export default {
       });
       for (let index = itemStatStart; index < itemStatEnd; index++) {
         if (itemArray[index] !== "--------") {
+          let text = itemArray[index]
           itemExplicitStats.push(itemArray[index])
 
           if (itemArray[index].indexOf('(implicit)') > -1) { // 固定屬性
-            let text = itemArray[index]
             text = text.substring(0, text.indexOf('(implicit)')) // 刪除(implicit)字串
             tempStat.push(stringSimilarity.findBestMatch(text, this.implicitStats))
             tempStat[tempStat.length - 1].type = "固定"
           } else if (itemArray[index].indexOf('(crafted)') > -1) { // 已工藝屬性
-            let text = itemArray[index]
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(stringSimilarity.findBestMatch(text, this.craftedStats))
             tempStat[tempStat.length - 1].type = "工藝"
-          } else if ((itemArray[index + 1] === "--------" && index + 1 !== itemStatEnd) || itemArray[index].indexOf('(enchant)') > -1) {
-            // 3.9  附魔屬性沒有 enchant 字串，判斷方式不同
-            // 3.10 星團珠寶的上墜有顯示 enchant 字串了
+          } else if (itemArray[index].indexOf('(enchant)') > -1) {
             // TODO: 項鍊塗油的配置屬性為附魔，要再額外判斷
-            if (itemArray[index].indexOf('(enchant)') > -1) {
-              let text = itemArray[index]
-              text = text.substring(0, text.indexOf('(enchant)'))
-              tempStat.push(stringSimilarity.findBestMatch(text, this.enchantStats))
-            } else {
-              tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.enchantStats))
-            }
+            text = text.substring(0, text.indexOf('(enchant)'))
+            tempStat.push(stringSimilarity.findBestMatch(text, this.enchantStats))
             tempStat[tempStat.length - 1].type = "附魔"
+          } else if (rarityFlag) { // 傳奇裝詞綴
+            tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
+            tempStat[tempStat.length - 1].type = "傳奇"
           } else { // 隨機屬性
             tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
             tempStat[tempStat.length - 1].type = "隨機"
@@ -956,6 +982,9 @@ export default {
       // console.log(itemExplicitStats)
       // console.log(tempStat)
       tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
+        let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
+        let statText = element.bestMatch.target // 詞綴字串
+        // TODO: 詞綴判斷以偽屬性為優先
         let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
         let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
         // console.log(itemExplicitStats[index])
@@ -964,12 +993,12 @@ export default {
         let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
         let optionValue = 0 // 星團珠寶附魔 / 項鍊塗油配置 的 ID
 
-        if (element.ratings[element.bestMatchIndex + 1].target === "enchant.stat_3948993189") {
+        if (statID === "enchant.stat_3948993189") {
           let obj = stringSimilarity.findBestMatch(itemExplicitStats[index], this.clusterJewelStats)
           // console.log(obj)
           // console.log(element.bestMatch.target, obj.ratings[obj.bestMatchIndex].target)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
-          element.bestMatch.target = `附加的小型天賦給予：\n${obj.ratings[obj.bestMatchIndex].target}`
+          statText = `附加的小型天賦給予：\n${obj.ratings[obj.bestMatchIndex].target}`
         } else {
           for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
             if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
@@ -992,8 +1021,8 @@ export default {
           }
         }
         this.searchStats.push({
-          "id": element.ratings[element.bestMatchIndex + 1].target,
-          "text": element.bestMatch.target,
+          "id": statID,
+          "text": statText,
           "option": optionValue,
           "min": randomMinValue,
           "max": randomMaxValue,
@@ -1387,63 +1416,66 @@ export default {
           }
           this.raritySet.isSearch = true
           this.isRaritySearch()
-          let tempStat = []
-          if (searchName === "看守之眼") { // 尊師三相珠寶 
-            tempStat.push(stringSimilarity.findBestMatch(itemArray[11], this.explicitStats))
-            tempStat.push(stringSimilarity.findBestMatch(itemArray[12], this.explicitStats))
-            if (itemArray[13] !== "--------") {
-              tempStat.push(stringSimilarity.findBestMatch(itemArray[13], this.explicitStats))
-            }
-            tempStat.forEach((element, index) => { // 比對詞綴
-              let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
-              let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
-              let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
-              let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
-              for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
-                if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
-                  randomMaxValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
-                  randomMaxValue = isNaN(randomMaxValue) ? '' : randomMaxValue
-                }
-                if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
-                  randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
-                  randomMinValue = isNaN(randomMinValue) ? '' : randomMinValue
-                  if (matchStatArray[index].indexOf('，#') > -1) { // 處理隨機數值在'，'後的詞綴(無法用空格符號 split)
-                    let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('，') + 1)
-                    randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
-                  }
-                }
-              }
-              this.searchStats.push({
-                "id": element.ratings[element.bestMatchIndex + 1].target,
-                "text": element.bestMatch.target,
-                "min": randomMinValue,
-                "max": randomMaxValue,
-                "isValue": randomMinValue ? true : false,
-                "type": "傳奇",
-                "isSearch": true,
-              })
-            })
-            return // 選擇詞墜後再搜尋
-          } else if (searchName === "奧爾的崛起") {
-            tempStat.push(stringSimilarity.findBestMatch(itemArray[15], this.explicitStats))
-            tempStat.forEach((element, index) => { // 比對詞綴
-              if (element.bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
-                let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
-                let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
-                this.searchStats.push({
-                  "id": element.ratings[element.bestMatchIndex + 1].target,
-                  "text": element.bestMatch.target,
-                  "min": '',
-                  "max": '',
-                  "isValue": false,
-                  "type": "傳奇",
-                  "isSearch": true,
-                })
-                // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
-              }
-            })
-            return // 選擇詞墜後再搜尋
+          if (this.isItem) {
+            this.itemStatsAnalysis(itemArray, 1)
           }
+          // let tempStat = []
+          // if (searchName === "看守之眼") { // 尊師三相珠寶 
+          //   tempStat.push(stringSimilarity.findBestMatch(itemArray[11], this.explicitStats))
+          //   tempStat.push(stringSimilarity.findBestMatch(itemArray[12], this.explicitStats))
+          //   if (itemArray[13] !== "--------") {
+          //     tempStat.push(stringSimilarity.findBestMatch(itemArray[13], this.explicitStats))
+          //   }
+          //   tempStat.forEach((element, index) => { // 比對詞綴
+          //     let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
+          //     let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
+          //     let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
+          //     let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
+          //     for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
+          //       if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
+          //         randomMaxValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+          //         randomMaxValue = isNaN(randomMaxValue) ? '' : randomMaxValue
+          //       }
+          //       if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
+          //         randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
+          //         randomMinValue = isNaN(randomMinValue) ? '' : randomMinValue
+          //         if (matchStatArray[index].indexOf('，#') > -1) { // 處理隨機數值在'，'後的詞綴(無法用空格符號 split)
+          //           let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('，') + 1)
+          //           randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
+          //         }
+          //       }
+          //     }
+          //     this.searchStats.push({
+          //       "id": element.ratings[element.bestMatchIndex + 1].target,
+          //       "text": element.bestMatch.target,
+          //       "min": randomMinValue,
+          //       "max": randomMaxValue,
+          //       "isValue": randomMinValue ? true : false,
+          //       "type": "傳奇",
+          //       "isSearch": true,
+          //     })
+          //   })
+          //   return // 選擇詞墜後再搜尋
+          // } else if (searchName === "奧爾的崛起") {
+          //   tempStat.push(stringSimilarity.findBestMatch(itemArray[15], this.explicitStats))
+          //   tempStat.forEach((element, index) => { // 比對詞綴
+          //     if (element.bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
+          //       let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
+          //       let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
+          //       this.searchStats.push({
+          //         "id": element.ratings[element.bestMatchIndex + 1].target,
+          //         "text": element.bestMatch.target,
+          //         "min": '',
+          //         "max": '',
+          //         "isValue": false,
+          //         "type": "傳奇",
+          //         "isSearch": true,
+          //       })
+          //       // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
+          //     }
+          //   })
+          //   return // 選擇詞墜後再搜尋
+          // }
         } else { // 未鑑定傳奇(但會搜到相同基底)
           if (searchName.indexOf('精良的') > -1) { // 未鑑定的品質傳奇物品
             searchName = searchName.substring(4)
@@ -1492,7 +1524,7 @@ export default {
       } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
       } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法" || Rarity === "普通")) {
-        this.rareStatsAnalysis(itemArray)
+        this.itemStatsAnalysis(itemArray, 0)
         return
       } else {
         this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官及非傳奇藥劑`
