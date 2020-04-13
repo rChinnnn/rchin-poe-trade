@@ -10,6 +10,9 @@ import {
   createProtocol,
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
+import {
+  autoUpdater
+} from 'electron-updater'
 import path from 'path'
 import hotkeys from "hotkeys-js";
 const server = require('./server');
@@ -70,6 +73,7 @@ function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     mainWindow.loadURL('app://./index.html')
+    autoUpdater.checkForUpdatesAndNotify()
   }
 
   mainWindow.on('closed', () => {

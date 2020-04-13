@@ -12,6 +12,13 @@ module.exports = {
     host: '0.0.0.0',  
     port: 3030
   },
+  pluginOptions: {
+    electronBuilder: {
+      builderOptions: {
+        publish: ['github']
+      }
+    }
+  },
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src'))
