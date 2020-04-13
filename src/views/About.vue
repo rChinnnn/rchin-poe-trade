@@ -4,6 +4,7 @@
     <b-card-group deck>
       <b-card border-variant="primary" header="台服 POE 查價工具 v1.310.3" header-bg-variant="primary" header-text-variant="white" align="center">
         <b-card-text>作者：rChinnn</b-card-text>
+        <b-card-text>test for update feature</b-card-text>
         <b-card-text>
           <b-button @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/releases`)" size="sm" variant="outline-primary" class="mb-2">
             版本發佈歷史請點我
