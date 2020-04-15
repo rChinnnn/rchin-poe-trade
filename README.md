@@ -1,3 +1,7 @@
+![GitHub Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/total)
+![GitHub Latest Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/total)
+![GitHub Release Date](https://img.shields.io/github/release-date/rChinnnn/rchin-poe-trade)
+
 # rChin POE Trade
 POE 快速查價工具 (Built with Electron and Vue.)
 > 絕大部分的物品皆可搜尋 - 限定台服使用 
