@@ -17,6 +17,9 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 Vue.component('v-select', vSelect)
 
+import VueCountdown from '@chenfengyuan/vue-countdown';
+Vue.component(VueCountdown.name, VueCountdown);
+
 Vue.config.productionTip = false
 
 new Vue({

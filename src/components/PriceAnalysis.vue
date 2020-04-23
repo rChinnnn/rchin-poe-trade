@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <tr v-for="(item, index) in collectionCurrency" :key="index">
-          <td>
+          <td :style="item.count === maxCurrencyCount ? 'color: orangered;' : ''">
             報價：{{ item.amount }} x <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img> / <b>{{ item.count }}</b>筆
           </td>
         </tr>
@@ -45,6 +45,7 @@ export default {
   props: {
     fetchID: Array,
     fetchQueryID: String,
+    fetchLength: Number,
     isPriced: Boolean,
   },
   components: {
@@ -79,47 +80,63 @@ export default {
     fetchID: {
       immediate: true,
       handler(val) {
+        let indexLength = this.fetchLength >= val.length ? val.length : this.fetchLength
+        let countLimit = indexLength <= 4 ? 4 : indexLength
         this.fetchResult = [
+          [],
+          [],
+          [],
+          [],
+          [],
           [],
           [],
           []
         ]
         this.itemImage = ''
-        // v-if="isPriced && fetchID.length !== 0"
         if (this.isLoading || !this.isPriced || val.length === 0) {
           return
         }
         this.isLoading = true;
-        this.$emit('loading', this.isLoading);
-        let indexLength = val.length >= 3 ? 3 : val.length
         for (let index = 0; index < indexLength; index++) {
-          http.get(`https://web.poe.garena.tw/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
+          this.axios.get(`https://web.poe.garena.tw/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
             .then((response) => {
+              let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
+              let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
               this.fetchResult[index].push(response.data.result)
               if (this.fetchResult[0].length !== 0 && !this.itemImage) {
                 this.itemImage = this.fetchResult[0][0][0].item.icon
               }
-              switch (indexLength) {
-                case 1:
-                  if (this.fetchResult[0].length !== 0) {
-                    this.isLoading = false;
-                    this.$emit('loading', this.isLoading);
-                  }
-                  break;
-                case 2:
-                  if (this.fetchResult[0].length !== 0 && this.fetchResult[1].length !== 0) {
-                    this.isLoading = false;
-                    this.$emit('loading', this.isLoading);
-                  }
-                  break;
-                case 3:
-                  if (this.fetchResult[0].length !== 0 && this.fetchResult[1].length !== 0 && this.fetchResult[2].length !== 0) {
-                    this.isLoading = false;
-                    this.$emit('loading', this.isLoading);
-                  }
-                  break;
-                default:
-                  break;
+              console.log(`limitState: ${limitState}`)
+              if (this.fetchResultLength == indexLength) {
+                this.isLoading = false;
+                switch (limitState) {
+                  case '9':
+                    this.$emit('countdown', countLimit / 1.33)
+                    break;
+                  case '10':
+                    this.$emit('countdown', countLimit / 1.33)
+                    break;
+                  case '11':
+                    this.$emit('countdown', countLimit / 1.33)
+                    break;
+                  case '12':
+                    this.$emit('countdown', countLimit / 1.33)
+                    break;
+                  case '13':
+                    this.$emit('countdown', 8 / 1.33)
+                    break;
+                  case '14':
+                    this.$emit('countdown', 8 / 1.33)
+                    break;
+                  case '15':
+                    this.$emit('countdown', 8 / 1.33)
+                    break;
+                  case '16':
+                    this.$emit('countdown', 8 / 1.33)
+                    break;
+                  default:
+                    break;
+                }
               }
             })
             .catch(function (error) {
@@ -132,6 +149,9 @@ export default {
   computed: {
     fetchResultPrice() { // 取出 result -> listing -> price 物件內容
       return this.fetchResult.flat(Infinity).map(item => Object.values(item)[1]).map(item => Object.values(item)[Object.values(item).length - 1]);
+    },
+    fetchResultLength() {
+      return Math.ceil(this.fetchResultPrice.length / 10)
     },
     collectionRepeat() {
       if (!this.isPriced || !this.fetchResultPrice[0]) {
@@ -164,6 +184,9 @@ export default {
         });
       });
       return collectionCurrency
+    },
+    maxCurrencyCount() {
+      return Math.max(...this.collectionCurrency.map(p => p.count))
     },
   },
 }

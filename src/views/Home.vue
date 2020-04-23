@@ -30,20 +30,28 @@
           </b-col>
         </b-row>
         <b-row style="padding-top: 10px;">
-          <b-col style="padding-left: 8px;">
-            <b-form-checkbox v-model="isOnline" :disabled="isLoading" switch :inline="false">
+          <b-col sm="4" style="padding-left: 15px;">
+            <b-form-checkbox v-model="isOnline" :disabled="isCounting" switch :inline="false">
               <b>只顯示線上</b>
             </b-form-checkbox>
           </b-col>
-          <b-col>
-            <b-form-checkbox v-model="isPriced" :disabled="isLoading" switch>
+          <b-col sm="4">
+            <b-form-checkbox v-model="isPriced" :disabled="isCounting" switch>
               <b>{{ pricedText }}</b>
             </b-form-checkbox>
+            <div style="width: 137px;">
+              <v-select class="style-limit" v-if="isPriced" :options="limitSet.option" v-model="limitSet.chosenObj" :clearable="false" :filterable="false" :disabled="isCounting"></v-select>
+            </div>
           </b-col>
-          <b-col sm="5" style="padding-left: 0px;">
+          <b-col sm="4" style="padding-left: 0px;">
             <b-form-checkbox v-model="isMapAreaCollapse" switch :inline="false">
               <b>輿圖區域名稱複製</b>
             </b-form-checkbox>
+            <div v-if="isCounting" style="padding-top: 6px; color: orangered;">
+              <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
+                <template slot-scope="props">請再等待：{{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} seconds.</template>
+              </countdown>
+            </div>
           </b-col>
         </b-row>
         <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
@@ -146,7 +154,7 @@
         <b-row v-if="searchStats.length == 0">
           <b-col sm="10"></b-col>
           <b-col sm="2" style="padding-top: 15px;">
-            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+            <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
           </b-col>
         </b-row>
       </b-card>
@@ -213,7 +221,7 @@
         <b-row>
           <b-col sm="10"></b-col>
           <b-col sm="2" style="padding-top: 15px;">
-            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+            <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
           </b-col>
         </b-row>
       </b-card>
@@ -256,7 +264,7 @@
         <b-row>
           <b-col sm="10"></b-col>
           <b-col sm="2" style="padding-top: 15px;">
-            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+            <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
           </b-col>
         </b-row>
       </b-card>
@@ -299,15 +307,15 @@
       <b-row>
         <b-col sm="10"></b-col>
         <b-col sm="2">
-          <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+          <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
         </b-col>
       </b-row>
     </b-collapse>
   </b-container>
   <h6>{{ status }}</h6>
   <div>
-    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" size="sm" variant="outline-primary">官方交易市集</b-button>
-    <PriceAnalysis @loading="detectLoading" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
+    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">官方交易市集</b-button>
+    <PriceAnalysis @countdown="startCountdown" :fetchID="fetchID" :fetchLength="limitSet.chosenObj.value" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
   </div>
 </div>
 </template>
@@ -336,7 +344,8 @@ export default {
       status: '',
       copyText: '',
       testResponse: '',
-      isLoading: false,
+      countTime: 0,
+      isCounting: false,
       isOnline: true,
       isPriced: true,
       isItem: false,
@@ -363,6 +372,19 @@ export default {
       leagues: { // 搜尋聯盟 
         option: ["譫妄聯盟", "譫妄聯盟（專家）", "標準模式", "專家模式"],
         chosenL: "譫妄聯盟"
+      },
+      limitSet: { // 搜尋限制設定
+        option: [{
+          label: "顯示前 40 筆",
+          value: 4
+        }, {
+          label: "顯示前 80 筆",
+          value: 8
+        }, ],
+        chosenObj: {
+          label: "顯示前 40 筆",
+          value: 4
+        }
       },
       raritySet: { // 稀有度設定
         option: [{
@@ -579,7 +601,7 @@ export default {
   },
   created() {
     if (clipboard.readText().indexOf('稀有度:') > -1) {
-      clipboard.writeText('')
+      this.cleanClipboard()
     }
   },
   mounted() {
@@ -596,6 +618,9 @@ export default {
       setInterval(() => {
         this.copyText = clipboard.readText()
       }, 500);
+    },
+    cleanClipboard() {
+      clipboard.writeText('')
     },
     apiTest: _.debounce(function () {
       this.axios.post(`http://localhost:3031/tradeTest`, {
@@ -630,8 +655,13 @@ export default {
       shell.openExternal(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
       // window.open(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`, '_blank', 'nodeIntegration=no')
     },
-    detectLoading(boolean) {
-      this.isLoading = boolean
+    startCountdown(Time) {
+      this.countTime = Time * 1000
+      this.isCounting = true
+    },
+    handleCountdownEnd() {
+      this.isCounting = false
+      this.cleanClipboard()
     },
     statsAPI() { // 詞綴 API
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
@@ -873,7 +903,7 @@ export default {
       })
       this.isMapAreaCollapse = false
     },
-    clickToSearch() { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
+    clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
         this.searchJson.query.stats[0].filters.length = 0
       }
@@ -898,7 +928,7 @@ export default {
         }
       })
       this.searchTrade(this.searchJson)
-    },
+    }, 500),
     itemStatsAnalysis(itemArray, rarityFlag) {
       this.isStatsCollapse = rarityFlag ? false : true
       let tempStat = []
@@ -919,7 +949,7 @@ export default {
           itemStatEnd--
         }
         if (element.indexOf("附加的小型天賦給予：") > -1 && element.indexOf("(enchant)") == -1) { // 有折行的星團珠寶附魔詞綴
-          itemStatEnd-- 
+          itemStatEnd--
           switch (true) {
             case element.indexOf("斧攻擊增加 12% 擊中和異常狀態傷害") > -1:
               itemArray[index] = `${itemArray[index]}\n劍攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
@@ -1365,15 +1395,15 @@ export default {
       if (item.indexOf('稀有度:') === -1 || !this.copyText) { // POE 內的文字必定有稀有度
         return
       }
-      if (this.isLoading) {
-        this.$bvToast.toast(`搜尋太快了! 請放慢一點腳步`, {
+      if (this.isCounting) {
+        this.$bvToast.toast(`請等待限制間隔倒數完畢後再次按下 Ctrl+C`, {
           noCloseButton: true,
           toaster: 'toast-center-center',
           variant: 'danger',
-          autoHideDelay: 500,
+          autoHideDelay: 800,
           appendToast: false
         })
-        clipboard.writeText('')
+        this.cleanClipboard()
         return
       }
       this.fetchID.length = 0
@@ -1559,6 +1589,15 @@ export default {
       },
       deep: true
     },
+    'limitSet.chosenObj.value': {
+      handler(newVal) {
+        if (_.isEmpty(this.searchJson)) {
+          return
+        }
+        this.searchTrade(this.searchJson)
+      },
+      deep: true
+    },
     'mapCategory.isShaper': { // TODO: 判斷塑者/尊師/凋落圖方式需重構
       handler(newVal) {
         if (newVal) {
@@ -1682,5 +1721,9 @@ tbody.searchStats>tr>td {
 .vs__dropdown-option--selected {
   background: lightskyblue !important;
   color: #333 !important;
+}
+
+.style-limit .vs__dropdown-menu {
+  min-width: 80px;
 }
 </style>
