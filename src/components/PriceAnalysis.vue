@@ -8,13 +8,18 @@
     <table class="table table-striped" v-if="collectionCurrency && !isLoading">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析</th>
+          <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析
+            <br>
+            <b-button v-if="fetchResultPrice.length === 40" @click="morePriceAnalysis" :disabled="isCounting" size="sm" variant="outline-light">再多搜 40 筆價格</b-button>
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item, index) in collectionCurrency" :key="index">
           <td :style="item.count === maxCurrencyCount ? 'color: orangered;' : ''">
-            報價：{{ item.amount }} x <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img> / <b>{{ item.count }}</b>筆
+            報價：{{ item.amount }} x
+            <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img>
+            / <b>{{ item.count }}</b>筆
           </td>
         </tr>
       </tbody>
@@ -47,6 +52,7 @@ export default {
     fetchQueryID: String,
     fetchLength: Number,
     isPriced: Boolean,
+    isCounting: Boolean,
   },
   components: {
     loading: VueLoading,
@@ -68,6 +74,13 @@ export default {
         this.Currency = response.data.result[0].entries
       })
       .catch(function (error) {
+        vm.$bvToast.toast(`error: ${error}`, {
+          noCloseButton: true,
+          toaster: 'toast-center-center',
+          variant: 'danger',
+          autoHideDelay: 800,
+          appendToast: false
+        })
         console.log(error);
       })
   },
@@ -75,13 +88,63 @@ export default {
     hotkeyPressed() {
       this.count++
     },
+    morePriceAnalysis() {
+      let vm = this
+      let indexLength = 8 >= this.fetchID.length ? this.fetchID.length : 8
+      this.isLoading = true;
+      for (let index = 4; index < indexLength; index++) {
+        this.axios.get(`https://web.poe.garena.tw/api/trade/fetch/${this.fetchID[index]}?query=${this.fetchQueryID}`)
+          .then((response) => {
+            let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
+            let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
+            this.fetchResult[index].push(response.data.result)
+            this.switchLimitState(limitState)
+            if (this.fetchResultLength == indexLength) {
+              this.isLoading = false;
+            }
+          })
+          .catch(function (error) {
+            vm.isLoading = false;
+            vm.$bvToast.toast(`error: ${error}`, {
+              noCloseButton: true,
+              toaster: 'toast-center-center',
+              variant: 'danger',
+              autoHideDelay: 800,
+              appendToast: false
+            })
+            console.log(error);
+          })
+      }
+    },
+    switchLimitState(limitState) {
+      console.log(limitState)
+      switch (limitState) {
+        case '12':
+          this.$emit('countdown', 4 / 1.33)
+          break;
+        case '13':
+          this.$emit('countdown', 4 / 1.33)
+          break;
+        case '14':
+          this.$emit('countdown', 4 / 1.33)
+          break;
+        case '15':
+          this.$emit('countdown', 4 / 1.33)
+          break;
+        case '16':
+          this.$emit('countdown', 4 / 1.33)
+          break;
+        default:
+          break;
+      }
+    }
   },
   watch: {
     fetchID: {
       immediate: true,
       handler(val) {
+        let vm = this
         let indexLength = this.fetchLength >= val.length ? val.length : this.fetchLength
-        let countLimit = indexLength <= 4 ? 4 : indexLength
         this.fetchResult = [
           [],
           [],
@@ -103,43 +166,23 @@ export default {
               let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
               let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
               this.fetchResult[index].push(response.data.result)
+              this.switchLimitState(limitState)
               if (this.fetchResult[0].length !== 0 && !this.itemImage) {
                 this.itemImage = this.fetchResult[0][0][0].item.icon
               }
-              console.log(`limitState: ${limitState}`)
               if (this.fetchResultLength == indexLength) {
                 this.isLoading = false;
-                switch (limitState) {
-                  case '9':
-                    this.$emit('countdown', countLimit / 1.33)
-                    break;
-                  case '10':
-                    this.$emit('countdown', countLimit / 1.33)
-                    break;
-                  case '11':
-                    this.$emit('countdown', countLimit / 1.33)
-                    break;
-                  case '12':
-                    this.$emit('countdown', countLimit / 1.33)
-                    break;
-                  case '13':
-                    this.$emit('countdown', 8 / 1.33)
-                    break;
-                  case '14':
-                    this.$emit('countdown', 8 / 1.33)
-                    break;
-                  case '15':
-                    this.$emit('countdown', 8 / 1.33)
-                    break;
-                  case '16':
-                    this.$emit('countdown', 8 / 1.33)
-                    break;
-                  default:
-                    break;
-                }
               }
             })
             .catch(function (error) {
+              vm.isLoading = false;
+              vm.$bvToast.toast(`error: ${error}`, {
+                noCloseButton: true,
+                toaster: 'toast-center-center',
+                variant: 'danger',
+                autoHideDelay: 800,
+                appendToast: false
+              })
               console.log(error);
             })
         }
