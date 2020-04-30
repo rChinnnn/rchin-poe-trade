@@ -263,6 +263,11 @@
     </b-collapse>
   </b-container>
   <hr>
+  <b-alert v-if="isCounting" show variant="warning">
+    <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
+      <template slot-scope="props">因 API 發送次數限制，請再等待：{{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒</template>
+    </countdown>
+  </b-alert>
   <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse">{{ searchName }}</h5>
   <b-container class="bv-example-row">
     <b-collapse :visible="isStatsCollapse && searchStats.length > 0">
@@ -310,11 +315,6 @@
     <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
   </div>
   <div>
-    <b-toast id="api-limit" variant="warning" toaster="toast-center-center" :no-close-button="true" solid>
-      <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
-        <template slot-scope="props">因 API 發送次數限制，請再等待：{{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒.</template>
-      </countdown>
-    </b-toast>
   </div>
 </div>
 </template>
@@ -608,6 +608,9 @@ export default {
     cleanClipboard() {
       clipboard.writeText('')
     },
+    cleanCopyText() {
+      this.copyText = ''
+    },
     apiTest: _.debounce(function () {
       this.axios.post(`http://localhost:3031/tradeTest`, {
           clipboardText: clipboard.readText()
@@ -643,13 +646,11 @@ export default {
     },
     startCountdown(Time) {
       this.countTime = Time * 1000
-      this.$bvToast.show('api-limit')
       this.isCounting = true
     },
     handleCountdownEnd() {
-      this.cleanClipboard()
       this.isCounting = false
-      this.$bvToast.hide('api-limit')
+      this.cleanClipboard()
     },
     statsAPI() { // 詞綴 API
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
@@ -1384,14 +1385,15 @@ export default {
         return
       }
       if (this.isCounting) {
+        this.cleanCopyText()
+        this.cleanClipboard()
         this.$bvToast.toast(`請等待限制間隔倒數完畢後再次按下 Ctrl+C`, {
           noCloseButton: true,
-          toaster: 'toast-center-center',
+          toaster: 'toast-warning-center',
           variant: 'danger',
           autoHideDelay: 800,
-          appendToast: false
+          appendToast: true
         })
-        this.cleanClipboard()
         return
       }
       this.fetchID.length = 0
@@ -1490,7 +1492,6 @@ export default {
       } else {
         this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官及非傳奇藥劑`
         return
-        // this.copyText = `Rarity：${Rarity}、length: ${Rarity.length}`
       }
       this.searchTrade(this.searchJson)
     },
@@ -1633,6 +1634,12 @@ tbody.searchStats>tr>td {
   /* -ms-transform: translateX(-50%) translateY(-50%);
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); */
+}
+
+.toast-warning-center {
+  position: absolute;
+  top: 35%;
+  left: 30%;
 }
 
 .vs__dropdown-option--highlight {
