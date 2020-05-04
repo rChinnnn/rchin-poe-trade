@@ -30,17 +30,17 @@
           </b-col>
         </b-row>
         <b-row style="padding-top: 10px;">
-          <b-col style="padding-left: 8px;">
-            <b-form-checkbox v-model="isOnline" :disabled="isLoading" switch :inline="false">
+          <b-col sm="4" style="padding-left: 15px;">
+            <b-form-checkbox v-model="isOnline" :disabled="isCounting" switch :inline="false">
               <b>只顯示線上</b>
             </b-form-checkbox>
           </b-col>
-          <b-col>
-            <b-form-checkbox v-model="isPriced" :disabled="isLoading" switch>
+          <b-col sm="4">
+            <b-form-checkbox v-model="isPriced" :disabled="isCounting" switch>
               <b>{{ pricedText }}</b>
             </b-form-checkbox>
           </b-col>
-          <b-col sm="5" style="padding-left: 0px;">
+          <b-col sm="4" style="padding-left: 0px;">
             <b-form-checkbox v-model="isMapAreaCollapse" switch :inline="false">
               <b>輿圖區域名稱複製</b>
             </b-form-checkbox>
@@ -146,7 +146,7 @@
         <b-row v-if="searchStats.length == 0">
           <b-col sm="10"></b-col>
           <b-col sm="2" style="padding-top: 15px;">
-            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+            <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
           </b-col>
         </b-row>
       </b-card>
@@ -213,7 +213,7 @@
         <b-row>
           <b-col sm="10"></b-col>
           <b-col sm="2" style="padding-top: 15px;">
-            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+            <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
           </b-col>
         </b-row>
       </b-card>
@@ -256,13 +256,18 @@
         <b-row>
           <b-col sm="10"></b-col>
           <b-col sm="2" style="padding-top: 15px;">
-            <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+            <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
           </b-col>
         </b-row>
       </b-card>
     </b-collapse>
   </b-container>
   <hr>
+  <b-alert v-if="isCounting" show variant="warning">
+    <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
+      <template slot-scope="props">因 API 發送次數限制，請再等待：{{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒</template>
+    </countdown>
+  </b-alert>
   <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse">{{ searchName }}</h5>
   <b-container class="bv-example-row">
     <b-collapse :visible="isStatsCollapse && searchStats.length > 0">
@@ -299,15 +304,17 @@
       <b-row>
         <b-col sm="10"></b-col>
         <b-col sm="2">
-          <b-button @click="clickToSearch" variant="outline-primary">查詢</b-button>
+          <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
         </b-col>
       </b-row>
     </b-collapse>
   </b-container>
   <h6>{{ status }}</h6>
   <div>
-    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" size="sm" variant="outline-primary">官方交易市集</b-button>
-    <PriceAnalysis @loading="detectLoading" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
+    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">官方交易市集</b-button>
+    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
+  </div>
+  <div>
   </div>
 </div>
 </template>
@@ -336,7 +343,8 @@ export default {
       status: '',
       copyText: '',
       testResponse: '',
-      isLoading: false,
+      countTime: 0,
+      isCounting: false,
       isOnline: true,
       isPriced: true,
       isItem: false,
@@ -579,7 +587,7 @@ export default {
   },
   created() {
     if (clipboard.readText().indexOf('稀有度:') > -1) {
-      clipboard.writeText('')
+      this.cleanClipboard()
     }
   },
   mounted() {
@@ -596,6 +604,12 @@ export default {
       setInterval(() => {
         this.copyText = clipboard.readText()
       }, 500);
+    },
+    cleanClipboard() {
+      clipboard.writeText('')
+    },
+    cleanCopyText() {
+      this.copyText = ''
     },
     apiTest: _.debounce(function () {
       this.axios.post(`http://localhost:3031/tradeTest`, {
@@ -630,8 +644,13 @@ export default {
       shell.openExternal(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
       // window.open(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`, '_blank', 'nodeIntegration=no')
     },
-    detectLoading(boolean) {
-      this.isLoading = boolean
+    startCountdown(Time) {
+      this.countTime = Time * 1000
+      this.isCounting = true
+    },
+    handleCountdownEnd() {
+      this.isCounting = false
+      this.cleanClipboard()
     },
     statsAPI() { // 詞綴 API
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
@@ -873,7 +892,7 @@ export default {
       })
       this.isMapAreaCollapse = false
     },
-    clickToSearch() { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
+    clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
         this.searchJson.query.stats[0].filters.length = 0
       }
@@ -898,7 +917,7 @@ export default {
         }
       })
       this.searchTrade(this.searchJson)
-    },
+    }, 500),
     itemStatsAnalysis(itemArray, rarityFlag) {
       this.isStatsCollapse = rarityFlag ? false : true
       let tempStat = []
@@ -919,7 +938,7 @@ export default {
           itemStatEnd--
         }
         if (element.indexOf("附加的小型天賦給予：") > -1 && element.indexOf("(enchant)") == -1) { // 有折行的星團珠寶附魔詞綴
-          itemStatEnd-- 
+          itemStatEnd--
           switch (true) {
             case element.indexOf("斧攻擊增加 12% 擊中和異常狀態傷害") > -1:
               itemArray[index] = `${itemArray[index]}\n劍攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
@@ -1365,15 +1384,16 @@ export default {
       if (item.indexOf('稀有度:') === -1 || !this.copyText) { // POE 內的文字必定有稀有度
         return
       }
-      if (this.isLoading) {
-        this.$bvToast.toast(`搜尋太快了! 請放慢一點腳步`, {
+      if (this.isCounting) {
+        this.cleanCopyText()
+        this.cleanClipboard()
+        this.$bvToast.toast(`請等待限制間隔倒數完畢後再次按下 Ctrl+C`, {
           noCloseButton: true,
-          toaster: 'toast-center-center',
+          toaster: 'toast-warning-center',
           variant: 'danger',
-          autoHideDelay: 500,
-          appendToast: false
+          autoHideDelay: 800,
+          appendToast: true
         })
-        clipboard.writeText('')
         return
       }
       this.fetchID.length = 0
@@ -1419,63 +1439,6 @@ export default {
           if (this.isItem) {
             this.itemStatsAnalysis(itemArray, 1)
           }
-          // let tempStat = []
-          // if (searchName === "看守之眼") { // 尊師三相珠寶 
-          //   tempStat.push(stringSimilarity.findBestMatch(itemArray[11], this.explicitStats))
-          //   tempStat.push(stringSimilarity.findBestMatch(itemArray[12], this.explicitStats))
-          //   if (itemArray[13] !== "--------") {
-          //     tempStat.push(stringSimilarity.findBestMatch(itemArray[13], this.explicitStats))
-          //   }
-          //   tempStat.forEach((element, index) => { // 比對詞綴
-          //     let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
-          //     let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
-          //     let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
-          //     let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
-          //     for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
-          //       if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
-          //         randomMaxValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
-          //         randomMaxValue = isNaN(randomMaxValue) ? '' : randomMaxValue
-          //       }
-          //       if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
-          //         randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
-          //         randomMinValue = isNaN(randomMinValue) ? '' : randomMinValue
-          //         if (matchStatArray[index].indexOf('，#') > -1) { // 處理隨機數值在'，'後的詞綴(無法用空格符號 split)
-          //           let tempStat = itemStatArray[index].substring(itemStatArray[index].indexOf('，') + 1)
-          //           randomMinValue = parseFloat(tempStat.replace(/[+-]^\D+/g, ''))
-          //         }
-          //       }
-          //     }
-          //     this.searchStats.push({
-          //       "id": element.ratings[element.bestMatchIndex + 1].target,
-          //       "text": element.bestMatch.target,
-          //       "min": randomMinValue,
-          //       "max": randomMaxValue,
-          //       "isValue": randomMinValue ? true : false,
-          //       "type": "傳奇",
-          //       "isSearch": true,
-          //     })
-          //   })
-          //   return // 選擇詞墜後再搜尋
-          // } else if (searchName === "奧爾的崛起") {
-          //   tempStat.push(stringSimilarity.findBestMatch(itemArray[15], this.explicitStats))
-          //   tempStat.forEach((element, index) => { // 比對詞綴
-          //     if (element.bestMatch.rating) { // bestMatch > 0 (有抓到詞綴)
-          //       let itemStatArray = itemArray[index + 11].split(' ') // 將物品上的詞綴拆解
-          //       let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
-          //       this.searchStats.push({
-          //         "id": element.ratings[element.bestMatchIndex + 1].target,
-          //         "text": element.bestMatch.target,
-          //         "min": '',
-          //         "max": '',
-          //         "isValue": false,
-          //         "type": "傳奇",
-          //         "isSearch": true,
-          //       })
-          //       // console.log(`物品上第${index+1}詞詞綴: ${itemArray[index+11]}\n第${index+1}詞ID: ${element.ratings[element.bestMatchIndex+1].target}\n第一詞詞綴: ${element.bestMatch.target}\n吻合率: ${element.bestMatch.rating}`)
-          //     }
-          //   })
-          //   return // 選擇詞墜後再搜尋
-          // }
         } else { // 未鑑定傳奇(但會搜到相同基底)
           if (searchName.indexOf('精良的') > -1) { // 未鑑定的品質傳奇物品
             searchName = searchName.substring(4)
@@ -1529,7 +1492,6 @@ export default {
       } else {
         this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官及非傳奇藥劑`
         return
-        // this.copyText = `Rarity：${Rarity}、length: ${Rarity.length}`
       }
       this.searchTrade(this.searchJson)
     },
@@ -1672,6 +1634,12 @@ tbody.searchStats>tr>td {
   /* -ms-transform: translateX(-50%) translateY(-50%);
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); */
+}
+
+.toast-warning-center {
+  position: absolute;
+  top: 35%;
+  left: 30%;
 }
 
 .vs__dropdown-option--highlight {
