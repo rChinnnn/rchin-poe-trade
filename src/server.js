@@ -41,6 +41,9 @@
           'accept': 'application/json',
           'Content-Type': 'application/json',
         },
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
         json: req.body.searchJson
       }
       request(options, function (error, response, body) {
