@@ -1,0 +1,8 @@
+{
+    "win": {
+        "target": [
+            "nsis",
+            "portable"
+        ]
+    }
+}
