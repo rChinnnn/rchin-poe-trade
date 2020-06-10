@@ -262,12 +262,12 @@
       </b-card>
     </b-collapse>
   </b-container>
-  <hr>
-  <b-alert v-if="isCounting" show variant="warning">
+  <b-alert v-if="isCounting" show variant="warning" style="margin-top: 5px;">
     <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
       <template slot-scope="props">因 API 發送次數限制，請再等待：{{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒</template>
     </countdown>
   </b-alert>
+  <hr v-else>
   <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse">{{ searchName }}</h5>
   <b-container class="bv-example-row">
     <b-collapse :visible="isStatsCollapse && searchStats.length > 0">
@@ -612,6 +612,7 @@ export default {
       this.copyText = ''
     },
     apiTest: _.debounce(function () {
+      let vm = this
       this.axios.post(`http://localhost:3031/tradeTest`, {
           clipboardText: clipboard.readText()
         })
@@ -619,10 +620,18 @@ export default {
           this.testResponse = response.data
         })
         .catch(function (error) {
+          vm.$bvToast.toast(`error: ${error}`, {
+            noCloseButton: true,
+            toaster: 'toast-warning-center',
+            variant: 'danger',
+            autoHideDelay: 800,
+            appendToast: false
+          })
           console.log(error);
         })
     }, 500),
     searchTrade: _.debounce(function (obj) {
+      let vm = this
       this.fetchQueryID = ''
       this.axios.post(`http://localhost:3031/trade`, {
           searchJson: obj,
@@ -637,6 +646,13 @@ export default {
           this.fetchQueryID = response.data.id
         })
         .catch(function (error) {
+          vm.$bvToast.toast(`error: ${error}`, {
+            noCloseButton: true,
+            toaster: 'toast-warning-center',
+            variant: 'danger',
+            autoHideDelay: 800,
+            appendToast: false
+          })
           console.log(error);
         })
     }, 300),
@@ -653,6 +669,7 @@ export default {
       this.cleanClipboard()
     },
     statsAPI() { // 詞綴 API
+      let vm = this
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
         .then((response) => {
           response.data.result[0].entries.forEach((element, index) => { // 偽屬性
@@ -689,10 +706,18 @@ export default {
           })
         })
         .catch(function (error) {
+          vm.$bvToast.toast(`error: ${error}`, {
+            noCloseButton: true,
+            toaster: 'toast-warning-center',
+            variant: 'danger',
+            autoHideDelay: 800,
+            appendToast: false
+          })
           console.log(error);
         })
     },
     itemsAPI() { // 物品 API
+      let vm = this
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
         .then((response) => {
           this.allItems = response.data.result // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
@@ -878,6 +903,13 @@ export default {
           });
         })
         .catch(function (error) {
+          vm.$bvToast.toast(`error: ${error}`, {
+            noCloseButton: true,
+            toaster: 'toast-warning-center',
+            variant: 'danger',
+            autoHideDelay: 800,
+            appendToast: false
+          })
           console.log(error);
         })
     },

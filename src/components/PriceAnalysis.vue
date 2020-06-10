@@ -69,6 +69,7 @@ export default {
 
   },
   mounted() {
+    let vm = this
     this.axios.get(`https://web.poe.garena.tw/api/trade/data/static`, )
       .then((response) => { // 通貨 icon
         this.Currency = response.data.result[0].entries
@@ -104,15 +105,20 @@ export default {
             }
           })
           .catch(function (error) {
+            let limitString = (error.response.headers["x-rate-limit-ip-state"]).split(",")
+            let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
+            limitState = parseInt(limitState, 10)
             vm.isLoading = false;
-            vm.$bvToast.toast(`error: ${error}`, {
+            vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請再等待 ${limitState} 秒`, {
               noCloseButton: true,
               toaster: 'toast-warning-center',
               variant: 'danger',
-              autoHideDelay: 800,
+              autoHideDelay: 2000,
               appendToast: false
             })
+            // vm.$emit('countdown', limitState)
             console.log(error);
+            return
           })
       }
     },
@@ -175,15 +181,20 @@ export default {
               }
             })
             .catch(function (error) {
+              let limitString = (error.response.headers["x-rate-limit-ip-state"]).split(",")
+              let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
+              limitState = parseInt(limitState, 10)
               vm.isLoading = false;
-              vm.$bvToast.toast(`error: ${error}`, {
+              vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請再等待 ${limitState} 秒`, {
                 noCloseButton: true,
                 toaster: 'toast-warning-center',
                 variant: 'danger',
-                autoHideDelay: 800,
+                autoHideDelay: 2000,
                 appendToast: false
               })
+              // vm.$emit('countdown', limitState)
               console.log(error);
+              return
             })
         }
       }
