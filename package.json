@@ -15,6 +15,7 @@
   "main": "background.js",
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.5",
+    "@inotom/vue-go-top": "^1.3.0",
     "axios": "^0.19.2",
     "axios-rate-limit": "^1.2.1",
     "body-parser": "^1.19.0",

@@ -1,7 +1,17 @@
 <template>
 <div class="home">
+  <go-top :size="40" :bottom="50" bg-color="#04a9f3" :boundary="50"></go-top>
   <hr>
-  <b-container class="bv-example-row">
+  <b-alert v-if="isApiError" show variant="danger" style="margin-top: 5px;">
+    <div>Oops! 抓取 API 似乎發生了一點錯誤 ... 請檢查電腦網路狀態</div>
+    <div>若跳出提示 Code 503，表示官方應在關機維護中，請稍後再試</div>
+    <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
+      <template slot-scope="props">
+        <b-button @click="getAllAPI" :disabled="isCounting" size="sm" variant="outline-danger">請 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒後再點我重試一次</b-button>
+      </template>
+    </countdown>
+  </b-alert>
+  <b-container v-else class="bv-example-row">
     <b-row class="lesspadding">
       <b-col align-self="center">
         <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜尋設定</b-button>
@@ -262,7 +272,7 @@
       </b-card>
     </b-collapse>
   </b-container>
-  <b-alert v-if="isCounting" show variant="warning" style="margin-top: 5px;">
+  <b-alert v-if="isCounting && !isApiError" show variant="warning" style="margin-top: 5px;">
     <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
       <template slot-scope="props">因 API 發送次數限制，請再等待：{{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒</template>
     </countdown>
@@ -314,8 +324,6 @@
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">官方交易市集</b-button>
     <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
   </div>
-  <div>
-  </div>
 </div>
 </template>
 
@@ -323,6 +331,7 @@
 // @ is an alias to /src
 import PriceAnalysis from '@/components/PriceAnalysis.vue'
 import hotkeys from "hotkeys-js";
+import GoTop from '@inotom/vue-go-top';
 
 var axios = require('axios');
 var rateLimit = require('axios-rate-limit');
@@ -335,7 +344,8 @@ const {
 export default {
   name: 'home',
   components: {
-    PriceAnalysis
+    PriceAnalysis,
+    GoTop
   },
   data() {
     return {
@@ -344,6 +354,7 @@ export default {
       copyText: '',
       testResponse: '',
       countTime: 0,
+      isApiError: false,
       isCounting: false,
       isOnline: true,
       isPriced: true,
@@ -369,8 +380,8 @@ export default {
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
       leagues: { // 搜尋聯盟 
-        option: ["譫妄聯盟", "譫妄聯盟（專家）", "標準模式", "專家模式"],
-        chosenL: "譫妄聯盟"
+        option: [],
+        chosenL: ""
       },
       raritySet: { // 稀有度設定
         option: [{
@@ -593,8 +604,7 @@ export default {
   mounted() {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
     this.scanCopy();
-    this.statsAPI();
-    this.itemsAPI();
+    this.getAllAPI();
   },
   methods: {
     hotkeyPressed() {
@@ -668,6 +678,12 @@ export default {
       this.isCounting = false
       this.cleanClipboard()
     },
+    getAllAPI() {
+      this.isApiError = false
+      this.statsAPI();
+      this.itemsAPI();
+      this.leaguesAPI();
+    },
     statsAPI() { // 詞綴 API
       let vm = this
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
@@ -706,6 +722,8 @@ export default {
           })
         })
         .catch(function (error) {
+          vm.isApiError = true
+          vm.startCountdown(30)
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -720,7 +738,8 @@ export default {
       let vm = this
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
         .then((response) => {
-          this.allItems = response.data.result // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
+          // this.allItems = response.data.result 
+          // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
           let result = response.data.result
           result[0].entries.forEach((element, index) => { // "label": "飾品"(251筆) 一般飾品基底起始點 index = 180
             switch (true) {
@@ -903,6 +922,30 @@ export default {
           });
         })
         .catch(function (error) {
+          vm.isApiError = true
+          vm.startCountdown(30)
+          vm.$bvToast.toast(`error: ${error}`, {
+            noCloseButton: true,
+            toaster: 'toast-warning-center',
+            variant: 'danger',
+            autoHideDelay: 800,
+            appendToast: false
+          })
+          console.log(error);
+        })
+    },
+    leaguesAPI() { // 聯盟 API
+      let vm = this
+      this.axios.get(`https://web.poe.garena.tw/api/trade/data/leagues`, )
+        .then((response) => {
+          const getID = _.property('id')
+          this.leagues.option = _.map(response.data.result, 'id') 
+          // `_.property` 迭代縮寫 _.map(response.data.result, 'id') = _.map(response.data.result, getID) 
+          this.leagues.chosenL = this.leagues.option[0]
+        })
+        .catch(function (error) {
+          vm.isApiError = true
+          vm.startCountdown(30)
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -1005,7 +1048,8 @@ export default {
       });
       for (let index = itemStatStart; index < itemStatEnd; index++) {
         if (itemArray[index] !== "--------") {
-          let text = itemArray[index]
+          let text = itemArray[index].replace(/\d+/g, '#')
+          // console.log(text)
           itemExplicitStats.push(itemArray[index])
 
           if (itemArray[index].indexOf('(implicit)') > -1) { // 固定屬性
@@ -1016,16 +1060,15 @@ export default {
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(stringSimilarity.findBestMatch(text, this.craftedStats))
             tempStat[tempStat.length - 1].type = "工藝"
-          } else if (itemArray[index].indexOf('(enchant)') > -1) {
-            // TODO: 項鍊塗油的配置屬性為附魔，要再額外判斷
+          } else if (itemArray[index].indexOf('(enchant)') > -1) { // TODO: 項鍊塗油的配置屬性為附魔，要再額外判斷
             text = text.substring(0, text.indexOf('(enchant)'))
             tempStat.push(stringSimilarity.findBestMatch(text, this.enchantStats))
             tempStat[tempStat.length - 1].type = "附魔"
           } else if (rarityFlag) { // 傳奇裝詞綴
-            tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
+            tempStat.push(stringSimilarity.findBestMatch(text, this.explicitStats))
             tempStat[tempStat.length - 1].type = "傳奇"
           } else { // 隨機屬性
-            tempStat.push(stringSimilarity.findBestMatch(itemArray[index], this.explicitStats))
+            tempStat.push(stringSimilarity.findBestMatch(text, this.explicitStats))
             tempStat[tempStat.length - 1].type = "隨機"
           }
         }
@@ -1036,6 +1079,13 @@ export default {
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
         let statText = element.bestMatch.target // 詞綴字串
         // TODO: 詞綴判斷以偽屬性為優先
+        switch (true) { // 攻擊速度
+          case statID.indexOf('stat_210067635') > -1:
+            statID = 'pseudo.pseudo_total_attack_speed'
+            break;
+          default:
+            break;
+        }
         let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
         let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
         // console.log(itemExplicitStats[index])
@@ -1341,6 +1391,7 @@ export default {
         }
       } else { // error handle
         this.status = `Oops! 尚未支援搜尋此種地圖`
+        return
       }
       this.searchTrade(this.searchJson)
     },
@@ -1413,7 +1464,7 @@ export default {
   watch: {
     copyText: function () {
       let item = this.copyText;
-      if (item.indexOf('稀有度:') === -1 || !this.copyText) { // POE 內的文字必定有稀有度
+      if (item.indexOf('稀有度:') === -1 || !this.copyText || this.isApiError) { // POE 內的文字必定有稀有度
         return
       }
       if (this.isCounting) {
