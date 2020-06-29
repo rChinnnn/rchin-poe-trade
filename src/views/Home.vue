@@ -736,27 +736,34 @@ export default {
     },
     itemsAPI() { // 物品 API
       let vm = this
+      let accessoryIndex = 0
+      let armourIndex = 0
+      let jewelIndex = 0
+      let weaponIndex = 0
+      let mapIndex = 0
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
         .then((response) => {
-          // this.allItems = response.data.result 
+          this.allItems = response.data.result
           // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
           let result = response.data.result
-          result[0].entries.forEach((element, index) => { // "label": "飾品"(251筆) 一般飾品基底起始點 index = 180
-            switch (true) {
-              // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
-              case index >= 180 && index <= 221:
+          result[0].entries.forEach((element, index) => { // "label": "飾品"
+            const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指"]
+            // _.isUndefined(element.flags) == true 表示非傳奇物品
+            if (_.isUndefined(element.flags)) {
+              accessoryIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+            }
+            switch (accessoryIndex) {
+              case 1: // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
                 element.name = "項鍊"
                 element.option = "accessory.amulet"
                 this.equipItems.push(element)
                 break;
-                // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
-              case index >= 222 && index <= 231:
+              case 2: // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
                 element.name = "腰帶"
                 element.option = "accessory.belt"
                 this.equipItems.push(element)
                 break;
-                // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }  
-              case index >= 232:
+              case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }  
                 element.name = "戒指"
                 element.option = "accessory.ring"
                 this.equipItems.push(element)
@@ -765,40 +772,38 @@ export default {
                 break;
             }
           });
-          result[1].entries.forEach((element, index) => { // "label": "護甲"(737筆) 一般護甲基底起始點 index = 361
-            switch (true) {
-              // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
-              case index >= 361 && index <= 464:
+          result[1].entries.forEach((element, index) => { // "label": "護甲"
+            const basetype = ["黃金戰甲", "異色鞋", "擒拿手套", "喚骨頭盔", "黃金聖炎", "火靈箭袋"]
+            if (_.isUndefined(element.flags)) {
+              armourIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+            }
+            switch (armourIndex) {
+              case 1: // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
                 element.name = "胸甲"
                 element.option = "armour.chest"
                 this.equipItems.push(element)
                 break;
-                // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
-              case index >= 465 && index <= 518:
+              case 2: // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
                 element.name = "鞋子"
                 element.option = "armour.boots"
                 this.equipItems.push(element)
                 break;
-                // 手套起始點 { "type": "擒拿手套", "text": "擒拿手套" }
-              case index >= 519 && index <= 572:
+              case 3: // 手套起始點 { "type": "擒拿手套", "text": "擒拿手套" }
                 element.name = "手套"
                 element.option = "armour.gloves"
                 this.equipItems.push(element)
                 break;
-                // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
-              case index >= 573 && index <= 638:
+              case 4: // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
                 element.name = "頭部"
                 element.option = "armour.helmet"
                 this.equipItems.push(element)
                 break;
-                // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
-              case index >= 639 && index <= 727:
+              case 5: // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
                 element.name = "盾"
                 element.option = "armour.shield"
                 this.equipItems.push(element)
                 break;
-                // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
-              case index >= 728:
+              case 6: // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
                 element.name = "箭袋"
                 element.option = "armour.quiver"
                 this.equipItems.push(element)
@@ -808,9 +813,12 @@ export default {
             }
           });
           result[6].entries.forEach((element, index) => { // "label": "珠寶"(159筆) 一般珠寶基底起始點 index = 137
-            switch (true) {
-              // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
-              case index >= 147:
+            const basetype = ["催眠之眼珠寶"]
+            if (_.isUndefined(element.flags)) {
+              jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+            }
+            switch (jewelIndex) {
+              case 1: // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
                 element.name = "珠寶"
                 element.option = "jewel"
                 this.equipItems.push(element)
@@ -819,85 +827,77 @@ export default {
                 break;
             }
           });
-          result[8].entries.forEach((element, index) => { // "label": "武器"(547筆) 一般武器基底起始點 index = 238
-            switch (true) {
-              // 爪起始點 { "type": "拳釘", "text": "拳釘" }
-              case index >= 238 && index <= 262:
+          result[8].entries.forEach((element, index) => { // "label": "武器"(548筆) 一般武器基底起始點 index = 238
+            const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
+            if (_.isUndefined(element.flags)) {
+              weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+            }
+            switch (weaponIndex) {
+              case 1: // 爪起始點 { "type": "拳釘", "text": "拳釘" }
                 element.name = "爪"
                 element.option = "weapon.claw"
                 element.weapon = "weapon.one" // "weapon.one" 單手武器
                 this.equipItems.push(element)
                 break;
-                // 匕首起始點 { "type": "玻璃利片", "text": "玻璃利片" }
-              case index >= 263 && index <= 287:
+              case 2: // 匕首起始點 { "type": "玻璃利片", "text": "玻璃利片" }
                 element.name = "匕首"
                 element.option = "weapon.dagger"
                 element.weapon = "weapon.one"
                 this.equipItems.push(element)
                 break;
-                // 單手斧起始點 { "type": "鏽斧", "text": "鏽斧" }
-              case index >= 288 && index <= 312:
+              case 3: // 單手斧起始點 { "type": "鏽斧", "text": "鏽斧" }
                 element.name = "單手斧"
                 element.option = "weapon.oneaxe"
                 element.weapon = "weapon.one"
                 this.equipItems.push(element)
                 break;
-                // 單手錘起始點 { "type": "朽木之棒", "text": "朽木之棒" }
-              case index >= 313 && index <= 362:
+              case 4: // 單手錘起始點 { "type": "朽木之棒", "text": "朽木之棒" }
                 element.name = "單手錘"
                 element.option = "weapon.onemace"
                 element.weapon = "weapon.one"
                 this.equipItems.push(element)
                 break;
-                // 單手劍起始點 { "type": "鏽劍", "text": "鏽劍" }
-              case index >= 363 && index <= 412:
+              case 5: // 單手劍起始點 { "type": "鏽劍", "text": "鏽劍" }
                 element.name = "單手劍"
                 element.option = "weapon.onesword"
                 element.weapon = "weapon.one"
                 this.equipItems.push(element)
                 break;
-                // 法杖起始點 { "type": "朽木法杖", "text": "朽木法杖" }
-              case index >= 413 && index <= 432:
+              case 6: // 法杖起始點 { "type": "朽木法杖", "text": "朽木法杖" }
                 element.name = "法杖"
                 element.option = "weapon.wand"
                 element.weapon = "weapon.one"
                 this.equipItems.push(element)
                 break;
-                // { "type": "魚竿", "text": "魚竿" }
-              case index >= 433 && index <= 433:
+              case 7: // { "type": "魚竿", "text": "魚竿" }
                 element.name = "釣竿"
                 element.option = "weapon.rod"
                 this.equipItems.push(element)
                 break;
-                // 弓起始點 { "type": "粗製弓", "text": "粗製弓" }
-              case index >= 434 && index <= 458:
+              case 8: // 弓起始點 { "type": "粗製弓", "text": "粗製弓" }
                 element.name = "弓"
                 element.option = "weapon.bow"
                 this.equipItems.push(element)
                 break;
-                // 長杖起始點 { "type": "朽木之幹", "text": "朽木之幹" }
-              case index >= 459 && index <= 480:
+              case 9: // 長杖起始點 { "type": "朽木之幹", "text": "朽木之幹" }
                 element.name = "長杖"
                 element.option = "weapon.staff"
                 element.weapon = "weapon.twomelee"
                 this.equipItems.push(element)
                 break;
-                // 雙手斧起始點 { "type": "石斧", "text": "石斧" }
-              case index >= 481 && index <= 502:
+              case 10: // 雙手斧起始點 { "type": "石斧", "text": "石斧" }
                 element.name = "雙手斧"
                 element.option = "weapon.twoaxe"
                 element.weapon = "weapon.twomelee"
                 this.equipItems.push(element)
                 break;
-                // 雙手錘起始點 { "type": "朽木巨錘", "text": "朽木巨錘" }
-              case index >= 503 && index <= 524:
+              case 11: // 雙手錘起始點 { "type": "朽木巨錘", "text": "朽木巨錘" }
                 element.name = "雙手錘"
                 element.option = "weapon.twomace"
                 element.weapon = "weapon.twomelee"
                 this.equipItems.push(element)
                 break;
-                // 雙手劍起始點 { "type": "鏽斑巨劍", "text": "鏽斑巨劍" }
-              case index >= 525:
+              case 12: // 雙手劍起始點 { "type": "鏽斑巨劍", "text": "鏽斑巨劍" }
                 element.name = "雙手劍"
                 element.option = "weapon.twosword"
                 element.weapon = "weapon.twomelee"
@@ -907,17 +907,13 @@ export default {
                 break;
             }
           });
-          result[7].entries.forEach((element, index) => { // "label": "地圖"(635筆) 只抓 warfortheatlas 一般地圖基底
-            switch (true) {
-              // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
-              case index >= 28 && index <= 169:
-                this.mapBasic.option.push(element.text)
-                break;
-              default:
-                break;
+          result[7].entries.forEach((element, index) => { // "label": "地圖" 
+            const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
+            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+              this.mapBasic.option.push(element.text)
             }
           });
-          result[5].entries.forEach((element, index) => { // "label": "技能寶石"(418筆)
+          result[5].entries.forEach((element, index) => { // "label": "技能寶石"
             this.gemBasic.option.push(element.text)
           });
         })
@@ -939,7 +935,7 @@ export default {
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/leagues`, )
         .then((response) => {
           const getID = _.property('id')
-          this.leagues.option = _.map(response.data.result, 'id') 
+          this.leagues.option = _.map(response.data.result, 'id')
           // `_.property` 迭代縮寫 _.map(response.data.result, 'id') = _.map(response.data.result, getID) 
           this.leagues.chosenL = this.leagues.option[0]
         })
