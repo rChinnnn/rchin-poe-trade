@@ -9,6 +9,18 @@
     const moment = require('moment');
     const bodyParser = require("body-parser");
 
+    /* 
+      (async () => {
+        const response = await axios.get(
+          "https://www.pathofexile.com/character-window/get-stash-items?accountName=[ACCOUNT]&league=Delirium&tabs=0&tabIndex=0", {
+            headers: {
+              Cookie: "POESESSID=[ID]"
+            }
+          }
+        );
+        console.log(`Items in stash:`, response.data.items);
+      })();
+     **/
     // 使用 bodyparser.json() 將 HTTP 請求方法 POST、DELETE、PUT 和 PATCH，放在 HTTP 主體 (body) 發送的參數存放在 req.body
     app.use(bodyParser.urlencoded({
       extended: false
@@ -36,6 +48,7 @@
       let fetchID = [] // 儲存得到的 result ID, 10 個 ID 為一組陣列
       let options = {
         url: `https://web.poe.garena.tw/api/trade/search/${req.body.league}`,
+        // could replace searchJson by `${req.body.league}?q={"query": ... }`
         method: 'post',
         headers: {
           'accept': 'application/json',

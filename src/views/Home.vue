@@ -373,6 +373,7 @@ export default {
       implicitStats: [], // 固定屬性
       enchantStats: [], // 附魔
       clusterJewelStats: [], // 星團珠寶附魔詞綴
+      allocatesStats: [], // 項鍊塗油配置附魔詞綴
       craftedStats: [], // 已工藝
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       searchName: '',
@@ -711,6 +712,10 @@ export default {
               element.option.options.forEach((element, index) => {
                 this.clusterJewelStats.push(element.text, (element.id).toString())
               })
+            } else if (element.id === "enchant.stat_2954116742") { // 項鍊塗油配置附魔詞綴
+              element.option.options.forEach((element, index) => {
+                this.allocatesStats.push(element.text, (element.id).toString())
+              })
             }
           })
           response.data.result[5].entries.forEach((element, index) => { // 已工藝
@@ -1044,7 +1049,7 @@ export default {
       });
       for (let index = itemStatStart; index < itemStatEnd; index++) {
         if (itemArray[index] !== "--------") {
-          let text = itemArray[index].replace(/\d+/g, '#')
+          let text = itemArray[index].replace(/\d+/g, '#') // 將物品上的詞綴數值用'#'取代，提高與資料庫詞綴判斷的精準度
           // console.log(text)
           itemExplicitStats.push(itemArray[index])
 
@@ -1056,7 +1061,7 @@ export default {
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(stringSimilarity.findBestMatch(text, this.craftedStats))
             tempStat[tempStat.length - 1].type = "工藝"
-          } else if (itemArray[index].indexOf('(enchant)') > -1) { // TODO: 項鍊塗油的配置屬性為附魔，要再額外判斷
+          } else if (itemArray[index].indexOf('(enchant)') > -1) {
             text = text.substring(0, text.indexOf('(enchant)'))
             tempStat.push(stringSimilarity.findBestMatch(text, this.enchantStats))
             tempStat[tempStat.length - 1].type = "附魔"
@@ -1092,10 +1097,12 @@ export default {
 
         if (statID === "enchant.stat_3948993189") {
           let obj = stringSimilarity.findBestMatch(itemExplicitStats[index], this.clusterJewelStats)
-          // console.log(obj)
-          // console.log(element.bestMatch.target, obj.ratings[obj.bestMatchIndex].target)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
           statText = `附加的小型天賦給予：\n${obj.ratings[obj.bestMatchIndex].target}`
+        } else if (statID === "enchant.stat_2954116742") {
+          let obj = stringSimilarity.findBestMatch(itemExplicitStats[index], this.allocatesStats)
+          optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
+          statText = `配置塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
         } else {
           for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
             if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
