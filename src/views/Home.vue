@@ -292,11 +292,11 @@
           </tr>
         </thead>
         <tbody class="searchStats">
-          <tr v-for="(item, index) in searchStats" :key="index" style="padding-top: 5px;" :style="item.isSearch ? '' : 'color: #AAACAD'">
+          <tr v-for="(item, index) in searchStats" :key="index" style="padding-top: 5px;" :style="item.isSearch ? 'font-weight:bold;' : 'color: #AAACAD'">
             <td style="width: 45px;">
               <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
             </td>
-            <td style="width: 45px; cursor: pointer; user-select:none;" :style="item.type === '隨機' ? '' : 'color: red;'" @click="item.isSearch = !item.isSearch">{{ item.type }} </td>
+            <td style="width: 45px; cursor: pointer; user-select:none;" :style="statsFontColor(item.type)" @click="item.isSearch = !item.isSearch">{{ item.type }} </td>
             <td style="cursor: pointer; user-select:none; white-space:pre-wrap;" @click="item.isSearch = !item.isSearch">{{ item.text }} </td>
             <td style="width: 64px; padding-top: 5px !important;">
               <div style="padding:0px 4px 0px 6px;">
@@ -374,6 +374,7 @@ export default {
       enchantStats: [], // 附魔
       clusterJewelStats: [], // 星團珠寶附魔詞綴
       allocatesStats: [], // 項鍊塗油配置附魔詞綴
+      wrapStats: [],
       craftedStats: [], // 已工藝
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       searchName: '',
@@ -697,6 +698,9 @@ export default {
             if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
               text = text.substring(0, text.indexOf(' (部分)'))
             }
+            if (text.includes('\n')) { // 處理折行詞綴
+              this.wrapStats.push(text)
+            }
             this.explicitStats.push(text, element.id)
           })
           response.data.result[2].entries.forEach((element, index) => { // 固定屬性
@@ -704,10 +708,13 @@ export default {
             if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
               text = text.substring(0, text.indexOf(' (部分)'))
             }
+            if (text.includes('\n')) { // 處理折行詞綴
+              this.wrapStats.push(text)
+            }
             this.implicitStats.push(text, element.id)
           })
           response.data.result[4].entries.forEach((element, index) => { // 附魔
-            this.enchantStats.push(element.text, element.id)
+            let text = element.text
             if (element.id === "enchant.stat_3948993189") { // 星團珠寶固定附魔詞綴
               element.option.options.forEach((element, index) => {
                 this.clusterJewelStats.push(element.text, (element.id).toString())
@@ -717,9 +724,16 @@ export default {
                 this.allocatesStats.push(element.text, (element.id).toString())
               })
             }
+            if (text.includes('\n')) { // 處理折行詞綴
+              this.wrapStats.push(text)
+            }
+            this.enchantStats.push(text, element.id)
           })
           response.data.result[5].entries.forEach((element, index) => { // 已工藝
             let text = element.text
+            if (text.includes('\n')) { // 處理折行詞綴
+              this.wrapStats.push(text)
+            }
             if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
               text = text.substring(0, text.indexOf(' (部分)'))
             }
@@ -1002,45 +1016,61 @@ export default {
       let itemStatStart = 0 // 物品隨機詞綴初始位置
       let itemStatEnd = itemArray.length - 1 // 物品隨機詞綴結束位置
 
+      function spliceWrapStats(spliceNumber, index) { //配合 splice function 與 \n 數量調整詞綴結束位置
+        itemArray.splice(index + 1, spliceNumber)
+        itemStatEnd = itemArray.length - spliceNumber
+      }
+
       itemArray.forEach((element, index) => {
+        let isEnchantOrImplicit = index > 0 ? itemArray[index - 1].indexOf("(enchant)") > -1 || itemArray[index - 1].indexOf("(implicit)") > -1 : false
+        // "--------" 字串前一筆資料若為固定詞或附魔詞，則不將此 index 視為詞綴結束點
         if (stringSimilarity.compareTwoStrings(element, '魔符階級:') > 0.7) {
           itemStatStart = index + 2
         } else if (stringSimilarity.compareTwoStrings(element, '物品等級:') > 0.7) {
           itemStatStart = index + 2
           itemLevelIndex = index
         }
-        if (element.indexOf("配置") > -1 && element.indexOf("(enchant)") > -1) {
-          itemArray.splice(index + 1, 1);
-          itemStatEnd--
-        }
+        this.wrapStats.forEach((wrapStatsElement, wrapStatsIndex) => {
+          let firstWSE = wrapStatsElement.split("\n")[0]
+          let secondWSE = wrapStatsElement.split("\n")[1]
+          let newLineCount = wrapStatsElement.split("\n").length - 1
+          let tempStatArray = []
+          // 比對折行詞綴第一筆與第二筆，比對成功就將 itemArray 刪除指定筆數
+          if (element && stringSimilarity.compareTwoStrings(firstWSE, element) > 0.7 && stringSimilarity.compareTwoStrings(secondWSE, itemArray[index + 1]) > 0.7) {
+            for (let i = 0; i <= newLineCount; i++) {
+              tempStatArray.push(itemArray[index + i])
+            }
+            itemArray[index] = tempStatArray.join('\n')
+            spliceWrapStats(newLineCount, index)
+          }
+        });
         if (element.indexOf("附加的小型天賦給予：") > -1 && element.indexOf("(enchant)") == -1) { // 有折行的星團珠寶附魔詞綴
-          itemStatEnd--
           switch (true) {
             case element.indexOf("斧攻擊增加 12% 擊中和異常狀態傷害") > -1:
               itemArray[index] = `${itemArray[index]}\n劍攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
-              itemArray.splice(index + 1, 1);
+              spliceWrapStats(1, index)
               break;
             case element.indexOf("長杖攻擊增加 12% 擊中和異常狀態傷害") > -1:
               itemArray[index] = `${itemArray[index]}\n錘或權杖攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
-              itemArray.splice(index + 1, 1);
+              spliceWrapStats(1, index)
               break;
             case element.indexOf("爪攻擊增加 12% 擊中和異常狀態傷害") > -1:
               itemArray[index] = `${itemArray[index]}\n匕首攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
-              itemArray.splice(index + 1, 1);
+              spliceWrapStats(1, index)
               break;
             case element.indexOf("增加 12% 陷阱傷害") > -1:
               itemArray[index] = `${itemArray[index]}\n增加 12% 地雷傷害 (enchant)`
-              itemArray.splice(index + 1, 1);
+              spliceWrapStats(1, index)
               break;
             case element.indexOf("增加 10% 藥劑回復生命") > -1:
               itemArray[index] = `${itemArray[index]}\n增加 10% 藥劑回復魔力 (enchant)`
-              itemArray.splice(index + 1, 1);
+              spliceWrapStats(1, index)
               break;
             default:
               break;
           }
         }
-        if (element === "--------" && index !== itemStatStart + 1 && index !== itemStatStart + 2 && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
+        if (element === "--------" && !isEnchantOrImplicit && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
         }
         if (itemArray.indexOf('未鑑定') > -1) {
@@ -1687,6 +1717,41 @@ export default {
     corruptedText() {
       return this.isCorrupted ? "已污染" : "未污染"
     },
+    statsFontColor() {
+      return function (item) {
+        switch (item) {
+          case '固定':
+            return {
+              'color': '#5555ff'
+            }
+            break;
+          case '附魔':
+            return {
+              'color': '#8181ff'
+            }
+            break;
+          case '工藝':
+            return {
+              'color': '#8181ff'
+            }
+            break;
+          case '傳奇':
+            return {
+              'color': '#af6025'
+            }
+            break;
+          default:
+            break;
+        }
+      }
+    },
+    isDetailHistoried() {
+      return function (item) {
+        if (item.isDetailHistoried === 'true') {
+          return true
+        }
+      }
+    },
   },
 }
 </script>
@@ -1695,6 +1760,7 @@ export default {
 .MapCopy {
   border-top: 1px solid #000;
   padding: 5px;
+  color: #b4b4ff
 }
 
 /* 取消 input 欄位的 step 功能 */
@@ -1736,5 +1802,9 @@ tbody.searchStats>tr>td {
 .vs__dropdown-option--selected {
   background: lightskyblue !important;
   color: #333 !important;
+}
+
+.statsFontColor {
+  color: (var(color))
 }
 </style>
