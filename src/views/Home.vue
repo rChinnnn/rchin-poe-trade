@@ -989,14 +989,19 @@ export default {
       this.searchStats.forEach((element, index) => {
         if (element.isSearch) {
           let value = {}
-          if (element.min && element.max) {
-            value.min = element.min
-            value.max = element.max
-          } else if (element.min) {
-            value.min = element.min
-          } else if (element.max) {
-            value.max = element.max
-          } else if (element.option) {
+          let min = element.min
+          let max = element.max
+          if (element.isNegative && _.isNumber(min)) {
+            value.max = -min
+          } else if (_.isNumber(min)) {
+            value.min = min
+          }
+          if (element.isNegative && _.isNumber(max)) {
+            value.min = -max
+          } else if (_.isNumber(max)) {
+            value.max = max
+          }
+          if (element.option) {
             value.option = element.option
           }
           this.searchJson.query.stats[0].filters.push({
@@ -1108,7 +1113,8 @@ export default {
       // console.log(tempStat)
       tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
-        let statText = element.bestMatch.target // 詞綴字串
+        let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
+        let itemStatText = itemExplicitStats[index] // 物品上的詞綴字串
         // TODO: 詞綴判斷以偽屬性為優先
         switch (true) { // 攻擊速度
           case statID.indexOf('stat_210067635') > -1:
@@ -1117,22 +1123,22 @@ export default {
           default:
             break;
         }
-        let itemStatArray = itemExplicitStats[index].split(' ') // 將物品上的詞綴拆解
-        let matchStatArray = element.bestMatch.target.split(' ') // 將詞綴資料庫上的詞綴拆解
-        // console.log(itemExplicitStats[index])
+        let itemStatArray = itemStatText.split(' ') // 將物品上的詞綴拆解
+        let matchStatArray = apiStatText.split(' ') // 將詞綴資料庫上的詞綴拆解
+        // console.log(itemStatText)
         // console.log(matchStatArray)
         let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
         let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
         let optionValue = 0 // 星團珠寶附魔 / 項鍊塗油配置 的 ID
 
         if (statID === "enchant.stat_3948993189") {
-          let obj = stringSimilarity.findBestMatch(itemExplicitStats[index], this.clusterJewelStats)
+          let obj = stringSimilarity.findBestMatch(itemStatText, this.clusterJewelStats)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
-          statText = `附加的小型天賦給予：\n${obj.ratings[obj.bestMatchIndex].target}`
+          apiStatText = `附加的小型天賦給予：\n${obj.ratings[obj.bestMatchIndex].target}`
         } else if (statID === "enchant.stat_2954116742") {
-          let obj = stringSimilarity.findBestMatch(itemExplicitStats[index], this.allocatesStats)
+          let obj = stringSimilarity.findBestMatch(itemStatText, this.allocatesStats)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
-          statText = `配置塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
+          apiStatText = `配置塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
         } else {
           for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
             if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
@@ -1154,13 +1160,19 @@ export default {
             }
           }
         }
+        let isNegativeStat = false // API 詞綴只有"增加"，但物品可能有"減少"詞綴相關處理
+        if (apiStatText.includes('增加') && itemStatText.includes('減少')) {
+          apiStatText = apiStatText.replace('增加', '減少')
+          isNegativeStat = true
+        }
         this.searchStats.push({
           "id": statID,
-          "text": statText,
+          "text": apiStatText,
           "option": optionValue,
           "min": randomMinValue,
           "max": randomMaxValue,
           "isValue": randomMinValue ? true : false,
+          "isNegative": isNegativeStat,
           "isSearch": false,
           "type": element.type
         })
