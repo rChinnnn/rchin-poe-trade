@@ -2,6 +2,14 @@
 <div class="home">
   <go-top :size="40" :bottom="50" bg-color="#04a9f3" :boundary="50"></go-top>
   <hr>
+  <b-container v-if="isDevMode">
+    <b-row class="lesspadding">
+      <b-col align-self="center">
+        <b-button @click="checkAPI" size="sm" variant="outline-primary">物品 API 測試</b-button>
+      </b-col>
+    </b-row>
+    <hr>
+  </b-container>
   <b-alert v-if="isApiError" show variant="danger" style="margin-top: 5px;">
     <div>Oops! 抓取 API 似乎發生了一點錯誤 ... 請檢查電腦網路狀態</div>
     <div>若跳出提示 Code 503，表示官方應在關機維護中，請稍後再試</div>
@@ -609,6 +617,11 @@ export default {
     this.getAllAPI();
   },
   methods: {
+    checkAPI() {
+      this.equipItems.forEach(element => {
+        console.log(element.text, element.name, element.option)
+      });
+    },
     hotkeyPressed() {
       this.count++
     },
@@ -1078,8 +1091,9 @@ export default {
         if (element === "--------" && !isEnchantOrImplicit && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
         }
-        if (itemArray.indexOf('未鑑定') > -1) {
-          itemStatEnd = itemStatStart + 1
+        if (element.indexOf('未鑑定') > -1) {
+          itemStatEnd = index - 1
+          return
         }
       });
       for (let index = itemStatStart; index < itemStatEnd; index++) {
@@ -1558,6 +1572,7 @@ export default {
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
         if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
           this.searchJson.query.name = searchName
+          this.searchJson.query.type = itemBasic
           this.raritySet.chosenObj = {
             label: "傳奇",
             prop: 'unique'
@@ -1720,6 +1735,9 @@ export default {
     },
   },
   computed: {
+    isDevMode() {
+      return process.env.NODE_ENV === 'development'
+    },
     isSearchJson() {
       return !_.isEmpty(this.searchJson)
     },
