@@ -708,9 +708,9 @@ export default {
           })
           response.data.result[1].entries.forEach((element, index) => { // 隨機屬性
             let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
+            // if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
+            //   text = text.substring(0, text.indexOf(' (部分)'))
+            // }
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
             }
@@ -718,9 +718,6 @@ export default {
           })
           response.data.result[2].entries.forEach((element, index) => { // 固定屬性
             let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
             }
@@ -746,9 +743,6 @@ export default {
             let text = element.text
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
-            }
-            if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
             }
             this.craftedStats.push(text, element.id)
           })
@@ -844,7 +838,7 @@ export default {
                 break;
             }
           });
-          result[6].entries.forEach((element, index) => { // "label": "珠寶"(159筆) 一般珠寶基底起始點 index = 137
+          result[6].entries.forEach((element, index) => { // "label": "珠寶"
             const basetype = ["催眠之眼珠寶"]
             if (_.isUndefined(element.flags)) {
               jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -859,7 +853,7 @@ export default {
                 break;
             }
           });
-          result[8].entries.forEach((element, index) => { // "label": "武器"(548筆) 一般武器基底起始點 index = 238
+          result[8].entries.forEach((element, index) => { // "label": "武器"
             const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
             if (_.isUndefined(element.flags)) {
               weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1029,7 +1023,7 @@ export default {
     itemStatsAnalysis(itemArray, rarityFlag) {
       this.isStatsCollapse = rarityFlag ? false : true
       let tempStat = []
-      let itemExplicitStats = [] // 該物品固定 + 隨機屬性
+      let itemDisplayStats = [] // 該物品顯示的詞綴陣列
       let itemLevelIndex = 0 // 物品等級於陣列中的位置
       let itemStatStart = 0 // 物品隨機詞綴初始位置
       let itemStatEnd = itemArray.length - 1 // 物品隨機詞綴結束位置
@@ -1076,6 +1070,10 @@ export default {
               itemArray[index] = `${itemArray[index]}\n匕首攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
               spliceWrapStats(1, index)
               break;
+            case element.indexOf("持弓類武器時增加 12% 傷害") > -1:
+              itemArray[index] = `${itemArray[index]}\n增加 12% 弓技能持續傷害 (enchant)`
+              spliceWrapStats(1, index)
+              break;
             case element.indexOf("增加 12% 陷阱傷害") > -1:
               itemArray[index] = `${itemArray[index]}\n增加 12% 地雷傷害 (enchant)`
               spliceWrapStats(1, index)
@@ -1100,8 +1098,8 @@ export default {
         if (itemArray[index] !== "--------") {
           let text = itemArray[index].replace(/\d+/g, '#') // 將物品上的詞綴數值用'#'取代，提高與資料庫詞綴判斷的精準度
           // console.log(text)
-          itemExplicitStats.push(itemArray[index])
-
+          itemDisplayStats.push(itemArray[index])
+          // TODO? 破碎詞綴
           if (itemArray[index].indexOf('(implicit)') > -1) { // 固定屬性
             text = text.substring(0, text.indexOf('(implicit)')) // 刪除(implicit)字串
             tempStat.push(stringSimilarity.findBestMatch(text, this.implicitStats))
@@ -1123,13 +1121,14 @@ export default {
           }
         }
       }
-      // console.log(itemExplicitStats)
+      // console.log(itemDisplayStats)
       // console.log(tempStat)
       tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
-        let itemStatText = itemExplicitStats[index] // 物品上的詞綴字串
-        // TODO: 詞綴判斷以偽屬性為優先
+        let itemStatText = itemDisplayStats[index] // 物品上的詞綴字串
+        // TODO: local（部分）的詞綴可由基底判斷
+        // console.log(this.itemCategory.chosenObj.label)
         switch (true) { // 攻擊速度
           case statID.indexOf('stat_210067635') > -1:
             statID = 'pseudo.pseudo_total_attack_speed'
@@ -1378,8 +1377,10 @@ export default {
       this.mapLevel.max = mapTier
       this.mapLevel.isSearch = true
       this.isMapLevelSearch()
+      let mapBasicCount = 0
       this.mapBasic.option.forEach(element => {
-        if (item.indexOf(element) > -1) {
+        if (item.indexOf(element) > -1 && !mapBasicCount) {
+          mapBasicCount++
           this.mapBasic.chosenM = element
         }
       });
@@ -1558,11 +1559,11 @@ export default {
       let searchName = itemArray[1]
       this.searchName = itemArray[2] === "--------" ? `物品名稱『${itemArray[1]}』` : `物品名稱『${itemArray[1]} ${itemArray[2]}』`
       let itemBasic = itemArray[2]
-      let itemAnaCount = 0
+      let itemBasicCount = 0
 
       this.equipItems.forEach(element => {
-        if (`${itemArray[1]} ${itemArray[2]}`.indexOf(element.text) > -1 && !itemAnaCount) {
-          itemAnaCount++
+        if (`${itemArray[1]} ${itemArray[2]}`.indexOf(element.text) > -1 && !itemBasicCount) {
+          itemBasicCount++
           this.itemAnalysis(item, itemArray, element)
           this.isItem = true
           this.isItemCollapse = true
