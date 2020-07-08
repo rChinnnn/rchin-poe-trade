@@ -286,7 +286,7 @@
     </countdown>
   </b-alert>
   <hr v-else>
-  <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse">{{ searchName }}</h5>
+  <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
   <b-container class="bv-example-row">
     <b-collapse :visible="isStatsCollapse && searchStats.length > 0">
       <table class="table table-sm">
@@ -329,8 +329,8 @@
   </b-container>
   <h6>{{ status }}</h6>
   <div>
-    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">官方交易市集</b-button>
-    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
+    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ server }} 官方交易市集</b-button>
+    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl"></PriceAnalysis>
   </div>
 </div>
 </template>
@@ -362,6 +362,8 @@ export default {
       copyText: '',
       testResponse: '',
       countTime: 0,
+      baseUrl: 'https://web.poe.garena.tw',
+      isGarenaSvr: true,
       isApiError: false,
       isCounting: false,
       isOnline: true,
@@ -393,6 +395,7 @@ export default {
         option: [],
         chosenL: ""
       },
+      gggLeagues: [], // 暫存 ggg 聯盟字串
       raritySet: { // 稀有度設定
         option: [{
           label: "一般",
@@ -622,6 +625,10 @@ export default {
         console.log(element.text, element.name, element.option)
       });
     },
+    replaceString(string) {
+      const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．/g // 全域搜尋中文字以及括號，ready for replace
+      return this.isGarenaSvr ? string : string.replace(regEnglish, '')
+    },
     hotkeyPressed() {
       this.count++
     },
@@ -660,7 +667,7 @@ export default {
       this.fetchQueryID = ''
       this.axios.post(`http://localhost:3031/trade`, {
           searchJson: obj,
-          copyText: this.copyText,
+          baseUrl: this.baseUrl,
           league: this.leagues.chosenL
         })
         .then((response) => {
@@ -682,7 +689,7 @@ export default {
         })
     }, 300),
     popOfficialWebsite() {
-      shell.openExternal(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
+      shell.openExternal(`${this.baseUrl}/api/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
       // window.open(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`, '_blank', 'nodeIntegration=no')
     },
     startCountdown(Time) {
@@ -767,6 +774,7 @@ export default {
       let jewelIndex = 0
       let weaponIndex = 0
       let mapIndex = 0
+      this.equipItems.length = 0
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
         .then((response) => {
           this.allItems = response.data.result
@@ -935,7 +943,8 @@ export default {
           });
           result[7].entries.forEach((element, index) => { // "label": "地圖" 
             const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
-            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+            const ignoreTyep = ["神諭之殿．神臨", "神諭之殿．歸徒", "神諭之殿．降師"]
+            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas" && stringSimilarity.findBestMatch(element.text, ignoreTyep).bestMatch.rating !== 1) { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
               this.mapBasic.option.push(element.text)
             }
           });
@@ -964,6 +973,22 @@ export default {
           this.leagues.option = _.map(response.data.result, 'id')
           // `_.property` 迭代縮寫 _.map(response.data.result, 'id') = _.map(response.data.result, getID) 
           this.leagues.chosenL = this.leagues.option[0]
+        })
+        .catch(function (error) {
+          vm.isApiError = true
+          vm.startCountdown(30)
+          vm.$bvToast.toast(`error: ${error}`, {
+            noCloseButton: true,
+            toaster: 'toast-warning-center',
+            variant: 'danger',
+            autoHideDelay: 800,
+            appendToast: false
+          })
+          console.log(error);
+        })
+      this.axios.get(`https://www.pathofexile.com/api/trade/data/leagues`, )
+        .then((response) => {
+          this.gggLeagues = _.map(response.data.result, 'id')
         })
         .catch(function (error) {
           vm.isApiError = true
@@ -1304,7 +1329,7 @@ export default {
       if (!this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.type // 刪除物品基底 filter
       } else if (this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
-        this.searchJson.query.type = this.itemBasic.text // 增加物品基底 filter
+        this.searchJson.query.type = this.replaceString(this.itemBasic.text) // 增加物品基底 filter
       }
     },
     isItemCategorySearch() {
@@ -1459,7 +1484,7 @@ export default {
       if (!this.mapBasic.isSearch && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.type // 刪除地圖基底 filter
       } else if (this.mapBasic.isSearch && !_.isEmpty(this.searchJson)) {
-        this.searchJson.query.type = this.mapBasic.chosenM // 增加地圖基底 filter
+        this.searchJson.query.type = this.replaceString(this.mapBasic.chosenM) // 增加地圖基底 filter
       }
     },
     isMapLevelSearch() {
@@ -1488,7 +1513,7 @@ export default {
       if (!this.gemBasic.isSearch && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.type // 刪除技能基底 filter
       } else if (this.gemBasic.isSearch && !_.isEmpty(this.searchJson)) {
-        this.searchJson.query.type = this.gemBasic.chosenG // 增加技能基底 filter
+        this.searchJson.query.type = this.replaceString(this.gemBasic.chosenG) // 增加技能基底 filter
       }
     },
     isGemLevelSearch() {
@@ -1554,16 +1579,21 @@ export default {
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
+      const regExp = new RegExp("[A-Za-z]+");
+      this.isGarenaSvr = regExp.test(itemArray[1]) ? false : true // 國際服中文化判斷 
       let posRarity = item.indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
       let searchName = itemArray[1]
-      this.searchName = itemArray[2] === "--------" ? `物品名稱『${itemArray[1]}』` : `物品名稱『${itemArray[1]} ${itemArray[2]}』`
+      this.searchName = itemArray[2] === "--------" ? `物品名稱 <br>『${itemArray[1]}』` : `物品名稱 <br>『${itemArray[1]} ${itemArray[2]}』`
       let itemBasic = itemArray[2]
       let itemBasicCount = 0
 
       this.equipItems.forEach(element => {
-        if (`${itemArray[1]} ${itemArray[2]}`.indexOf(element.text) > -1 && !itemBasicCount) {
+        let itemNameString = `${itemArray[1]} ${itemArray[2]}`
+        let itemNameStringIndex = itemNameString.indexOf(element.text)
+        if (itemNameStringIndex > -1 && !itemBasicCount) {
           itemBasicCount++
+          element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString.slice(itemNameStringIndex))
           this.itemAnalysis(item, itemArray, element)
           this.isItem = true
           this.isItemCollapse = true
@@ -1572,8 +1602,8 @@ export default {
 
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
         if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
-          this.searchJson.query.name = searchName
-          this.searchJson.query.type = itemBasic
+          this.searchJson.query.name = this.replaceString(searchName)
+          this.searchJson.query.type = this.replaceString(itemBasic)
           this.raritySet.chosenObj = {
             label: "傳奇",
             prop: 'unique'
@@ -1593,10 +1623,10 @@ export default {
           }
           this.raritySet.isSearch = true
           this.isRaritySearch()
-          this.searchJson.query.type = searchName
+          this.searchJson.query.type = this.replaceString(searchName)
         }
-      } else if (Rarity === "命運卡" || Rarity === "通貨") {
-        this.searchJson.query.type = searchName
+      } else if (Rarity === "命運卡" || Rarity === "通貨" || Rarity === "通貨不足") {
+        this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "寶石") {
         this.isGem = true
         this.gemBasic.chosenG = searchName
@@ -1625,9 +1655,9 @@ export default {
         this.isGemQualitySearch()
       } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('前往試練者廣場使用此物品進入帝王迷宮') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1)) {
         // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器
-        this.searchJson.query.type = searchName
+        this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
-        this.searchJson.query.name = searchName
+        this.searchJson.query.name = this.replaceString(searchName)
       } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
       } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法" || Rarity === "普通")) {
@@ -1638,6 +1668,46 @@ export default {
         return
       }
       this.searchTrade(this.searchJson)
+    },
+    isGarenaSvr: function () { // 國際服相關 function 處理
+      let vm = this
+      this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
+      if (!this.isGarenaSvr) {
+        this.leagues.option = this.gggLeagues
+        this.leagues.chosenL = this.gggLeagues[0]
+        this.axios.get(`${this.baseUrl}/api/trade/data/items`, )
+          .then((response) => {
+            let result = response.data.result
+            let mapMatchIndex = 0
+            result[7].entries.forEach((element, index) => { // "label": "Maps" 台服 143 / 國際服 140
+              const basetype = ["Academy Map"] // 地圖起始點 { "type": "Academy Map", "text": "Academy Map" }
+              if (stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1) {
+                mapMatchIndex = index
+              }
+              if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+                this.mapBasic.option[index - mapMatchIndex] += `(${element.text})`
+              }
+            });
+            result[5].entries.forEach((element, index) => { // "label": "Gems" 台服國際服皆 436
+              this.gemBasic.option[index] += `(${element.text})`
+            });
+          })
+          .catch(function (error) {
+            vm.isApiError = true
+            vm.startCountdown(30)
+            vm.$bvToast.toast(`error: ${error}`, {
+              noCloseButton: true,
+              toaster: 'toast-warning-center',
+              variant: 'danger',
+              autoHideDelay: 800,
+              appendToast: false
+            })
+            console.log(error);
+          })
+      } else {
+        this.itemsAPI();
+        this.leaguesAPI();
+      }
     },
     isOnline: function () {
       let option = this.isOnline ? 'online' : 'any'
@@ -1747,6 +1817,9 @@ export default {
     },
     corruptedText() {
       return this.isCorrupted ? "已污染" : "未污染"
+    },
+    server() {
+      return this.isGarenaSvr ? "台服" : "國際服"
     },
     statsFontColor() {
       return function (item) {

@@ -53,6 +53,7 @@ export default {
     fetchLength: Number,
     isPriced: Boolean,
     isCounting: Boolean,
+    baseUrl: String,
   },
   components: {
     loading: VueLoading,
@@ -94,7 +95,7 @@ export default {
       let indexLength = 8 >= this.fetchID.length ? this.fetchID.length : 8
       this.isLoading = true;
       for (let index = 4; index < indexLength; index++) {
-        this.axios.get(`https://web.poe.garena.tw/api/trade/fetch/${this.fetchID[index]}?query=${this.fetchQueryID}`)
+        this.axios.get(`${this.baseUrl}/api/trade/fetch/${this.fetchID[index]}?query=${this.fetchQueryID}`)
           .then((response) => {
             let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
             let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
@@ -167,7 +168,7 @@ export default {
         }
         this.isLoading = true;
         for (let index = 0; index < indexLength; index++) {
-          this.axios.get(`https://web.poe.garena.tw/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
+          this.axios.get(`${this.baseUrl}/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
             .then((response) => {
               let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
               let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
