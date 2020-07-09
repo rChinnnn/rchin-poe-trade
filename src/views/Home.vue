@@ -11,11 +11,17 @@
     <hr>
   </b-container>
   <b-alert v-if="isApiError" show variant="danger" style="margin-top: 5px;">
-    <div>Oops! 抓取 API 似乎發生了一點錯誤 ... 請檢查電腦網路狀態</div>
-    <div>若跳出提示 Code 503，表示官方應在關機維護中，請稍後再試</div>
+    <div>Oops! 抓取 API 似乎發生了一點錯誤... 請檢查電腦網路狀態</div>
+    <div>若跳出提示 Code 503，表示台服或國際服官方應在關機維護中，請稍後再試</div>
+    <div>國際服玩家 -> 台服及國際服官方皆正常才可使用</div>
+    <div>台服玩家 -> 台服官方正常即可使用</div>
     <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
       <template slot-scope="props">
-        <b-button @click="getAllAPI" :disabled="isCounting" size="sm" variant="outline-danger">請 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒後再點我重試一次</b-button>
+        <b-button v-if="isCounting" @click="getAllAPI" :disabled="isCounting" size="sm" variant="outline-danger">請等待 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒後重試</b-button>
+        <div v-else>
+          <b-button @click="getAllAPI(true)" :disabled="isCounting" size="sm" variant="outline-danger">國際服玩家點我重試一次</b-button> /
+          <b-button @click="getAllAPI(false)" :disabled="isCounting" size="sm" variant="outline-danger">台服玩家點我重試一次</b-button>
+        </div>
       </template>
     </countdown>
   </b-alert>
@@ -192,16 +198,23 @@
         </b-row>
         <b-row class="lesspadding" style="padding-top: 5px;">
           <b-col sm="3" style="padding-top: 6px;">
-            <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
-          </b-col>
-          <b-col sm="2">
-          </b-col>
-          <b-col sm="3" style="padding-top: 6px;">
             <b-form-checkbox class="float-right" v-model="mapBasic.isSearch" @input="isMapBasicSearch" switch>地圖基底</b-form-checkbox>
           </b-col>
-          <b-col sm="4">
+          <b-col :sm="isGarenaSvr ? 4 : 8">
             <!-- <b-form-input v-model="mapBasic.chosenM" :disabled="true"></b-form-input> -->
             <v-select :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" label="label" :disabled="!mapBasic.isSearch" :clearable="false" :filterable="true"></v-select>
+          </b-col>
+          <b-col v-if="isGarenaSvr" sm="3" style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
+          </b-col>
+        </b-row>
+        <b-row v-if="!isGarenaSvr" class="lesspadding" style="padding-top: 5px;">
+          <b-col sm="7">
+          </b-col>
+          <b-col sm="4" style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
+          </b-col>
+          <b-col sm="1">
           </b-col>
         </b-row>
         <b-collapse :visible="raritySet.chosenObj.label !== '傳奇'">
@@ -261,14 +274,21 @@
           </b-col>
         </b-row>
         <b-row class="lesspadding" style="padding-top: 10px;">
-          <b-col sm="4" style="padding-top: 6px;">
-            <b-form-checkbox v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
-          </b-col>
           <b-col sm="3" style="padding-top: 6px;">
             <b-form-checkbox class="float-right" v-model="gemBasic.isSearch" @input="isGemBasicSearch" switch>技能基底</b-form-checkbox>
           </b-col>
-          <b-col sm="5">
+          <b-col :sm="isGarenaSvr ? 5 : 9">
             <v-select :options="gemBasic.option" v-model="gemBasic.chosenG" @input="isGemBasicSearch" label="label" :disabled="!gemBasic.isSearch" :clearable="false" :filterable="true"></v-select>
+          </b-col>
+          <b-col v-if="isGarenaSvr" sm="4" style="padding-top: 6px;">
+            <b-form-checkbox v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
+          </b-col>
+        </b-row>
+        <b-row v-if="!isGarenaSvr" class="lesspadding" style="padding-top: 10px;">
+          <b-col sm="8">
+          </b-col>
+          <b-col sm="4" style="padding-top: 6px;">
+            <b-form-checkbox v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
           </b-col>
         </b-row>
         <b-row>
@@ -454,6 +474,7 @@ export default {
         chosenM: '無',
         isSearch: false,
       },
+      gggMapBaic: [],
       itemLevel: { // 物品等級
         min: 0,
         max: '',
@@ -518,6 +539,7 @@ export default {
         chosenG: '無',
         isSearch: false,
       },
+      gggGemBasic: [],
       searchJson: {},
       searchJson_Def: {
         "query": {
@@ -617,7 +639,7 @@ export default {
   mounted() {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
     this.scanCopy();
-    this.getAllAPI();
+    this.getAllAPI(true);
   },
   methods: {
     checkAPI() {
@@ -626,7 +648,7 @@ export default {
       });
     },
     replaceString(string) {
-      const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．/g // 全域搜尋中文字以及括號，ready for replace
+      const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
       return this.isGarenaSvr ? string : string.replace(regEnglish, '')
     },
     hotkeyPressed() {
@@ -678,6 +700,8 @@ export default {
           this.fetchQueryID = response.data.id
         })
         .catch(function (error) {
+          vm.isApiError = true
+          vm.startCountdown(20)
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -689,7 +713,7 @@ export default {
         })
     }, 300),
     popOfficialWebsite() {
-      shell.openExternal(`${this.baseUrl}/api/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
+      shell.openExternal(`${this.baseUrl}/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
       // window.open(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`, '_blank', 'nodeIntegration=no')
     },
     startCountdown(Time) {
@@ -700,11 +724,16 @@ export default {
       this.isCounting = false
       this.cleanClipboard()
     },
-    getAllAPI() {
+    getAllAPI(boolean) {
       this.isApiError = false
       this.statsAPI();
       this.itemsAPI();
       this.leaguesAPI();
+      if (boolean) {
+        setTimeout(() => {
+          this.gggAPI();
+        }, 1000);
+      }
     },
     statsAPI() { // 詞綴 API
       let vm = this
@@ -756,7 +785,7 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(30)
+          vm.startCountdown(20)
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -775,6 +804,8 @@ export default {
       let weaponIndex = 0
       let mapIndex = 0
       this.equipItems.length = 0
+      this.mapBasic.option.length = 0
+      this.gemBasic.option.length = 0
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
         .then((response) => {
           this.allItems = response.data.result
@@ -954,7 +985,7 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(30)
+          vm.startCountdown(20)
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -976,7 +1007,7 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(30)
+          vm.startCountdown(20)
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -986,13 +1017,45 @@ export default {
           })
           console.log(error);
         })
+    },
+    gggAPI() {
+      let vm = this
       this.axios.get(`https://www.pathofexile.com/api/trade/data/leagues`, )
         .then((response) => {
           this.gggLeagues = _.map(response.data.result, 'id')
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(30)
+          vm.startCountdown(20)
+          vm.$bvToast.toast(`error: ${error}`, {
+            noCloseButton: true,
+            toaster: 'toast-warning-center',
+            variant: 'danger',
+            autoHideDelay: 800,
+            appendToast: false
+          })
+          console.log(error);
+        })
+      this.axios.get(`https://www.pathofexile.com/api/trade/data/items`, )
+        .then((response) => {
+          let result = response.data.result
+          let mapMatchIndex = 0
+          result[7].entries.forEach((element, index) => { // "label": "Maps" 台服 143 / 國際服 140
+            const basetype = ["Academy Map"] // 地圖起始點 { "type": "Academy Map", "text": "Academy Map" }
+            if (stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1) {
+              mapMatchIndex = index
+            }
+            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+              this.gggMapBaic.push(`${this.mapBasic.option[index - mapMatchIndex]}(${element.text})`)
+            }
+          });
+          result[5].entries.forEach((element, index) => { // "label": "Gems" 台服國際服皆 436
+            this.gggGemBasic.push(`${this.gemBasic.option[index]}(${element.text})`)
+          });
+        })
+        .catch(function (error) {
+          vm.isApiError = true
+          vm.startCountdown(20)
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -1017,6 +1080,12 @@ export default {
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
         this.searchJson.query.stats[0].filters.length = 0
+      }
+      if (this.isMap && this.mapBasic.isSearch) {
+        this.searchName = `物品名稱 <br>『${this.mapBasic.chosenM}』`
+      }
+      if (this.isGem && this.gemBasic.isSearch) {
+        this.searchName = `物品名稱 <br>『${this.gemBasic.chosenG}』`
       }
       this.searchStats.forEach((element, index) => {
         if (element.isSearch) {
@@ -1404,9 +1473,11 @@ export default {
       this.isMapLevelSearch()
       let mapBasicCount = 0
       this.mapBasic.option.forEach(element => {
-        if (item.indexOf(element) > -1 && !mapBasicCount) {
+        let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
+        let itemNameStringIndex = itemNameString.indexOf(element)
+        if (itemNameStringIndex > -1 && !mapBasicCount) {
           mapBasicCount++
-          this.mapBasic.chosenM = element
+          this.mapBasic.chosenM = this.isGarenaSvr ? element : itemNameString.slice(itemNameStringIndex)
         }
       });
       this.mapBasic.isSearch = true
@@ -1591,6 +1662,7 @@ export default {
       this.equipItems.forEach(element => {
         let itemNameString = `${itemArray[1]} ${itemArray[2]}`
         let itemNameStringIndex = itemNameString.indexOf(element.text)
+        // console.log(itemNameString, itemNameStringIndex)
         if (itemNameStringIndex > -1 && !itemBasicCount) {
           itemBasicCount++
           element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString.slice(itemNameStringIndex))
@@ -1647,6 +1719,7 @@ export default {
           let vaalPosEnd = vaalPos.indexOf(NL)
           let vaalGem = vaalPos.substring(0, vaalPosEnd)
           this.searchName = `物品名稱『${vaalGem}』`
+          this.isGarenaSvr = regExp.test(vaalGem) ? false : true
           this.gemBasic.chosenG = vaalGem
         }
         this.gemBasic.isSearch = true
@@ -1675,48 +1748,21 @@ export default {
       if (!this.isGarenaSvr) {
         this.leagues.option = this.gggLeagues
         this.leagues.chosenL = this.gggLeagues[0]
-        this.axios.get(`${this.baseUrl}/api/trade/data/items`, )
-          .then((response) => {
-            let result = response.data.result
-            let mapMatchIndex = 0
-            result[7].entries.forEach((element, index) => { // "label": "Maps" 台服 143 / 國際服 140
-              const basetype = ["Academy Map"] // 地圖起始點 { "type": "Academy Map", "text": "Academy Map" }
-              if (stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1) {
-                mapMatchIndex = index
-              }
-              if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
-                this.mapBasic.option[index - mapMatchIndex] += `(${element.text})`
-              }
-            });
-            result[5].entries.forEach((element, index) => { // "label": "Gems" 台服國際服皆 436
-              this.gemBasic.option[index] += `(${element.text})`
-            });
-          })
-          .catch(function (error) {
-            vm.isApiError = true
-            vm.startCountdown(30)
-            vm.$bvToast.toast(`error: ${error}`, {
-              noCloseButton: true,
-              toaster: 'toast-warning-center',
-              variant: 'danger',
-              autoHideDelay: 800,
-              appendToast: false
-            })
-            console.log(error);
-          })
+        this.mapBasic.option = this.gggMapBaic
+        this.gemBasic.option = this.gggGemBasic
       } else {
         this.itemsAPI();
         this.leaguesAPI();
       }
     },
-    isOnline: function () {
+    isOnline: _.debounce(function () {
       let option = this.isOnline ? 'online' : 'any'
       this.searchJson_Def.query.status.option = option
       if (!_.isEmpty(this.searchJson) && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
         this.searchJson.query.status.option = option
         this.searchTrade(this.searchJson)
       }
-    },
+    }, 800),
     isPriced: function () {
       this.fetchID.length = 0
       let option = this.isPriced ? 'priced' : 'unpriced'
@@ -1727,8 +1773,8 @@ export default {
       }
     },
     'leagues.chosenL': {
-      handler(newVal) {
-        if (_.isEmpty(this.searchJson)) {
+      handler(newVal, oldVal) {
+        if (_.isEmpty(this.searchJson) || (newVal == "Harvest" && oldVal == "豐收聯盟")) {
           return
         }
         this.searchTrade(this.searchJson)

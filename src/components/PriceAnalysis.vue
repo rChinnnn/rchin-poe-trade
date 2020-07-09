@@ -110,7 +110,7 @@ export default {
             let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
             limitState = parseInt(limitState, 10)
             vm.isLoading = false;
-            vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請再等待 ${limitState} 秒`, {
+            vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`, {
               noCloseButton: true,
               toaster: 'toast-warning-center',
               variant: 'danger',
@@ -186,7 +186,7 @@ export default {
               let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
               limitState = parseInt(limitState, 10)
               vm.isLoading = false;
-              vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請再等待 ${limitState} 秒`, {
+              vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`, {
                 noCloseButton: true,
                 toaster: 'toast-warning-center',
                 variant: 'danger',
