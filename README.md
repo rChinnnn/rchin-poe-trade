@@ -1,19 +1,28 @@
+# Readme.md
+
 ![GitHub Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/total)
 ![GitHub Latest Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/total)
 ![GitHub Release Date](https://img.shields.io/github/release-date/rChinnnn/rchin-poe-trade)
 
 # rChin POE Trade
 POE 快速查價工具 (Built with Electron and Vue.)
-> 絕大部分的物品皆可搜尋 - 限定台服使用 
+> 絕大部分的物品皆可搜尋 - 限定台服及國際服(中文化)使用 
+
 ### 贊助連結 
 若此工具對你有不少幫助，也有餘力的話，請作者在開發新功能時喝瓶麥香紅茶或一杯咖啡吧：）
   * [麥香紅茶（O'Pay）](https://p.opay.tw/lE5Yu)
   * [Buy me a coffee](https://www.buymeacoffee.com/rChinnn)
 
+### 安裝版本說明
+* 點選 [Releases頁面](https://github.com/rChinnnn/rchin-poe-trade/releases)，有兩種版本可以下載
+    * `rchin-poe-trade-Setup-1.311.2.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
+    * `rchin-poe-trade-1.311.2.exe` 可攜版，無法支援自動更新
+
 ## 【免責聲明】
 * **使用此程式者請自行承擔所有可能後果和風險**
   * 此程式並無修改任何記憶體
   * 運作原理為抓取 POE 遊戲內對物品複製後的文字進行分析，以利快速查價
+  * 串接的 API 皆為官方公開資源，請勿於短時間內快速搜尋造成伺服器負擔
  
 ## 熱鍵功能
 | 按鍵 | 功能說明 | 
