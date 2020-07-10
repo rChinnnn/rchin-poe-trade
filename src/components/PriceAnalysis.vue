@@ -53,6 +53,7 @@ export default {
     fetchLength: Number,
     isPriced: Boolean,
     isCounting: Boolean,
+    baseUrl: String,
   },
   components: {
     loading: VueLoading,
@@ -94,7 +95,7 @@ export default {
       let indexLength = 8 >= this.fetchID.length ? this.fetchID.length : 8
       this.isLoading = true;
       for (let index = 4; index < indexLength; index++) {
-        this.axios.get(`https://web.poe.garena.tw/api/trade/fetch/${this.fetchID[index]}?query=${this.fetchQueryID}`)
+        this.axios.get(`${this.baseUrl}/api/trade/fetch/${this.fetchID[index]}?query=${this.fetchQueryID}`)
           .then((response) => {
             let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
             let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
@@ -109,7 +110,7 @@ export default {
             let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
             limitState = parseInt(limitState, 10)
             vm.isLoading = false;
-            vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請再等待 ${limitState} 秒`, {
+            vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`, {
               noCloseButton: true,
               toaster: 'toast-warning-center',
               variant: 'danger',
@@ -167,7 +168,7 @@ export default {
         }
         this.isLoading = true;
         for (let index = 0; index < indexLength; index++) {
-          this.axios.get(`https://web.poe.garena.tw/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
+          this.axios.get(`${this.baseUrl}/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
             .then((response) => {
               let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
               let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
@@ -185,7 +186,7 @@ export default {
               let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
               limitState = parseInt(limitState, 10)
               vm.isLoading = false;
-              vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請再等待 ${limitState} 秒`, {
+              vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`, {
                 noCloseButton: true,
                 toaster: 'toast-warning-center',
                 variant: 'danger',

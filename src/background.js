@@ -37,13 +37,13 @@ function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: os.platform() === 'darwin' ? 1500 : 650,
-    height: os.platform() === 'darwin' ? 850 : 930,
+    height: os.platform() === 'darwin' ? 861 : 930,
     minWidth: os.platform() === 'darwin' ? 100 : 600,
     minHeight: 500,
     maxWidth: os.platform() === 'darwin' ? 2000 : 700,
     autoHideMenuBar: true,
-    fullscreenable: false,
-    maximizable: false,
+    fullscreenable: os.platform() === 'darwin' ? true : false,
+    maximizable: os.platform() === 'darwin' ? true : false,
     webPreferences: {
       defaultFontFamily: {
         standard: "Microsoft YaHei"

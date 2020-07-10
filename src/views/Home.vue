@@ -11,11 +11,20 @@
     <hr>
   </b-container>
   <b-alert v-if="isApiError" show variant="danger" style="margin-top: 5px;">
-    <div>Oops! 抓取 API 似乎發生了一點錯誤 ... 請檢查電腦網路狀態</div>
-    <div>若跳出提示 Code 503，表示官方應在關機維護中，請稍後再試</div>
+    <div>Oops! API 串接時似乎發生了一點錯誤...</div>
+    <h4 style="padding-top: 6px;">{{ apiErrorStr }}</h4>
+    <hr>
+    <div>若跳出提示 Code 503，表示台服或國際服官方應在關機維護中，請稍後再試</div>
+    <div>國際服玩家 -> 台服及國際服官方皆正常才可使用</div>
+    <div>台服玩家 -> 台服官方正常即可使用</div>
+    <hr>
     <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
       <template slot-scope="props">
-        <b-button @click="getAllAPI" :disabled="isCounting" size="sm" variant="outline-danger">請 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒後再點我重試一次</b-button>
+        <b-button v-if="isCounting" @click="getAllAPI" :disabled="isCounting" size="sm" variant="outline-danger">請等待 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒後重試</b-button>
+        <div v-else>
+          <b-button @click="getAllAPI(true)" :disabled="isCounting" size="sm" variant="outline-danger">國際服玩家點我重試一次</b-button> /
+          <b-button @click="getAllAPI(false)" :disabled="isCounting" size="sm" variant="outline-danger">台服玩家點我重試一次</b-button>
+        </div>
       </template>
     </countdown>
   </b-alert>
@@ -192,16 +201,14 @@
         </b-row>
         <b-row class="lesspadding" style="padding-top: 5px;">
           <b-col sm="3" style="padding-top: 6px;">
-            <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
-          </b-col>
-          <b-col sm="2">
-          </b-col>
-          <b-col sm="3" style="padding-top: 6px;">
             <b-form-checkbox class="float-right" v-model="mapBasic.isSearch" @input="isMapBasicSearch" switch>地圖基底</b-form-checkbox>
           </b-col>
-          <b-col sm="4">
+          <b-col :sm="isGarenaSvr ? 4 : 9">
             <!-- <b-form-input v-model="mapBasic.chosenM" :disabled="true"></b-form-input> -->
             <v-select :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" label="label" :disabled="!mapBasic.isSearch" :clearable="false" :filterable="true"></v-select>
+          </b-col>
+          <b-col v-if="isGarenaSvr" sm="3" style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
           </b-col>
         </b-row>
         <b-collapse :visible="raritySet.chosenObj.label !== '傳奇'">
@@ -228,6 +235,15 @@
             </b-col>
           </b-row>
         </b-collapse>
+        <b-row v-if="!isGarenaSvr" class="lesspadding" style="padding-top: 5px;">
+          <b-col sm="7">
+          </b-col>
+          <b-col sm="4" style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
+          </b-col>
+          <b-col sm="1">
+          </b-col>
+        </b-row>
         <b-row>
           <b-col sm="10"></b-col>
           <b-col sm="2" style="padding-top: 15px;">
@@ -261,14 +277,21 @@
           </b-col>
         </b-row>
         <b-row class="lesspadding" style="padding-top: 10px;">
-          <b-col sm="4" style="padding-top: 6px;">
-            <b-form-checkbox v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
-          </b-col>
           <b-col sm="3" style="padding-top: 6px;">
             <b-form-checkbox class="float-right" v-model="gemBasic.isSearch" @input="isGemBasicSearch" switch>技能基底</b-form-checkbox>
           </b-col>
-          <b-col sm="5">
+          <b-col :sm="isGarenaSvr ? 5 : 9">
             <v-select :options="gemBasic.option" v-model="gemBasic.chosenG" @input="isGemBasicSearch" label="label" :disabled="!gemBasic.isSearch" :clearable="false" :filterable="true"></v-select>
+          </b-col>
+          <b-col v-if="isGarenaSvr" sm="4" style="padding-top: 6px;">
+            <b-form-checkbox v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
+          </b-col>
+        </b-row>
+        <b-row v-if="!isGarenaSvr" class="lesspadding" style="padding-top: 10px;">
+          <b-col sm="8">
+          </b-col>
+          <b-col sm="4" style="padding-top: 6px;">
+            <b-form-checkbox v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
           </b-col>
         </b-row>
         <b-row>
@@ -286,7 +309,7 @@
     </countdown>
   </b-alert>
   <hr v-else>
-  <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse">{{ searchName }}</h5>
+  <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
   <b-container class="bv-example-row">
     <b-collapse :visible="isStatsCollapse && searchStats.length > 0">
       <table class="table table-sm">
@@ -329,8 +352,8 @@
   </b-container>
   <h6>{{ status }}</h6>
   <div>
-    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">官方交易市集</b-button>
-    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced"></PriceAnalysis>
+    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ server }} 官方交易市集</b-button>
+    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl"></PriceAnalysis>
   </div>
 </div>
 </template>
@@ -362,7 +385,10 @@ export default {
       copyText: '',
       testResponse: '',
       countTime: 0,
+      baseUrl: 'https://web.poe.garena.tw',
+      isGarenaSvr: true,
       isApiError: false,
+      apiErrorStr: '',
       isCounting: false,
       isOnline: true,
       isPriced: true,
@@ -393,6 +419,7 @@ export default {
         option: [],
         chosenL: ""
       },
+      gggLeagues: [], // 暫存 ggg 聯盟字串
       raritySet: { // 稀有度設定
         option: [{
           label: "一般",
@@ -451,6 +478,7 @@ export default {
         chosenM: '無',
         isSearch: false,
       },
+      gggMapBasic: [],
       itemLevel: { // 物品等級
         min: 0,
         max: '',
@@ -515,6 +543,7 @@ export default {
         chosenG: '無',
         isSearch: false,
       },
+      gggGemBasic: [],
       searchJson: {},
       searchJson_Def: {
         "query": {
@@ -614,13 +643,33 @@ export default {
   mounted() {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
     this.scanCopy();
-    this.getAllAPI();
+    this.getAllAPI(true);
   },
   methods: {
     checkAPI() {
       this.equipItems.forEach(element => {
         console.log(element.text, element.name, element.option)
       });
+    },
+    replaceString(string) {
+      const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
+      return this.isGarenaSvr ? string : string.replace(regEnglish, '')
+    },
+    resetSearchData() {
+      this.searchName = ''
+      this.fetchID.length = 0
+      this.isMap = false
+      this.isItem = false
+      this.isGem = false
+      this.raritySet.isSearch = false
+      this.itemLevel.isSearch = false
+      this.itemBasic.isSearch = false
+      this.gemLevel.isSearch = false
+      this.isCorrupted = false
+      this.fetchQueryID = ''
+      this.status = ''
+      this.searchStats = []
+      this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
     },
     hotkeyPressed() {
       this.count++
@@ -645,13 +694,6 @@ export default {
           this.testResponse = response.data
         })
         .catch(function (error) {
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
           console.log(error);
         })
     }, 500),
@@ -660,7 +702,7 @@ export default {
       this.fetchQueryID = ''
       this.axios.post(`http://localhost:3031/trade`, {
           searchJson: obj,
-          copyText: this.copyText,
+          baseUrl: this.baseUrl,
           league: this.leagues.chosenL
         })
         .then((response) => {
@@ -671,6 +713,10 @@ export default {
           this.fetchQueryID = response.data.id
         })
         .catch(function (error) {
+          vm.isApiError = true
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -682,7 +728,7 @@ export default {
         })
     }, 300),
     popOfficialWebsite() {
-      shell.openExternal(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
+      shell.openExternal(`${this.baseUrl}/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
       // window.open(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`, '_blank', 'nodeIntegration=no')
     },
     startCountdown(Time) {
@@ -693,11 +739,16 @@ export default {
       this.isCounting = false
       this.cleanClipboard()
     },
-    getAllAPI() {
+    getAllAPI(boolean) {
       this.isApiError = false
       this.statsAPI();
       this.itemsAPI();
       this.leaguesAPI();
+      if (boolean) {
+        setTimeout(() => {
+          this.gggAPI();
+        }, 1000);
+      }
     },
     statsAPI() { // 詞綴 API
       let vm = this
@@ -749,7 +800,9 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(30)
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -767,6 +820,9 @@ export default {
       let jewelIndex = 0
       let weaponIndex = 0
       let mapIndex = 0
+      this.equipItems.length = 0
+      this.mapBasic.option.length = 0
+      this.gemBasic.option.length = 0
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
         .then((response) => {
           this.allItems = response.data.result
@@ -935,7 +991,8 @@ export default {
           });
           result[7].entries.forEach((element, index) => { // "label": "地圖" 
             const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
-            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+            const ignoreTyep = ["神諭之殿．神臨", "神諭之殿．歸徒", "神諭之殿．降師"]
+            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas" && stringSimilarity.findBestMatch(element.text, ignoreTyep).bestMatch.rating !== 1) { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
               this.mapBasic.option.push(element.text)
             }
           });
@@ -945,7 +1002,9 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(30)
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -967,7 +1026,9 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(30)
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -975,6 +1036,51 @@ export default {
             autoHideDelay: 800,
             appendToast: false
           })
+          console.log(error);
+        })
+    },
+    gggAPI() {
+      let vm = this
+      this.axios.get(`https://www.pathofexile.com/api/trade/data/leagues`, )
+        .then((response) => {
+          this.gggLeagues = _.map(response.data.result, 'id')
+        })
+        .catch(function (error) {
+          vm.isApiError = true
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
+          vm.$bvToast.toast(`error: ${error}`, {
+            noCloseButton: true,
+            toaster: 'toast-warning-center',
+            variant: 'danger',
+            autoHideDelay: 800,
+            appendToast: false
+          })
+          console.log(error);
+        })
+      this.axios.get(`https://www.pathofexile.com/api/trade/data/items`, )
+        .then((response) => {
+          let result = response.data.result
+          let mapMatchIndex = 0
+          result[7].entries.forEach((element, index) => { // "label": "Maps" 台服 143 / 國際服 140
+            const basetype = ["Academy Map"] // 地圖起始點 { "type": "Academy Map", "text": "Academy Map" }
+            if (stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1) {
+              mapMatchIndex = index
+            }
+            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+              this.gggMapBasic.push(`${this.mapBasic.option[index - mapMatchIndex]}(${element.text})`)
+            }
+          });
+          result[5].entries.forEach((element, index) => { // "label": "Gems" 台服國際服皆 436
+            this.gggGemBasic.push(`${this.gemBasic.option[index]}(${element.text})`)
+          });
+        })
+        .catch(function (error) {
+          vm.isApiError = true
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           console.log(error);
         })
     },
@@ -992,6 +1098,12 @@ export default {
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
         this.searchJson.query.stats[0].filters.length = 0
+      }
+      if (this.isMap && this.mapBasic.isSearch) {
+        this.searchName = `物品名稱 <br>『${this.mapBasic.chosenM}』`
+      }
+      if (this.isGem && this.gemBasic.isSearch) {
+        this.searchName = `物品名稱 <br>『${this.gemBasic.chosenG}』`
       }
       this.searchStats.forEach((element, index) => {
         if (element.isSearch) {
@@ -1304,7 +1416,7 @@ export default {
       if (!this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.type // 刪除物品基底 filter
       } else if (this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
-        this.searchJson.query.type = this.itemBasic.text // 增加物品基底 filter
+        this.searchJson.query.type = this.replaceString(this.itemBasic.text) // 增加物品基底 filter
       }
     },
     isItemCategorySearch() {
@@ -1355,6 +1467,7 @@ export default {
       this.itemExBasic.chosenObj = value
     },
     mapAnalysis(item, itemArray, Rarity) {
+      // this.itemStatsAnalysis(itemArray, 1) 地圖先不加入詞綴判斷
       const NL = this.newLine
       let searchName = ''
       this.isMap = true
@@ -1377,11 +1490,15 @@ export default {
       this.mapLevel.max = mapTier
       this.mapLevel.isSearch = true
       this.isMapLevelSearch()
+
+      let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
       let mapBasicCount = 0
+
       this.mapBasic.option.forEach(element => {
-        if (item.indexOf(element) > -1 && !mapBasicCount) {
+        let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
+        if (itemNameStringIndex > -1 && !mapBasicCount) {
           mapBasicCount++
-          this.mapBasic.chosenM = element
+          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5]/gi, "") : itemNameString.slice(itemNameStringIndex)
         }
       });
       this.mapBasic.isSearch = true
@@ -1459,7 +1576,7 @@ export default {
       if (!this.mapBasic.isSearch && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.type // 刪除地圖基底 filter
       } else if (this.mapBasic.isSearch && !_.isEmpty(this.searchJson)) {
-        this.searchJson.query.type = this.mapBasic.chosenM // 增加地圖基底 filter
+        this.searchJson.query.type = this.replaceString(this.mapBasic.chosenM) // 增加地圖基底 filter
       }
     },
     isMapLevelSearch() {
@@ -1488,7 +1605,7 @@ export default {
       if (!this.gemBasic.isSearch && !_.isEmpty(this.searchJson)) {
         delete this.searchJson.query.type // 刪除技能基底 filter
       } else if (this.gemBasic.isSearch && !_.isEmpty(this.searchJson)) {
-        this.searchJson.query.type = this.gemBasic.chosenG // 增加技能基底 filter
+        this.searchJson.query.type = this.replaceString(this.gemBasic.chosenG) // 增加技能基底 filter
       }
     },
     isGemLevelSearch() {
@@ -1539,31 +1656,25 @@ export default {
         })
         return
       }
-      this.fetchID.length = 0
-      this.isMap = false
-      this.isItem = false
-      this.isGem = false
-      this.raritySet.isSearch = false
-      this.itemLevel.isSearch = false
-      this.itemBasic.isSearch = false
-      this.gemLevel.isSearch = false
-      this.isCorrupted = false
-      this.fetchQueryID = ''
-      this.status = ''
-      this.searchStats = []
-      this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
+      this.resetSearchData();
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
+      const regExp = new RegExp("[A-Za-z]+");
+      this.isGarenaSvr = regExp.test(itemArray[1]) ? false : true // 國際服中文化判斷 
       let posRarity = item.indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
       let searchName = itemArray[1]
-      this.searchName = itemArray[2] === "--------" ? `物品名稱『${itemArray[1]}』` : `物品名稱『${itemArray[1]} ${itemArray[2]}』`
+      this.searchName = itemArray[2] === "--------" ? `物品名稱 <br>『${itemArray[1]}』` : `物品名稱 <br>『${itemArray[1]} ${itemArray[2]}』`
       let itemBasic = itemArray[2]
+      let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
       let itemBasicCount = 0
 
       this.equipItems.forEach(element => {
-        if (`${itemArray[1]} ${itemArray[2]}`.indexOf(element.text) > -1 && !itemBasicCount) {
+        // console.log(itemNameString, itemNameStringIndex)
+        let itemNameStringIndex = itemNameString.indexOf(element.text)
+        if (itemNameStringIndex > -1 && !itemBasicCount) {
           itemBasicCount++
+          element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString.slice(itemNameStringIndex))
           this.itemAnalysis(item, itemArray, element)
           this.isItem = true
           this.isItemCollapse = true
@@ -1572,8 +1683,8 @@ export default {
 
       if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
         if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
-          this.searchJson.query.name = searchName
-          this.searchJson.query.type = itemBasic
+          this.searchJson.query.name = this.replaceString(searchName)
+          this.searchJson.query.type = this.replaceString(itemBasic)
           this.raritySet.chosenObj = {
             label: "傳奇",
             prop: 'unique'
@@ -1593,10 +1704,10 @@ export default {
           }
           this.raritySet.isSearch = true
           this.isRaritySearch()
-          this.searchJson.query.type = searchName
+          this.searchJson.query.type = this.replaceString(searchName)
         }
-      } else if (Rarity === "命運卡" || Rarity === "通貨") {
-        this.searchJson.query.type = searchName
+      } else if (Rarity === "命運卡" || Rarity === "通貨" || Rarity === "通貨不足") {
+        this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "寶石") {
         this.isGem = true
         this.gemBasic.chosenG = searchName
@@ -1617,6 +1728,7 @@ export default {
           let vaalPosEnd = vaalPos.indexOf(NL)
           let vaalGem = vaalPos.substring(0, vaalPosEnd)
           this.searchName = `物品名稱『${vaalGem}』`
+          this.isGarenaSvr = regExp.test(vaalGem) ? false : true
           this.gemBasic.chosenG = vaalGem
         }
         this.gemBasic.isSearch = true
@@ -1625,9 +1737,9 @@ export default {
         this.isGemQualitySearch()
       } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('前往試練者廣場使用此物品進入帝王迷宮') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1)) {
         // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器
-        this.searchJson.query.type = searchName
+        this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
-        this.searchJson.query.name = searchName
+        this.searchJson.query.name = this.replaceString(searchName)
       } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
       } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法" || Rarity === "普通")) {
@@ -1639,14 +1751,27 @@ export default {
       }
       this.searchTrade(this.searchJson)
     },
-    isOnline: function () {
+    isGarenaSvr: function () { // 國際服相關 function 處理
+      let vm = this
+      this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
+      if (!this.isGarenaSvr) {
+        this.leagues.option = this.gggLeagues
+        this.leagues.chosenL = this.gggLeagues[0]
+        this.mapBasic.option = Object.assign([], this.gggMapBasic);
+        this.gemBasic.option = Object.assign([], this.gggGemBasic);
+      } else {
+        this.itemsAPI();
+        this.leaguesAPI();
+      }
+    },
+    isOnline: _.debounce(function () {
       let option = this.isOnline ? 'online' : 'any'
       this.searchJson_Def.query.status.option = option
       if (!_.isEmpty(this.searchJson) && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
         this.searchJson.query.status.option = option
         this.searchTrade(this.searchJson)
       }
-    },
+    }, 800),
     isPriced: function () {
       this.fetchID.length = 0
       let option = this.isPriced ? 'priced' : 'unpriced'
@@ -1657,8 +1782,8 @@ export default {
       }
     },
     'leagues.chosenL': {
-      handler(newVal) {
-        if (_.isEmpty(this.searchJson)) {
+      handler(newVal, oldVal) {
+        if (_.isEmpty(this.searchJson) || (newVal == "Harvest" && oldVal == "豐收聯盟")) {
           return
         }
         this.searchTrade(this.searchJson)
@@ -1747,6 +1872,9 @@ export default {
     },
     corruptedText() {
       return this.isCorrupted ? "已污染" : "未污染"
+    },
+    server() {
+      return this.isGarenaSvr ? "台服" : "國際服"
     },
     statsFontColor() {
       return function (item) {

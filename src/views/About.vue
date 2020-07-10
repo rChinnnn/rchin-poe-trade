@@ -2,8 +2,8 @@
 <div class="about">
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="primary" header="台服 POE 查價工具 v1.311.2" header-bg-variant="primary" header-text-variant="white" align="center">
-        <b-card-text>作者：rChinnn</b-card-text>
+      <b-card border-variant="primary" header="POE 查價工具 v1.311.2" header-bg-variant="primary" header-text-variant="white" align="center">
+        <b-card-text>作者：rChinnnn</b-card-text>
         <b-card-text>
           <b-button @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/releases`)" size="sm" variant="outline-primary" class="mb-2">
             版本發佈歷史請點我
@@ -14,18 +14,34 @@
   </div>
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="info" header="免責聲明" header-bg-variant="info" header-text-variant="white" align="center">
+      <b-card border-variant="danger" header="免責聲明" header-bg-variant="danger" header-text-variant="white" align="center">
         <b-card-text>
           <h5>使用此程式者請自行承擔所有可能後果和風險</h5>
         </b-card-text>
         <b-card-text>此程式並無修改任何記憶體</b-card-text>
         <b-card-text>運作原理為抓取 POE 遊戲內對物品複製後的文字進行分析，以利快速查價</b-card-text>
+        <b-card-text>串接的 API 皆為官方公開資源，請勿於短時間內快速搜尋造成伺服器負擔</b-card-text>
       </b-card>
     </b-card-group>
   </div>
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="dark" header="熱鍵功能" align="center">
+      <b-card border-variant="dark" header="使用說明" header-bg-variant="dark" header-text-variant="white" align="center">
+        <b-card-text>1. 點此頁上方的 Home 頁籤</b-card-text>
+        <b-card-text>2. 切換視窗回遊戲中</b-card-text>
+        <b-card-text>3. 將滑鼠停在物品上，按下 Ctrl+C </b-card-text>
+        <b-card-text>4. 程式將自動判斷此次搜尋物品 </b-card-text>
+        <b-card-text>
+          <b-button @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/blob/master/README.md`)" size="sm" variant="outline-primary" class="mb-2">
+            詳細使用說明及基礎搜尋設定請點我
+          </b-button>
+        </b-card-text>
+      </b-card>
+    </b-card-group>
+  </div>
+  <div style="padding:5px 30px;">
+    <b-card-group deck>
+      <b-card border-variant="dark" header="熱鍵功能" header-bg-variant="dark" header-text-variant="white" align="center">
         <table class="table table-sm">
           <thead class="thead-light">
             <tr>
@@ -46,22 +62,7 @@
   </div>
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="dark" header="使用說明" align="center">
-        <b-card-text>1. 點回 Home 頁籤</b-card-text>
-        <b-card-text>2. 切換視窗回遊戲中</b-card-text>
-        <b-card-text>3. 將滑鼠停在物品上，按下 Ctrl+C </b-card-text>
-        <b-card-text>4. 程式將自動判斷此次搜尋物品 </b-card-text>
-        <b-card-text>
-          <b-button @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade`)" size="sm" variant="outline-primary" class="mb-2">
-            詳細使用說明請點我
-          </b-button>
-        </b-card-text>
-      </b-card>
-    </b-card-group>
-  </div>
-  <div style="padding:5px 30px;">
-    <b-card-group deck>
-      <b-card border-variant="dark" header="這是免費程式" align="center">
+      <b-card border-variant="info" header-bg-variant="info" header-text-variant="white" header="這是免費程式 / 贊助連結" align="center">
         <b-card-text>此程式已在 GitHub 上開源</b-card-text>
         <b-card-text>歡迎分享給親朋好友使用</b-card-text>
         <b-card-text>若工具對你有不少幫助，也有餘力的話</b-card-text>

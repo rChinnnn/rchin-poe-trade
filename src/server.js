@@ -44,11 +44,12 @@
     app.post('/trade', function (req, res) {
       console.log(moment().format('HH:mm:ss'), "Call trade(post) API", req.body.league)
       console.log(req.body.searchJson)
-      req.body.league = encodeURI(req.body.league)
+      let league = encodeURI(req.body.league)
+      let baseUrl = req.body.baseUrl
       let fetchID = [] // 儲存得到的 result ID, 10 個 ID 為一組陣列
       let options = {
-        url: `https://web.poe.garena.tw/api/trade/search/${req.body.league}`,
-        // could replace searchJson by `${req.body.league}?q={"query": ... }`
+        url: `${baseUrl}/api/trade/search/${league}`,
+        // could replace searchJson by `${league}?q={"query": ... }`
         method: 'post',
         headers: {
           'accept': 'application/json',
