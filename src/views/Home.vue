@@ -11,10 +11,13 @@
     <hr>
   </b-container>
   <b-alert v-if="isApiError" show variant="danger" style="margin-top: 5px;">
-    <div>Oops! 抓取 API 似乎發生了一點錯誤... 請檢查電腦網路狀態</div>
+    <div>Oops! API 串接時似乎發生了一點錯誤...</div>
+    <h4 style="padding-top: 6px;">{{ apiErrorStr }}</h4>
+    <hr>
     <div>若跳出提示 Code 503，表示台服或國際服官方應在關機維護中，請稍後再試</div>
     <div>國際服玩家 -> 台服及國際服官方皆正常才可使用</div>
     <div>台服玩家 -> 台服官方正常即可使用</div>
+    <hr>
     <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
       <template slot-scope="props">
         <b-button v-if="isCounting" @click="getAllAPI" :disabled="isCounting" size="sm" variant="outline-danger">請等待 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒後重試</b-button>
@@ -200,21 +203,12 @@
           <b-col sm="3" style="padding-top: 6px;">
             <b-form-checkbox class="float-right" v-model="mapBasic.isSearch" @input="isMapBasicSearch" switch>地圖基底</b-form-checkbox>
           </b-col>
-          <b-col :sm="isGarenaSvr ? 4 : 8">
+          <b-col :sm="isGarenaSvr ? 4 : 9">
             <!-- <b-form-input v-model="mapBasic.chosenM" :disabled="true"></b-form-input> -->
             <v-select :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" label="label" :disabled="!mapBasic.isSearch" :clearable="false" :filterable="true"></v-select>
           </b-col>
           <b-col v-if="isGarenaSvr" sm="3" style="padding-top: 6px;">
             <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
-          </b-col>
-        </b-row>
-        <b-row v-if="!isGarenaSvr" class="lesspadding" style="padding-top: 5px;">
-          <b-col sm="7">
-          </b-col>
-          <b-col sm="4" style="padding-top: 6px;">
-            <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
-          </b-col>
-          <b-col sm="1">
           </b-col>
         </b-row>
         <b-collapse :visible="raritySet.chosenObj.label !== '傳奇'">
@@ -241,6 +235,15 @@
             </b-col>
           </b-row>
         </b-collapse>
+        <b-row v-if="!isGarenaSvr" class="lesspadding" style="padding-top: 5px;">
+          <b-col sm="7">
+          </b-col>
+          <b-col sm="4" style="padding-top: 6px;">
+            <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
+          </b-col>
+          <b-col sm="1">
+          </b-col>
+        </b-row>
         <b-row>
           <b-col sm="10"></b-col>
           <b-col sm="2" style="padding-top: 15px;">
@@ -385,6 +388,7 @@ export default {
       baseUrl: 'https://web.poe.garena.tw',
       isGarenaSvr: true,
       isApiError: false,
+      apiErrorStr: '',
       isCounting: false,
       isOnline: true,
       isPriced: true,
@@ -474,7 +478,7 @@ export default {
         chosenM: '無',
         isSearch: false,
       },
-      gggMapBaic: [],
+      gggMapBasic: [],
       itemLevel: { // 物品等級
         min: 0,
         max: '',
@@ -651,6 +655,22 @@ export default {
       const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
       return this.isGarenaSvr ? string : string.replace(regEnglish, '')
     },
+    resetSearchData() {
+      this.searchName = ''
+      this.fetchID.length = 0
+      this.isMap = false
+      this.isItem = false
+      this.isGem = false
+      this.raritySet.isSearch = false
+      this.itemLevel.isSearch = false
+      this.itemBasic.isSearch = false
+      this.gemLevel.isSearch = false
+      this.isCorrupted = false
+      this.fetchQueryID = ''
+      this.status = ''
+      this.searchStats = []
+      this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
+    },
     hotkeyPressed() {
       this.count++
     },
@@ -674,13 +694,6 @@ export default {
           this.testResponse = response.data
         })
         .catch(function (error) {
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
           console.log(error);
         })
     }, 500),
@@ -701,7 +714,9 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(20)
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -785,7 +800,9 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(20)
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -985,7 +1002,9 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(20)
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -1007,7 +1026,9 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(20)
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -1026,7 +1047,9 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(20)
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -1046,7 +1069,7 @@ export default {
               mapMatchIndex = index
             }
             if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
-              this.gggMapBaic.push(`${this.mapBasic.option[index - mapMatchIndex]}(${element.text})`)
+              this.gggMapBasic.push(`${this.mapBasic.option[index - mapMatchIndex]}(${element.text})`)
             }
           });
           result[5].entries.forEach((element, index) => { // "label": "Gems" 台服國際服皆 436
@@ -1055,14 +1078,9 @@ export default {
         })
         .catch(function (error) {
           vm.isApiError = true
-          vm.startCountdown(20)
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.apiErrorStr = error
+          vm.startCountdown(10)
+          vm.resetSearchData()
           console.log(error);
         })
     },
@@ -1449,6 +1467,7 @@ export default {
       this.itemExBasic.chosenObj = value
     },
     mapAnalysis(item, itemArray, Rarity) {
+      // this.itemStatsAnalysis(itemArray, 1) 地圖先不加入詞綴判斷
       const NL = this.newLine
       let searchName = ''
       this.isMap = true
@@ -1471,13 +1490,15 @@ export default {
       this.mapLevel.max = mapTier
       this.mapLevel.isSearch = true
       this.isMapLevelSearch()
+
+      let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
       let mapBasicCount = 0
+
       this.mapBasic.option.forEach(element => {
-        let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
-        let itemNameStringIndex = itemNameString.indexOf(element)
+        let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
         if (itemNameStringIndex > -1 && !mapBasicCount) {
           mapBasicCount++
-          this.mapBasic.chosenM = this.isGarenaSvr ? element : itemNameString.slice(itemNameStringIndex)
+          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5]/gi, "") : itemNameString.slice(itemNameStringIndex)
         }
       });
       this.mapBasic.isSearch = true
@@ -1635,19 +1656,7 @@ export default {
         })
         return
       }
-      this.fetchID.length = 0
-      this.isMap = false
-      this.isItem = false
-      this.isGem = false
-      this.raritySet.isSearch = false
-      this.itemLevel.isSearch = false
-      this.itemBasic.isSearch = false
-      this.gemLevel.isSearch = false
-      this.isCorrupted = false
-      this.fetchQueryID = ''
-      this.status = ''
-      this.searchStats = []
-      this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
+      this.resetSearchData();
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
       const regExp = new RegExp("[A-Za-z]+");
@@ -1657,12 +1666,12 @@ export default {
       let searchName = itemArray[1]
       this.searchName = itemArray[2] === "--------" ? `物品名稱 <br>『${itemArray[1]}』` : `物品名稱 <br>『${itemArray[1]} ${itemArray[2]}』`
       let itemBasic = itemArray[2]
+      let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
       let itemBasicCount = 0
 
       this.equipItems.forEach(element => {
-        let itemNameString = `${itemArray[1]} ${itemArray[2]}`
-        let itemNameStringIndex = itemNameString.indexOf(element.text)
         // console.log(itemNameString, itemNameStringIndex)
+        let itemNameStringIndex = itemNameString.indexOf(element.text)
         if (itemNameStringIndex > -1 && !itemBasicCount) {
           itemBasicCount++
           element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString.slice(itemNameStringIndex))
@@ -1748,8 +1757,8 @@ export default {
       if (!this.isGarenaSvr) {
         this.leagues.option = this.gggLeagues
         this.leagues.chosenL = this.gggLeagues[0]
-        this.mapBasic.option = this.gggMapBaic
-        this.gemBasic.option = this.gggGemBasic
+        this.mapBasic.option = Object.assign([], this.gggMapBasic);
+        this.gemBasic.option = Object.assign([], this.gggGemBasic);
       } else {
         this.itemsAPI();
         this.leaguesAPI();
