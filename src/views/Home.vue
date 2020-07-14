@@ -350,7 +350,7 @@
       </b-row>
     </b-collapse>
   </b-container>
-  <h6>{{ status }}</h6>
+  <h6 v-html="status"></h6>
   <div>
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ server }} 官方交易市集</b-button>
     <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl"></PriceAnalysis>
@@ -653,7 +653,7 @@ export default {
     },
     replaceString(string) {
       const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
-      return this.isGarenaSvr ? string : string.replace(regEnglish, '')
+      return this.isGarenaSvr ? string : string.replace(regEnglish, '').trim()
     },
     resetSearchData() {
       this.searchName = ''
@@ -669,7 +669,6 @@ export default {
       this.fetchQueryID = ''
       this.status = ''
       this.searchStats = []
-      this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
     },
     hotkeyPressed() {
       this.count++
@@ -713,10 +712,7 @@ export default {
           this.fetchQueryID = response.data.id
         })
         .catch(function (error) {
-          vm.isApiError = true
-          vm.apiErrorStr = error
-          vm.startCountdown(10)
-          vm.resetSearchData()
+          vm.status = `此次搜尋異常，煩請至 巴哈討論串 / Ptt / Github Issue 回報複製後的物品字串，感謝！<br>${error}`
           vm.$bvToast.toast(`error: ${error}`, {
             noCloseButton: true,
             toaster: 'toast-warning-center',
@@ -991,8 +987,7 @@ export default {
           });
           result[7].entries.forEach((element, index) => { // "label": "地圖" 
             const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
-            const ignoreTyep = ["神諭之殿．神臨", "神諭之殿．歸徒", "神諭之殿．降師"]
-            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas" && stringSimilarity.findBestMatch(element.text, ignoreTyep).bestMatch.rating !== 1) { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
               this.mapBasic.option.push(element.text)
             }
           });
@@ -1041,6 +1036,13 @@ export default {
     },
     gggAPI() {
       let vm = this
+      const ignoreTyep = ["神諭之殿．神臨", "神諭之殿．歸徒", "神諭之殿．降師"] // 國際服的圖沒有這三種基底
+      let tempMapBasic = []
+      this.mapBasic.option.forEach((element, index) => {
+        if (stringSimilarity.findBestMatch(element, ignoreTyep).bestMatch.rating !== 1) { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+          tempMapBasic.push(element)
+        }
+      });
       this.axios.get(`https://www.pathofexile.com/api/trade/data/leagues`, )
         .then((response) => {
           this.gggLeagues = _.map(response.data.result, 'id')
@@ -1069,7 +1071,7 @@ export default {
               mapMatchIndex = index
             }
             if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
-              this.gggMapBasic.push(`${this.mapBasic.option[index - mapMatchIndex]}(${element.text})`)
+              this.gggMapBasic.push(`${tempMapBasic[index - mapMatchIndex]}(${element.text})`)
             }
           });
           result[5].entries.forEach((element, index) => { // "label": "Gems" 台服國際服皆 436
@@ -1105,7 +1107,7 @@ export default {
       if (this.isGem && this.gemBasic.isSearch) {
         this.searchName = `物品名稱 <br>『${this.gemBasic.chosenG}』`
       }
-      this.searchStats.forEach((element, index) => {
+      this.searchStats.forEach((element, index, array) => {
         if (element.isSearch) {
           let value = {}
           let min = element.min
@@ -1206,29 +1208,33 @@ export default {
           return
         }
       });
+      function findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用'#'取代的兩種字串皆判斷並取最符合那一筆
+        let originalObj = stringSimilarity.findBestMatch(text, stats)
+        let modifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
+        return originalObj.bestMatch.rating > modifiedObj.bestMatch.rating ? originalObj : modifiedObj
+      }
       for (let index = itemStatStart; index < itemStatEnd; index++) {
         if (itemArray[index] !== "--------") {
-          let text = itemArray[index].replace(/\d+/g, '#') // 將物品上的詞綴數值用'#'取代，提高與資料庫詞綴判斷的精準度
-          // console.log(text)
+          let text = itemArray[index]
           itemDisplayStats.push(itemArray[index])
           // TODO? 破碎詞綴
           if (itemArray[index].indexOf('(implicit)') > -1) { // 固定屬性
             text = text.substring(0, text.indexOf('(implicit)')) // 刪除(implicit)字串
-            tempStat.push(stringSimilarity.findBestMatch(text, this.implicitStats))
+            tempStat.push(findBestStat(text, this.implicitStats))
             tempStat[tempStat.length - 1].type = "固定"
           } else if (itemArray[index].indexOf('(crafted)') > -1) { // 已工藝屬性
             text = text.substring(0, text.indexOf('(crafted)'))
-            tempStat.push(stringSimilarity.findBestMatch(text, this.craftedStats))
+            tempStat.push(findBestStat(text, this.craftedStats))
             tempStat[tempStat.length - 1].type = "工藝"
           } else if (itemArray[index].indexOf('(enchant)') > -1) {
             text = text.substring(0, text.indexOf('(enchant)'))
-            tempStat.push(stringSimilarity.findBestMatch(text, this.enchantStats))
+            tempStat.push(findBestStat(text, this.enchantStats))
             tempStat[tempStat.length - 1].type = "附魔"
           } else if (rarityFlag) { // 傳奇裝詞綴
-            tempStat.push(stringSimilarity.findBestMatch(text, this.explicitStats))
+            tempStat.push(findBestStat(text, this.explicitStats))
             tempStat[tempStat.length - 1].type = "傳奇"
           } else { // 隨機屬性
-            tempStat.push(stringSimilarity.findBestMatch(text, this.explicitStats))
+            tempStat.push(findBestStat(text, this.explicitStats))
             tempStat[tempStat.length - 1].type = "隨機"
           }
         }
@@ -1290,6 +1296,11 @@ export default {
           apiStatText = apiStatText.replace('增加', '減少')
           isNegativeStat = true
         }
+        if (statID === "enchant.stat_3086156145") { // 星團珠寶附加天賦預設調整為最大值，最小值為最大 - 1
+          let tempValue = randomMinValue
+          randomMaxValue = tempValue
+          randomMinValue = tempValue -1
+        }
         this.searchStats.push({
           "id": statID,
           "text": apiStatText,
@@ -1338,7 +1349,8 @@ export default {
       if (item.indexOf('物品等級: ') > -1) {
         let levelPos = item.substring(item.indexOf('物品等級: ') + 5)
         let levelPosEnd = levelPos.indexOf(NL)
-        this.itemLevel.min = parseInt(levelPos.substring(0, levelPosEnd).trim(), 10)
+        let levelValue = parseInt(levelPos.substring(0, levelPosEnd).trim(), 10)
+        this.itemLevel.min = levelValue >= 86 ? 86 : levelValue // 物等超過86 只留86
       }
       // 判斷物品分類
       this.itemCategory.option.push({
@@ -1495,10 +1507,10 @@ export default {
       let mapBasicCount = 0
 
       this.mapBasic.option.forEach(element => {
-        let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
+        let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5|．]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
         if (itemNameStringIndex > -1 && !mapBasicCount) {
           mapBasicCount++
-          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5]/gi, "") : itemNameString.slice(itemNameStringIndex)
+          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5|．]/gi, "") : itemNameString.slice(itemNameStringIndex)
         }
       });
       this.mapBasic.isSearch = true
@@ -1566,10 +1578,11 @@ export default {
         this.searchJson.query.filters.map_filters.filters.map_blighted = {
           "option": "true"
         }
-      } else { // error handle
-        this.status = `Oops! 尚未支援搜尋此種地圖`
-        return
       }
+      // else { // error handle
+      //   this.status = `Oops! 尚未支援搜尋此種地圖`
+      //   return
+      // }
       this.searchTrade(this.searchJson)
     },
     isMapBasicSearch() {
@@ -1657,9 +1670,11 @@ export default {
         return
       }
       this.resetSearchData();
+      this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
-      const regExp = new RegExp("[A-Za-z]+");
+      const regExp = new RegExp("[A-Za-z]+"); // 有英文字就代表是國際服
+      // TODO: 物品化預言會破壞規則
       this.isGarenaSvr = regExp.test(itemArray[1]) ? false : true // 國際服中文化判斷 
       let posRarity = item.indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
