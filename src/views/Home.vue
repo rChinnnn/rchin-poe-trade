@@ -1736,7 +1736,7 @@ export default {
             toaster: 'toast-warning-center',
             variant: 'warning',
             appendToast: true,
-            autoHideDelay: 1000,
+            autoHideDelay: 1800,
           })
         }
       } else if (Rarity === "命運卡" || Rarity === "通貨" || Rarity === "通貨不足") {
