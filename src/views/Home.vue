@@ -653,6 +653,9 @@ export default {
     },
     replaceString(string) {
       const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
+      if (string.indexOf('追憶之') > -1) { // 追憶物品只取 itemBasic Name
+        string = string.slice(4).trim()
+      }
       return this.isGarenaSvr ? string : string.replace(regEnglish, '').trim()
     },
     resetSearchData() {
@@ -698,6 +701,29 @@ export default {
     }, 500),
     searchTrade: _.debounce(function (obj) {
       let vm = this
+      this.searchStats.forEach((element, index, array) => {
+        let value = {}
+        let min = element.min
+        let max = element.max
+        if (element.isNegative && _.isNumber(min)) {
+          value.max = -min
+        } else if (_.isNumber(min)) {
+          value.min = min
+        }
+        if (element.isNegative && _.isNumber(max)) {
+          value.min = -max
+        } else if (_.isNumber(max)) {
+          value.max = max
+        }
+        if (element.option) {
+          value.option = element.option
+        }
+        this.searchJson.query.stats[0].filters.push({
+          "id": element.id,
+          "disabled": element.isSearch ? false : true,
+          "value": value
+        })
+      })
       this.fetchQueryID = ''
       this.axios.post(`http://localhost:3031/trade`, {
           searchJson: obj,
@@ -755,9 +781,9 @@ export default {
           })
           response.data.result[1].entries.forEach((element, index) => { // 隨機屬性
             let text = element.text
-            // if (text.indexOf(' (部分)') > -1) { // 處理複合詞綴，刪除(部分)字串
-            //   text = text.substring(0, text.indexOf(' (部分)'))
-            // }
+            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (部分)'))
+            }
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
             }
@@ -765,6 +791,9 @@ export default {
           })
           response.data.result[2].entries.forEach((element, index) => { // 固定屬性
             let text = element.text
+            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (部分)'))
+            }
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
             }
@@ -772,6 +801,9 @@ export default {
           })
           response.data.result[4].entries.forEach((element, index) => { // 附魔
             let text = element.text
+            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (部分)'))
+            }
             if (element.id === "enchant.stat_3948993189") { // 星團珠寶固定附魔詞綴
               element.option.options.forEach((element, index) => {
                 this.clusterJewelStats.push(element.text, (element.id).toString())
@@ -788,6 +820,9 @@ export default {
           })
           response.data.result[5].entries.forEach((element, index) => { // 已工藝
             let text = element.text
+            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (部分)'))
+            }
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
             }
@@ -1107,31 +1142,6 @@ export default {
       if (this.isGem && this.gemBasic.isSearch) {
         this.searchName = `物品名稱 <br>『${this.gemBasic.chosenG}』`
       }
-      this.searchStats.forEach((element, index, array) => {
-        if (element.isSearch) {
-          let value = {}
-          let min = element.min
-          let max = element.max
-          if (element.isNegative && _.isNumber(min)) {
-            value.max = -min
-          } else if (_.isNumber(min)) {
-            value.min = min
-          }
-          if (element.isNegative && _.isNumber(max)) {
-            value.min = -max
-          } else if (_.isNumber(max)) {
-            value.max = max
-          }
-          if (element.option) {
-            value.option = element.option
-          }
-          this.searchJson.query.stats[0].filters.push({
-            "id": element.id,
-            "disabled": false,
-            "value": value
-          })
-        }
-      })
       this.searchTrade(this.searchJson)
     }, 500),
     itemStatsAnalysis(itemArray, rarityFlag) {
@@ -1208,6 +1218,7 @@ export default {
           return
         }
       });
+
       function findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用'#'取代的兩種字串皆判斷並取最符合那一筆
         let originalObj = stringSimilarity.findBestMatch(text, stats)
         let modifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
@@ -1245,11 +1256,58 @@ export default {
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
         let itemStatText = itemDisplayStats[index] // 物品上的詞綴字串
-        // TODO: local（部分）的詞綴可由基底判斷
-        // console.log(this.itemCategory.chosenObj.label)
-        switch (true) { // 攻擊速度
-          case statID.indexOf('stat_210067635') > -1:
+        switch (true) { // 偽屬性、部分(Local)屬性判斷處理
+          case statID.indexOf('stat_210067635') > -1: // 攻擊速度 (部分)
             statID = 'pseudo.pseudo_total_attack_speed'
+            break;
+          case statID.indexOf('stat_3489782002') > -1 || statID.indexOf('stat_4052037485') > -1: // # 最大能量護盾 (部分)
+            statID = 'pseudo.pseudo_total_energy_shield'
+            break;
+          case statID.indexOf('stat_960081730') > -1 || statID.indexOf('stat_1940865751') > -1: // 附加 # 至 # 物理傷害 (部分)
+            statID = 'pseudo.pseudo_adds_physical_damage'
+            break;
+          case statID.indexOf('stat_321077055') > -1 || statID.indexOf('stat_709508406') > -1: // 附加 # 至 # 火焰傷害 (部分)
+            statID = 'pseudo.pseudo_adds_fire_damage'
+            break;
+          case statID.indexOf('stat_3531280422') > -1 || statID.indexOf('stat_2223678961') > -1: // 附加 # 至 # 混沌傷害 (部分)
+            statID = 'pseudo.pseudo_adds_chaos_damage'
+            break;
+          case statID.indexOf('stat_2885144362') > -1 || statID.indexOf('stat_1334060246') > -1 || statID.indexOf('stat_3336890334') > -1: // 附加 # 至 # 閃電傷害 (部分)
+            // stat_2885144362 應改為攻擊和法術附加 # 至 # 閃電傷害
+            statID = 'pseudo.pseudo_adds_lightning_damage'
+            break;
+          case statID.indexOf('stat_1662717006') > -1 || statID.indexOf('stat_1037193709') > -1 || statID.indexOf('stat_2387423236') > -1: // 附加 # 至 # 冰冷傷害 (部分)
+            // stat_1662717006 應改為攻擊和法術附加 # 至 # 冰冷傷害
+            statID = 'pseudo.pseudo_adds_cold_damage'
+            break;
+            // 閃避值與護甲無偽屬性，若物品為護甲，應為（部分）標籤
+          case statID.indexOf('stat_2144192055') > -1 || statID.indexOf('stat_53045048') > -1: // # 點閃避值 (部分)
+            if (this.itemCategory.chosenObj.prop.indexOf('armour') > -1) { // 護甲類別
+              statID = `${statID.split('.')[0]}.stat_53045048`
+            } else { // 非護甲
+              statID = `${statID.split('.')[0]}.stat_2144192055`
+            }
+            break;
+          case statID.indexOf('stat_2106365538') > -1 || statID.indexOf('stat_124859000') > -1: // 增加 #% 閃避值 (部分)
+            if (this.itemCategory.chosenObj.prop.indexOf('armour') > -1) {
+              statID = `${statID.split('.')[0]}.stat_124859000`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_2106365538`
+            }
+            break;
+          case statID.indexOf('stat_809229260') > -1 || statID.indexOf('stat_3484657501') > -1: // # 點護甲 (部分)
+            if (this.itemCategory.chosenObj.prop.indexOf('armour') > -1) {
+              statID = `${statID.split('.')[0]}.stat_3484657501`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_809229260`
+            }
+            break;
+          case statID.indexOf('stat_2866361420') > -1 || statID.indexOf('stat_1062208444') > -1: // 增加 #% 護甲 (部分)
+            if (this.itemCategory.chosenObj.prop.indexOf('armour') > -1) {
+              statID = `${statID.split('.')[0]}.stat_1062208444`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_2866361420`
+            }
             break;
           default:
             break;
@@ -1302,7 +1360,7 @@ export default {
           randomMinValue = tempValue - 1
         }
         if (statID === "enchant.stat_3086156145" && randomMinValue <= 1) {
-          this.$bvToast.toast(`因此附魔：# 個附加的天賦為珠寶插槽詞綴無法正常判斷，以及有些詞綴會判斷錯誤，請見諒`, {
+          this.$bvToast.toast(`因此"附魔：# 個附加的天賦為珠寶插槽"詞綴無法正常判斷，以及有些詞綴會判斷錯誤，請見諒`, {
             title: `台服詞綴 API 尚未更新！`,
             variant: 'warning',
             appendToast: true
