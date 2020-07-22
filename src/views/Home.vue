@@ -5,7 +5,22 @@
   <b-container v-if="isDevMode">
     <b-row class="lesspadding">
       <b-col align-self="center">
-        <b-button @click="checkAPI" size="sm" variant="outline-primary">物品 API 測試</b-button>
+        <b-button @click="checkAPI" size="sm" variant="outline-primary">API 測試</b-button>
+      </b-col>
+      <b-col align-self="center">
+        <b-button @click="hortiStationCopy(1)" size="sm" variant="outline-primary">工藝台 1</b-button>
+      </b-col>
+      <b-col align-self="center">
+        <b-button @click="hortiStationCopy(2)" size="sm" variant="outline-primary">工藝台 2</b-button>
+      </b-col>
+      <b-col align-self="center">
+        <b-button @click="hortiStationCopy(3)" size="sm" variant="outline-primary">工藝台 3</b-button>
+      </b-col>
+      <b-col align-self="center">
+        <b-button @click="hortiStationCopy(4)" size="sm" variant="outline-primary">工藝台 4</b-button>
+      </b-col>
+      <b-col align-self="center">
+        <b-button @click="hortiStationCopy(5)" size="sm" variant="outline-primary">工藝台 5</b-button>
       </b-col>
     </b-row>
     <hr>
@@ -28,6 +43,7 @@
       </template>
     </countdown>
   </b-alert>
+  <b-alert v-else-if="isHortiMode" show variant="info" style="margin-top: 5px;"> 種子工藝計算模式 </b-alert>
   <b-container v-else class="bv-example-row">
     <b-row class="lesspadding">
       <b-col align-self="center">
@@ -355,12 +371,14 @@
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ server }} 官方交易市集</b-button>
     <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl"></PriceAnalysis>
   </div>
+  <HortiAnalysis v-show="isHortiMode" :tempItemArray="tempItemArray"></HortiAnalysis>
 </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import PriceAnalysis from '@/components/PriceAnalysis.vue'
+import HortiAnalysis from '@/components/HortiAnalysis.vue'
 import hotkeys from "hotkeys-js";
 import GoTop from '@inotom/vue-go-top';
 
@@ -376,6 +394,7 @@ export default {
   name: 'home',
   components: {
     PriceAnalysis,
+    HortiAnalysis,
     GoTop
   },
   data() {
@@ -385,6 +404,8 @@ export default {
       copyText: '',
       testResponse: '',
       countTime: 0,
+      isHortiMode: false,
+      tempItemArray: [],
       baseUrl: 'https://web.poe.garena.tw',
       isGarenaSvr: true,
       isApiError: false,
@@ -672,6 +693,7 @@ export default {
       this.fetchQueryID = ''
       this.status = ''
       this.searchStats = []
+      this.isHortiMode = false
     },
     hotkeyPressed() {
       this.count++
@@ -731,7 +753,6 @@ export default {
           league: this.leagues.chosenL
         })
         .then((response) => {
-          this.count += 1;
           response.data.total = response.data.total == "100000" ? `${response.data.total}+` : response.data.total
           this.status = `共 ${response.data.total} 筆符合`
           this.fetchID = response.data.fetchID
@@ -1131,6 +1152,88 @@ export default {
         appendToast: false
       })
       this.isMapAreaCollapse = false
+    },
+    hortiStationCopy(number) {
+      switch (number) {
+        case 1:
+          clipboard.writeText(`稀有度: 通貨
+園藝憩站
+--------
+堆疊數量: 1 / 5,000
+工藝：3/3
+--------
+保存有限的收割工藝選項，於之後使用
+從物品上移除 1 個非生命詞綴，並新增 1 個生命詞綴 (75) (crafted)
+從物品上移除 1 個攻擊詞綴 (70) (crafted)
+使用 至少 5 個詞綴 來 破裂 物品上 1 個隨機詞綴，並使它鎖定位置。不能使用於勢力、追憶或破裂之物 (82) (crafted)
+--------
+在聖殿密園中右鍵點擊此物品，再左鍵點擊一個位置來放置它。
+`)
+          break;
+        case 2:
+          clipboard.writeText(`稀有度: 通貨
+園藝憩站
+--------
+堆疊數量: 1 / 5,000
+工藝：3/3
+--------
+保存有限的收割工藝選項，於之後使用
+從物品上移除 1 個火焰詞綴 (72) (crafted)
+從物品上移除 1 個非物理詞綴，並新增 1 個物理詞綴 (74) (crafted)
+使用 1 個新物理詞綴增強 1 件魔法或稀有物品 (71) (crafted)
+--------
+在聖殿密園中右鍵點擊此物品，再左鍵點擊一個位置來放置它。
+`)
+          break;
+        case 3:
+          clipboard.writeText(`稀有度: 通貨
+園藝憩站
+--------
+堆疊數量: 1 / 5,000
+工藝：3/3
+--------
+保存有限的收割工藝選項，於之後使用
+從物品上移除 1 個火焰詞綴 (77) (crafted)
+從物品上移除 1 個非生命詞綴，並新增 1 個生命詞綴 (75) (crafted)
+使用 1 個新生命詞綴增強 1 件魔法或稀有物品 (71) (crafted)
+--------
+在聖殿密園中右鍵點擊此物品，再左鍵點擊一個位置來放置它。
+`)
+          break;
+        case 4:
+          clipboard.writeText(`稀有度: 通貨
+園藝憩站
+--------
+堆疊數量: 1 / 5,000
+工藝：3/3
+--------
+保存有限的收割工藝選項，於之後使用
+從物品上移除 1 個攻擊詞綴 (77) (crafted)
+從物品上移除 1 個非攻擊詞綴，並新增 1 個攻擊詞綴 (71) (crafted)
+使用 1 個新速度詞綴增強 1 件魔法或稀有物品 (68) (crafted)
+--------
+在聖殿密園中右鍵點擊此物品，再左鍵點擊一個位置來放置它。
+`)
+          break;
+        case 5:
+          clipboard.writeText(`稀有度: 通貨
+園藝憩站
+--------
+堆疊數量: 1 / 5,000
+工藝：3/3
+--------
+保存有限的收割工藝選項，於之後使用
+使用 至少 5 個詞綴 來 破裂 物品上 1 個隨機詞綴，並使它鎖定位置。不能使用於勢力、追憶或破裂之物 (82) (crafted)
+從物品上移除 1 個非閃電詞綴，並新增 1 個閃電詞綴 (82) (crafted)
+使用 1 個新爆擊詞綴增強 1 件魔法或稀有物品 (77) (crafted)
+--------
+在聖殿密園中右鍵點擊此物品，再左鍵點擊一個位置來放置它。
+`)
+          break;
+        default:
+          break;
+      }
+
     },
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
@@ -1740,6 +1843,11 @@ export default {
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
       const regExp = new RegExp("[A-Za-z]+"); // 有英文字就代表是國際服
+      if (item.indexOf('保存有限的收割工藝選項，於之後使用') > -1) { // 園藝憩站
+        this.isHortiMode = true
+        this.tempItemArray = itemArray
+        return
+      }
       if (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1) { // 預言特殊判斷
         this.isGarenaSvr = regExp.test(itemArray[itemArray.length - 4]) ? false : true
       } else {
