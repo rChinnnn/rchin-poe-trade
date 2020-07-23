@@ -43,7 +43,7 @@
     // post searchJson to garena POE trade API
     app.post('/trade', function (req, res) {
       console.log(moment().format('HH:mm:ss'), "Call trade(post) API", req.body.league)
-      console.log(req.body.searchJson)
+      console.log(req.body.searchJson.query)
       let league = encodeURI(req.body.league)
       let baseUrl = req.body.baseUrl
       let fetchID = [] // 儲存得到的 result ID, 10 個 ID 為一組陣列
