@@ -1,6 +1,6 @@
 {
   "name": "rchin-poe-trade",
-  "version": "1.311.4",
+  "version": "1.311.5",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
