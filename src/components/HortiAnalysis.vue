@@ -38,7 +38,7 @@
       <b-table style="padding-top: 10px;" responsive show-empty small :items="hortiStation" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" :sort-direction="sortDirection" @filtered="onFiltered">
         <template v-slot:cell(description)="row">
           <div style="float: left; max-width:415px; cursor: pointer;" @click="copyText(row.value)">
-            <span v-b-tooltip.hover.top.v-secondary :title="row.value.length > 33 ? row.value : ''" class="col text-truncate" style="float: left;">
+            <span v-b-tooltip.hover.top.v-secondary :title="row.value.length > 29 ? row.value : ''" class="col text-truncate" style="float: left;">
               {{ row.value }}
             </span>
           </div>
