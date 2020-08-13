@@ -140,6 +140,10 @@
         agent: false,
         json: req.body.searchJson
       }
+      if (req.body.cookie) {
+        options.headers.Cookie = `POESESSID=${req.body.cookie};`
+      }
+      console.log(req.body.cookie)
       request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(`searchID: ${body.id}, searchTotal: ${body.total}`)

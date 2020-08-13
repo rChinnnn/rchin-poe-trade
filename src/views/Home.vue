@@ -2,23 +2,6 @@
 <div class="home">
   <go-top :size="30" :bottom="50" :max-width="575" bg-color="#04a9f3" :boundary="50"></go-top>
   <hr>
-  <b-container v-if="isDevMode">
-    <b-row class="lesspadding">
-      <b-col align-self="center">
-        <b-button @click="checkAPI" size="sm" variant="outline-primary">API 測試</b-button>
-      </b-col>
-      <b-col align-self="center">
-        <b-button @click="hortiStationCopy(1)" size="sm" variant="outline-primary">工藝台 1</b-button>
-      </b-col>
-      <b-col align-self="center">
-        <b-button @click="hortiStationCopy(2)" size="sm" variant="outline-primary">工藝台 2</b-button>
-      </b-col>
-      <b-col align-self="center">
-        <b-button @click="hortiStationCopy(3)" size="sm" variant="outline-primary">工藝台 3</b-button>
-      </b-col>
-    </b-row>
-    <hr>
-  </b-container>
   <b-alert v-if="isApiError" show variant="danger" style="margin-top: 5px;">
     <div>Oops! API 串接時似乎發生了一點錯誤...</div>
     <h4 style="padding-top: 6px;">{{ apiErrorStr }}</h4>
@@ -59,6 +42,9 @@
         <b-col align-self="center">
           <b-button @click="isGemCollapse = !isGemCollapse" :disabled="!isGem" size="sm" variant="outline-primary">技能設定</b-button>
         </b-col>
+        <b-col v-if="isDevMode" align-self="center">
+          <b-button @click="checkAPI" size="sm" variant="outline-primary">API 測試</b-button>
+        </b-col>
       </b-row>
       <b-collapse visible id="collapse-1" class="mt-2">
         <b-card>
@@ -66,6 +52,11 @@
             <b-col sm="5" style="padding-left: 15px;">
               <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
             </b-col>
+            <!-- <b-col sm="7" class="my-1">
+              <b-input-group size="sm">
+                <b-form-input v-model="POESESSID" type="search" placeholder="POESESSID"></b-form-input>
+              </b-input-group>
+            </b-col> -->
             <b-col sm="3" class="float-left" style="padding-top: 3px;">
               <!-- <b>已搜尋次數 {{ count }}</b> -->
               <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
@@ -89,6 +80,15 @@
             </b-col>
           </b-row>
           <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
+            <b-row>
+              <b-col sm="5" style="padding-left: 15px;">
+                <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
+              </b-col>
+              <b-col sm="3" class="float-left" style="padding-top: 3px;">
+                <!-- <b>已搜尋次數 {{ count }}</b> -->
+                <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
+              </b-col>
+            </b-row>
             <b-row style="padding-top: 15px;">
               <b-col sm="5">
                 <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
@@ -399,6 +399,7 @@ export default {
   },
   data() {
     return {
+      POESESSID: '',
       count: 0,
       status: '',
       copyText: '',
@@ -750,7 +751,8 @@ export default {
       this.axios.post(`http://localhost:3031/trade`, {
           searchJson: obj,
           baseUrl: this.baseUrl,
-          league: this.leagues.chosenL
+          league: this.leagues.chosenL,
+          cookie: this.POESESSID,
         })
         .then((response) => {
           response.data.total = response.data.total == "100000" ? `${response.data.total}+` : response.data.total
@@ -1152,60 +1154,6 @@ export default {
         appendToast: false
       })
       this.isMapAreaCollapse = false
-    },
-    hortiStationCopy(number) {
-      const label = ["生命", "冰冷", "閃電", "火焰", "混沌", "攻擊", "物理", "法術"]
-      let lebelText = label[Math.floor(Math.random() * 8)]
-      switch (number) {
-        case 1:
-          clipboard.writeText(`稀有度: 通貨
-園藝憩站
---------
-堆疊數量: 1 / 5,000
-工藝：3/3
---------
-保存有限的收割工藝選項，於之後使用
-從物品上移除 1 個非${lebelText}詞綴，並新增 1 個${lebelText}詞綴 (${Math.floor(Math.random() * 27) + 60}) (crafted)
-從物品上移除 1 個${lebelText}詞綴 (${Math.floor(Math.random() * 27) + 60}) (crafted)
-使用 至少 5 個詞綴 來 破裂 物品上 1 個隨機詞綴，並使它鎖定位置。不能使用於勢力、追憶或破裂之物 (${Math.floor(Math.random() * 27) + 60}) (crafted)
---------
-在聖殿密園中右鍵點擊此物品，再左鍵點擊一個位置來放置它。
-`)
-          break;
-        case 2:
-          clipboard.writeText(`稀有度: 通貨
-園藝憩站
---------
-堆疊數量: 1 / 5,000
-工藝：3/3
---------
-保存有限的收割工藝選項，於之後使用
-從物品上移除 1 個${lebelText}詞綴 (${Math.floor(Math.random() * 27) + 60}) (crafted)
-從物品上移除 1 個非${lebelText}詞綴，並新增 1 個${lebelText}詞綴 (${Math.floor(Math.random() * 27) + 60}) (crafted)
-使用 1 個新${lebelText}詞綴增強 1 件魔法或稀有物品 (${Math.floor(Math.random() * 27) + 60}) (crafted)
---------
-在聖殿密園中右鍵點擊此物品，再左鍵點擊一個位置來放置它。
-`)
-          break;
-        case 3:
-          clipboard.writeText(`稀有度: 通貨
-園藝憩站
---------
-堆疊數量: 1 / 5,000
-工藝：3/3
---------
-保存有限的收割工藝選項，於之後使用
-重鑄 1 件稀有物品，並有新的隨機詞綴，包含 1 個${lebelText}詞綴。更容易出現${lebelText}詞綴 (${Math.floor(Math.random() * 27) + 60}) (crafted)
-使用 1 個幸運數值的新${lebelText}詞綴增強 1 件魔法或稀有物品 (${Math.floor(Math.random() * 27) + 60}) (crafted)
-使用 1 個新生命詞綴增強 1 件魔法或稀有物品 (${Math.floor(Math.random() * 27) + 60}) (crafted)
---------
-在聖殿密園中右鍵點擊此物品，再左鍵點擊一個位置來放置它。
-`)
-          break;
-        default:
-          break;
-      }
-
     },
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
