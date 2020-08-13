@@ -40,6 +40,86 @@
       res.send("Congratulations! Trade tool is ready!");
     });
 
+
+    app.put('/ignoreTest', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call ignoreTest(PUT) API")
+      // console.log(req.body)
+      // res.send("Congratulations! Trade tool is ready!");
+      let options = {
+        url: `https://web.poe.garena.tw/api/trade/ignore/shenghao85`,
+        method: 'put',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Cookie': req.body.cookie,
+        },
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
+      }
+      request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          // console.log(body)
+          res.send(body);
+        } else {
+          res.send(error);
+          console.log(error)
+        }
+      });
+    });
+    app.delete('/ignoreTest', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call ignoreTest(DELETE) API")
+      // console.log(req.body)
+      // res.send("Congratulations! Trade tool is ready!");
+      let options = {
+        url: `https://web.poe.garena.tw/api/trade/ignore/shenghao85`,
+        method: 'delete',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Cookie': req.body.cookie,
+        },
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
+      }
+      request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          // console.log(body)
+          res.send(body);
+        } else {
+          res.send(error);
+          console.log(error)
+        }
+      });
+    });
+
+    app.post('/get_stash', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call get_stash API")
+      console.log(req.body)
+      // let url = encodeURI(req.body.url)
+      let options = {
+        url: req.body.url,
+        method: 'get',
+        headers: {
+          'accept': '*/*',
+          'Cookie': req.body.cookie,
+        },
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
+      }
+      request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          // console.log(response, body)
+          res.send(body);
+        } else {
+          console.log(body)
+          res.send(body);
+        }
+      });
+    });
+
     // post searchJson to garena POE trade API
     app.post('/trade', function (req, res) {
       console.log(moment().format('HH:mm:ss'), "Call trade(post) API", req.body.league)
@@ -60,6 +140,10 @@
         agent: false,
         json: req.body.searchJson
       }
+      if (req.body.cookie) {
+        options.headers.Cookie = `POESESSID=${req.body.cookie};`
+      }
+      console.log(req.body.cookie)
       request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(`searchID: ${body.id}, searchTotal: ${body.total}`)

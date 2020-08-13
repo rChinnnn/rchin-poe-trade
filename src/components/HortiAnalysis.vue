@@ -3,8 +3,46 @@
   <b-container>
     <!-- User Interface controls -->
     <b-row>
+      <b-col sm="12" class="my-1">
+        <b-form-group label="增加字串" label-cols-sm="4" label-align-sm="right" label-size="sm" class="mb-0">
+          <b-input-group size="sm">
+            <b-form-input v-model="wantedAddedText" type="search" id="filterInput" placeholder="請輸入欲增加的字串"></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!wantedAddedText" @click="addAfterCopyText">增加</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+
+      <b-col sm="12" class="my-1">
+        <b-form-group label="POESESSID" label-cols-sm="4" label-align-sm="right" label-size="sm" class="mb-0">
+          <b-input-group size="sm">
+            <b-form-input v-model="POESESSID" type="search" id="filterInput" placeholder="請輸入ID"></b-form-input>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+
+      <b-col sm="7" class="my-1">
+        <b-form-group label="帳號" label-cols-sm="4" label-align-sm="right" label-size="sm" class="mb-0">
+          <b-input-group size="sm">
+            <b-form-input v-model="accountName" type="search" id="filterInput" placeholder="請輸入帳號"></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!POESESSID || !accountName" @click="getStashTab(0)">查詢倉庫</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+      <b-col sm="5" class="my-1">
+        <b-form-group label="選擇倉庫" label-cols-sm="4" label-align-sm="right" label-size="sm" class="mb-0">
+          <b-form-select v-model="selectedTab" :disabled="operatorMode || !POESESSID || !accountName" size="sm" :options="tabOptions" @change="getStashTab(1)">
+            <template v-if="!operatorMode" v-slot:first>
+              <option value="" disabled>請選擇倉庫</option>
+            </template>
+          </b-form-select>
+        </b-form-group>
+      </b-col>
       <b-col sm="4" class="my-1">
-        <b-form-group label="排序" label-cols-sm="3" label-align-sm="right" label-size="sm" label-for="sortBySelect" class="mb-0">
+        <b-form-group label="排序" label-cols-sm="4" label-align-sm="right" label-size="sm" label-for="sortBySelect" class="mb-0">
           <b-input-group size="sm">
             <b-form-select v-model="sortBy" id="sortBySelect" :options="sortOptions">
               <template v-slot:first>
@@ -16,7 +54,7 @@
       </b-col>
 
       <b-col sm="8" class="my-1">
-        <b-form-group label="篩選" label-cols-sm="3" label-align-sm="right" label-size="sm" label-for="filterInput" class="mb-0">
+        <b-form-group label="篩選" label-cols-sm="2" label-align-sm="right" label-size="sm" label-for="filterInput" class="mb-0">
           <b-input-group size="sm">
             <b-form-input v-model="filter" type="search" id="filterInput" placeholder="請輸入文字"></b-form-input>
             <b-input-group-append>
@@ -27,11 +65,11 @@
       </b-col>
 
       <b-col sm="10" class="my-1">
-        <b-form-group :label="`已確認 ${hortiCount} 台園藝憩站, 總共有 ${statsTotal} 條工藝${filteredRows === statsTotal ? '' : `, 篩選後有 ${filteredRows} 條工藝`}`" label-cols-sm="12" label-align-sm="right" label-size="sm" class="mb-0">
+        <b-form-group :label="`已確認 ${hortiCount} 台園藝憩站, 總共有 ${statsTotal} 條工藝${filteredRows == statsTotal ? '' : `, 篩選後有 ${filteredRows} 條工藝`}`" label-cols-sm="12" label-align-sm="right" label-size="sm" class="mb-0">
         </b-form-group>
       </b-col>
       <b-col sm="2" class="my-1">
-        <b-badge @click="clearHortiStation" pill variant="secondary" style="margin-top: 5px; cursor: pointer;">清除工藝</b-badge>
+        <b-badge @click="operatorMode ? clearHortiStation : getStashTab(1)" pill variant="secondary" style="margin-top: 5px; cursor: pointer;">{{ operatorText }}</b-badge>
       </b-col>
 
       <!-- Main table element -->
@@ -83,6 +121,11 @@ export default {
   },
   data() {
     return {
+      wantedAddedText: '',
+      POESESSID: '',
+      accountName: '',
+      selectedTab: '',
+      tabOptions: [],
       hortiCount: 0,
       hortiStation: [],
       fields: [{
@@ -188,6 +231,16 @@ export default {
       this.filteredRows = filteredItems.length === 0 ? 0 : filteredItems.map(item => Object.values(item)[0]).reduce((a, b) => a + b);
       this.currentPage = 1
     },
+    addAfterCopyText() {
+      clipboard.writeText(`${clipboard.readText()} ${this.wantedAddedText}`)
+      this.$bvToast.toast(`已增加字串：${this.wantedAddedText}`, {
+        noCloseButton: true,
+        toaster: 'toast-warning-center',
+        variant: 'info',
+        autoHideDelay: 300,
+        appendToast: true
+      })
+    },
     copyText(value) {
       clipboard.writeText(value)
       this.$bvToast.toast(`已複製詞綴：${value.substring(0, 20)}${value.length > 20 ? '...' : ''}`, {
@@ -197,7 +250,71 @@ export default {
         autoHideDelay: 300,
         appendToast: true
       })
-    }
+    },
+    getStashTab(Mode) { // Mode:0 => 查倉庫、Mode:1 => 查工藝
+      let vm = this
+      let baseUrl = `https://web.poe.garena.tw/character-window/get-stash-items?league=%E8%B1%90%E6%94%B6%E8%81%AF%E7%9B%9F`
+      let url = `${baseUrl}&accountName=${this.accountName}&tabs=1`
+      url += Mode ? `&tabIndex=${this.selectedTab}` : ``
+      let cookie = `POESESSID=${this.POESESSID};`
+      this.hortiStation = []
+      this.tabOptions = []
+      this.hortiCount = 0
+      this.axios.post(`http://localhost:3031/get_stash`, {
+          url: url,
+          cookie: cookie,
+        })
+        .then((response) => {
+          // console.log(response.data)
+          response.data.tabs.forEach(element => {
+            // element.n => 倉庫名稱, element.i => 倉庫 index
+            this.tabOptions.push({
+              value: element.i,
+              text: element.n
+            })
+          });
+          if (Mode) {
+            response.data.items.forEach(element => {
+              if (element.typeLine == "園藝憩站") {
+                // console.log(element.craftedMods)
+                element.craftedMods.forEach((element, index) => {
+                  let goPush = true
+                  let description = element.split('(')[0].trim() // 詞綴工藝名稱
+                  let level = parseInt(element.split('(')[1].substring(0, 2), 10) // 詞綴等級
+                  level = level >= 76 ? 100 : level
+
+                  this.hortiStation.forEach(e => { // 檢查是否有相同詞綴與等級
+                    if (e.description === description && e.level === level) {
+                      e.amount = e.amount + 1
+                      goPush = false
+                    }
+                  });
+                  if (goPush) {
+                    this.hortiStation.push({
+                      "amount": 1,
+                      "level": level,
+                      "description": description
+                    })
+                  }
+                });
+                this.hortiCount++
+              }
+            });
+            this.totalRows = this.hortiStation.length
+            this.filteredRows = this.statsTotal
+          }
+        })
+        .catch(function (error) {
+          vm.$bvToast.toast(`error: ${error}`, {
+            noCloseButton: true,
+            toaster: 'toast-warning-center',
+            variant: 'danger',
+            autoHideDelay: 800,
+            appendToast: false
+          })
+          console.log(error);
+        })
+    },
   },
   watch: {
     tempItemArray: {
@@ -223,6 +340,12 @@ export default {
     },
     statsTotal() {
       return this.hortiStation.length === 0 ? 0 : this.hortiStation.map(item => Object.values(item)[0]).reduce((a, b) => a + b);
+    },
+    operatorMode() { // true => 手動複製模式、false => 搜尋倉庫頁面模式
+      return this.tabOptions.length === 0
+    },
+    operatorText() {
+      return this.operatorMode ? '清除工藝' : '更新工藝'
     },
   },
 }
