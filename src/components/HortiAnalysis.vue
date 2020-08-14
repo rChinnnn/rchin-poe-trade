@@ -17,7 +17,7 @@
       <b-col sm="12" class="my-1">
         <b-form-group label="POESESSID" label-cols-sm="4" label-align-sm="right" label-size="sm" class="mb-0">
           <b-input-group size="sm">
-            <b-form-input v-model="POESESSID" type="search" id="filterInput" placeholder="請輸入ID"></b-form-input>
+            <b-form-input v-model="$store.state.POESESSID" :disabled="true" type="search" id="filterInput" placeholder="請輸入ID"></b-form-input>
           </b-input-group>
         </b-form-group>
       </b-col>
@@ -25,16 +25,16 @@
       <b-col sm="7" class="my-1">
         <b-form-group label="帳號" label-cols-sm="4" label-align-sm="right" label-size="sm" class="mb-0">
           <b-input-group size="sm">
-            <b-form-input v-model="accountName" type="search" id="filterInput" placeholder="請輸入帳號"></b-form-input>
+            <b-form-input v-model="handleAccountName" type="search" id="filterInput" placeholder="請輸入帳號"></b-form-input>
             <b-input-group-append>
-              <b-button :disabled="!POESESSID || !accountName" @click="getStashTab(0)">查詢倉庫</b-button>
+              <b-button :disabled="!$store.state.POESESSID || !$store.state.accountName" @click="getStashTab()">查詢倉庫</b-button>
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
       </b-col>
       <b-col sm="5" class="my-1">
         <b-form-group label="選擇倉庫" label-cols-sm="4" label-align-sm="right" label-size="sm" class="mb-0">
-          <b-form-select v-model="selectedTab" :disabled="operatorMode || !POESESSID || !accountName" size="sm" :options="tabOptions" @change="getStashTab(1)">
+          <b-form-select v-model="handleSelectedTab" :disabled="operatorMode || !$store.state.POESESSID || !$store.state.accountName" size="sm" :options="tabOptions" @change="getStashTab()">
             <template v-if="!operatorMode" v-slot:first>
               <option value="" disabled>請選擇倉庫</option>
             </template>
@@ -69,7 +69,7 @@
         </b-form-group>
       </b-col>
       <b-col sm="2" class="my-1">
-        <b-badge @click="operatorMode ? clearHortiStation : getStashTab(1)" pill variant="secondary" style="margin-top: 5px; cursor: pointer;">{{ operatorText }}</b-badge>
+        <b-badge @click="operatorMode ? clearHortiStation : getStashTab()" pill variant="secondary" style="margin-top: 5px; cursor: pointer;">{{ operatorText }}</b-badge>
       </b-col>
 
       <!-- Main table element -->
@@ -111,6 +111,7 @@
 const {
   clipboard,
 } = require('electron')
+const _ = require('lodash');
 export default {
   // 接受父组件的值
   props: {
@@ -122,9 +123,6 @@ export default {
   data() {
     return {
       wantedAddedText: '',
-      POESESSID: '',
-      accountName: '',
-      selectedTab: '',
       tabOptions: [],
       hortiCount: 0,
       hortiStation: [],
@@ -169,6 +167,9 @@ export default {
   mounted() {
     // Set the initial number of items
     this.totalRows = this.hortiStation.length
+    if (this.$store.state.POESESSID && this.$store.state.accountName) {
+      this.getStashTab();
+    }
   },
   methods: {
     hortiAnalysis(itemArray) {
@@ -233,7 +234,7 @@ export default {
     },
     addAfterCopyText() {
       clipboard.writeText(`${clipboard.readText()} ${this.wantedAddedText}`)
-      this.$bvToast.toast(`已增加字串：${this.wantedAddedText}`, {
+      this.$bvToast.toast(`已複製字串：${clipboard.readText()}`, {
         noCloseButton: true,
         toaster: 'toast-warning-center',
         variant: 'info',
@@ -251,12 +252,11 @@ export default {
         appendToast: true
       })
     },
-    getStashTab(Mode) { // Mode:0 => 查倉庫、Mode:1 => 查工藝
+    getStashTab() {
       let vm = this
       let baseUrl = `https://web.poe.garena.tw/character-window/get-stash-items?league=%E8%B1%90%E6%94%B6%E8%81%AF%E7%9B%9F`
-      let url = `${baseUrl}&accountName=${this.accountName}&tabs=1`
-      url += Mode ? `&tabIndex=${this.selectedTab}` : ``
-      let cookie = `POESESSID=${this.POESESSID};`
+      let url = `${baseUrl}&accountName=${this.$store.state.accountName}&tabs=1&tabIndex=${this.$store.state.selectedTab}`
+      let cookie = `POESESSID=${this.$store.state.POESESSID};`
       this.hortiStation = []
       this.tabOptions = []
       this.hortiCount = 0
@@ -266,38 +266,59 @@ export default {
         })
         .then((response) => {
           // console.log(response.data)
-          response.data.tabs.forEach(element => {
-            // element.n => 倉庫名稱, element.i => 倉庫 index
-            this.tabOptions.push({
-              value: element.i,
-              text: element.n
+          if (response.data.hasOwnProperty('error')) {
+            let errorMessage = ''
+            switch (response.data.error.message) {
+              case 'Resource not found':
+                errorMessage = '請再次檢查帳號名稱是否正確!'
+                break;
+              case 'Forbidden':
+                errorMessage = '請再次檢查 POESESSID 是否正確!'
+                break;
+              default:
+                errorMessage = '發生錯誤!'
+                break;
+            }
+            vm.$bvToast.toast(`${errorMessage}`, {
+              noCloseButton: true,
+              toaster: 'toast-warning-center',
+              variant: 'danger',
+              autoHideDelay: 800,
+              appendToast: false
             })
-          });
-          if (Mode) {
+          } else {
+            response.data.tabs.forEach(element => {
+              // element.n => 倉庫名稱, element.i => 倉庫 index
+              this.tabOptions.push({
+                value: element.i,
+                text: element.n
+              })
+            });
             response.data.items.forEach(element => {
               if (element.typeLine == "園藝憩站") {
-                // console.log(element.craftedMods)
-                element.craftedMods.forEach((element, index) => {
-                  let goPush = true
-                  let description = element.split('(')[0].trim() // 詞綴工藝名稱
-                  let level = parseInt(element.split('(')[1].substring(0, 2), 10) // 詞綴等級
-                  level = level >= 76 ? 100 : level
-
-                  this.hortiStation.forEach(e => { // 檢查是否有相同詞綴與等級
-                    if (e.description === description && e.level === level) {
-                      e.amount = e.amount + 1
-                      goPush = false
+                this.hortiCount++
+                if (element.craftedMods) {
+                  element.craftedMods.forEach((element, index) => {
+                    let goPush = true
+                    let description = element.split('(')[0].trim() // 詞綴工藝名稱
+                    let level = parseInt(element.split('(')[1].substring(0, 2), 10) // 詞綴等級
+                    level = level >= 76 ? 100 : level
+  
+                    this.hortiStation.forEach(e => { // 檢查是否有相同詞綴與等級
+                      if (e.description === description && e.level === level) {
+                        e.amount = e.amount + 1
+                        goPush = false
+                      }
+                    });
+                    if (goPush) {
+                      this.hortiStation.push({
+                        "amount": 1,
+                        "level": level,
+                        "description": description
+                      })
                     }
                   });
-                  if (goPush) {
-                    this.hortiStation.push({
-                      "amount": 1,
-                      "level": level,
-                      "description": description
-                    })
-                  }
-                });
-                this.hortiCount++
+                }
               }
             });
             this.totalRows = this.hortiStation.length
@@ -327,6 +348,22 @@ export default {
     },
   },
   computed: {
+    handleSelectedTab: {
+      get() {
+        return this.$store.state.selectedTab;
+      },
+      set(newSelectedTab) {
+        this.$store.commit('setSelectedTab', newSelectedTab);
+      }
+    },
+    handleAccountName: {
+      get() {
+        return this.$store.state.accountName;
+      },
+      set(newAccountName) {
+        this.$store.commit('setAccountName', newAccountName);
+      }
+    },
     sortOptions() {
       // Create an options list from our fields
       return this.fields

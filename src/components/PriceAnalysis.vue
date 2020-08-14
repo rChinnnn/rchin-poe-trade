@@ -1,7 +1,7 @@
 <template>
 <div v-if="isPriced && fetchQueryID" style="padding-top: 10px;">
   <div>
-    <b-img :src="itemImage" style="max-height:100px;"></b-img>
+    <!-- <b-img :src="itemImage" style="max-height:100px;"></b-img> -->
   </div>
   <div class="d-inline-flex p-2 bd-highlight">
     <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
@@ -10,16 +10,17 @@
         <tr>
           <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析
             <br>
-            <b-button v-if="fetchResultPrice.length === 40" @click="morePriceAnalysis" :disabled="isCounting" size="sm" variant="outline-light">再多搜 40 筆價格</b-button>
+            <b-button v-if="fetchResultPrice.length > 31 && fetchResultPrice.length <= 40" @click="morePriceAnalysis" :disabled="isCounting" size="sm" variant="outline-light">再多搜 {{ searchCount - fetchResultPrice.length >= 40 ? 40 : searchCount - fetchResultPrice.length }} 筆價格</b-button>
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody @mouseleave="hoveredIndex = -1">
         <tr v-for="(item, index) in collectionCurrency" :key="index">
-          <td :style="item.count === maxCurrencyCount ? 'color: orangered;' : ''">
+          <td :style="`opacity: ${parseFloat(item.accountName.length / item.count)};`" @mouseover="handleHover(index)">
             報價：{{ item.amount }} x
-            <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img>
-            / <b>{{ item.count }}</b>筆
+            <!-- <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img> -->
+            / <b>{{ item.count }}</b>筆（<b>{{ item.accountName.length }}</b>人標）
+            <b-icon-x-square v-show="hoveredIndex == index && $store.state.POESESSID" @click="addToBlackList(item.accountName)" v-b-tooltip.hover.right.v-secondary :title="`將這 ${item.accountName.length} 人加入黑名單`" style="cursor: pointer;"></b-icon-x-square>
           </td>
         </tr>
       </tbody>
@@ -54,6 +55,7 @@ export default {
     isPriced: Boolean,
     isCounting: Boolean,
     baseUrl: String,
+    searchCount: Number,
   },
   components: {
     loading: VueLoading,
@@ -64,6 +66,7 @@ export default {
       Currency: [],
       itemImage: '',
       isLoading: false,
+      hoveredIndex: -1,
     }
   },
   created() {
@@ -144,6 +147,51 @@ export default {
         default:
           break;
       }
+    },
+    handleHover(index) {
+      if (this.hoveredIndex !== index)
+        this.hoveredIndex = index
+    },
+    addToBlackList(accounts) {
+      let vm = this
+      this.$bvModal.msgBoxConfirm(`是否將 ${accounts} 等 ${accounts.length} 人加入黑名單?`, {
+          title: '請再次確認',
+          centered: true
+        })
+        .then(value => {
+          if (value) { // TODO: axios.all
+            this.axios.all(accounts.map(element => {
+                this.axios.post(`http://localhost:3031/ignorePUT`, {
+                  accountName: `${element}`,
+                  cookie: `POESESSID=${this.$store.state.POESESSID};`,
+                })
+              }))
+              .then(vm.axios.spread(() => {
+                console.log('all done')
+                vm.$bvModal.msgBoxOk(`已將 ${accounts.length} 人加入黑名單，下次查價時生效！`, {
+                  size: 'sm',
+                  centered: true,
+                  okVariant: 'success',
+                })
+              }))
+              .catch(function (error) {
+                console.log(error);
+                vm.$bvModal.msgBoxOk(`加入失敗！`, {
+                  size: 'sm',
+                  centered: true,
+                  okVariant: 'danger',
+                })
+              })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          vm.$bvModal.msgBoxOk(`加入失敗！`, {
+            size: 'sm',
+            centered: true,
+            okVariant: 'danger',
+          })
+        })
     }
   },
   watch: {
@@ -203,7 +251,15 @@ export default {
   },
   computed: {
     fetchResultPrice() { // 取出 result -> listing -> price 物件內容
-      return this.fetchResult.flat(Infinity).map(item => Object.values(item)[1]).map(item => Object.values(item)[Object.values(item).length - 1]);
+      return this.fetchResult.flat(Infinity).map(item => Object.values(item)[1]).map(item => {
+        if (item.price) {
+          item.price.accountName = new Array
+          item.price.accountName[0] = item.account.name // 增加該帳號到陣列中
+        }
+        return item.price
+      }).filter(function (item, index, array) {
+        return item; // 排除介面已選擇有標價但 API 還是回傳尚未標價的物品 （未標價 => null）
+      });
     },
     fetchResultLength() {
       return Math.ceil(this.fetchResultPrice.length / 10)
@@ -214,11 +270,17 @@ export default {
       }
       const result = [...this.fetchResultPrice.reduce((r, e) => { // 計算相同 amount & currency 重複的次數
         let k = `${e.amount}|${e.currency}`;
-        if (!r.has(k)) r.set(k, {
-          ...e,
-          count: 1
-        })
-        else r.get(k).count++
+        if (!r.has(k)) {
+          r.set(k, {
+            ...e,
+            count: 1
+          })
+        } else {
+          r.get(k).count++
+          if (r.get(k).accountName.indexOf(e.accountName[0]) === -1) {
+            r.get(k).accountName.push(e.accountName[0]) // 每筆價格整理內皆包含不重複的使用者帳號名稱
+          }
+        }
         return r;
       }, new Map).values()]
 
@@ -240,13 +302,24 @@ export default {
       });
       return collectionCurrency
     },
-    maxCurrencyCount() {
-      return Math.max(...this.collectionCurrency.map(p => p.count))
+    maxValuableIndex() { // 最有價值的參考價格 index => 暫時不用
+      let tempValue = 0
+      let targetIndex = 0
+      this.collectionCurrency.forEach((e, index, array) => {
+        let calValue = parseFloat(e.accountName.length / e.count) + parseFloat(e.count)
+        if (calValue > tempValue) {
+          tempValue = calValue
+          targetIndex = index
+        }
+      });
+      return targetIndex
     },
   },
 }
 </script>
 
 <style>
-
+.modal-open {
+  word-wrap: break-word;
+}
 </style>

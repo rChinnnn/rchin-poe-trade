@@ -29,7 +29,8 @@ protocol.registerSchemesAsPrivileged([{
   scheme: 'app',
   privileges: {
     secure: true,
-    standard: true
+    standard: true,
+    corsEnabled: true,
   }
 }])
 

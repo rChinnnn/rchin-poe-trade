@@ -52,13 +52,12 @@
             <b-col sm="5" style="padding-left: 15px;">
               <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
             </b-col>
-            <!-- <b-col sm="7" class="my-1">
+            <b-col sm="7" class="my-1">
               <b-input-group size="sm">
-                <b-form-input v-model="POESESSID" type="search" placeholder="POESESSID"></b-form-input>
+                <b-form-input v-model="handlePOESESSID" type="search" placeholder="POESESSID"></b-form-input>
               </b-input-group>
-            </b-col> -->
+            </b-col>
             <b-col sm="3" class="float-left" style="padding-top: 3px;">
-              <!-- <b>已搜尋次數 {{ count }}</b> -->
               <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
             </b-col>
           </b-row>
@@ -85,7 +84,6 @@
                 <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
               </b-col>
               <b-col sm="3" class="float-left" style="padding-top: 3px;">
-                <!-- <b>已搜尋次數 {{ count }}</b> -->
                 <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
               </b-col>
             </b-row>
@@ -369,7 +367,7 @@
   </div>
   <div v-show="!isHortiMode">
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ server }} 官方交易市集</b-button>
-    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl"></PriceAnalysis>
+    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchCount="searchCount"></PriceAnalysis>
   </div>
   <HortiAnalysis v-show="isHortiMode" :tempItemArray="tempItemArray"></HortiAnalysis>
 </div>
@@ -399,8 +397,7 @@ export default {
   },
   data() {
     return {
-      POESESSID: '',
-      count: 0,
+      searchCount: 0,
       status: '',
       copyText: '',
       testResponse: '',
@@ -697,7 +694,7 @@ export default {
       this.isHortiMode = false
     },
     hotkeyPressed() {
-      this.count++
+      this.searchCount++
     },
     scanCopy() {
       setInterval(() => {
@@ -752,10 +749,11 @@ export default {
           searchJson: obj,
           baseUrl: this.baseUrl,
           league: this.leagues.chosenL,
-          cookie: this.POESESSID,
+          cookie: this.$store.state.POESESSID,
         })
         .then((response) => {
-          response.data.total = response.data.total == "100000" ? `${response.data.total}+` : response.data.total
+          this.searchCount = parseInt(response.data.total, 10) // 總共搜到幾項物品
+          response.data.total += response.data.total == "100000" ? `+` : ``
           this.status = `共 ${response.data.total} 筆符合`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
@@ -1382,25 +1380,17 @@ export default {
           randomMaxValue = tempValue
           randomMinValue = tempValue - 1
         }
-        if (statID === "enchant.stat_3086156145" && randomMinValue <= 1) {
-          this.$bvToast.toast(`因此"附魔：# 個附加的天賦為珠寶插槽"詞綴無法正常判斷，以及有些詞綴會判斷錯誤，請見諒`, {
-            title: `台服詞綴 API 尚未更新！`,
-            variant: 'warning',
-            appendToast: true
-          })
-        } else {
-          this.searchStats.push({
-            "id": statID,
-            "text": apiStatText,
-            "option": optionValue,
-            "min": randomMinValue,
-            "max": randomMaxValue,
-            "isValue": randomMinValue ? true : false,
-            "isNegative": isNegativeStat,
-            "isSearch": false,
-            "type": element.type
-          })
-        }
+        this.searchStats.push({
+          "id": statID,
+          "text": apiStatText,
+          "option": optionValue,
+          "min": randomMinValue,
+          "max": randomMaxValue,
+          "isValue": randomMinValue ? true : false,
+          "isNegative": isNegativeStat,
+          "isSearch": false,
+          "type": element.type
+        })
       })
     },
     isRaritySearch() {
@@ -1981,6 +1971,14 @@ export default {
     },
   },
   computed: {
+    handlePOESESSID: {
+      get() { // get stored message
+        return this.$store.state.POESESSID;
+      },
+      set(newID) { // commit a mutation to set message
+        this.$store.commit('setPOESESSID', newID);
+      }
+    },
     isDevMode() {
       return process.env.NODE_ENV === 'development'
     },
