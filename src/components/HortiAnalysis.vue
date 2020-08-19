@@ -1,6 +1,10 @@
 <template>
 <div>
   <b-container>
+    <!-- 勢力基底測試區 
+    <el-checkbox-group v-model="checkedItemExBasic" :min="0" :max="2">
+      <el-checkbox v-for="item in itemExBasic" :label="item" :key="item" :style="`opacity: ${checkedItemExBasic.indexOf(item) > -1 ? '1' : '0.7'}`">{{item}}</el-checkbox>
+    </el-checkbox-group> -->
     <!-- User Interface controls -->
     <b-row>
       <b-col sm="12" class="my-1">
@@ -122,6 +126,8 @@ export default {
   },
   data() {
     return {
+      checkedItemExBasic: [],
+      itemExBasic: ['塑界者', '異界尊師', '聖戰士', '救贖者', '狩獵者', '總督軍'],
       wantedAddedText: '',
       tabOptions: [],
       hortiCount: 0,
@@ -203,13 +209,11 @@ export default {
       this.hortiCount++
       this.totalRows = this.hortiStation.length
       this.filteredRows = this.statsTotal
-      this.$bvToast.toast(`已確認 ${this.hortiCount} 台園藝憩站, 總共有 ${this.statsTotal} 條工藝`, {
-        noCloseButton: true,
-        toaster: 'toast-warning-center',
-        variant: 'info',
-        autoHideDelay: 500,
-        appendToast: true
-      })
+      this.$message({
+        duration: 2000,
+        type: 'success',
+        message: `已確認 ${this.hortiCount} 台園藝憩站, 總共有 ${this.statsTotal} 條工藝`
+      });
     },
     clearHortiStation() {
       this.filteredRows = 0
@@ -234,23 +238,19 @@ export default {
     },
     addAfterCopyText() {
       clipboard.writeText(`${clipboard.readText()} ${this.wantedAddedText}`)
-      this.$bvToast.toast(`已複製字串：${clipboard.readText()}`, {
-        noCloseButton: true,
-        toaster: 'toast-warning-center',
-        variant: 'info',
-        autoHideDelay: 300,
-        appendToast: true
-      })
+      this.$message({
+        duration: 2000,
+        type: 'success',
+        message: `已複製字串：${clipboard.readText().substring(0, 10)} ... ${this.wantedAddedText}`
+      });
     },
     copyText(value) {
       clipboard.writeText(value)
-      this.$bvToast.toast(`已複製詞綴：${value.substring(0, 20)}${value.length > 20 ? '...' : ''}`, {
-        noCloseButton: true,
-        toaster: 'toast-warning-center',
-        variant: 'info',
-        autoHideDelay: 300,
-        appendToast: true
-      })
+      this.$message({
+        duration: 2000,
+        type: 'success',
+        message: `已複製工藝詞綴：${value}`
+      });
     },
     getStashTab() {
       let vm = this
@@ -270,22 +270,19 @@ export default {
             let errorMessage = ''
             switch (response.data.error.message) {
               case 'Resource not found':
-                errorMessage = '請再次檢查帳號名稱是否正確!'
+                errorMessage = '請再次檢查帳號名稱是否正確！'
                 break;
               case 'Forbidden':
-                errorMessage = '請再次檢查 POESESSID 是否正確!'
+                errorMessage = '請再次檢查 POESESSID 是否正確！'
                 break;
               default:
-                errorMessage = '發生錯誤!'
+                errorMessage = `發生錯誤！${response.data.error.message}`
                 break;
             }
-            vm.$bvToast.toast(`${errorMessage}`, {
-              noCloseButton: true,
-              toaster: 'toast-warning-center',
-              variant: 'danger',
-              autoHideDelay: 800,
-              appendToast: false
-            })
+            vm.$message({
+              type: 'error',
+              message: `${errorMessage}`
+            });
           } else {
             response.data.tabs.forEach(element => {
               // element.n => 倉庫名稱, element.i => 倉庫 index
@@ -303,7 +300,7 @@ export default {
                     let description = element.split('(')[0].trim() // 詞綴工藝名稱
                     let level = parseInt(element.split('(')[1].substring(0, 2), 10) // 詞綴等級
                     level = level >= 76 ? 100 : level
-  
+
                     this.hortiStation.forEach(e => { // 檢查是否有相同詞綴與等級
                       if (e.description === description && e.level === level) {
                         e.amount = e.amount + 1
@@ -326,13 +323,10 @@ export default {
           }
         })
         .catch(function (error) {
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
     },

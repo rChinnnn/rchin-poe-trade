@@ -79,14 +79,6 @@
             </b-col>
           </b-row>
           <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
-            <b-row>
-              <b-col sm="5" style="padding-left: 15px;">
-                <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
-              </b-col>
-              <b-col sm="3" class="float-left" style="padding-top: 3px;">
-                <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
-              </b-col>
-            </b-row>
             <b-row style="padding-top: 15px;">
               <b-col sm="5">
                 <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
@@ -367,7 +359,7 @@
   </div>
   <div v-show="!isHortiMode">
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ server }} 官方交易市集</b-button>
-    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchCount="searchCount"></PriceAnalysis>
+    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal"></PriceAnalysis>
   </div>
   <HortiAnalysis v-show="isHortiMode" :tempItemArray="tempItemArray"></HortiAnalysis>
 </div>
@@ -397,7 +389,7 @@ export default {
   },
   data() {
     return {
-      searchCount: 0,
+      searchTotal: 0,
       status: '',
       copyText: '',
       testResponse: '',
@@ -694,7 +686,7 @@ export default {
       this.isHortiMode = false
     },
     hotkeyPressed() {
-      this.searchCount++
+      this.searchTotal++
     },
     scanCopy() {
       setInterval(() => {
@@ -752,7 +744,7 @@ export default {
           cookie: this.$store.state.POESESSID,
         })
         .then((response) => {
-          this.searchCount = parseInt(response.data.total, 10) // 總共搜到幾項物品
+          this.searchTotal = parseInt(response.data.total, 10) // 總共搜到幾項物品
           response.data.total += response.data.total == "100000" ? `+` : ``
           this.status = `共 ${response.data.total} 筆符合`
           this.fetchID = response.data.fetchID
@@ -760,13 +752,10 @@ export default {
         })
         .catch(function (error) {
           vm.status = `此次搜尋異常，煩請至 巴哈討論串 / Ptt / Github Issue 回報複製後的物品字串，感謝！<br>${error}`
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
     }, 300),
@@ -855,13 +844,10 @@ export default {
           vm.apiErrorStr = error
           vm.startCountdown(10)
           vm.resetSearchData()
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
     },
@@ -1056,13 +1042,10 @@ export default {
           vm.apiErrorStr = error
           vm.startCountdown(10)
           vm.resetSearchData()
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
     },
@@ -1080,13 +1063,10 @@ export default {
           vm.apiErrorStr = error
           vm.startCountdown(10)
           vm.resetSearchData()
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
     },
@@ -1108,13 +1088,10 @@ export default {
           vm.apiErrorStr = error
           vm.startCountdown(10)
           vm.resetSearchData()
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
       this.axios.get(`https://www.pathofexile.com/api/trade/data/items`, )
@@ -1144,13 +1121,11 @@ export default {
     },
     mapAreaCopy(name) {
       clipboard.writeText(name)
-      this.$bvToast.toast(`${name} 區域已複製!`, {
-        noCloseButton: true,
-        toaster: 'toast-center-center',
-        variant: 'primary',
-        autoHideDelay: 800,
-        appendToast: false
-      })
+      this.$message({
+        duration: 1200,
+        type: 'success',
+        message: `${name} 區域已複製!`
+      });
       this.isMapAreaCollapse = false
     },
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
@@ -1739,13 +1714,11 @@ export default {
       if (this.isCounting) {
         this.cleanCopyText()
         this.cleanClipboard()
-        this.$bvToast.toast(`請等待限制間隔倒數完畢後再次按下 Ctrl+C`, {
-          noCloseButton: true,
-          toaster: 'toast-warning-center',
-          variant: 'danger',
-          autoHideDelay: 800,
-          appendToast: true
-        })
+        this.$message({
+          duration: 2000,
+          type: 'error',
+          message: `請等待限制間隔倒數完畢後再次按下 Ctrl+C`
+        });
         return
       }
       this.resetSearchData();
@@ -1807,13 +1780,11 @@ export default {
           this.raritySet.isSearch = true
           this.isRaritySearch()
           this.searchJson.query.type = this.replaceString(searchName)
-          this.$bvToast.toast(`未鑑定傳奇物品會搜到相同基底的其他傳奇裝`, {
-            title: 'Warning!',
-            toaster: 'toast-warning-center',
-            variant: 'warning',
-            appendToast: true,
-            autoHideDelay: 1800,
-          })
+          this.$message({
+            duration: 2000,
+            type: 'warning',
+            message: `未鑑定傳奇物品會搜到相同基底的其他傳奇裝`
+          });
         }
       } else if (Rarity === "命運卡" || Rarity === "通貨" || Rarity === "通貨不足") {
         this.searchJson.query.type = this.replaceString(searchName)
@@ -2088,5 +2059,20 @@ tbody.searchStats>tr>td {
 
 .statsFontColor {
   color: (var(color))
+}
+
+.el-message {
+  min-width: 220px;
+  max-width: 450px;
+  height: 40px;
+}
+
+.el-message p {
+  max-width: 370px;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

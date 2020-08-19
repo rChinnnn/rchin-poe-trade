@@ -67,7 +67,7 @@
         agent: false,
       }
       request(options, function (error, response, body) {
-        console.log(response.statusCode, body)
+        // console.log(response.statusCode, body)
         res.send(body);
       });
     });
@@ -97,7 +97,7 @@
         agent: false,
       }
       request(options, function (error, response, body) {
-        console.log(response.statusCode, body)
+        // console.log(response.statusCode, body)
         res.send(body);
       });
     });
@@ -118,7 +118,7 @@
         agent: false,
       }
       request(options, function (error, response, body) {
-        console.log(response.statusCode, body)
+        // console.log(response.statusCode, body)
         res.send(body);
       });
     });
@@ -146,7 +146,7 @@
       if (req.body.cookie) {
         options.headers.Cookie = `POESESSID=${req.body.cookie};`
       }
-      console.log(req.body.cookie)
+      // console.log(req.body.cookie)
       request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(`searchID: ${body.id}, searchTotal: ${body.total}`)

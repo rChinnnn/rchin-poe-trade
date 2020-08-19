@@ -9,8 +9,9 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析
+            <!-- TODO: 重新整理價格功能 -->
             <br>
-            <b-button v-if="fetchResultPrice.length > 31 && fetchResultPrice.length <= 40" @click="morePriceAnalysis" :disabled="isCounting" size="sm" variant="outline-light">再多搜 {{ searchCount - fetchResultPrice.length >= 40 ? 40 : searchCount - fetchResultPrice.length }} 筆價格</b-button>
+            <b-button v-if="searchTotal > 40 && fetchResultPrice.length <= 40" @click="morePriceAnalysis" :disabled="isCounting" size="sm" variant="outline-light">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
           </th>
         </tr>
       </thead>
@@ -55,7 +56,7 @@ export default {
     isPriced: Boolean,
     isCounting: Boolean,
     baseUrl: String,
-    searchCount: Number,
+    searchTotal: Number,
   },
   components: {
     loading: VueLoading,
@@ -79,13 +80,10 @@ export default {
         this.Currency = response.data.result[0].entries
       })
       .catch(function (error) {
-        vm.$bvToast.toast(`error: ${error}`, {
-          noCloseButton: true,
-          toaster: 'toast-warning-center',
-          variant: 'danger',
-          autoHideDelay: 800,
-          appendToast: false
-        })
+        vm.$message({
+          type: 'error',
+          message: `error: ${error}`
+        });
         console.log(error);
       })
   },
@@ -113,13 +111,10 @@ export default {
             let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
             limitState = parseInt(limitState, 10)
             vm.isLoading = false;
-            vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`, {
-              noCloseButton: true,
-              toaster: 'toast-warning-center',
-              variant: 'danger',
-              autoHideDelay: 2000,
-              appendToast: false
-            })
+            vm.$message({
+              type: 'error',
+              message: `Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`
+            });
             // vm.$emit('countdown', limitState)
             console.log(error);
             return
@@ -154,44 +149,38 @@ export default {
     },
     addToBlackList(accounts) {
       let vm = this
-      this.$bvModal.msgBoxConfirm(`是否將 ${accounts} 等 ${accounts.length} 人加入黑名單?`, {
-          title: '請再次確認',
-          centered: true
-        })
-        .then(value => {
-          if (value) { // TODO: axios.all
-            this.axios.all(accounts.map(element => {
-                this.axios.post(`http://localhost:3031/ignorePUT`, {
-                  accountName: `${element}`,
-                  cookie: `POESESSID=${this.$store.state.POESESSID};`,
-                })
-              }))
-              .then(vm.axios.spread(() => {
-                console.log('all done')
-                vm.$bvModal.msgBoxOk(`已將 ${accounts.length} 人加入黑名單，下次查價時生效！`, {
-                  size: 'sm',
-                  centered: true,
-                  okVariant: 'success',
-                })
-              }))
-              .catch(function (error) {
-                console.log(error);
-                vm.$bvModal.msgBoxOk(`加入失敗！`, {
-                  size: 'sm',
-                  centered: true,
-                  okVariant: 'danger',
-                })
-              })
-          }
-        })
-        .catch(error => {
-          console.log(error)
-          vm.$bvModal.msgBoxOk(`加入失敗！`, {
-            size: 'sm',
-            centered: true,
-            okVariant: 'danger',
+      this.$confirm(`是否將 ${accounts} ${accounts.length > 1 ? `等 ${accounts.length} 人` : ''}加入黑名單?`, '請再次確認', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+      }).then(() => {
+        this.axios.all(accounts.map(element => {
+            return this.axios.post(`http://localhost:3031/ignorePUT`, {
+              accountName: `${element}`,
+              cookie: `POESESSID=${this.$store.state.POESESSID};`,
+            })
+          }))
+          .then(vm.axios.spread((...responses) => {
+            console.log('all done', responses[responses.length - 1])
+            vm.$message({
+              type: 'success',
+              message: `已將 ${accounts.length} 人加入黑名單，下次查價時生效！`,
+            });
+          }))
+          .catch(function (error) {
+            console.log(error);
+            vm.$message({
+              type: 'error',
+              message: `加入失敗！ ${error}`,
+            });
           })
-        })
+      }).catch(() => {
+        vm.$message({
+          type: 'info',
+          duration: 1200,
+          message: '取消增加黑名單'
+        });
+      });
     }
   },
   watch: {
@@ -234,13 +223,10 @@ export default {
               let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
               limitState = parseInt(limitState, 10)
               vm.isLoading = false;
-              vm.$bvToast.toast(`Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`, {
-                noCloseButton: true,
-                toaster: 'toast-warning-center',
-                variant: 'danger',
-                autoHideDelay: 2000,
-                appendToast: false
-              })
+              vm.$message({
+                type: 'error',
+                message: `Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`
+              });
               // vm.$emit('countdown', limitState)
               console.log(error);
               return
@@ -261,8 +247,28 @@ export default {
         return item; // 排除介面已選擇有標價但 API 還是回傳尚未標價的物品 （未標價 => null）
       });
     },
+    removeGoneProperty() { // TODO: 將 PriceAnalysis() 重構並改為 axios.all 就能使用
+      return this.fetchResult.flat(Infinity).map(item => {
+        if (!item.gone) {
+          return Object.values(item)[1]
+        }
+      }).filter(function (item, index, array) {
+        return item; // 排除包含 "gone": true 的物品（物品不存在）
+      }).map(item => {
+        if (item.price) {
+          item.price.accountName = new Array
+          item.price.accountName[0] = item.account.name // 增加該帳號到陣列中
+        }
+        return item.price
+      }).filter(function (item, index, array) {
+        return item; // 排除介面已選擇有標價但 API 還是回傳尚未標價的物品 （未標價 => null）
+      });
+    },
     fetchResultLength() {
       return Math.ceil(this.fetchResultPrice.length / 10)
+    },
+    calResultLength() { // 官方回傳的總數扣除目前搜尋且已整理的數量
+      return this.searchTotal - this.fetchResultPrice.length
     },
     collectionRepeat() {
       if (!this.isPriced || !this.fetchResultPrice[0]) {
@@ -319,7 +325,5 @@ export default {
 </script>
 
 <style>
-.modal-open {
-  word-wrap: break-word;
-}
+
 </style>
