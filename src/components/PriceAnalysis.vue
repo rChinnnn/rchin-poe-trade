@@ -1,7 +1,7 @@
 <template>
 <div v-if="isPriced && fetchQueryID" style="padding-top: 10px;">
   <div>
-    <!-- <b-img :src="itemImage" style="max-height:100px;"></b-img> -->
+    <b-img :src="itemImage" style="max-height:100px;"></b-img>
   </div>
   <div class="d-inline-flex p-2 bd-highlight">
     <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
@@ -11,7 +11,7 @@
           <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析
             <!-- TODO: 重新整理價格功能 -->
             <br>
-            <b-button v-if="searchTotal > 40 && fetchResultPrice.length <= 40" @click="morePriceAnalysis" :disabled="isCounting" size="sm" variant="outline-light">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
+            <b-button v-if="searchTotal > 40 && fetchResultPrice.length <= 40" @click="priceAnalysis(8)" :disabled="isCounting" size="sm" variant="outline-light">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
           </th>
         </tr>
       </thead>
@@ -19,7 +19,7 @@
         <tr v-for="(item, index) in collectionCurrency" :key="index">
           <td :style="`opacity: ${parseFloat(item.accountName.length / item.count)};`" @mouseover="handleHover(index)">
             報價：{{ item.amount }} x
-            <!-- <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img> -->
+            <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img>
             / <b>{{ item.count }}</b>筆（<b>{{ item.accountName.length }}</b>人標）
             <b-icon-x-square v-show="hoveredIndex == index && $store.state.POESESSID" @click="addToBlackList(item.accountName)" v-b-tooltip.hover.right.v-secondary :title="`將這 ${item.accountName.length} 人加入黑名單`" style="cursor: pointer;"></b-icon-x-square>
           </td>
@@ -52,7 +52,6 @@ export default {
   props: {
     fetchID: Array,
     fetchQueryID: String,
-    fetchLength: Number,
     isPriced: Boolean,
     isCounting: Boolean,
     baseUrl: String,
@@ -91,35 +90,35 @@ export default {
     hotkeyPressed() {
       this.count++
     },
-    morePriceAnalysis() {
+    priceAnalysis(indexLength) {
       let vm = this
-      let indexLength = 8 >= this.fetchID.length ? this.fetchID.length : 8
       this.isLoading = true;
-      for (let index = 4; index < indexLength; index++) {
-        this.axios.get(`${this.baseUrl}/api/trade/fetch/${this.fetchID[index]}?query=${this.fetchQueryID}`)
-          .then((response) => {
-            let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
-            let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
-            this.fetchResult[index].push(response.data.result)
-            this.switchLimitState(limitState)
-            if (this.fetchResultLength == indexLength) {
-              this.isLoading = false;
-            }
-          })
-          .catch(function (error) {
-            let limitString = (error.response.headers["x-rate-limit-ip-state"]).split(",")
-            let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
-            limitState = parseInt(limitState, 10)
-            vm.isLoading = false;
-            vm.$message({
-              type: 'error',
-              message: `Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`
-            });
-            // vm.$emit('countdown', limitState)
-            console.log(error);
-            return
-          })
-      }
+      let newFilterResult = this.fetchID.filter(function (item, index, array) {
+        return indexLength > 4 ? index >= 4 && index < 8 && item : index < indexLength
+      })
+      this.axios.all(newFilterResult.map((element, index) => {
+          return this.axios.get(`${this.baseUrl}/api/trade/fetch/${element}?query=${this.fetchQueryID}`)
+        }))
+        .then(this.axios.spread((...res) => {
+          let limitString = (res[res.length - 1].headers["x-rate-limit-ip-state"]).split(",")
+          let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
+          res.forEach((element, index) => {
+            this.fetchResult[indexLength > 4 ? index + 4 : index].push(element.data.result)
+          });
+          this.switchLimitState(limitState)
+          this.isLoading = false;
+        }))
+        .catch(function (error) {
+          console.log(error)
+          let limitString = (error.response.headers["x-rate-limit-ip-state"]).split(",")
+          let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
+          limitState = parseInt(limitState, 10)
+          vm.isLoading = false;
+          vm.$message({
+            type: 'error',
+            message: `被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`
+          });
+        })
     },
     switchLimitState(limitState) {
       // console.log(limitState)
@@ -160,8 +159,8 @@ export default {
               cookie: `POESESSID=${this.$store.state.POESESSID};`,
             })
           }))
-          .then(vm.axios.spread((...responses) => {
-            console.log('all done', responses[responses.length - 1])
+          .then(vm.axios.spread((...res) => {
+            console.log('all done', res[res.length - 1])
             vm.$message({
               type: 'success',
               message: `已將 ${accounts.length} 人加入黑名單，下次查價時生效！`,
@@ -188,7 +187,6 @@ export default {
       immediate: true,
       handler(val) {
         let vm = this
-        let indexLength = this.fetchLength >= val.length ? val.length : this.fetchLength
         this.fetchResult = [
           [],
           [],
@@ -203,51 +201,13 @@ export default {
         if (this.isLoading || !this.isPriced || val.length === 0) {
           return
         }
-        this.isLoading = true;
-        for (let index = 0; index < indexLength; index++) {
-          this.axios.get(`${this.baseUrl}/api/trade/fetch/${val[index]}?query=${this.fetchQueryID}`)
-            .then((response) => {
-              let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
-              let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
-              this.fetchResult[index].push(response.data.result)
-              this.switchLimitState(limitState)
-              if (this.fetchResult[0].length !== 0 && !this.itemImage) {
-                this.itemImage = this.fetchResult[0][0][0].item.icon
-              }
-              if (this.fetchResultLength == indexLength) {
-                this.isLoading = false;
-              }
-            })
-            .catch(function (error) {
-              let limitString = (error.response.headers["x-rate-limit-ip-state"]).split(",")
-              let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
-              limitState = parseInt(limitState, 10)
-              vm.isLoading = false;
-              vm.$message({
-                type: 'error',
-                message: `Oops! 被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`
-              });
-              // vm.$emit('countdown', limitState)
-              console.log(error);
-              return
-            })
-        }
+        let indexLength = val.length >= 4 ? 4 : val.length
+        this.priceAnalysis(indexLength)
       }
     },
   },
   computed: {
     fetchResultPrice() { // 取出 result -> listing -> price 物件內容
-      return this.fetchResult.flat(Infinity).map(item => Object.values(item)[1]).map(item => {
-        if (item.price) {
-          item.price.accountName = new Array
-          item.price.accountName[0] = item.account.name // 增加該帳號到陣列中
-        }
-        return item.price
-      }).filter(function (item, index, array) {
-        return item; // 排除介面已選擇有標價但 API 還是回傳尚未標價的物品 （未標價 => null）
-      });
-    },
-    removeGoneProperty() { // TODO: 將 PriceAnalysis() 重構並改為 axios.all 就能使用
       return this.fetchResult.flat(Infinity).map(item => {
         if (!item.gone) {
           return Object.values(item)[1]

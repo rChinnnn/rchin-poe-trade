@@ -104,13 +104,13 @@
                 <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
               </b-col>
               <b-col sm="4">
-                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
+                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" @click.right="clickCount++" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
               </b-col>
               <b-col sm="2"></b-col>
             </b-row>
             <b-row style="padding-top: 8px;">
               <b-col sm="4">
-                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary">新瓦斯提里 (左下外)</b-button>
+                <b-button @click.middle="clickCount > 5 ? clickOpen() : ''" @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary">新瓦斯提里 (左下外)</b-button>
               </b-col>
               <b-col sm="4"></b-col>
               <b-col sm="4">
@@ -359,7 +359,7 @@
   </div>
   <div v-show="!isHortiMode">
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ server }} 官方交易市集</b-button>
-    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal"></PriceAnalysis>
+    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal"></PriceAnalysis>
   </div>
   <HortiAnalysis v-show="isHortiMode" :tempItemArray="tempItemArray"></HortiAnalysis>
 </div>
@@ -389,6 +389,7 @@ export default {
   },
   data() {
     return {
+      clickCount: 0,
       searchTotal: 0,
       status: '',
       copyText: '',
@@ -698,6 +699,26 @@ export default {
     },
     cleanCopyText() {
       this.copyText = ''
+    },
+    clickOpen() {
+      this.$prompt('請輸入 e-mail', '提示', {
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        inputPattern: /^[a-z0-9]{32}$/,
+        inputErrorMessage: ' e-mail 格式不正確'
+      }).then(({
+        value
+      }) => {
+        this.$message({
+          type: 'success',
+          message: `你的 e-mail: ${value} 已儲存成功`
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消輸入'
+        });
+      });
     },
     apiTest: _.debounce(function () {
       let vm = this
@@ -1224,7 +1245,6 @@ export default {
         if (itemArray[index] !== "--------") {
           let text = itemArray[index]
           itemDisplayStats.push(itemArray[index])
-          // TODO? 破碎詞綴
           if (itemArray[index].indexOf('(implicit)') > -1) { // 固定屬性
             text = text.substring(0, text.indexOf('(implicit)')) // 刪除(implicit)字串
             tempStat.push(findBestStat(text, this.implicitStats))
@@ -1569,9 +1589,6 @@ export default {
       });
       this.mapBasic.isSearch = true
       this.isMapBasicSearch()
-      // this.searchJson.query.type = { // TODO? 支援過往地圖類別
-      //   "discriminator": "warfortheatlas"
-      // }
       this.searchJson.query.filters.map_filters.filters.map_blighted = { // 過濾凋落圖
         "option": "false"
       }
