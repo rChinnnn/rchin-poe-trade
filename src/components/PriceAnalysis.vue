@@ -9,7 +9,7 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析
-            <!-- TODO: 重新整理價格功能 -->
+            <b-icon-arrow-repeat v-show="$store.state.POESESSID" @click="isCounting ? '' : $emit('refresh')" :style="[`cursor: ${isCounting ? `not-allowed` : `pointer`};`,'margin-left: 3px;']" v-b-tooltip.hover.top.v-secondary :title="`重新整理`"></b-icon-arrow-repeat>
             <br>
             <b-button v-if="searchTotal > 40 && fetchResultPrice.length <= 40" @click="priceAnalysis(8)" :disabled="isCounting" size="sm" variant="outline-light">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
           </th>
@@ -100,12 +100,17 @@ export default {
           return this.axios.get(`${this.baseUrl}/api/trade/fetch/${element}?query=${this.fetchQueryID}`)
         }))
         .then(this.axios.spread((...res) => {
-          let limitString = (res[res.length - 1].headers["x-rate-limit-ip-state"]).split(",")
-          let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
+          let limitStringArray = []
           res.forEach((element, index) => {
             this.fetchResult[indexLength > 4 ? index + 4 : index].push(element.data.result)
+            let limitString = (element.headers["x-rate-limit-ip-state"]).split(",")
+            let limitState = limitString[1].substring(0, limitString[1].indexOf(':'))
+            limitStringArray.push(parseInt(limitState, 10))
           });
-          this.switchLimitState(limitState)
+          this.switchLimitState(Math.max(...limitStringArray))
+          if (this.fetchResult[0].length !== 0 && !this.itemImage) {
+            this.itemImage = this.fetchResult[0][0][0].item.icon
+          }
           this.isLoading = false;
         }))
         .catch(function (error) {
@@ -123,19 +128,19 @@ export default {
     switchLimitState(limitState) {
       // console.log(limitState)
       switch (limitState) {
-        case '12':
+        case 12:
           this.$emit('countdown', 4 / 1.33)
           break;
-        case '13':
+        case 13:
           this.$emit('countdown', 6 / 1.33)
           break;
-        case '14':
+        case 14:
           this.$emit('countdown', 6 / 1.33)
           break;
-        case '15':
+        case 15:
           this.$emit('countdown', 6 / 1.33)
           break;
-        case '16':
+        case 16:
           this.$emit('countdown', 6 / 1.33)
           break;
         default:

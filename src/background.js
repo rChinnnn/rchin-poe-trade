@@ -37,14 +37,14 @@ protocol.registerSchemesAsPrivileged([{
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: os.platform() === 'darwin' ? 1500 : 650,
-    height: os.platform() === 'darwin' ? 861 : 930,
-    minWidth: os.platform() === 'darwin' ? 100 : 600,
+    width: isDevelopment ? 1500 : 650,
+    height: isDevelopment ? 861 : 930,
+    minWidth: isDevelopment ? 100 : 576,
     minHeight: 500,
-    maxWidth: os.platform() === 'darwin' ? 2000 : 700,
+    maxWidth: isDevelopment ? 2000 : 650,
     autoHideMenuBar: true,
-    fullscreenable: os.platform() === 'darwin' ? true : false,
-    maximizable: os.platform() === 'darwin' ? true : false,
+    fullscreenable: isDevelopment ? true : false,
+    maximizable: true,
     webPreferences: {
       defaultFontFamily: {
         standard: "Microsoft YaHei"
@@ -60,7 +60,7 @@ function createWindow() {
 
   mainWindow.removeMenu()
 
-  if (os.platform() === 'darwin') {
+  if (os.platform() === 'darwin' && isDevelopment) {
     BrowserWindow.addDevToolsExtension(
       path.join(os.homedir(), '/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/5.3.3_0')
     )
