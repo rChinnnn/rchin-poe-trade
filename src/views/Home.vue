@@ -79,7 +79,7 @@
               <v-select :options="corruptedSet.option" v-model="corruptedSet.chosenObj" @input="corruptedInput" :disabled="!isSearchJson || isCounting" label="label" :clearable="false" :filterable="false"></v-select>
             </b-col>
           </b-row>
-          <b-row class="lesspadding" style="padding-top: 10px; padding-left: 19px;">
+          <b-row class="lesspadding" style="padding-top: 10px; padding-left: 21px;">
             <b-col sm="4" style="padding-left: 0px;">
               <b-form-checkbox class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
                 <b>輿圖區域名稱複製</b>
@@ -118,7 +118,7 @@
             </b-row>
             <b-row style="padding-top: 8px;">
               <b-col sm="4">
-                <b-button @click.middle="clickCount > 5 ? clickOpen() : ''" @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary">新瓦斯提里 (左下外)</b-button>
+                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
               </b-col>
               <b-col sm="4"></b-col>
               <b-col sm="4">
@@ -152,22 +152,29 @@
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px;">
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isItemBasicSearch" switch>物品基底</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="itemLinked.isSearch" @input="isLinkedSearch" switch>物品連線</b-form-checkbox>
             </b-col>
-            <b-col sm="2">
-              <b-form-input v-model="itemBasic.text" :disabled="true"></b-form-input>
+            <b-col sm="1" style="padding-top: 3px;">
+              <b-form-input v-model.number="itemLinked.min" @dblclick="itemLinked.min = ''" @input="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="itemLinked.min > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
-            <b-col sm="1"></b-col>
-            <b-col sm="2" style="padding-top: 6px;">
+            <b-col sm="1" style="padding-top: 3px;">
+              <b-form-input v-model.number="itemLinked.max" @dblclick="itemLinked.max = ''" @input="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="(itemLinked.max && (itemLinked.max < itemLinked.min)) || itemLinked.max > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+            </b-col>
+            <b-col sm="3" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isItemCategorySearch" switch>物品分類</b-form-checkbox>
             </b-col>
             <b-col sm="4">
               <v-select :options="itemCategory.option" v-model="itemCategory.chosenObj" label="label" @input="categoryChange" :disabled="!itemCategory.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
             </b-col>
           </b-row>
-          <b-row class="lesspadding" style="padding-top: 3px;">
-            <b-col sm="6"></b-col>
-            <b-col sm="2" style="padding-top: 5px;">
+          <b-row class="lesspadding" style="padding-top: 5px;">
+            <b-col sm="3" style="padding-top: 6px;">
+              <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isItemBasicSearch" switch>物品基底</b-form-checkbox>
+            </b-col>
+            <b-col sm="3" style="padding-top: 3px;">
+              <b-form-input style="width: 100px;" v-model="itemBasic.text" :disabled="true" size="sm"></b-form-input>
+            </b-col>
+            <b-col sm="2" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="itemExBasic.isSearch" @input="isExBasicSearch" switch>勢力基底</b-form-checkbox>
             </b-col>
             <b-col sm="4">
@@ -179,12 +186,14 @@
               </v-select>
             </b-col>
           </b-row>
-          <b-row v-if="searchStats.length == 0">
-            <b-col sm="10"></b-col>
-            <b-col sm="2" style="padding-top: 15px;">
-              <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
-            </b-col>
-          </b-row>
+          <b-collapse :visible="!isStatsCollapse">
+            <b-row>
+              <b-col sm="10"></b-col>
+              <b-col sm="2" style="padding-top: 15px;">
+                <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
+              </b-col>
+            </b-row>
+          </b-collapse>
         </b-card>
       </b-collapse>
     </b-container>
@@ -283,13 +292,13 @@
             <b-col sm="3" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="gemBasic.isSearch" @input="isGemBasicSearch" switch>技能基底</b-form-checkbox>
             </b-col>
-            <b-col :sm="isGarenaSvr ? 5 : 9">
+            <b-col :sm="isGarenaSvr ? 6 : 9">
               <v-select :options="gemBasic.option" v-model="gemBasic.chosenG" @input="isGemBasicSearch" label="label" :disabled="!gemBasic.isSearch" :clearable="false" :filterable="true"></v-select>
             </b-col>
           </b-row>
           <b-row>
             <b-col sm="10"></b-col>
-            <b-col sm="2" style="padding-top: 15px;">
+            <b-col sm="2" style="padding-top: 5px;">
               <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
             </b-col>
           </b-row>
@@ -504,6 +513,11 @@ export default {
         max: '',
         isSearch: false,
       },
+      itemLinked: { // 物品插槽連線
+        min: '',
+        max: '',
+        isSearch: false,
+      },
       itemCategory: { // 物品分類
         option: [],
         chosenObj: {
@@ -646,6 +660,13 @@ export default {
                   "option": "accessory.ring", // 戒指
                 }
               }
+            },
+            "socket_filters": { // 插槽連線設定
+              "filters": {
+                "links": {
+                  "min": 5
+                }
+              }
             }
           }
         },
@@ -687,6 +708,9 @@ export default {
       this.raritySet.isSearch = false
       this.itemLevel.isSearch = false
       this.itemLevel.max = ''
+      this.itemLinked.isSearch = false
+      this.itemLinked.min = ''
+      this.itemLinked.max = ''
       this.itemBasic.isSearch = false
       this.gemLevel.isSearch = false
       this.gemLevel.max = ''
@@ -1458,6 +1482,33 @@ export default {
         let levelValue = parseInt(levelPos.substring(0, levelPosEnd).trim(), 10)
         this.itemLevel.min = levelValue >= 86 ? 86 : levelValue // 物等超過86 只留86
       }
+      // 判斷插槽連線
+      if (item.indexOf('插槽: ') > -1) {
+        const regLinkStr = /[A-Z]/g // 全域搜尋大寫英文字母
+        const regLink6 = /(-){5}/g // 六連
+        const regLink5 = /(-){4}/g // 五連
+        const regLink4 = /(-){3}/g // 四連
+        let linkedValue = ''
+        let linkedPos = item.substring(item.indexOf('插槽: ') + 3)
+        let linkedPosEnd = linkedPos.indexOf(NL)
+        let linkedString = linkedPos.substring(0, linkedPosEnd).trim().replace(regLinkStr, '')
+        switch (true) {
+          case regLink6.test(linkedString) == true:
+            linkedValue = 6
+            this.itemLinked.isSearch = true
+            this.isLinkedSearch()
+            break;
+          case regLink5.test(linkedString) == true:
+            linkedValue = 5
+            break;
+          case regLink4.test(linkedString) == true:
+            linkedValue = 4
+            break;
+          default:
+            break;
+        }
+        this.itemLinked.min = linkedValue ? linkedValue : ''
+      }
       // 判斷物品分類
       this.itemCategory.option.push({
         label: matchItem.name,
@@ -1527,6 +1578,20 @@ export default {
         this.searchJson.query.filters.misc_filters.filters.ilvl = { // 增加物品等級最小值 filter
           "min": this.itemLevel.min,
           "max": this.itemLevel.max ? this.itemLevel.max : ''
+        }
+      }
+    },
+    isLinkedSearch() { // 插槽連線設定
+      if (!this.itemLinked.isSearch && this.isSearchJson) {
+        delete this.searchJson.query.filters.socket_filters // 刪除連線設定 filter
+      } else if (this.itemLinked.isSearch && this.isSearchJson) {
+        this.searchJson.query.filters.socket_filters = { // 增加物品連線 filter
+          "filters": {
+            "links": {
+              "min": this.itemLinked.min ? this.itemLinked.min : '',
+              "max": this.itemLinked.max ? this.itemLinked.max : ''
+            }
+          }
         }
       }
     },
@@ -1785,15 +1850,6 @@ export default {
         this.tempItemArray = itemArray
         return
       }
-      if (item.indexOf('已汙染') > -1) { // 汙染判斷
-        this.corruptedSet.chosenObj = {
-          label: "是",
-          prop: 'true'
-        }
-        this.searchJson.query.filters.misc_filters.filters.corrupted = {
-          "option": true
-        }
-      }
       if (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1) { // 預言特殊判斷
         this.isGarenaSvr = regExp.test(itemArray[3]) ? false : true
       } else {
@@ -1924,15 +1980,6 @@ export default {
         this.searchJson.query.filters.trade_filters.filters.sale_type.option = option
         this.searchTrade(this.searchJson)
       }
-    },
-    'leagues.chosenL': {
-      handler(newVal, oldVal) { // TODO: 改由中文/英文判斷
-        if (_.isEmpty(this.searchJson) || (newVal == "Harvest" && oldVal == "豐收聯盟")) {
-          return
-        }
-        this.searchTrade(this.searchJson)
-      },
-      deep: true
     },
     'mapCategory.isShaper': { // TODO: 判斷塑者/尊師/凋落圖方式需重構
       handler(newVal) {
