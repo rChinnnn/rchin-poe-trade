@@ -17,7 +17,7 @@
       </thead>
       <tbody @mouseleave="hoveredIndex = -1">
         <tr v-for="(item, index) in collectionCurrency" :key="index">
-          <td :style="`opacity: ${parseFloat(item.accountName.length / item.count)};`" @mouseover="handleHover(index)">
+          <td :style="`opacity: ${hoveredIndex == index ? 1 : parseFloat(item.accountName.length / item.count)};`" @mouseover="handleHover(index)">
             報價：{{ item.amount }} x
             <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img>
             / <b>{{ item.count }}</b>筆（<b>{{ item.accountName.length }}</b>人標）

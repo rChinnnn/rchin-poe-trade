@@ -27,7 +27,7 @@
   <div v-else>
     <b-container class="bv-example-row">
       <b-row class="lesspadding">
-        <b-col align-self="center">
+        <b-col align-self="center" style="padding-left: 6px !important;">
           <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜尋設定</b-button>
         </b-col>
         <b-col align-self="center">
@@ -42,6 +42,9 @@
         <b-col align-self="center">
           <b-button @click="isGemCollapse = !isGemCollapse" :disabled="!isGem" size="sm" variant="outline-primary">技能設定</b-button>
         </b-col>
+        <b-col align-self="center">
+          <b-button v-b-toggle.collapse-2 size="sm" variant="outline-primary">附加功能</b-button>
+        </b-col>
         <b-col v-if="isDevMode" align-self="center">
           <b-button @click="checkAPI" size="sm" variant="outline-primary">API 測試</b-button>
         </b-col>
@@ -49,15 +52,15 @@
       <b-collapse visible id="collapse-1" class="mt-2">
         <b-card>
           <b-row>
-            <b-col sm="12" class="float-center">
+            <!-- <b-col sm="12" class="float-center">
               <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
-            </b-col>
-            <b-col sm="5" v-b-tooltip.hover.top.v-secondary :title="`${whichServer}`" class="lesspadding">
+            </b-col> -->
+            <b-col sm="5" class="lesspadding">
               <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
             </b-col>
-            <b-col sm="7" class="my-1">
+            <b-col sm="7" class="my-1" v-if="handlePOESESSID">
               <b-input-group size="sm">
-                <b-form-input v-model="handlePOESESSID" type="search" placeholder="POESESSID"></b-form-input>
+                <b-form-input v-model="handlePOESESSID" disabled type="search" placeholder="POESESSID"></b-form-input>
               </b-input-group>
             </b-col>
           </b-row>
@@ -79,13 +82,26 @@
               <v-select :options="corruptedSet.option" v-model="corruptedSet.chosenObj" @input="corruptedInput" :disabled="!isSearchJson || isCounting" label="label" :clearable="false" :filterable="false"></v-select>
             </b-col>
           </b-row>
-          <b-row class="lesspadding" style="padding-top: 10px; padding-left: 21px;">
-            <b-col sm="4" style="padding-left: 0px;">
-              <b-form-checkbox class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
-                <b>輿圖區域名稱複製</b>
-              </b-form-checkbox>
-            </b-col>
-          </b-row>
+          <b-collapse id="collapse-2" class="mt-2">
+            <b-row class="lesspadding" style="padding-left: 21px;">
+              <b-col sm="4">
+                <b-form-checkbox style="padding-top: 7px;" class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
+                  <b>輿圖區域名稱複製</b>
+                </b-form-checkbox>
+              </b-col>
+              <b-col sm="1"></b-col>
+              <b-col sm="7" class="my-1">
+                <b-form-group label="" label-cols-sm="0" label-align-sm="right" label-size="sm" class="mb-0">
+                  <b-input-group size="sm">
+                    <b-form-input v-model="wantedAddedText" type="search" id="filterInput" placeholder="請輸入欲在複製字串後增加的文字"></b-form-input>
+                    <b-input-group-append>
+                      <b-button :disabled="!wantedAddedText" @click="addAfterCopyText">增加</b-button>
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </b-collapse>
           <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
             <b-row style="padding-top: 15px;">
               <b-col sm="5">
@@ -118,7 +134,7 @@
             </b-row>
             <b-row style="padding-top: 8px;">
               <b-col sm="4">
-                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
+                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
               </b-col>
               <b-col sm="4"></b-col>
               <b-col sm="4">
@@ -186,7 +202,7 @@
               </v-select>
             </b-col>
           </b-row>
-          <b-collapse :visible="!isStatsCollapse">
+          <b-collapse :visible="!isStatsCollapse || searchStats.length == 0">
             <b-row>
               <b-col sm="10"></b-col>
               <b-col sm="2" style="padding-top: 15px;">
@@ -311,7 +327,7 @@
       </countdown>
     </b-alert>
     <hr v-else>
-    <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
+    <h5 :style="isItem && searchStats.length > 0 ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
     <b-container class="bv-example-row">
       <b-collapse :visible="isStatsCollapse && searchStats.length > 0">
         <table class="table table-sm">
@@ -390,6 +406,7 @@ export default {
       searchTotal: 0,
       status: '',
       copyText: '',
+      wantedAddedText: '',
       testResponse: '',
       countTime: 0,
       isHortiMode: false,
@@ -742,11 +759,12 @@ export default {
       this.$prompt('請輸入 e-mail', '提示', {
         confirmButtonText: '確定',
         cancelButtonText: '取消',
-        inputPattern: /^[a-z0-9]{32}$/,
+        inputPattern: /^[a-z0-9]{32}$|^$/,
         inputErrorMessage: 'e-mail 格式不正確'
       }).then(({
         value
       }) => {
+        this.$store.commit('setPOESESSID', value);
         this.$message({
           type: 'success',
           message: `你的 mailID: ${value} 已儲存成功`
@@ -1205,6 +1223,14 @@ export default {
       });
       this.isMapAreaCollapse = false
     },
+    addAfterCopyText() {
+      clipboard.writeText(`${clipboard.readText()} ${this.wantedAddedText}`)
+      this.$message({
+        duration: 2000,
+        type: 'success',
+        message: `已複製字串：${clipboard.readText().substring(0, 10)} ... ${this.wantedAddedText}`
+      });
+    },
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
         this.searchJson.query.stats[0].filters.length = 0
@@ -1488,26 +1514,22 @@ export default {
         const regLink6 = /(-){5}/g // 六連
         const regLink5 = /(-){4}/g // 五連
         const regLink4 = /(-){3}/g // 四連
-        let linkedValue = ''
         let linkedPos = item.substring(item.indexOf('插槽: ') + 3)
         let linkedPosEnd = linkedPos.indexOf(NL)
         let linkedString = linkedPos.substring(0, linkedPosEnd).trim().replace(regLinkStr, '')
         switch (true) {
           case regLink6.test(linkedString) == true:
-            linkedValue = 6
-            this.itemLinked.isSearch = true
-            this.isLinkedSearch()
+            this.itemLinked.min = 6
             break;
           case regLink5.test(linkedString) == true:
-            linkedValue = 5
+            this.itemLinked.min = 5
             break;
           case regLink4.test(linkedString) == true:
-            linkedValue = 4
+            this.itemLinked.min = 4
             break;
           default:
             break;
         }
-        this.itemLinked.min = linkedValue ? linkedValue : ''
       }
       // 判斷物品分類
       this.itemCategory.option.push({
