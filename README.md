@@ -15,8 +15,8 @@ POE 快速查價工具 (Built with Electron and Vue.)
 
 ### 安裝版本說明
 * 點選 [Releases頁面](https://github.com/rChinnnn/rchin-poe-trade/releases)，有兩種版本可以下載
-    * `rchin-poe-trade-Setup-1.311.5.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
-    * `rchin-poe-trade-1.311.5.exe` 可攜版，無法支援自動更新
+    * `rchin-poe-trade-Setup-1.312.1.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
+    * `rchin-poe-trade-1.312.1.exe` 可攜版，無法支援自動更新
 
 ## 【免責聲明】
 * **使用此程式者請自行承擔所有可能後果和風險**

@@ -1,6 +1,6 @@
 {
   "name": "rchin-poe-trade",
-  "version": "1.311.5",
+  "version": "1.312.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -26,6 +26,7 @@
     "core-js": "^3.6.5",
     "electron-localshortcut": "^3.2.1",
     "electron-updater": "^4.3.1",
+    "element-ui": "^2.13.2",
     "hotkeys-js": "^3.8.1",
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
@@ -47,7 +48,7 @@
     "@vue/cli-service": "^4.4.1",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.1.0",
-    "electron": "^7.2.4",
+    "electron": "^6.1.12",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "stylus": "^0.54.7",
