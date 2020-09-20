@@ -41,56 +41,64 @@
     });
 
 
-    app.put('/ignoreTest', function (req, res) {
-      console.log(moment().format('HH:mm:ss'), "call ignoreTest(PUT) API")
-      // console.log(req.body)
-      // res.send("Congratulations! Trade tool is ready!");
+    app.post('/ignorePUT', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call ignore(PUT) API")
+      console.log(req.body)
+      let accountName = encodeURI(req.body.accountName)
       let options = {
-        url: `https://web.poe.garena.tw/api/trade/ignore/shenghao85`,
-        method: 'put',
+        url: `https://web.poe.garena.tw/api/trade/ignore/${accountName}`,
+        method: 'PUT',
         headers: {
-          'accept': 'application/json',
-          'Content-Type': 'application/json',
           'Cookie': req.body.cookie,
+          'Host': 'web.poe.garena.tw',
+          'Connection': 'keep-alive',
+          'Content-Length': 0,
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache',
+          'Accept': '*/*',
+          'X-Requested-With': 'XMLHttpRequest',
+          'Origin': 'https://web.poe.garena.tw',
+          'Sec-Fetch-Site': 'same-origin',
+          'Sec-Fetch-Mode': 'cors',
+          'Sec-Fetch-Dest': 'empty',
         },
         rejectUnauthorized: false,
         requestCert: false,
         agent: false,
       }
       request(options, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          // console.log(body)
-          res.send(body);
-        } else {
-          res.send(error);
-          console.log(error)
-        }
+        // console.log(response.statusCode, body)
+        res.send(body);
       });
     });
-    app.delete('/ignoreTest', function (req, res) {
-      console.log(moment().format('HH:mm:ss'), "call ignoreTest(DELETE) API")
-      // console.log(req.body)
-      // res.send("Congratulations! Trade tool is ready!");
+    app.post('/ignoreDELETE', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call ignore(DELETE) API")
+      console.log(req.body)
+      let accountName = encodeURI(req.body.accountName)
       let options = {
-        url: `https://web.poe.garena.tw/api/trade/ignore/shenghao85`,
-        method: 'delete',
+        url: `https://web.poe.garena.tw/api/trade/ignore/${accountName}`,
+        method: 'DELETE',
         headers: {
-          'accept': 'application/json',
-          'Content-Type': 'application/json',
           'Cookie': req.body.cookie,
+          'Host': 'web.poe.garena.tw',
+          'Connection': 'keep-alive',
+          'Content-Length': 0,
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache',
+          'Accept': '*/*',
+          'X-Requested-With': 'XMLHttpRequest',
+          'Origin': 'https://web.poe.garena.tw',
+          'Sec-Fetch-Site': 'same-origin',
+          'Sec-Fetch-Mode': 'cors',
+          'Sec-Fetch-Dest': 'empty',
         },
         rejectUnauthorized: false,
         requestCert: false,
         agent: false,
       }
       request(options, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          // console.log(body)
-          res.send(body);
-        } else {
-          res.send(error);
-          console.log(error)
-        }
+        // console.log(response.statusCode, body)
+        res.send(body);
       });
     });
 
@@ -110,13 +118,8 @@
         agent: false,
       }
       request(options, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          // console.log(response, body)
-          res.send(body);
-        } else {
-          console.log(body)
-          res.send(body);
-        }
+        // console.log(response.statusCode, body)
+        res.send(body);
       });
     });
 
@@ -143,7 +146,7 @@
       if (req.body.cookie) {
         options.headers.Cookie = `POESESSID=${req.body.cookie};`
       }
-      console.log(req.body.cookie)
+      // console.log(req.body.cookie)
       request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(`searchID: ${body.id}, searchTotal: ${body.total}`)
@@ -160,8 +163,8 @@
             fetchID: fetchID
           });
         } else {
-          res.send(error);
-          console.log(error)
+          res.send(body);
+          console.log(body)
         }
       });
     });

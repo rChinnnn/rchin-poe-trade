@@ -27,7 +27,7 @@
   <div v-else>
     <b-container class="bv-example-row">
       <b-row class="lesspadding">
-        <b-col align-self="center">
+        <b-col align-self="center" style="padding-left: 6px !important;">
           <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜尋設定</b-button>
         </b-col>
         <b-col align-self="center">
@@ -42,6 +42,9 @@
         <b-col align-self="center">
           <b-button @click="isGemCollapse = !isGemCollapse" :disabled="!isGem" size="sm" variant="outline-primary">技能設定</b-button>
         </b-col>
+        <b-col align-self="center">
+          <b-button v-b-toggle.collapse-2 size="sm" variant="outline-primary">附加功能</b-button>
+        </b-col>
         <b-col v-if="isDevMode" align-self="center">
           <b-button @click="checkAPI" size="sm" variant="outline-primary">API 測試</b-button>
         </b-col>
@@ -49,84 +52,95 @@
       <b-collapse visible id="collapse-1" class="mt-2">
         <b-card>
           <b-row>
-            <b-col sm="5" style="padding-left: 15px;">
+            <!-- <b-col sm="12" class="float-center">
+              <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
+            </b-col> -->
+            <b-col sm="5" class="lesspadding">
               <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
             </b-col>
-            <!-- <b-col sm="7" class="my-1">
+            <b-col sm="7" class="my-1" v-if="handlePOESESSID">
               <b-input-group size="sm">
-                <b-form-input v-model="POESESSID" type="search" placeholder="POESESSID"></b-form-input>
+                <b-form-input v-model="handlePOESESSID" disabled type="search" placeholder="POESESSID"></b-form-input>
               </b-input-group>
-            </b-col> -->
-            <b-col sm="3" class="float-left" style="padding-top: 3px;">
-              <!-- <b>已搜尋次數 {{ count }}</b> -->
-              <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
             </b-col>
           </b-row>
-          <b-row style="padding-top: 10px;">
-            <b-col sm="4" style="padding-left: 15px;">
-              <b-form-checkbox v-model="isOnline" :disabled="isCounting" switch :inline="false">
+          <b-row class="lesspadding" style="padding-top: 5px; padding-left: 19px;">
+            <b-col sm="3">
+              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isOnline" :disabled="isCounting" switch :inline="false">
                 <b>只顯示線上</b>
               </b-form-checkbox>
             </b-col>
-            <b-col sm="4">
-              <b-form-checkbox v-model="isPriced" :disabled="isCounting" switch>
+            <b-col sm="3">
+              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isPriced" :disabled="isCounting" switch>
                 <b>{{ pricedText }}</b>
               </b-form-checkbox>
             </b-col>
-            <b-col sm="4" style="padding-left: 0px;">
-              <b-form-checkbox v-model="isMapAreaCollapse" switch :inline="false">
-                <b>輿圖區域名稱複製</b>
-              </b-form-checkbox>
+            <b-col sm="3">
+              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="corruptedSet.isSearch" :disabled="true" switch>已汙染</b-form-checkbox>
+            </b-col>
+            <b-col sm="3">
+              <v-select :options="corruptedSet.option" v-model="corruptedSet.chosenObj" @input="corruptedInput" :disabled="!isSearchJson || isCounting" label="label" :clearable="false" :filterable="false"></v-select>
             </b-col>
           </b-row>
-          <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
-            <b-row>
-              <b-col sm="5" style="padding-left: 15px;">
-                <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
-              </b-col>
-              <b-col sm="3" class="float-left" style="padding-top: 3px;">
-                <!-- <b>已搜尋次數 {{ count }}</b> -->
-                <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
-              </b-col>
-            </b-row>
-            <b-row style="padding-top: 15px;">
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
-              </b-col>
-              <b-col sm="2"></b-col>
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
-              </b-col>
-            </b-row>
-            <b-row style="padding-top: 8px;">
-              <b-col sm="3"></b-col>
-              <b-col sm="3">
-                <b-button @click="mapAreaCopy('特恩之盡')" size="sm" variant="outline-primary">特恩之盡 (左上內)</b-button>
-              </b-col>
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="sm" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
+          <b-collapse id="collapse-2" class="mt-2">
+            <b-row class="lesspadding" style="padding-left: 21px;">
+              <b-col sm="4">
+                <b-form-checkbox style="padding-top: 7px;" class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
+                  <b>輿圖區域名稱複製</b>
+                </b-form-checkbox>
               </b-col>
               <b-col sm="1"></b-col>
-            </b-row>
-            <b-row style="padding-top: 8px;">
-              <b-col sm="1"></b-col>
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
-              </b-col>
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
-              </b-col>
-              <b-col sm="2"></b-col>
-            </b-row>
-            <b-row style="padding-top: 8px;">
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary">新瓦斯提里 (左下外)</b-button>
-              </b-col>
-              <b-col sm="4"></b-col>
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
+              <b-col sm="7" class="my-1">
+                <b-form-group label="" label-cols-sm="0" label-align-sm="right" label-size="sm" class="mb-0">
+                  <b-input-group size="sm">
+                    <b-form-input v-model="wantedAddedText" type="search" id="filterInput" placeholder="請輸入欲在複製字串後增加的文字"></b-form-input>
+                    <b-input-group-append>
+                      <b-button :disabled="!wantedAddedText" @click="addAfterCopyText">增加</b-button>
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>
               </b-col>
             </b-row>
+            <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
+              <b-row style="padding-top: 15px;">
+                <b-col sm="5">
+                  <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
+                </b-col>
+                <b-col sm="2"></b-col>
+                <b-col sm="5">
+                  <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
+                </b-col>
+              </b-row>
+              <b-row style="padding-top: 8px;">
+                <b-col sm="3"></b-col>
+                <b-col sm="3">
+                  <b-button @click="mapAreaCopy('特恩之盡')" size="sm" variant="outline-primary">特恩之盡 (左上內)</b-button>
+                </b-col>
+                <b-col sm="5">
+                  <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="sm" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
+                </b-col>
+                <b-col sm="1"></b-col>
+              </b-row>
+              <b-row style="padding-top: 8px;">
+                <b-col sm="1"></b-col>
+                <b-col sm="5">
+                  <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
+                </b-col>
+                <b-col sm="4">
+                  <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" @click.right="clickCount++" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
+                </b-col>
+                <b-col sm="2"></b-col>
+              </b-row>
+              <b-row style="padding-top: 8px;">
+                <b-col sm="4">
+                  <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
+                </b-col>
+                <b-col sm="4"></b-col>
+                <b-col sm="4">
+                  <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
+                </b-col>
+              </b-row>
+            </b-collapse>
           </b-collapse>
         </b-card>
       </b-collapse>
@@ -146,7 +160,7 @@
               <b-form-input v-model.number="itemLevel.max" @dblclick="itemLevel.max = ''" @input="isItemLevelSearch" :disabled="!itemLevel.isSearch" :style="itemLevel.max && (itemLevel.max < itemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="raritySet.isSearch" @input="isRaritySearch" switch>稀有度</b-form-checkbox>
+              <b-form-checkbox style="padding-right: 19px !important;" class="float-right" v-model="raritySet.isSearch" @input="isRaritySearch" switch>稀有度</b-form-checkbox>
             </b-col>
             <b-col sm="4">
               <v-select :options="raritySet.option" v-model="raritySet.chosenObj" @input="isRaritySearch" label="label" :disabled="!raritySet.isSearch" :clearable="false" :filterable="false"></v-select>
@@ -154,25 +168,29 @@
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px;">
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isItemBasicSearch" switch>物品基底</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="itemLinked.isSearch" @input="isLinkedSearch" switch>物品連線</b-form-checkbox>
             </b-col>
-            <b-col sm="2">
-              <b-form-input v-model="itemBasic.text" :disabled="true"></b-form-input>
+            <b-col sm="1" style="padding-top: 3px;">
+              <b-form-input v-model.number="itemLinked.min" @dblclick="itemLinked.min = ''" @input="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="itemLinked.min > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
-            <b-col sm="1"></b-col>
-            <b-col sm="2" style="padding-top: 6px;">
+            <b-col sm="1" style="padding-top: 3px;">
+              <b-form-input v-model.number="itemLinked.max" @dblclick="itemLinked.max = ''" @input="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="(itemLinked.max && (itemLinked.max < itemLinked.min)) || itemLinked.max > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+            </b-col>
+            <b-col sm="3" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isItemCategorySearch" switch>物品分類</b-form-checkbox>
             </b-col>
             <b-col sm="4">
               <v-select :options="itemCategory.option" v-model="itemCategory.chosenObj" label="label" @input="categoryChange" :disabled="!itemCategory.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select>
             </b-col>
           </b-row>
-          <b-row class="lesspadding" style="padding-top: 3px;">
-            <b-col sm="3" style="padding-top: 5px;">
-              <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
+          <b-row class="lesspadding" style="padding-top: 5px;">
+            <b-col sm="3" style="padding-top: 6px;">
+              <b-form-checkbox class="float-right" v-model="itemBasic.isSearch" @input="isItemBasicSearch" switch>物品基底</b-form-checkbox>
             </b-col>
-            <b-col sm="3"></b-col>
-            <b-col style="padding-top: 5px;">
+            <b-col sm="3" style="padding-top: 3px;">
+              <b-form-input style="width: 100px;" v-model="itemBasic.text" :disabled="true" size="sm"></b-form-input>
+            </b-col>
+            <b-col sm="2" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="itemExBasic.isSearch" @input="isExBasicSearch" switch>勢力基底</b-form-checkbox>
             </b-col>
             <b-col sm="4">
@@ -182,15 +200,16 @@
                   {{ itemExBasic.label }}
                 </template>
               </v-select>
-              <!-- <v-select :options="itemExBasic.option" :value="itemExBasic.chosenObj" label="label" @input="exBasicChange" :disabled="!itemExBasic.isSearch" :clearable="false" :filterable="false" placeholder="任何"></v-select> -->
             </b-col>
           </b-row>
-          <b-row v-if="searchStats.length == 0">
-            <b-col sm="10"></b-col>
-            <b-col sm="2" style="padding-top: 15px;">
-              <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
-            </b-col>
-          </b-row>
+          <b-collapse :visible="!isStatsCollapse || searchStats.length == 0">
+            <b-row>
+              <b-col sm="10"></b-col>
+              <b-col sm="2" style="padding-top: 15px;">
+                <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
+              </b-col>
+            </b-row>
+          </b-collapse>
         </b-card>
       </b-collapse>
     </b-container>
@@ -207,10 +226,11 @@
             <b-col sm="1" style="padding-top: 3px;">
               <b-form-input v-model.number="mapLevel.max" @dblclick="mapLevel.max= ''" @input="isMapLevelSearch" :disabled="!mapLevel.isSearch" :style="mapLevel.max && (mapLevel.max < mapLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
-            <b-col sm="3" style="padding-top: 6px;">
+            <b-col sm="2"></b-col>
+            <b-col sm="2" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="raritySet.isSearch" @input="isRaritySearch" switch>稀有度</b-form-checkbox>
             </b-col>
-            <b-col sm="4">
+            <b-col sm="3">
               <v-select :options="raritySet.option" v-model="raritySet.chosenObj" @input="isRaritySearch" label="label" :disabled="!raritySet.isSearch" :clearable="false" :filterable="false"></v-select>
             </b-col>
           </b-row>
@@ -222,14 +242,11 @@
               <!-- <b-form-input v-model="mapBasic.chosenM" :disabled="true"></b-form-input> -->
               <v-select :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" label="label" :disabled="!mapBasic.isSearch" :clearable="false" :filterable="true"></v-select>
             </b-col>
-            <b-col v-if="isGarenaSvr" sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
-            </b-col>
           </b-row>
           <b-collapse :visible="raritySet.chosenObj.label !== '傳奇'">
-            <b-row style="padding-top: 8px;">
-              <b-col sm="4" style="padding-left: 20px;">
-                <b-form-checkbox v-model="mapCategory.isShaper" switch :inline="false">塑者領域</b-form-checkbox>
+            <b-row style="padding-top: 10px;">
+              <b-col sm="4">
+                <b-form-checkbox style="padding-left: 8px !important" v-model="mapCategory.isShaper" switch :inline="false">塑者領域</b-form-checkbox>
               </b-col>
               <b-col sm="4">
                 <b-form-checkbox v-model="mapCategory.isElder" switch :inline="false">尊師領域</b-form-checkbox>
@@ -240,25 +257,21 @@
             </b-row>
           </b-collapse>
           <b-collapse :visible="mapCategory.isElder">
-            <b-row style="padding-top: 5px;">
+            <b-row style="padding-top: 8px;">
               <b-col sm="4"></b-col>
               <b-col sm="3" style="padding-left: 28px; padding-top: 5px;">
                 <b-form-checkbox v-model="mapElderGuard.isSearch" @input="isMapElderGuardSearch" switch :inline="false">守衛</b-form-checkbox>
               </b-col>
-              <b-col sm="5">
-                <v-select :options="mapElderGuard.option" v-model="mapElderGuard.chosenObj" @input="isMapElderGuardSearch" label="label" :disabled="!mapElderGuard.isSearch" :clearable="false" :filterable="false"></v-select>
+              <b-col sm="5" class="lesspadding">
+                <v-select :options="mapElderGuard.option" v-model="mapElderGuard.chosenObj" @input="isMapElderGuardSearch" label="label" :disabled="!mapElderGuard.isSearch" :clearable="false" :filterable="false">
+                  <template v-slot:option="mapElderGuard">
+                    <b-img style="max-width: 25px;" :src="mapElderGuard.url"></b-img>
+                    {{ mapElderGuard.label }}
+                  </template>
+                </v-select>
               </b-col>
             </b-row>
           </b-collapse>
-          <b-row v-if="!isGarenaSvr" class="lesspadding" style="padding-top: 5px;">
-            <b-col sm="7">
-            </b-col>
-            <b-col sm="4" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
-            </b-col>
-            <b-col sm="1">
-            </b-col>
-          </b-row>
           <b-row>
             <b-col sm="10"></b-col>
             <b-col sm="2" style="padding-top: 15px;">
@@ -295,23 +308,13 @@
             <b-col sm="3" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="gemBasic.isSearch" @input="isGemBasicSearch" switch>技能基底</b-form-checkbox>
             </b-col>
-            <b-col :sm="isGarenaSvr ? 5 : 9">
+            <b-col :sm="isGarenaSvr ? 6 : 9">
               <v-select :options="gemBasic.option" v-model="gemBasic.chosenG" @input="isGemBasicSearch" label="label" :disabled="!gemBasic.isSearch" :clearable="false" :filterable="true"></v-select>
-            </b-col>
-            <b-col v-if="isGarenaSvr" sm="4" style="padding-top: 6px;">
-              <b-form-checkbox v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
-            </b-col>
-          </b-row>
-          <b-row v-if="!isGarenaSvr" class="lesspadding" style="padding-top: 10px;">
-            <b-col sm="8">
-            </b-col>
-            <b-col sm="4" style="padding-top: 6px;">
-              <b-form-checkbox v-model="isCorrupted" @input="isCorruptedSearch" switch>{{ corruptedText }}</b-form-checkbox>
             </b-col>
           </b-row>
           <b-row>
             <b-col sm="10"></b-col>
-            <b-col sm="2" style="padding-top: 15px;">
+            <b-col sm="2" style="padding-top: 5px;">
               <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
             </b-col>
           </b-row>
@@ -324,7 +327,7 @@
       </countdown>
     </b-alert>
     <hr v-else>
-    <h5 :style="isItem ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
+    <h5 :style="isItem && searchStats.length > 0 ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
     <b-container class="bv-example-row">
       <b-collapse :visible="isStatsCollapse && searchStats.length > 0">
         <table class="table table-sm">
@@ -368,8 +371,8 @@
     <h6 v-html="status"></h6>
   </div>
   <div v-show="!isHortiMode">
-    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ server }} 官方交易市集</b-button>
-    <PriceAnalysis @countdown="startCountdown" :isCounting="isCounting" :fetchID="fetchID" :fetchLength="4" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl"></PriceAnalysis>
+    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ whichServer }} 官方交易市集</b-button>
+    <PriceAnalysis @countdown="startCountdown" @refresh="searchTrade(searchJson)" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal"></PriceAnalysis>
   </div>
   <HortiAnalysis v-show="isHortiMode" :tempItemArray="tempItemArray"></HortiAnalysis>
 </div>
@@ -399,10 +402,11 @@ export default {
   },
   data() {
     return {
-      POESESSID: '',
-      count: 0,
+      clickCount: 0,
+      searchTotal: 0,
       status: '',
       copyText: '',
+      wantedAddedText: '',
       testResponse: '',
       countTime: 0,
       isHortiMode: false,
@@ -417,7 +421,6 @@ export default {
       isItem: false,
       isMap: false,
       isGem: false,
-      isCorrupted: false,
       isItemCollapse: true,
       isMapCollapse: true,
       isGemCollapse: true,
@@ -465,6 +468,23 @@ export default {
         },
         isSearch: false,
       },
+      corruptedSet: { // 汙染設定
+        option: [{
+          label: "是",
+          prop: 'true'
+        }, {
+          label: "否",
+          prop: 'false'
+        }, {
+          label: "任何",
+          prop: 'any'
+        }],
+        chosenObj: {
+          label: "任何",
+          prop: 'any'
+        },
+        isSearch: true,
+      },
       mapLevel: { // 地圖階級
         min: 0,
         max: 0,
@@ -478,16 +498,20 @@ export default {
       mapElderGuard: { // 尊師守衛地圖
         option: [{
           label: "異界．奴役",
-          prop: "1"
+          prop: "1",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/Art/2DItems/Maps/AtlasMapGuardianFire.png?v=e5e1e33936ce8035aed76e3ca12b9b4f"
         }, {
           label: "異界．根除",
-          prop: "2"
+          prop: "2",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/Art/2DItems/Maps/AtlasMapGuardianLightning.png?v=90d792a619252cc02b8f974893811531"
         }, {
           label: "異界．干擾",
-          prop: "3"
+          prop: "3",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/Art/2DItems/Maps/AtlasMapGuardianHoly.png?v=ebb9b06c3456603cc78e88b797049dda"
         }, {
           label: "異界．淨化",
-          prop: "4"
+          prop: "4",
+          url: "https://twwebcdnpoe-a.akamaihd.net/image/Art/2DItems/Maps/AtlasMapGuardianChaos.png?v=e131ac9d26855fcbd7eb44deee8a9ef1"
         }, ],
         chosenObj: {
           label: "無",
@@ -503,6 +527,11 @@ export default {
       gggMapBasic: [],
       itemLevel: { // 物品等級
         min: 0,
+        max: '',
+        isSearch: false,
+      },
+      itemLinked: { // 物品插槽連線
+        min: '',
         max: '',
         isSearch: false,
       },
@@ -631,7 +660,7 @@ export default {
                 "crusader_item": { // 勢力區域 isExBasicSearch
                   "option": "true"
                 },
-                "corrupted": { // 是否污染 isCorruptedSearch
+                "corrupted": { // 是否汙染 isCorruptedSearch
                   "option": "true"
                 },
                 "gem_level": { // 技能等級 isGemLevelSearch
@@ -646,6 +675,13 @@ export default {
               "filters": {
                 "category": { // 物品種類 isItemCategorySearch
                   "option": "accessory.ring", // 戒指
+                }
+              }
+            },
+            "socket_filters": { // 插槽連線設定
+              "filters": {
+                "links": {
+                  "min": 5
                 }
               }
             }
@@ -688,16 +724,25 @@ export default {
       this.isGem = false
       this.raritySet.isSearch = false
       this.itemLevel.isSearch = false
+      this.itemLevel.max = ''
+      this.itemLinked.isSearch = false
+      this.itemLinked.min = ''
+      this.itemLinked.max = ''
       this.itemBasic.isSearch = false
       this.gemLevel.isSearch = false
-      this.isCorrupted = false
+      this.gemLevel.max = ''
+      this.gemQuality.max = ''
+      this.corruptedSet.chosenObj = {
+        label: "任何",
+        prop: 'any'
+      }
       this.fetchQueryID = ''
       this.status = ''
       this.searchStats = []
       this.isHortiMode = false
     },
     hotkeyPressed() {
-      this.count++
+      this.searchTotal++
     },
     scanCopy() {
       setInterval(() => {
@@ -709,6 +754,27 @@ export default {
     },
     cleanCopyText() {
       this.copyText = ''
+    },
+    clickOpen() {
+      this.$prompt('請輸入 e-mail', '提示', {
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        inputPattern: /^[a-z0-9]{32}$|^$/,
+        inputErrorMessage: 'e-mail 格式不正確'
+      }).then(({
+        value
+      }) => {
+        this.$store.commit('setPOESESSID', value);
+        this.$message({
+          type: 'success',
+          message: `你的 mailID: ${value} 已儲存成功`
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消輸入'
+        });
+      });
     },
     apiTest: _.debounce(function () {
       let vm = this
@@ -724,51 +790,51 @@ export default {
     }, 500),
     searchTrade: _.debounce(function (obj) {
       let vm = this
-      this.searchStats.forEach((element, index, array) => {
-        let value = {}
-        let min = element.min
-        let max = element.max
-        if (element.isNegative && _.isNumber(min)) {
-          value.max = -min
-        } else if (_.isNumber(min)) {
-          value.min = min
-        }
-        if (element.isNegative && _.isNumber(max)) {
-          value.min = -max
-        } else if (_.isNumber(max)) {
-          value.max = max
-        }
-        if (element.option) {
-          value.option = element.option
-        }
-        this.searchJson.query.stats[0].filters.push({
-          "id": element.id,
-          "disabled": element.isSearch ? false : true,
-          "value": value
+      if (this.searchJson.query.stats[0].filters.length === 0) {
+        this.searchStats.forEach((element, index, array) => {
+          let value = {}
+          let min = element.min
+          let max = element.max
+          if (element.isNegative && _.isNumber(min)) {
+            value.max = -min
+          } else if (_.isNumber(min)) {
+            value.min = min
+          }
+          if (element.isNegative && _.isNumber(max)) {
+            value.min = -max
+          } else if (_.isNumber(max)) {
+            value.max = max
+          }
+          if (element.option) {
+            value.option = element.option
+          }
+          this.searchJson.query.stats[0].filters.push({
+            "id": element.id,
+            "disabled": element.isSearch ? false : true,
+            "value": value
+          })
         })
-      })
+      }
       this.fetchQueryID = ''
       this.axios.post(`http://localhost:3031/trade`, {
           searchJson: obj,
           baseUrl: this.baseUrl,
           league: this.leagues.chosenL,
-          cookie: this.POESESSID,
+          cookie: this.$store.state.POESESSID,
         })
         .then((response) => {
-          response.data.total = response.data.total == "100000" ? `${response.data.total}+` : response.data.total
+          this.searchTotal = parseInt(response.data.total, 10) // 總共搜到幾項物品
+          response.data.total += response.data.total == "100000" ? `+` : ``
           this.status = `共 ${response.data.total} 筆符合`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
         })
         .catch(function (error) {
           vm.status = `此次搜尋異常，煩請至 巴哈討論串 / Ptt / Github Issue 回報複製後的物品字串，感謝！<br>${error}`
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
     }, 300),
@@ -857,13 +923,10 @@ export default {
           vm.apiErrorStr = error
           vm.startCountdown(10)
           vm.resetSearchData()
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
     },
@@ -871,6 +934,7 @@ export default {
       let vm = this
       let accessoryIndex = 0
       let armourIndex = 0
+      let flasksIndex = 0
       let jewelIndex = 0
       let weaponIndex = 0
       let mapIndex = 0
@@ -942,6 +1006,21 @@ export default {
               case 6: // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
                 element.name = "箭袋"
                 element.option = "armour.quiver"
+                this.equipItems.push(element)
+                break;
+              default:
+                break;
+            }
+          });
+          result[4].entries.forEach((element, index) => { // "label": "藥劑" 
+            const basetype = ["小型複合藥劑"]
+            if (_.isUndefined(element.flags)) {
+              flasksIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+            }
+            switch (flasksIndex) {
+              case 1: // 藥劑起始點 { "type": "小型複合藥劑", "text": "小型複合藥劑" }
+                element.name = "藥劑"
+                element.option = "flask"
                 this.equipItems.push(element)
                 break;
               default:
@@ -1058,13 +1137,10 @@ export default {
           vm.apiErrorStr = error
           vm.startCountdown(10)
           vm.resetSearchData()
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
     },
@@ -1082,13 +1158,10 @@ export default {
           vm.apiErrorStr = error
           vm.startCountdown(10)
           vm.resetSearchData()
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
     },
@@ -1110,13 +1183,10 @@ export default {
           vm.apiErrorStr = error
           vm.startCountdown(10)
           vm.resetSearchData()
-          vm.$bvToast.toast(`error: ${error}`, {
-            noCloseButton: true,
-            toaster: 'toast-warning-center',
-            variant: 'danger',
-            autoHideDelay: 800,
-            appendToast: false
-          })
+          vm.$message({
+            type: 'error',
+            message: `error: ${error}`
+          });
           console.log(error);
         })
       this.axios.get(`https://www.pathofexile.com/api/trade/data/items`, )
@@ -1129,11 +1199,11 @@ export default {
               mapMatchIndex = index
             }
             if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
-              this.gggMapBasic.push(`${tempMapBasic[index - mapMatchIndex]}(${element.text})`)
+              this.gggMapBasic.push(`${tempMapBasic[index - mapMatchIndex]} (${element.text})`)
             }
           });
           result[5].entries.forEach((element, index) => { // "label": "Gems" 台服國際服皆 436
-            this.gggGemBasic.push(`${this.gemBasic.option[index]}(${element.text})`)
+            this.gggGemBasic.push(`${this.gemBasic.option[index]} (${element.text})`)
           });
         })
         .catch(function (error) {
@@ -1146,14 +1216,20 @@ export default {
     },
     mapAreaCopy(name) {
       clipboard.writeText(name)
-      this.$bvToast.toast(`${name} 區域已複製!`, {
-        noCloseButton: true,
-        toaster: 'toast-center-center',
-        variant: 'primary',
-        autoHideDelay: 800,
-        appendToast: false
-      })
+      this.$message({
+        duration: 1200,
+        type: 'success',
+        message: `${name} 區域已複製!`
+      });
       this.isMapAreaCollapse = false
+    },
+    addAfterCopyText() {
+      clipboard.writeText(`${clipboard.readText()} ${this.wantedAddedText}`)
+      this.$message({
+        duration: 2000,
+        type: 'success',
+        message: `已複製字串：${clipboard.readText().substring(0, 10)} ... ${this.wantedAddedText}`
+      });
     },
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
@@ -1251,7 +1327,6 @@ export default {
         if (itemArray[index] !== "--------") {
           let text = itemArray[index]
           itemDisplayStats.push(itemArray[index])
-          // TODO? 破碎詞綴
           if (itemArray[index].indexOf('(implicit)') > -1) { // 固定屬性
             text = text.substring(0, text.indexOf('(implicit)')) // 刪除(implicit)字串
             tempStat.push(findBestStat(text, this.implicitStats))
@@ -1382,31 +1457,23 @@ export default {
           randomMaxValue = tempValue
           randomMinValue = tempValue - 1
         }
-        if (statID === "enchant.stat_3086156145" && randomMinValue <= 1) {
-          this.$bvToast.toast(`因此"附魔：# 個附加的天賦為珠寶插槽"詞綴無法正常判斷，以及有些詞綴會判斷錯誤，請見諒`, {
-            title: `台服詞綴 API 尚未更新！`,
-            variant: 'warning',
-            appendToast: true
-          })
-        } else {
-          this.searchStats.push({
-            "id": statID,
-            "text": apiStatText,
-            "option": optionValue,
-            "min": randomMinValue,
-            "max": randomMaxValue,
-            "isValue": randomMinValue ? true : false,
-            "isNegative": isNegativeStat,
-            "isSearch": false,
-            "type": element.type
-          })
-        }
+        this.searchStats.push({
+          "id": statID,
+          "text": apiStatText,
+          "option": optionValue,
+          "min": randomMinValue,
+          "max": randomMaxValue,
+          "isValue": randomMinValue ? true : false,
+          "isNegative": isNegativeStat,
+          "isSearch": false,
+          "type": element.type
+        })
       })
     },
     isRaritySearch() {
-      if (!this.raritySet.isSearch && !_.isEmpty(this.searchJson)) {
+      if (!this.raritySet.isSearch && this.isSearchJson) {
         delete this.searchJson.query.filters.type_filters.filters.rarity // 刪除稀有度 filter
-      } else if (this.raritySet.isSearch && !_.isEmpty(this.searchJson)) {
+      } else if (this.raritySet.isSearch && this.isSearchJson) {
         this.searchJson.query.filters.type_filters.filters.rarity = { // 增加稀有度 filter
           "option": this.raritySet.chosenObj.prop
         }
@@ -1440,6 +1507,29 @@ export default {
         let levelPosEnd = levelPos.indexOf(NL)
         let levelValue = parseInt(levelPos.substring(0, levelPosEnd).trim(), 10)
         this.itemLevel.min = levelValue >= 86 ? 86 : levelValue // 物等超過86 只留86
+      }
+      // 判斷插槽連線
+      if (item.indexOf('插槽: ') > -1) {
+        const regLinkStr = /[A-Z]/g // 全域搜尋大寫英文字母
+        const regLink6 = /(-){5}/g // 六連
+        const regLink5 = /(-){4}/g // 五連
+        const regLink4 = /(-){3}/g // 四連
+        let linkedPos = item.substring(item.indexOf('插槽: ') + 3)
+        let linkedPosEnd = linkedPos.indexOf(NL)
+        let linkedString = linkedPos.substring(0, linkedPosEnd).trim().replace(regLinkStr, '')
+        switch (true) {
+          case regLink6.test(linkedString) == true:
+            this.itemLinked.min = 6
+            break;
+          case regLink5.test(linkedString) == true:
+            this.itemLinked.min = 5
+            break;
+          case regLink4.test(linkedString) == true:
+            this.itemLinked.min = 4
+            break;
+          default:
+            break;
+        }
       }
       // 判斷物品分類
       this.itemCategory.option.push({
@@ -1504,52 +1594,71 @@ export default {
       this.isExBasicSearch()
     },
     isItemLevelSearch() {
-      if (!this.itemLevel.isSearch && !_.isEmpty(this.searchJson)) {
+      if (!this.itemLevel.isSearch && this.isSearchJson) {
         delete this.searchJson.query.filters.misc_filters.filters.ilvl // 刪除物品等級 filter
-      } else if (this.itemLevel.isSearch && !_.isEmpty(this.searchJson)) {
+      } else if (this.itemLevel.isSearch && this.isSearchJson) {
         this.searchJson.query.filters.misc_filters.filters.ilvl = { // 增加物品等級最小值 filter
           "min": this.itemLevel.min,
           "max": this.itemLevel.max ? this.itemLevel.max : ''
         }
       }
     },
+    isLinkedSearch() { // 插槽連線設定
+      if (!this.itemLinked.isSearch && this.isSearchJson) {
+        delete this.searchJson.query.filters.socket_filters // 刪除連線設定 filter
+      } else if (this.itemLinked.isSearch && this.isSearchJson) {
+        this.searchJson.query.filters.socket_filters = { // 增加物品連線 filter
+          "filters": {
+            "links": {
+              "min": this.itemLinked.min ? this.itemLinked.min : '',
+              "max": this.itemLinked.max ? this.itemLinked.max : ''
+            }
+          }
+        }
+      }
+    },
     isItemBasicSearch() {
-      if (!this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
+      if (!this.itemBasic.isSearch && this.isSearchJson) {
         delete this.searchJson.query.type // 刪除物品基底 filter
-      } else if (this.itemBasic.isSearch && !_.isEmpty(this.searchJson)) {
+      } else if (this.itemBasic.isSearch && this.isSearchJson) {
         this.searchJson.query.type = this.replaceString(this.itemBasic.text) // 增加物品基底 filter
       }
     },
     isItemCategorySearch() {
-      if (!this.itemCategory.isSearch && this.itemCategory.chosenObj.prop && !_.isEmpty(this.searchJson)) {
+      if (!this.itemCategory.isSearch && this.itemCategory.chosenObj.prop && this.isSearchJson) {
         delete this.searchJson.query.filters.type_filters.filters.category // 刪除物品種類 filter
-      } else if (this.itemCategory.isSearch && this.itemCategory.chosenObj.prop && !_.isEmpty(this.searchJson)) {
+      } else if (this.itemCategory.isSearch && this.itemCategory.chosenObj.prop && this.isSearchJson) {
         this.searchJson.query.filters.type_filters.filters.category = { // 增加物品種類 filter
           "option": this.itemCategory.chosenObj.prop
         }
       }
     },
     categoryChange(value) {
-      if (!_.isEmpty(this.searchJson)) {
+      if (this.isSearchJson) {
         this.searchJson.query.filters.type_filters.filters.category = { // 修改物品種類 filter
           "option": this.itemCategory.chosenObj.prop
         }
       }
-      // this.itemCategory.chosenObj = value
     },
-    isCorruptedSearch() {
-      if (!this.isCorrupted && !_.isEmpty(this.searchJson)) {
-        delete this.searchJson.query.filters.misc_filters.filters.corrupted // 刪除已污染 filter
-      } else if (this.isCorrupted && !_.isEmpty(this.searchJson)) {
-        this.searchJson.query.filters.misc_filters.filters.corrupted = { // 增加已污染 filter
-          "option": "true"
+    corruptedInput() { // 已汙染設定
+      if (this.isSearchJson && this.corruptedSet.chosenObj.prop === 'any') {
+        delete this.searchJson.query.filters.misc_filters.filters.corrupted // 刪除已汙染 filter
+        this.corruptedSet.chosenObj = {
+          label: "任何",
+          prop: 'any'
         }
+        this.searchTrade(this.searchJson)
+      } else if (this.isSearchJson) {
+        this.searchJson.query.filters.misc_filters.filters.corrupted = {
+          "option": this.corruptedSet.chosenObj.prop
+        }
+        this.searchTrade(this.searchJson)
       }
     },
     isExBasicSearch() {
-      if (!this.itemExBasic.isSearch && this.itemExBasic.chosenObj.prop && !_.isEmpty(this.searchJson)) {
+      if (!this.itemExBasic.isSearch && this.itemExBasic.chosenObj.prop && this.isSearchJson) {
         delete this.searchJson.query.filters.misc_filters.filters[this.itemExBasic.chosenObj.prop] // 刪除勢力選項
-      } else if (this.itemExBasic.isSearch && this.itemExBasic.chosenObj.prop && !_.isEmpty(this.searchJson)) {
+      } else if (this.itemExBasic.isSearch && this.itemExBasic.chosenObj.prop && this.isSearchJson) {
         this.searchJson.query.filters.misc_filters.filters[this.itemExBasic.chosenObj.prop] = { // 增加目前選擇的勢力
           "option": "true"
         }
@@ -1557,10 +1666,10 @@ export default {
     },
     exBasicChange(value) {
       let exSearchItem = !this.itemExBasic.chosenObj.prop ? '' : this.itemExBasic.chosenObj.prop // 前一個搜尋的勢力選項
-      if (!_.isEmpty(this.searchJson) && this.searchJson.query.filters.misc_filters.filters.hasOwnProperty(exSearchItem)) {
+      if (this.isSearchJson && this.searchJson.query.filters.misc_filters.filters.hasOwnProperty(exSearchItem)) {
         delete this.searchJson.query.filters.misc_filters.filters[exSearchItem] // 刪除前一個勢力選項
       }
-      if (!_.isEmpty(this.searchJson)) {
+      if (this.isSearchJson) {
         this.searchJson.query.filters.misc_filters.filters[value.prop] = { // 增加目前選擇的勢力
           "option": "true"
         }
@@ -1604,9 +1713,6 @@ export default {
       });
       this.mapBasic.isSearch = true
       this.isMapBasicSearch()
-      // this.searchJson.query.type = { // TODO? 支援過往地圖類別
-      //   "discriminator": "warfortheatlas"
-      // }
       this.searchJson.query.filters.map_filters.filters.map_blighted = { // 過濾凋落圖
         "option": "false"
       }
@@ -1675,16 +1781,16 @@ export default {
       this.searchTrade(this.searchJson)
     },
     isMapBasicSearch() {
-      if (!this.mapBasic.isSearch && !_.isEmpty(this.searchJson)) {
+      if (!this.mapBasic.isSearch && this.isSearchJson) {
         delete this.searchJson.query.type // 刪除地圖基底 filter
-      } else if (this.mapBasic.isSearch && !_.isEmpty(this.searchJson)) {
+      } else if (this.mapBasic.isSearch && this.isSearchJson) {
         this.searchJson.query.type = this.replaceString(this.mapBasic.chosenM) // 增加地圖基底 filter
       }
     },
     isMapLevelSearch() {
-      if (!this.mapLevel.isSearch && !_.isEmpty(this.searchJson)) {
+      if (!this.mapLevel.isSearch && this.isSearchJson) {
         delete this.searchJson.query.filters.map_filters.filters.map_tier // 刪除地圖階級 filter
-      } else if (this.mapLevel.isSearch && !_.isEmpty(this.searchJson)) {
+      } else if (this.mapLevel.isSearch && this.isSearchJson) {
         this.searchJson.query.filters.map_filters.filters.map_tier = { // 指定地圖階級最小 / 最大值 filter
           "min": this.mapLevel.min,
           "max": this.mapLevel.max
@@ -1692,9 +1798,9 @@ export default {
       }
     },
     isMapElderGuardSearch() {
-      if (this.mapCategory.isElder && !this.mapElderGuard.isSearch && !_.isEmpty(this.searchJson)) {
+      if (this.mapCategory.isElder && !this.mapElderGuard.isSearch && this.isSearchJson) {
         this.searchJson.query.stats[0].filters.length = 1
-      } else if (this.mapElderGuard.isSearch && this.mapElderGuard.chosenObj.prop && !_.isEmpty(this.searchJson)) {
+      } else if (this.mapElderGuard.isSearch && this.mapElderGuard.chosenObj.prop && this.isSearchJson) {
         this.searchJson.query.stats[0].filters[1] = {
           "id": "implicit.stat_3624393862",
           "value": {
@@ -1704,16 +1810,16 @@ export default {
       }
     },
     isGemBasicSearch() {
-      if (!this.gemBasic.isSearch && !_.isEmpty(this.searchJson)) {
+      if (!this.gemBasic.isSearch && this.isSearchJson) {
         delete this.searchJson.query.type // 刪除技能基底 filter
-      } else if (this.gemBasic.isSearch && !_.isEmpty(this.searchJson)) {
+      } else if (this.gemBasic.isSearch && this.isSearchJson) {
         this.searchJson.query.type = this.replaceString(this.gemBasic.chosenG) // 增加技能基底 filter
       }
     },
     isGemLevelSearch() {
-      if (!this.gemLevel.isSearch && !_.isEmpty(this.searchJson)) {
+      if (!this.gemLevel.isSearch && this.isSearchJson) {
         delete this.searchJson.query.filters.misc_filters.filters.gem_level // 刪除技能等級 filter
-      } else if (this.gemLevel.isSearch && !_.isEmpty(this.searchJson)) {
+      } else if (this.gemLevel.isSearch && this.isSearchJson) {
         this.searchJson.query.filters.misc_filters.filters.gem_level = { // 指定技能等級最小 / 最大值 filter
           "min": this.gemLevel.min,
           "max": this.gemLevel.max
@@ -1721,9 +1827,9 @@ export default {
       }
     },
     isGemQualitySearch() {
-      if (!this.gemQuality.isSearch && !_.isEmpty(this.searchJson)) {
+      if (!this.gemQuality.isSearch && this.isSearchJson) {
         delete this.searchJson.query.filters.misc_filters.filters.quality // 刪除技能品質 filter
-      } else if (this.gemQuality.isSearch && !_.isEmpty(this.searchJson)) {
+      } else if (this.gemQuality.isSearch && this.isSearchJson) {
         this.searchJson.query.filters.misc_filters.filters.quality = { // 指定技能品質最小 / 最大值 filter
           "min": this.gemQuality.min,
           "max": this.gemQuality.max
@@ -1749,13 +1855,11 @@ export default {
       if (this.isCounting) {
         this.cleanCopyText()
         this.cleanClipboard()
-        this.$bvToast.toast(`請等待限制間隔倒數完畢後再次按下 Ctrl+C`, {
-          noCloseButton: true,
-          toaster: 'toast-warning-center',
-          variant: 'danger',
-          autoHideDelay: 800,
-          appendToast: true
-        })
+        this.$message({
+          duration: 2000,
+          type: 'error',
+          message: `請等待限制間隔倒數完畢後再次按下 Ctrl+C`
+        });
         return
       }
       this.resetSearchData();
@@ -1769,7 +1873,7 @@ export default {
         return
       }
       if (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1) { // 預言特殊判斷
-        this.isGarenaSvr = regExp.test(itemArray[itemArray.length - 4]) ? false : true
+        this.isGarenaSvr = regExp.test(itemArray[3]) ? false : true
       } else {
         this.isGarenaSvr = regExp.test(itemArray[1]) ? false : true // 國際服中文化判斷 
       }
@@ -1784,7 +1888,7 @@ export default {
       this.equipItems.forEach(element => {
         // console.log(itemNameString, itemNameStringIndex)
         let itemNameStringIndex = itemNameString.indexOf(element.text)
-        if (itemNameStringIndex > -1 && !itemBasicCount) {
+        if (itemNameStringIndex > -1 && !itemBasicCount && itemNameString.indexOf('碎片') === -1) {
           itemBasicCount++
           element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString.slice(itemNameStringIndex))
           this.itemAnalysis(item, itemArray, element)
@@ -1817,13 +1921,11 @@ export default {
           this.raritySet.isSearch = true
           this.isRaritySearch()
           this.searchJson.query.type = this.replaceString(searchName)
-          this.$bvToast.toast(`未鑑定傳奇物品會搜到相同基底的其他傳奇裝`, {
-            title: 'Warning!',
-            toaster: 'toast-warning-center',
-            variant: 'warning',
-            appendToast: true,
-            autoHideDelay: 1800,
-          })
+          this.$message({
+            duration: 2000,
+            type: 'warning',
+            message: `未鑑定傳奇物品會搜到相同基底的其他傳奇裝`
+          });
         }
       } else if (Rarity === "命運卡" || Rarity === "通貨" || Rarity === "通貨不足") {
         this.searchJson.query.type = this.replaceString(searchName)
@@ -1854,7 +1956,7 @@ export default {
         this.isGemBasicSearch()
         this.gemQuality.isSearch = true
         this.isGemQualitySearch()
-      } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('前往試練者廣場使用此物品進入帝王迷宮') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1)) {
+      } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1)) {
         // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器
         this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
@@ -1866,7 +1968,7 @@ export default {
         this.itemStatsAnalysis(itemArray, 0)
         return
       } else {
-        this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官及非傳奇藥劑`
+        this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官`
         return
       }
       this.searchTrade(this.searchJson)
@@ -1887,28 +1989,19 @@ export default {
     isOnline: _.debounce(function () {
       let option = this.isOnline ? 'online' : 'any'
       this.searchJson_Def.query.status.option = option
-      if (!_.isEmpty(this.searchJson) && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+      if (this.isSearchJson && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
         this.searchJson.query.status.option = option
         this.searchTrade(this.searchJson)
       }
-    }, 800),
+    }, 500),
     isPriced: function () {
       this.fetchID.length = 0
       let option = this.isPriced ? 'priced' : 'unpriced'
       this.searchJson_Def.query.filters.trade_filters.filters.sale_type.option = option
-      if (!_.isEmpty(this.searchJson) && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+      if (this.isSearchJson && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
         this.searchJson.query.filters.trade_filters.filters.sale_type.option = option
         this.searchTrade(this.searchJson)
       }
-    },
-    'leagues.chosenL': {
-      handler(newVal, oldVal) {
-        if (_.isEmpty(this.searchJson) || (newVal == "Harvest" && oldVal == "豐收聯盟")) {
-          return
-        }
-        this.searchTrade(this.searchJson)
-      },
-      deep: true
     },
     'mapCategory.isShaper': { // TODO: 判斷塑者/尊師/凋落圖方式需重構
       handler(newVal) {
@@ -1981,6 +2074,14 @@ export default {
     },
   },
   computed: {
+    handlePOESESSID: {
+      get() { // get stored message
+        return this.$store.state.POESESSID;
+      },
+      set(newID) { // commit a mutation to set message
+        this.$store.commit('setPOESESSID', newID);
+      }
+    },
     isDevMode() {
       return process.env.NODE_ENV === 'development'
     },
@@ -1990,10 +2091,7 @@ export default {
     pricedText() {
       return this.isPriced ? "有標價" : "未標價"
     },
-    corruptedText() {
-      return this.isCorrupted ? "已污染" : "未污染"
-    },
-    server() {
+    whichServer() {
       return this.isGarenaSvr ? "台服" : "國際服"
     },
     statsFontColor() {
@@ -2063,19 +2161,11 @@ tbody.searchStats>tr>td {
   padding-top: 8px;
 }
 
-.toast-center-center {
-  position: absolute;
-  top: 40%;
-  left: 38%;
-  /* -ms-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%); */
-}
-
-.toast-warning-center {
-  position: absolute;
-  top: 35%;
-  left: 30%;
+.vs__dropdown-menu {
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0px !important;
+  width: calc(100% - 5px) !important;
 }
 
 .vs__dropdown-option--highlight {
@@ -2090,5 +2180,24 @@ tbody.searchStats>tr>td {
 
 .statsFontColor {
   color: (var(color))
+}
+
+.el-message {
+  min-width: 220px;
+  max-width: 450px;
+  height: 40px;
+}
+
+.el-message p {
+  max-width: 370px;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.custom-control-label {
+  cursor: pointer;
 }
 </style>
