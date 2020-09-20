@@ -1968,7 +1968,7 @@ export default {
         this.itemStatsAnalysis(itemArray, 0)
         return
       } else {
-        this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官`
+        this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官及 3.12 新試驗基底、聯盟相關道具`
         return
       }
       this.searchTrade(this.searchJson)
