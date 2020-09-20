@@ -101,46 +101,46 @@
                 </b-form-group>
               </b-col>
             </b-row>
-          </b-collapse>
-          <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
-            <b-row style="padding-top: 15px;">
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
-              </b-col>
-              <b-col sm="2"></b-col>
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
-              </b-col>
-            </b-row>
-            <b-row style="padding-top: 8px;">
-              <b-col sm="3"></b-col>
-              <b-col sm="3">
-                <b-button @click="mapAreaCopy('特恩之盡')" size="sm" variant="outline-primary">特恩之盡 (左上內)</b-button>
-              </b-col>
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="sm" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
-              </b-col>
-              <b-col sm="1"></b-col>
-            </b-row>
-            <b-row style="padding-top: 8px;">
-              <b-col sm="1"></b-col>
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
-              </b-col>
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" @click.right="clickCount++" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
-              </b-col>
-              <b-col sm="2"></b-col>
-            </b-row>
-            <b-row style="padding-top: 8px;">
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
-              </b-col>
-              <b-col sm="4"></b-col>
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
-              </b-col>
-            </b-row>
+            <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
+              <b-row style="padding-top: 15px;">
+                <b-col sm="5">
+                  <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
+                </b-col>
+                <b-col sm="2"></b-col>
+                <b-col sm="5">
+                  <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
+                </b-col>
+              </b-row>
+              <b-row style="padding-top: 8px;">
+                <b-col sm="3"></b-col>
+                <b-col sm="3">
+                  <b-button @click="mapAreaCopy('特恩之盡')" size="sm" variant="outline-primary">特恩之盡 (左上內)</b-button>
+                </b-col>
+                <b-col sm="5">
+                  <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="sm" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
+                </b-col>
+                <b-col sm="1"></b-col>
+              </b-row>
+              <b-row style="padding-top: 8px;">
+                <b-col sm="1"></b-col>
+                <b-col sm="5">
+                  <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
+                </b-col>
+                <b-col sm="4">
+                  <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" @click.right="clickCount++" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
+                </b-col>
+                <b-col sm="2"></b-col>
+              </b-row>
+              <b-row style="padding-top: 8px;">
+                <b-col sm="4">
+                  <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
+                </b-col>
+                <b-col sm="4"></b-col>
+                <b-col sm="4">
+                  <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
+                </b-col>
+              </b-row>
+            </b-collapse>
           </b-collapse>
         </b-card>
       </b-collapse>
