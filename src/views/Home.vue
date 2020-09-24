@@ -20,10 +20,6 @@
       </template>
     </countdown>
   </b-alert>
-  <b-alert v-else-if="isHortiMode" show variant="info" style="margin-top: 5px;">
-    <span>園藝工藝計算模式</span>
-    <b-badge @click="isHortiMode = false" v-b-tooltip.hover.top.v-secondary title="點我返回查價頁面" pill variant="info" style="margin-left: 10px; cursor: pointer;">返回</b-badge>
-  </b-alert>
   <div v-else>
     <b-container class="bv-example-row">
       <b-row class="lesspadding">
@@ -52,9 +48,6 @@
       <b-collapse visible id="collapse-1" class="mt-2">
         <b-card>
           <b-row>
-            <!-- <b-col sm="12" class="float-center">
-              <b-badge @click="isHortiMode = true" pill variant="info" style="margin-top: 5px; cursor: pointer;">園藝工藝計算模式</b-badge>
-            </b-col> -->
             <b-col sm="5" class="lesspadding">
               <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
             </b-col>
@@ -64,7 +57,7 @@
               </b-input-group>
             </b-col>
           </b-row>
-          <b-row class="lesspadding" style="padding-top: 5px; padding-left: 19px;">
+          <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
             <b-col sm="3">
               <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isOnline" :disabled="isCounting" switch :inline="false">
                 <b>只顯示線上</b>
@@ -83,7 +76,7 @@
             </b-col>
           </b-row>
           <b-collapse id="collapse-2" class="mt-2">
-            <b-row class="lesspadding" style="padding-left: 21px;">
+            <b-row class="lesspadding" style="padding-left: 2px;">
               <b-col sm="4">
                 <b-form-checkbox style="padding-top: 7px;" class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
                   <b>輿圖區域名稱複製</b>
@@ -102,7 +95,7 @@
               </b-col>
             </b-row>
             <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
-              <b-row style="padding-top: 15px;">
+              <b-row style="padding-top: 10px;">
                 <b-col sm="5">
                   <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
                 </b-col>
@@ -370,18 +363,16 @@
     </b-container>
     <h6 v-html="status"></h6>
   </div>
-  <div v-show="!isHortiMode">
+  <div>
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ whichServer }} 官方交易市集</b-button>
     <PriceAnalysis @countdown="startCountdown" @refresh="searchTrade(searchJson)" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal"></PriceAnalysis>
   </div>
-  <HortiAnalysis v-show="isHortiMode" :tempItemArray="tempItemArray"></HortiAnalysis>
 </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import PriceAnalysis from '@/components/PriceAnalysis.vue'
-import HortiAnalysis from '@/components/HortiAnalysis.vue'
 import hotkeys from "hotkeys-js";
 import GoTop from '@inotom/vue-go-top';
 
@@ -397,7 +388,6 @@ export default {
   name: 'home',
   components: {
     PriceAnalysis,
-    HortiAnalysis,
     GoTop
   },
   data() {
@@ -409,8 +399,6 @@ export default {
       wantedAddedText: '',
       testResponse: '',
       countTime: 0,
-      isHortiMode: false,
-      tempItemArray: [],
       baseUrl: 'https://web.poe.garena.tw',
       isGarenaSvr: true,
       isApiError: false,
@@ -669,6 +657,13 @@ export default {
                 "quality": { // 技能品質 isGemQualitySearch
                   "min": 10
                 },
+                "gem_alternate_quality": { // Gem Quality Type
+                  "option": "alternate", // any alternate
+                  "option": "0", // superior(default) 精良的
+                  "option": "1", // anomalous  異常的
+                  "option": "2", // divergent  相異的
+                  "option": "3", // phantasmal 幻象的
+                },
               }
             },
             "type_filters": {
@@ -710,6 +705,8 @@ export default {
       });
     },
     replaceString(string) {
+      const regMatchBrackets = /\((.+?)\)/g // 取出括號內文字
+      string = regMatchBrackets.test(string) ? string.match(regMatchBrackets)[0] : string
       const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
       if (string.indexOf('追憶之') > -1) { // 追憶物品只取 itemBasic Name
         string = string.slice(4).trim()
@@ -739,7 +736,6 @@ export default {
       this.fetchQueryID = ''
       this.status = ''
       this.searchStats = []
-      this.isHortiMode = false
     },
     hotkeyPressed() {
       this.searchTotal++
@@ -830,12 +826,13 @@ export default {
           this.fetchQueryID = response.data.id
         })
         .catch(function (error) {
-          vm.status = `此次搜尋異常，煩請至 巴哈討論串 / Ptt / Github Issue 回報複製後的物品字串，感謝！<br>${error}`
+          let errMsg = JSON.stringify(error.response.data)
+          vm.status = `此次搜尋異常，煩請至 巴哈討論串 / Ptt / Github Issue 回報複製後的物品字串，感謝！<br>${errMsg}`
           vm.$message({
             type: 'error',
-            message: `error: ${error}`
+            message: errMsg
           });
-          console.log(error);
+          console.log(errMsg);
         })
     }, 300),
     popOfficialWebsite() {
@@ -1704,11 +1701,12 @@ export default {
       let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
       let mapBasicCount = 0
 
-      this.mapBasic.option.forEach(element => {
+      this.mapBasic.option.some(element => {
         let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5|．]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
         if (itemNameStringIndex > -1 && !mapBasicCount) {
           mapBasicCount++
           this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5|．]/gi, "") : itemNameString.slice(itemNameStringIndex)
+          return true
         }
       });
       this.mapBasic.isSearch = true
@@ -1768,7 +1766,7 @@ export default {
           this.mapElderGuard.isSearch = true
           this.isMapElderGuardSearch()
         }
-      } else if (item.indexOf('凋落的') > -1) {
+      } else if (item.indexOf('凋落的') || item.indexOf('Blighted') > -1) {
         this.mapCategory.isBlighted = true
         this.searchJson.query.filters.map_filters.filters.map_blighted = {
           "option": "true"
@@ -1867,11 +1865,6 @@ export default {
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
       const regExp = new RegExp("[A-Za-z]+"); // 有英文字就代表是國際服
-      if (item.indexOf('保存有限的收割工藝選項，於之後使用') > -1) { // 園藝憩站
-        this.isHortiMode = true
-        this.tempItemArray = itemArray
-        return
-      }
       if (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1) { // 預言特殊判斷
         this.isGarenaSvr = regExp.test(itemArray[3]) ? false : true
       } else {
@@ -1885,15 +1878,16 @@ export default {
       let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
       let itemBasicCount = 0
 
-      this.equipItems.forEach(element => {
-        // console.log(itemNameString, itemNameStringIndex)
+      this.equipItems.some(element => {
         let itemNameStringIndex = itemNameString.indexOf(element.text)
+        // console.log(itemNameString, itemNameStringIndex)
         if (itemNameStringIndex > -1 && !itemBasicCount && itemNameString.indexOf('碎片') === -1) {
           itemBasicCount++
-          element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString.slice(itemNameStringIndex))
+          element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString)
           this.itemAnalysis(item, itemArray, element)
           this.isItem = true
           this.isItemCollapse = true
+          return true
         }
       });
 
