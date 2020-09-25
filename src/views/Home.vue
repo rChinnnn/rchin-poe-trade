@@ -299,6 +299,14 @@
           </b-row>
           <b-row class="lesspadding" style="padding-top: 10px;">
             <b-col sm="3" style="padding-top: 6px;">
+              <b-form-checkbox class="float-right" v-model="gemQualitySet.isSearch" @input="gemQualityTypeInput" switch>替代品質</b-form-checkbox>
+            </b-col>
+            <b-col sm="4">
+              <v-select :options="gemQualitySet.option" v-model="gemQualitySet.chosenObj" @input="gemQualityTypeInput" label="label" :disabled="!gemQualitySet.isSearch" :clearable="false" :filterable="true"></v-select>
+            </b-col>
+          </b-row>
+          <b-row class="lesspadding" style="padding-top: 10px;">
+            <b-col sm="3" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="gemBasic.isSearch" @input="isGemBasicSearch" switch>技能基底</b-form-checkbox>
             </b-col>
             <b-col :sm="isGarenaSvr ? 6 : 9">
@@ -472,6 +480,29 @@ export default {
           prop: 'any'
         },
         isSearch: true,
+      },
+      gemQualitySet: { // 寶石替代品質設定
+        option: [{
+          label: "精良的（預設）",
+          prop: '0'
+        }, {
+          label: "任何替代",
+          prop: 'alternate'
+        }, {
+          label: "異常的",
+          prop: '1'
+        }, {
+          label: "相異的",
+          prop: '2'
+        }, {
+          label: "幻影的",
+          prop: '3'
+        }, ],
+        chosenObj: {
+          label: "精良的（預設）",
+          prop: '0'
+        },
+        isSearch: false,
       },
       mapLevel: { // 地圖階級
         min: 0,
@@ -648,7 +679,7 @@ export default {
                 "crusader_item": { // 勢力區域 isExBasicSearch
                   "option": "true"
                 },
-                "corrupted": { // 是否汙染 isCorruptedSearch
+                "corrupted": { // 已汙染設定 corruptedInput
                   "option": "true"
                 },
                 "gem_level": { // 技能等級 isGemLevelSearch
@@ -657,12 +688,12 @@ export default {
                 "quality": { // 技能品質 isGemQualitySearch
                   "min": 10
                 },
-                "gem_alternate_quality": { // Gem Quality Type
+                "gem_alternate_quality": { // 寶石替代品質設定 gemQualityTypeInput
                   "option": "alternate", // any alternate
                   "option": "0", // superior(default) 精良的
                   "option": "1", // anomalous  異常的
                   "option": "2", // divergent  相異的
-                  "option": "3", // phantasmal 幻象的
+                  "option": "3", // phantasmal 幻影的
                 },
               }
             },
@@ -827,7 +858,7 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.status = `此次搜尋異常，煩請至 巴哈討論串 / Ptt / Github Issue 回報複製後的物品字串，感謝！<br>${errMsg}`
+          vm.status = `此次搜尋異常，煩請至 巴哈討論串 / Github Issue 回報複製後的物品字串，感謝！<br>${errMsg}`
           vm.$message({
             type: 'error',
             message: errMsg
@@ -1236,7 +1267,7 @@ export default {
         this.searchName = `物品名稱 <br>『${this.mapBasic.chosenM}』`
       }
       if (this.isGem && this.gemBasic.isSearch) {
-        this.searchName = `物品名稱 <br>『${this.gemBasic.chosenG}』`
+        this.searchName = `物品名稱 <br>『${this.gemQualitySet.chosenObj.prop !== '0' && this.gemQualitySet.isSearch ? `${this.gemQualitySet.chosenObj.label} ` : ''}${this.gemBasic.chosenG}』`
       }
       this.searchTrade(this.searchJson)
     }, 500),
@@ -1652,6 +1683,15 @@ export default {
         this.searchTrade(this.searchJson)
       }
     },
+    gemQualityTypeInput() { // 寶石替代品質設定 
+      if (!this.gemQualitySet.isSearch && this.gemQualitySet.chosenObj.prop && this.isSearchJson) {
+        delete this.searchJson.query.filters.misc_filters.filters.gem_alternate_quality // 刪除寶石替代品質 filter
+      } else if (this.gemQualitySet.isSearch && this.gemQualitySet.chosenObj.prop && this.isSearchJson) {
+        this.searchJson.query.filters.misc_filters.filters.gem_alternate_quality = {
+          "option": this.gemQualitySet.chosenObj.prop
+        }
+      }
+    },
     isExBasicSearch() {
       if (!this.itemExBasic.isSearch && this.itemExBasic.chosenObj.prop && this.isSearchJson) {
         delete this.searchJson.query.filters.misc_filters.filters[this.itemExBasic.chosenObj.prop] // 刪除勢力選項
@@ -1925,7 +1965,40 @@ export default {
         this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "寶石") {
         this.isGem = true
-        this.gemBasic.chosenG = searchName
+        
+        if (item.indexOf('異常的 ') > -1) { // 替代品質判斷
+          this.gemQualitySet.isSearch = true
+          this.gemQualitySet.chosenObj.prop = '1'
+          this.gemQualitySet.chosenObj.label = '異常的'
+          this.gemBasic.chosenG = searchName.substring(4)
+        } else if (item.indexOf('相異的 ') > -1) {
+          this.gemQualitySet.isSearch = true
+          this.gemQualitySet.chosenObj.prop = '2'
+          this.gemQualitySet.chosenObj.label = '相異的'
+          this.gemBasic.chosenG = searchName.substring(4)
+        } else if (item.indexOf('幻影的 ') > -1) {
+          this.gemQualitySet.isSearch = true
+          this.gemQualitySet.chosenObj.prop = '3'
+          this.gemQualitySet.chosenObj.label = '幻影的'
+          this.gemBasic.chosenG = searchName.substring(4)
+        } else {
+          this.gemQualitySet.isSearch = false
+          this.gemQualitySet.chosenObj.prop = '0'
+          this.gemQualitySet.chosenObj.label = '精良的（預設）'
+          this.gemBasic.chosenG = searchName
+        }
+        this.gemQualityTypeInput()
+
+        if (item.indexOf('瓦爾．') > -1) { // 瓦爾技能
+          let vaalPos = item.substring(item.indexOf('瓦爾．'))
+          let vaalPosEnd = vaalPos.indexOf(NL)
+          let vaalGem = vaalPos.substring(0, vaalPosEnd)
+          this.searchName = `物品名稱『${vaalGem}』`
+          this.isGarenaSvr = regExp.test(vaalGem) ? false : true
+          this.gemBasic.chosenG = vaalGem
+        }
+        this.gemBasic.isSearch = true
+        this.isGemBasicSearch()
 
         let levelPos = item.substring(item.indexOf('等級: ') + 4)
         let levelPosEnd = levelPos.indexOf(NL)
@@ -1937,18 +2010,10 @@ export default {
           let quaPosEnd = quaPos.indexOf('% (augmented)') // 品質定位點
           minQuality = parseInt(quaPos.substring(0, quaPosEnd).trim(), 10)
         }
-        this.gemQuality.min = minQuality
-        if (item.indexOf('瓦爾．') > -1) { // 瓦爾技能
-          let vaalPos = item.substring(item.indexOf('瓦爾．'))
-          let vaalPosEnd = vaalPos.indexOf(NL)
-          let vaalGem = vaalPos.substring(0, vaalPosEnd)
-          this.searchName = `物品名稱『${vaalGem}』`
-          this.isGarenaSvr = regExp.test(vaalGem) ? false : true
-          this.gemBasic.chosenG = vaalGem
+        if (!this.gemQualitySet.isSearch) { // 若沒有替代品質，則搜尋技能品質
+          this.gemQuality.isSearch = true
         }
-        this.gemBasic.isSearch = true
-        this.isGemBasicSearch()
-        this.gemQuality.isSearch = true
+        this.gemQuality.min = minQuality
         this.isGemQualitySearch()
       } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1)) {
         // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器
