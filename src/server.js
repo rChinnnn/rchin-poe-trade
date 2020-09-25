@@ -163,8 +163,8 @@
             fetchID: fetchID
           });
         } else {
-          res.send(body);
-          console.log(body)
+          res.status(response.statusCode).send(body);
+          console.log(response.statusCode, body)
         }
       });
     });
