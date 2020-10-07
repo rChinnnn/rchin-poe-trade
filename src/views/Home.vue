@@ -45,6 +45,68 @@
           <b-button @click="checkAPI" size="sm" variant="outline-primary">API 測試</b-button>
         </b-col>
       </b-row>
+      <b-collapse id="collapse-2" class="mt-2">
+        <b-card>
+          <b-row class="lesspadding" style="padding-left: 2px;">
+            <b-col sm="4">
+              <b-form-checkbox style="padding-top: 7px;" class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
+                <b>輿圖區域名稱複製</b>
+              </b-form-checkbox>
+            </b-col>
+            <b-col sm="1"></b-col>
+            <b-col sm="7" class="my-1">
+              <b-form-group label="" label-cols-sm="0" label-align-sm="right" label-size="sm" class="mb-0">
+                <b-input-group size="sm">
+                  <b-form-input v-model="wantedAddedText" type="search" id="filterInput" placeholder="請輸入欲在複製字串後增加的文字"></b-form-input>
+                  <b-input-group-append>
+                    <b-button :disabled="!wantedAddedText" @click="addAfterCopyText">增加</b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
+            <b-row style="padding-top: 10px;">
+              <b-col sm="5">
+                <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
+              </b-col>
+              <b-col sm="2"></b-col>
+              <b-col sm="5">
+                <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
+              </b-col>
+            </b-row>
+            <b-row style="padding-top: 8px;">
+              <b-col sm="3"></b-col>
+              <b-col sm="3">
+                <b-button @click="mapAreaCopy('特恩之盡')" size="sm" variant="outline-primary">特恩之盡 (左上內)</b-button>
+              </b-col>
+              <b-col sm="5">
+                <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="sm" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
+              </b-col>
+              <b-col sm="1"></b-col>
+            </b-row>
+            <b-row style="padding-top: 8px;">
+              <b-col sm="1"></b-col>
+              <b-col sm="5">
+                <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
+              </b-col>
+              <b-col sm="4">
+                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" @click.right="clickCount++" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
+              </b-col>
+              <b-col sm="2"></b-col>
+            </b-row>
+            <b-row style="padding-top: 8px;">
+              <b-col sm="4">
+                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
+              </b-col>
+              <b-col sm="4"></b-col>
+              <b-col sm="4">
+                <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
+              </b-col>
+            </b-row>
+          </b-collapse>
+        </b-card>
+      </b-collapse>
       <b-collapse visible id="collapse-1" class="mt-2">
         <b-card>
           <b-row>
@@ -75,66 +137,6 @@
               <v-select :options="corruptedSet.option" v-model="corruptedSet.chosenObj" @input="corruptedInput" :disabled="!isSearchJson || isCounting" label="label" :clearable="false" :filterable="false"></v-select>
             </b-col>
           </b-row>
-          <b-collapse id="collapse-2" class="mt-2">
-            <b-row class="lesspadding" style="padding-left: 2px;">
-              <b-col sm="4">
-                <b-form-checkbox style="padding-top: 7px;" class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
-                  <b>輿圖區域名稱複製</b>
-                </b-form-checkbox>
-              </b-col>
-              <b-col sm="1"></b-col>
-              <b-col sm="7" class="my-1">
-                <b-form-group label="" label-cols-sm="0" label-align-sm="right" label-size="sm" class="mb-0">
-                  <b-input-group size="sm">
-                    <b-form-input v-model="wantedAddedText" type="search" id="filterInput" placeholder="請輸入欲在複製字串後增加的文字"></b-form-input>
-                    <b-input-group-append>
-                      <b-button :disabled="!wantedAddedText" @click="addAfterCopyText">增加</b-button>
-                    </b-input-group-append>
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-            </b-row>
-            <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
-              <b-row style="padding-top: 10px;">
-                <b-col sm="5">
-                  <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
-                </b-col>
-                <b-col sm="2"></b-col>
-                <b-col sm="5">
-                  <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
-                </b-col>
-              </b-row>
-              <b-row style="padding-top: 8px;">
-                <b-col sm="3"></b-col>
-                <b-col sm="3">
-                  <b-button @click="mapAreaCopy('特恩之盡')" size="sm" variant="outline-primary">特恩之盡 (左上內)</b-button>
-                </b-col>
-                <b-col sm="5">
-                  <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="sm" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
-                </b-col>
-                <b-col sm="1"></b-col>
-              </b-row>
-              <b-row style="padding-top: 8px;">
-                <b-col sm="1"></b-col>
-                <b-col sm="5">
-                  <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
-                </b-col>
-                <b-col sm="4">
-                  <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" @click.right="clickCount++" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
-                </b-col>
-                <b-col sm="2"></b-col>
-              </b-row>
-              <b-row style="padding-top: 8px;">
-                <b-col sm="4">
-                  <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
-                </b-col>
-                <b-col sm="4"></b-col>
-                <b-col sm="4">
-                  <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
-                </b-col>
-              </b-row>
-            </b-collapse>
-          </b-collapse>
         </b-card>
       </b-collapse>
     </b-container>
@@ -701,6 +703,7 @@ export default {
               "filters": {
                 "category": { // 物品種類 isItemCategorySearch
                   "option": "accessory.ring", // 戒指
+                  "option": "heistequipment" // 劫盜裝備
                 }
               }
             },
@@ -966,6 +969,7 @@ export default {
       let jewelIndex = 0
       let weaponIndex = 0
       let mapIndex = 0
+      let heistIndex = 0
       this.equipItems.length = 0
       this.mapBasic.option.length = 0
       this.gemBasic.option.length = 0
@@ -1144,6 +1148,21 @@ export default {
                 element.name = "雙手劍"
                 element.option = "weapon.twosword"
                 element.weapon = "weapon.twomelee"
+                this.equipItems.push(element)
+                break;
+              default:
+                break;
+            }
+          });
+          result[13].entries.forEach((element, index) => { // "label": "劫盜裝備"
+            const basetype = ["鰻皮鞋底"]
+            if (_.isUndefined(element.flags)) {
+              heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+            }
+            switch (heistIndex) {
+              case 1: // 劫盜裝備起始點 { "type": "鰻皮鞋底", "text": "鰻皮鞋底" }
+                element.name = "劫盜裝備"
+                element.option = "heistequipment"
                 this.equipItems.push(element)
                 break;
               default:
@@ -1574,6 +1593,10 @@ export default {
           prop: matchItem.weapon === "weapon.one" ? "weapon.one" : "weapon.twomelee",
         })
       }
+      if (matchItem.option === 'heistequipment') {
+        this.itemBasic.isSearch = true
+        this.isItemBasicSearch()
+      }
       this.itemCategory.isSearch = true
       this.isItemCategorySearch()
       // 判斷勢力基底
@@ -1806,7 +1829,7 @@ export default {
           this.mapElderGuard.isSearch = true
           this.isMapElderGuardSearch()
         }
-      } else if (item.indexOf('凋落的') || item.indexOf('Blighted') > -1) {
+      } else if (item.indexOf('凋落的') > -1 || item.indexOf('Blighted') > -1) {
         this.mapCategory.isBlighted = true
         this.searchJson.query.filters.map_filters.filters.map_blighted = {
           "option": "true"
@@ -1921,7 +1944,7 @@ export default {
       this.equipItems.some(element => {
         let itemNameStringIndex = itemNameString.indexOf(element.text)
         // console.log(itemNameString, itemNameStringIndex)
-        if (itemNameStringIndex > -1 && !itemBasicCount && itemNameString.indexOf('碎片') === -1) {
+        if (itemNameStringIndex > -1 && !itemBasicCount && (itemNameString.indexOf('碎片') === -1 || Rarity !== '傳奇')) {
           itemBasicCount++
           element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString)
           this.itemAnalysis(item, itemArray, element)
@@ -1965,7 +1988,7 @@ export default {
         this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "寶石") {
         this.isGem = true
-        
+
         if (item.indexOf('異常的 ') > -1) { // 替代品質判斷
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '1'
