@@ -386,10 +386,9 @@ import PriceAnalysis from '@/components/PriceAnalysis.vue'
 import hotkeys from "hotkeys-js";
 import GoTop from '@inotom/vue-go-top';
 
-var axios = require('axios');
-var rateLimit = require('axios-rate-limit');
-var _ = require('lodash');
-var stringSimilarity = require('string-similarity');
+const _ = require('lodash');
+const axios = require('axios');
+const stringSimilarity = require('string-similarity');
 const {
   clipboard,
   shell
@@ -979,7 +978,7 @@ export default {
           // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
           let result = response.data.result
           result[0].entries.forEach((element, index) => { // "label": "飾品"
-            const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指"]
+            const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
             // _.isUndefined(element.flags) == true 表示非傳奇物品
             if (_.isUndefined(element.flags)) {
               accessoryIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -998,6 +997,11 @@ export default {
               case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }  
                 element.name = "戒指"
                 element.option = "accessory.ring"
+                this.equipItems.push(element)
+                break;
+              case 4: // 飾品起始點 { "type": "盜賊飾品", "text": "盜賊飾品" }  
+                element.name = "飾品"
+                element.option = "accessory.trinket"
                 this.equipItems.push(element)
                 break;
               default:
@@ -1365,7 +1369,7 @@ export default {
         }
       });
 
-      function findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用'#'取代的兩種字串皆判斷並取最符合那一筆
+      function findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用 '#' 取代的兩種字串皆判斷並取最符合那一筆
         let originalObj = stringSimilarity.findBestMatch(text, stats)
         let modifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
         return originalObj.bestMatch.rating > modifiedObj.bestMatch.rating ? originalObj : modifiedObj
@@ -1384,7 +1388,11 @@ export default {
             tempStat[tempStat.length - 1].type = "工藝"
           } else if (itemArray[index].indexOf('(enchant)') > -1) {
             text = text.substring(0, text.indexOf('(enchant)'))
-            tempStat.push(findBestStat(text, this.enchantStats))
+            if (text.indexOf('附加的小型天賦給予：') > -1) {
+              tempStat.push(findBestStat('附加的小型天賦給予：#', this.enchantStats))
+            } else {
+              tempStat.push(findBestStat(text, this.enchantStats))
+            }
             tempStat[tempStat.length - 1].type = "附魔"
           } else if (rarityFlag) { // 傳奇裝詞綴
             tempStat.push(findBestStat(text, this.explicitStats))
@@ -1988,7 +1996,12 @@ export default {
         this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "寶石") {
         this.isGem = true
-
+        this.gemQualitySet.isSearch = false
+        this.gemBasic.chosenG = searchName
+        this.gemQualitySet.chosenObj = {
+          label: "精良的（預設）",
+          prop: '0'
+        }
         if (item.indexOf('異常的 ') > -1) { // 替代品質判斷
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '1'
@@ -2004,11 +2017,6 @@ export default {
           this.gemQualitySet.chosenObj.prop = '3'
           this.gemQualitySet.chosenObj.label = '幻影的'
           this.gemBasic.chosenG = searchName.substring(4)
-        } else {
-          this.gemQualitySet.isSearch = false
-          this.gemQualitySet.chosenObj.prop = '0'
-          this.gemQualitySet.chosenObj.label = '精良的（預設）'
-          this.gemBasic.chosenG = searchName
         }
         this.gemQualityTypeInput()
 

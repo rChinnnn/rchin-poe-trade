@@ -37,18 +37,18 @@
 
 <script>
 // @ is an alias to /src
-var _ = require('lodash');
-var axios = require('axios');
-var rateLimit = require('axios-rate-limit');
+const _ = require('lodash');
+const axios = require('axios');
 import VueLoading from 'vue-loading-overlay'
 
-const http = rateLimit(axios.create(), {
-  maxRequests: 3,
-  perMilliseconds: 2400,
-})
+// const rateLimit = require('axios-rate-limit');
+// const http = rateLimit(axios.create(), {
+//   maxRequests: 3,
+//   perMilliseconds: 2400,
+// })
 
 export default {
-  // 接受父组件的值
+  // 接受父組件的值
   props: {
     fetchID: Array,
     fetchQueryID: String,
