@@ -61,6 +61,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
+          'User-Agent': 'rChinPOETrade/v1.312.4',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -91,6 +92,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
+          'User-Agent': 'rChin POE Trade/v1.312.4',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -135,8 +137,9 @@
         // could replace searchJson by `${league}?q={"query": ... }`
         method: 'post',
         headers: {
-          'accept': 'application/json',
+          'accept': '*/*',
           'Content-Type': 'application/json',
+          'User-Agent': 'rChin POE Trade/v1.312.4',
         },
         rejectUnauthorized: false,
         requestCert: false,
