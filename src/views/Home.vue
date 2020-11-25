@@ -126,16 +126,29 @@
               </b-form-checkbox>
             </b-col>
             <b-col sm="3">
-              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isPriced" :disabled="isCounting" switch>
+              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isPriced" :disabled="true" switch>
                 <b>{{ pricedText }}</b>
               </b-form-checkbox>
             </b-col>
+            <b-col sm="4" class="lesspadding">
+              <v-select :options="priceSetting.option" v-model="priceSetting.chosenObj" @input="priceSettingChange" :clearable="false" :filterable="false"></v-select>
+            </b-col>
+            <b-col sm="1" class="lesspadding" style="padding-top: 2px;">
+              <b-form-input v-model.number="priceSetting.min" @change="priceSettingChange" size="sm" type="number" min="0" max="999"></b-form-input>
+            </b-col>
+            <b-col sm="1" class="lesspadding" style="padding-top: 2px;">
+              <b-form-input v-model.number="priceSetting.max" @change="priceSettingChange" size="sm" type="number" min="0" max="999" :style="!isNaN(priceSetting.max) && (priceSetting.max < priceSetting.min) ? 'color: #fc3232; font-weight:bold;' : ''"></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
+            <b-col sm="3"></b-col>
             <b-col sm="3">
               <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="corruptedSet.isSearch" :disabled="true" switch>已汙染</b-form-checkbox>
             </b-col>
             <b-col sm="3">
               <v-select :options="corruptedSet.option" v-model="corruptedSet.chosenObj" @input="corruptedInput" :disabled="!isSearchJson || isCounting" label="label" :clearable="false" :filterable="false"></v-select>
             </b-col>
+            <b-col sm="3"></b-col>
           </b-row>
         </b-card>
       </b-collapse>
@@ -437,6 +450,27 @@ export default {
       fetchQueryID: '',
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
+      priceSetting: { // 價格設定 alch
+        min: 1,
+        max: '',
+        option: [{
+          label: "與混沌石等值",
+          prop: ''
+        }, {
+          label: "點金石",
+          prop: 'alch'
+        }, {
+          label: "混沌石",
+          prop: 'chaos'
+        }, {
+          label: "崇高石",
+          prop: 'exa'
+        }, ],
+        chosenObj: {
+          label: "與混沌石等值",
+          prop: ''
+        }
+      },
       leagues: { // 搜尋聯盟 
         option: [],
         chosenL: ""
@@ -630,6 +664,9 @@ export default {
               "filters": {
                 "sale_type": {
                   "option": "priced"
+                },
+                "price": {
+                  "min": 1
                 }
               }
             },
@@ -761,6 +798,7 @@ export default {
       this.itemBasic.isSearch = false
       this.gemLevel.isSearch = false
       this.gemLevel.max = ''
+      this.gemQuality.isSearch = false
       this.gemQuality.max = ''
       this.corruptedSet.chosenObj = {
         label: "任何",
@@ -1542,13 +1580,13 @@ export default {
           apiStatText = apiStatText.replace('增加', '減少')
           isNegativeStat = true
         }
-        if (randomMaxValue) { // 物品中包含 "# 至 #" 的詞綴，在官方市集搜尋中皆以相加除二作搜尋
-          randomMinValue = (randomMinValue + randomMaxValue) / 2
-        }
         if (statID === "enchant.stat_3086156145") { // 星團珠寶附加天賦數量調整為帶入最大值，最小值為最大值 - 1
           let tempValue = randomMinValue
           randomMaxValue = tempValue
           randomMinValue = tempValue - 1
+        } else if (randomMaxValue) { // 物品中包含 "# 至 #" 的詞綴，在官方市集搜尋中皆以相加除二作搜尋
+          randomMinValue = (randomMinValue + randomMaxValue) / 2
+          randomMaxValue = ''
         }
         switch (true) { // 計算三元素抗性至偽屬性
           case statID.indexOf('stat_3372524247') > -1 || statID.indexOf('stat_1671376347') > -1 || statID.indexOf('stat_4220027924') > -1:
@@ -1584,7 +1622,7 @@ export default {
           "text": apiStatText,
           "option": optionValue,
           "min": randomMinValue,
-          "max": '',
+          "max": randomMaxValue,
           "isValue": randomMinValue ? true : false,
           "isNegative": isNegativeStat,
           "isSearch": false,
@@ -1759,13 +1797,6 @@ export default {
         }
       }
     },
-    categoryChange(value) {
-      if (this.isSearchJson) {
-        this.searchJson.query.filters.type_filters.filters.category = { // 修改物品種類 filter
-          "option": this.itemCategory.chosenObj.prop
-        }
-      }
-    },
     corruptedInput() { // 已汙染設定
       if (this.isSearchJson && this.corruptedSet.chosenObj.prop === 'any') {
         delete this.searchJson.query.filters.misc_filters.filters.corrupted // 刪除已汙染 filter
@@ -1799,6 +1830,13 @@ export default {
         }
       }
     },
+    categoryChange(value) {
+      if (this.isSearchJson) {
+        this.searchJson.query.filters.type_filters.filters.category = { // 修改物品種類 filter
+          "option": this.itemCategory.chosenObj.prop
+        }
+      }
+    },
     exBasicChange(value) {
       let exSearchItem = !this.itemExBasic.chosenObj.prop ? '' : this.itemExBasic.chosenObj.prop // 前一個搜尋的勢力選項
       if (this.isSearchJson && this.searchJson.query.filters.misc_filters.filters.hasOwnProperty(exSearchItem)) {
@@ -1810,6 +1848,23 @@ export default {
         }
       }
       this.itemExBasic.chosenObj = value
+    },
+    priceSettingChange() {
+      this.searchJson_Def.query.filters.trade_filters.filters.price.min = this.priceSetting.min
+      this.searchJson_Def.query.filters.trade_filters.filters.price.max = this.priceSetting.max
+      if (this.priceSetting.chosenObj.prop) {
+        this.searchJson_Def.query.filters.trade_filters.filters.price.option = this.priceSetting.chosenObj.prop
+      } else {
+        delete this.searchJson_Def.query.filters.trade_filters.filters.price.option
+      }
+      if (this.isSearchJson) {
+        this.searchJson.query.filters.trade_filters.filters.price = this.searchJson_Def.query.filters.trade_filters.filters.price
+        this.searchTrade(this.searchJson)
+      }
+      this.$message({
+        type: 'success',
+        message: `價格設置已更新！`
+      });
     },
     mapAnalysis(item, itemArray, Rarity) {
       // this.itemStatsAnalysis(itemArray, 1) 地圖先不加入詞綴判斷
