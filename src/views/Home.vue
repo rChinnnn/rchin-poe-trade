@@ -48,6 +48,16 @@
       <b-collapse id="collapse-2" class="mt-2">
         <b-card>
           <b-row class="lesspadding" style="padding-left: 2px;">
+            <b-col sm="12" v-if="handlePOESESSID">
+              <b-form-group label="POESESSID" label-cols-sm="5" label-align-sm="right" label-size="sm" class="mb-0">
+                <b-input-group size="sm">
+                  <b-form-input v-model="handlePOESESSID" disabled></b-form-input>
+                  <b-input-group-append>
+                    <b-button @click="$store.commit('setPOESESSID', '')" :disabled="wantedAddedText.length > 0">刪除</b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
             <b-col sm="4">
               <b-form-checkbox style="padding-top: 7px;" class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
                 <b>輿圖區域名稱複製</b>
@@ -97,7 +107,7 @@
             </b-row>
             <b-row style="padding-top: 8px;">
               <b-col sm="4">
-                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
+                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="(clickCount > 5 && isGem) || handlePOESESSID ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
               </b-col>
               <b-col sm="4"></b-col>
               <b-col sm="4">
@@ -110,13 +120,8 @@
       <b-collapse visible id="collapse-1" class="mt-2">
         <b-card>
           <b-row>
-            <b-col sm="5" class="lesspadding">
+            <b-col sm="6" class="lesspadding">
               <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
-            </b-col>
-            <b-col sm="7" class="my-1" v-if="handlePOESESSID">
-              <b-input-group size="sm">
-                <b-form-input v-model="handlePOESESSID" disabled type="search" placeholder="POESESSID"></b-form-input>
-              </b-input-group>
             </b-col>
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
@@ -125,24 +130,24 @@
                 <b>只顯示線上</b>
               </b-form-checkbox>
             </b-col>
-            <b-col sm="3">
+            <b-col sm="2">
               <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isPriced" :disabled="true" switch>
                 <b>{{ pricedText }}</b>
               </b-form-checkbox>
             </b-col>
             <b-col sm="4" class="lesspadding">
-              <v-select :options="priceSetting.option" v-model="priceSetting.chosenObj" @input="priceSettingChange" :clearable="false" :filterable="false"></v-select>
+              <v-select :options="priceSetting.option" v-model="priceSetting.chosenObj" @input="priceSettingChange" :disabled="isCounting" :clearable="false" :filterable="false"></v-select>
             </b-col>
-            <b-col sm="1" class="lesspadding" style="padding-top: 2px;">
-              <b-form-input v-model.number="priceSetting.min" @change="priceSettingChange" size="sm" type="number" min="0" max="999"></b-form-input>
+            <b-col sm="1.5" class="lesspadding" style="padding-top: 2px;">
+              <b-form-input v-model.number="priceSetting.min" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999"></b-form-input>
             </b-col>
-            <b-col sm="1" class="lesspadding" style="padding-top: 2px;">
-              <b-form-input v-model.number="priceSetting.max" @change="priceSettingChange" size="sm" type="number" min="0" max="999" :style="!isNaN(priceSetting.max) && (priceSetting.max < priceSetting.min) ? 'color: #fc3232; font-weight:bold;' : ''"></b-form-input>
+            <b-col sm="1.5" class="lesspadding" style="padding-top: 2px;">
+              <b-form-input v-model.number="priceSetting.max" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999" :style="!isNaN(priceSetting.max) && (priceSetting.max < priceSetting.min) ? 'color: #fc3232; font-weight:bold;' : ''"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
             <b-col sm="3"></b-col>
-            <b-col sm="3">
+            <b-col sm="2">
               <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="corruptedSet.isSearch" :disabled="true" switch>已汙染</b-form-checkbox>
             </b-col>
             <b-col sm="3">
@@ -450,8 +455,8 @@ export default {
       fetchQueryID: '',
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
-      priceSetting: { // 價格設定 alch
-        min: 1,
+      priceSetting: { // 價格設定
+        min: 0.26,
         max: '',
         option: [{
           label: "與混沌石等值",
