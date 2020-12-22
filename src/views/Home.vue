@@ -48,6 +48,16 @@
       <b-collapse id="collapse-2" class="mt-2">
         <b-card>
           <b-row class="lesspadding" style="padding-left: 2px;">
+            <b-col sm="12" v-if="handlePOESESSID">
+              <b-form-group label="POESESSID" label-cols-sm="5" label-align-sm="right" label-size="sm" class="mb-0">
+                <b-input-group size="sm">
+                  <b-form-input v-model="handlePOESESSID" disabled></b-form-input>
+                  <b-input-group-append>
+                    <b-button @click="$store.commit('setPOESESSID', '')" :disabled="wantedAddedText.length > 0">刪除</b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
             <b-col sm="4">
               <b-form-checkbox style="padding-top: 7px;" class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
                 <b>輿圖區域名稱複製</b>
@@ -97,7 +107,7 @@
             </b-row>
             <b-row style="padding-top: 8px;">
               <b-col sm="4">
-                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="clickCount > 5 && isGem ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
+                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="(clickCount > 5 && isGem) || handlePOESESSID ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
               </b-col>
               <b-col sm="4"></b-col>
               <b-col sm="4">
@@ -110,13 +120,8 @@
       <b-collapse visible id="collapse-1" class="mt-2">
         <b-card>
           <b-row>
-            <b-col sm="5" class="lesspadding">
+            <b-col sm="6" class="lesspadding">
               <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
-            </b-col>
-            <b-col sm="7" class="my-1" v-if="handlePOESESSID">
-              <b-input-group size="sm">
-                <b-form-input v-model="handlePOESESSID" disabled type="search" placeholder="POESESSID"></b-form-input>
-              </b-input-group>
             </b-col>
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
@@ -125,17 +130,30 @@
                 <b>只顯示線上</b>
               </b-form-checkbox>
             </b-col>
-            <b-col sm="3">
-              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isPriced" :disabled="isCounting" switch>
+            <b-col sm="2">
+              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isPriced" :disabled="true" switch>
                 <b>{{ pricedText }}</b>
               </b-form-checkbox>
             </b-col>
-            <b-col sm="3">
+            <b-col sm="4" class="lesspadding">
+              <v-select :options="priceSetting.option" v-model="priceSetting.chosenObj" @input="priceSettingChange" :disabled="isCounting" :clearable="false" :filterable="false"></v-select>
+            </b-col>
+            <b-col sm="1.5" class="lesspadding" style="padding-top: 2px;">
+              <b-form-input v-model.number="priceSetting.min" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999"></b-form-input>
+            </b-col>
+            <b-col sm="1.5" class="lesspadding" style="padding-top: 2px;">
+              <b-form-input v-model.number="priceSetting.max" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999" :style="!isNaN(priceSetting.max) && (priceSetting.max < priceSetting.min) ? 'color: #fc3232; font-weight:bold;' : ''"></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
+            <b-col sm="3"></b-col>
+            <b-col sm="2">
               <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="corruptedSet.isSearch" :disabled="true" switch>已汙染</b-form-checkbox>
             </b-col>
             <b-col sm="3">
               <v-select :options="corruptedSet.option" v-model="corruptedSet.chosenObj" @input="corruptedInput" :disabled="!isSearchJson || isCounting" label="label" :clearable="false" :filterable="false"></v-select>
             </b-col>
+            <b-col sm="3"></b-col>
           </b-row>
         </b-card>
       </b-collapse>
@@ -348,7 +366,7 @@
               <td style="width: 45px;">
                 <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
               </td>
-              <td style="width: 45px; cursor: pointer; user-select:none;" :style="statsFontColor(item.type)" @click="item.isSearch = !item.isSearch">{{ item.type }} </td>
+              <td style="width: 55px; cursor: pointer; user-select:none;" :style="statsFontColor(item.type)" @click="item.isSearch = !item.isSearch">{{ item.type }} </td>
               <td style="cursor: pointer; user-select:none; white-space:pre-wrap;" @click="item.isSearch = !item.isSearch">{{ item.text }} </td>
               <td style="width: 64px; padding-top: 5px !important;">
                 <div style="padding:0px 4px 0px 6px;">
@@ -437,6 +455,27 @@ export default {
       fetchQueryID: '',
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
+      priceSetting: { // 價格設定
+        min: 0.26,
+        max: '',
+        option: [{
+          label: "與混沌石等值",
+          prop: ''
+        }, {
+          label: "點金石",
+          prop: 'alch'
+        }, {
+          label: "混沌石",
+          prop: 'chaos'
+        }, {
+          label: "崇高石",
+          prop: 'exa'
+        }, ],
+        chosenObj: {
+          label: "與混沌石等值",
+          prop: ''
+        }
+      },
       leagues: { // 搜尋聯盟 
         option: [],
         chosenL: ""
@@ -630,6 +669,9 @@ export default {
               "filters": {
                 "sale_type": {
                   "option": "priced"
+                },
+                "price": {
+                  "min": 1
                 }
               }
             },
@@ -761,6 +803,7 @@ export default {
       this.itemBasic.isSearch = false
       this.gemLevel.isSearch = false
       this.gemLevel.max = ''
+      this.gemQuality.isSearch = false
       this.gemQuality.max = ''
       this.corruptedSet.chosenObj = {
         label: "任何",
@@ -1295,10 +1338,26 @@ export default {
       this.searchTrade(this.searchJson)
     }, 500),
     itemStatsAnalysis(itemArray, rarityFlag) {
+      if (itemArray[itemArray.length - 2].indexOf(': ~b/o') > -1 || itemArray[itemArray.length - 2].indexOf(': ~price') > -1) {
+        // 處理在高倉標價後搜尋的物品陣列
+        itemArray.splice(itemArray.length - 3, 2)
+      }
+      if (itemArray.indexOf('塑者之物') > -1) // 勢力判斷由 itemAnalysis function 處理
+        itemArray.splice(itemArray.indexOf('塑者之物'), 1)
+      if (itemArray.indexOf('尊師之物') > -1)
+        itemArray.splice(itemArray.indexOf('尊師之物'), 1)
+      if (itemArray.indexOf('聖戰軍王物品') > -1)
+        itemArray.splice(itemArray.indexOf('聖戰軍王物品'), 1)
+      if (itemArray.indexOf('救贖者物品') > -1)
+        itemArray.splice(itemArray.indexOf('救贖者物品'), 1)
+      if (itemArray.indexOf('狩獵者物品') > -1)
+        itemArray.splice(itemArray.indexOf('狩獵者物品'), 1)
+      if (itemArray.indexOf('總督軍物品') > -1)
+        itemArray.splice(itemArray.indexOf('總督軍物品'), 1)
+
       this.isStatsCollapse = rarityFlag ? false : true
       let tempStat = []
       let itemDisplayStats = [] // 該物品顯示的詞綴陣列
-      let itemLevelIndex = 0 // 物品等級於陣列中的位置
       let itemStatStart = 0 // 物品隨機詞綴初始位置
       let itemStatEnd = itemArray.length - 1 // 物品隨機詞綴結束位置
 
@@ -1314,7 +1373,6 @@ export default {
           itemStatStart = index + 2
         } else if (stringSimilarity.compareTwoStrings(element, '物品等級:') > 0.7) {
           itemStatStart = index + 2
-          itemLevelIndex = index
         }
         this.wrapStats.forEach((wrapStatsElement, wrapStatsIndex) => {
           let firstWSE = wrapStatsElement.split("\n")[0]
@@ -1370,9 +1428,28 @@ export default {
       });
 
       function findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用 '#' 取代的兩種字串皆判斷並取最符合那一筆
+        let floatValue = []
+        let reference = []
+
         let originalObj = stringSimilarity.findBestMatch(text, stats)
         let modifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
-        return originalObj.bestMatch.rating > modifiedObj.bestMatch.rating ? originalObj : modifiedObj
+
+        reference.push(originalObj, modifiedObj)
+        floatValue.push(originalObj.bestMatch.rating, modifiedObj.bestMatch.rating)
+
+        if (text.includes('減少')) { // 處理物品上原先詞綴包含 '減少' 的情況：因部分詞綴於 api 中只顯示 '增加'，會造成詞綴誤判
+          text = text.replace('減少', '增加')
+          let specialOriginalObj = stringSimilarity.findBestMatch(text, stats)
+          let specialModifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
+          reference.push(specialOriginalObj, specialModifiedObj)
+          floatValue.push(specialOriginalObj.bestMatch.rating, specialModifiedObj.bestMatch.rating)
+          // console.log(floatValue)
+        }
+
+        let maxFloat = Math.max.apply(null, floatValue);
+        let index = floatValue.indexOf(maxFloat);
+
+        return reference[index]
       }
       for (let index = itemStatStart; index < itemStatEnd; index++) {
         if (itemArray[index] !== "--------") {
@@ -1405,10 +1482,11 @@ export default {
       }
       // console.log(itemDisplayStats)
       // console.log(tempStat)
-      tempStat.forEach((element, index) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
+      let elementalResistanceTotal = 0
+      tempStat.forEach((element, idx, array) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
-        let itemStatText = itemDisplayStats[index] // 物品上的詞綴字串
+        let itemStatText = itemDisplayStats[idx] // 物品上的詞綴字串
         switch (true) { // 偽屬性、部分(Local)屬性判斷處理
           case statID.indexOf('stat_210067635') > -1: // 攻擊速度 (部分)
             statID = 'pseudo.pseudo_total_attack_speed'
@@ -1483,11 +1561,11 @@ export default {
           apiStatText = `配置塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
         } else {
           for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
-            if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最大值
+            if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 物品詞綴最大值
               randomMaxValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
               randomMaxValue = isNaN(randomMaxValue) ? '' : randomMaxValue
             }
-            if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 最小值
+            if (!randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 物品詞綴最小值
               randomMinValue = parseFloat(itemStatArray[index].replace(/[+-]^\D+/g, ''))
               randomMinValue = isNaN(randomMinValue) ? '' : randomMinValue
               if (matchStatArray[index]) {
@@ -1511,6 +1589,38 @@ export default {
           let tempValue = randomMinValue
           randomMaxValue = tempValue
           randomMinValue = tempValue - 1
+        } else if (randomMaxValue) { // 物品中包含 "# 至 #" 的詞綴，在官方市集搜尋中皆以相加除二作搜尋
+          randomMinValue = (randomMinValue + randomMaxValue) / 2
+          randomMaxValue = ''
+        }
+        switch (true) { // 計算三元素抗性至偽屬性
+          case statID.indexOf('stat_3372524247') > -1 || statID.indexOf('stat_1671376347') > -1 || statID.indexOf('stat_4220027924') > -1:
+            // 單抗詞綴 '火焰抗性' || '閃電抗性' || '冰冷抗性'
+            elementalResistanceTotal += randomMinValue
+            break;
+          case statID.indexOf('stat_2915988346') > -1 || statID.indexOf('stat_3441501978') > -1 || statID.indexOf('stat_4277795662') > -1:
+            // 雙抗詞綴 '火焰與冰冷抗性' || '火焰與閃電抗性' || '冰冷與閃電抗性'
+            elementalResistanceTotal += (randomMinValue * 2)
+            break;
+          case statID.indexOf('stat_2901986750') > -1:
+            // 三抗詞綴 '全部元素抗性'
+            elementalResistanceTotal += (randomMinValue * 3)
+            break;
+          default:
+            break;
+        }
+        if (elementalResistanceTotal && idx === array.length - 1) {
+          this.searchStats.unshift({ // 若該裝備有抗性詞，增加偽屬性至詞綴最前端
+            "id": "pseudo.pseudo_total_elemental_resistance",
+            "text": `+#% 元素抗性`,
+            "option": optionValue,
+            "min": elementalResistanceTotal,
+            "max": '',
+            "isValue": true,
+            "isNegative": false,
+            "isSearch": false,
+            "type": "偽屬性"
+          })
         }
         this.searchStats.push({
           "id": statID,
@@ -1692,13 +1802,6 @@ export default {
         }
       }
     },
-    categoryChange(value) {
-      if (this.isSearchJson) {
-        this.searchJson.query.filters.type_filters.filters.category = { // 修改物品種類 filter
-          "option": this.itemCategory.chosenObj.prop
-        }
-      }
-    },
     corruptedInput() { // 已汙染設定
       if (this.isSearchJson && this.corruptedSet.chosenObj.prop === 'any') {
         delete this.searchJson.query.filters.misc_filters.filters.corrupted // 刪除已汙染 filter
@@ -1732,6 +1835,13 @@ export default {
         }
       }
     },
+    categoryChange(value) {
+      if (this.isSearchJson) {
+        this.searchJson.query.filters.type_filters.filters.category = { // 修改物品種類 filter
+          "option": this.itemCategory.chosenObj.prop
+        }
+      }
+    },
     exBasicChange(value) {
       let exSearchItem = !this.itemExBasic.chosenObj.prop ? '' : this.itemExBasic.chosenObj.prop // 前一個搜尋的勢力選項
       if (this.isSearchJson && this.searchJson.query.filters.misc_filters.filters.hasOwnProperty(exSearchItem)) {
@@ -1743,6 +1853,23 @@ export default {
         }
       }
       this.itemExBasic.chosenObj = value
+    },
+    priceSettingChange() {
+      this.searchJson_Def.query.filters.trade_filters.filters.price.min = this.priceSetting.min
+      this.searchJson_Def.query.filters.trade_filters.filters.price.max = this.priceSetting.max
+      if (this.priceSetting.chosenObj.prop) {
+        this.searchJson_Def.query.filters.trade_filters.filters.price.option = this.priceSetting.chosenObj.prop
+      } else {
+        delete this.searchJson_Def.query.filters.trade_filters.filters.price.option
+      }
+      if (this.isSearchJson) {
+        this.searchJson.query.filters.trade_filters.filters.price = this.searchJson_Def.query.filters.trade_filters.filters.price
+        this.searchTrade(this.searchJson)
+      }
+      this.$message({
+        type: 'success',
+        message: `價格設置已更新！`
+      });
     },
     mapAnalysis(item, itemArray, Rarity) {
       // this.itemStatsAnalysis(itemArray, 1) 地圖先不加入詞綴判斷
