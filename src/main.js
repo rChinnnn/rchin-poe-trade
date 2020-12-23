@@ -17,6 +17,10 @@ import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 Vue.component('v-select', vSelect)
 
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
+Vue.component('multiselect', Multiselect)
+
 import VueCountdown from '@chenfengyuan/vue-countdown';
 Vue.component(VueCountdown.name, VueCountdown);
 

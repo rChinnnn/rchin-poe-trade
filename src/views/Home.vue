@@ -120,8 +120,11 @@
       <b-collapse visible id="collapse-1" class="mt-2">
         <b-card>
           <b-row>
-            <b-col sm="6" class="lesspadding">
-              <v-select :options="leagues.option" v-model="leagues.chosenL" :clearable="false" :filterable="false"></v-select>
+            <!-- <b-col sm="5" class="lesspadding">
+              <v-select :options="leagues.option" v-model="leagues.chosenL" :searchable="false" :clearable="false" :filterable="false"></v-select>
+            </b-col> -->
+            <b-col sm="5" class="lesspadding">
+              <multiselect :options="leagues.option" v-model="leagues.chosenL" :showLabels="false" :searchable="false" :allow-empty="false"></multiselect>
             </b-col>
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
@@ -138,10 +141,10 @@
             <b-col sm="4" class="lesspadding">
               <v-select :options="priceSetting.option" v-model="priceSetting.chosenObj" @input="priceSettingChange" :disabled="isCounting" :clearable="false" :filterable="false"></v-select>
             </b-col>
-            <b-col sm="1.5" class="lesspadding" style="padding-top: 2px;">
+            <b-col sm="1" class="lesspadding" style="padding-top: 2px;">
               <b-form-input v-model.number="priceSetting.min" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999"></b-form-input>
             </b-col>
-            <b-col sm="1.5" class="lesspadding" style="padding-top: 2px;">
+            <b-col sm="1" class="lesspadding" style="padding-top: 2px;">
               <b-form-input v-model.number="priceSetting.max" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999" :style="!isNaN(priceSetting.max) && (priceSetting.max < priceSetting.min) ? 'color: #fc3232; font-weight:bold;' : ''"></b-form-input>
             </b-col>
           </b-row>
@@ -456,7 +459,7 @@ export default {
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
       priceSetting: { // 價格設定
-        min: 0.26,
+        min: 0.3,
         max: '',
         option: [{
           label: "與混沌石等值",
@@ -2393,6 +2396,38 @@ tbody.searchStats>tr>td {
 .vs__dropdown-option--selected {
   background: lightskyblue !important;
   color: #333 !important;
+}
+
+.multiselect,
+.multiselect__input,
+.multiselect__single {
+  font-size: 13px !important;
+}
+
+.multiselect__tags {
+  font-size: 13px !important;
+}
+
+.multiselect__tag-icon:after {
+  font-size: 13px !important;
+}
+
+.multiselect .multiselect__option {
+  padding: 8px 12px;
+  height: 30px !important;
+  min-height: 30px !important;
+}
+
+.multiselect .multiselect__input,
+.multiselect .multiselect__single {
+  cursor: pointer;
+  background: transparent;
+  border-radius: 0;
+  margin-bottom: 0px;
+  padding: 1px 4px;
+  text-overflow: clip;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .statsFontColor {
