@@ -132,14 +132,8 @@ export default {
           this.$emit('countdown', 4 / 1.33)
           break;
         case 13:
-          this.$emit('countdown', 6 / 1.33)
-          break;
         case 14:
-          this.$emit('countdown', 6 / 1.33)
-          break;
         case 15:
-          this.$emit('countdown', 6 / 1.33)
-          break;
         case 16:
           this.$emit('countdown', 6 / 1.33)
           break;

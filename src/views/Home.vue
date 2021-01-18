@@ -392,11 +392,28 @@
         </b-row>
       </b-collapse>
     </b-container>
-    <h6 v-html="status"></h6>
+    <h6 v-html="status" style="padding-top: 10px;"></h6>
   </div>
   <div>
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ whichServer }} 官方交易市集</b-button>
     <PriceAnalysis @countdown="startCountdown" @refresh="searchTrade(searchJson)" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal"></PriceAnalysis>
+  </div>
+  <div v-if="!isSupported" style="padding:5px 30px;">
+    <b-card header="問題回報" border-variant="info" header-bg-variant="info" header-text-variant="white" align="center">
+      <div @click="issueTextCopy" style="padding: 0px 100px;">
+        <b-form-textarea v-model="issueText" size="sm" disabled style="cursor: pointer;" max-rows="15"></b-form-textarea>
+      </div>
+      <b-card-text style="padding-top: 20px;">
+        <span>可點選複製以上物品字串至 </span>
+        <b-button @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/issues`)" size="sm" variant="outline-primary" class="mb-2">
+          GitHub Issue
+        </b-button> /
+        <b-button @click="openLink(`https://forum.gamer.com.tw/C.php?bsn=18966&snA=123938`)" size="sm" variant="outline-primary" class="mb-2">
+          巴哈姆特討論串
+        </b-button>
+        <span> 回報，感謝！</span>
+      </b-card-text>
+    </b-card>
   </div>
 </div>
 </template>
@@ -443,6 +460,8 @@ export default {
       isMapCollapse: true,
       isGemCollapse: true,
       isStatsCollapse: true,
+      isSupported: true,
+      issueText: '',
       isMapAreaCollapse: false,
       searchStats: [], // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
       pseudoStats: [], // 偽屬性
@@ -459,7 +478,7 @@ export default {
       allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
       priceSetting: { // 價格設定
-        min: 0.3,
+        min: 0.1,
         max: '',
         option: [{
           label: "與混沌石等值",
@@ -797,6 +816,7 @@ export default {
       this.isMap = false
       this.isItem = false
       this.isGem = false
+      this.isSupported = true
       this.raritySet.isSearch = false
       this.itemLevel.isSearch = false
       this.itemLevel.max = ''
@@ -906,7 +926,10 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.status = `此次搜尋異常，煩請至 巴哈討論串 / Github Issue 回報複製後的物品字串，感謝！<br>${errMsg}`
+          vm.status = `此次搜尋異常！${errMsg}`
+          vm.issueText = vm.copyText.replace('稀有度: ', 'Rarity: ')
+          vm.isSupported = false
+          vm.isStatsCollapse = false
           vm.$message({
             type: 'error',
             message: errMsg
@@ -916,7 +939,9 @@ export default {
     }, 300),
     popOfficialWebsite() {
       shell.openExternal(`${this.baseUrl}/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
-      // window.open(`https://web.poe.garena.tw/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`, '_blank', 'nodeIntegration=no')
+    },
+    openLink(URL) {
+      shell.openExternal(URL)
     },
     startCountdown(Time) {
       this.countTime = Time * 1000
@@ -1319,6 +1344,14 @@ export default {
         message: `${name} 區域已複製!`
       });
       this.isMapAreaCollapse = false
+    },
+    issueTextCopy() {
+      clipboard.writeText(this.issueText)
+      this.$message({
+        duration: 1200,
+        type: 'success',
+        message: `有狀況的物品字串已複製!`
+      });
     },
     addAfterCopyText() {
       clipboard.writeText(`${clipboard.readText()} ${this.wantedAddedText}`)
@@ -2048,7 +2081,7 @@ export default {
   watch: {
     copyText: function () {
       let item = this.copyText;
-      if (item.indexOf('稀有度:') === -1 || !this.copyText || this.isApiError) { // POE 內的文字必定有稀有度
+      if (item.indexOf('稀有度: ') === -1 || !this.copyText || this.isApiError) { // POE 內的文字必定有稀有度
         return
       }
       if (this.isCounting) {
@@ -2188,7 +2221,10 @@ export default {
         this.itemStatsAnalysis(itemArray, 0)
         return
       } else {
-        this.status = this.isItem ? '' : `目前版本尚未支援搜尋鍊魔器官及 3.12 新試驗基底、聯盟相關道具`
+        this.status = `目前版本尚未支援搜尋該道具`
+        this.issueText = this.copyText.replace('稀有度: ', 'Rarity: ')
+        this.isSupported = false
+        this.isStatsCollapse = false
         return
       }
       this.searchTrade(this.searchJson)
