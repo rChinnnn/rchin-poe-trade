@@ -44,24 +44,25 @@
     app.post('/ignorePUT', function (req, res) {
       console.log(moment().format('HH:mm:ss'), "call ignore(PUT) API")
       console.log(req.body)
+      let baseUrl = req.body.baseUrl
       let accountName = encodeURI(req.body.accountName)
       let options = {
-        url: `https://web.poe.garena.tw/api/trade/ignore/${accountName}`,
+        url: `${baseUrl}/api/trade/ignore/${accountName}`,
         method: 'PUT',
         headers: {
           'Cookie': req.body.cookie,
-          'Host': 'web.poe.garena.tw',
+          'Host': baseUrl.replace('https://', ''),
           'Connection': 'keep-alive',
           'Content-Length': 0,
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache',
           'Accept': '*/*',
           'X-Requested-With': 'XMLHttpRequest',
-          'Origin': 'https://web.poe.garena.tw',
+          'Origin': baseUrl,
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'rChinPoeTrade/v1.312.5',
+          'User-Agent': 'rChinPoeTrade/v1.313.1',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -69,38 +70,7 @@
       }
       request(options, function (error, response, body) {
         // console.log(response.statusCode, body)
-        res.send(body);
-      });
-    });
-    app.post('/ignoreDELETE', function (req, res) {
-      console.log(moment().format('HH:mm:ss'), "call ignore(DELETE) API")
-      console.log(req.body)
-      let accountName = encodeURI(req.body.accountName)
-      let options = {
-        url: `https://web.poe.garena.tw/api/trade/ignore/${accountName}`,
-        method: 'DELETE',
-        headers: {
-          'Cookie': req.body.cookie,
-          'Host': 'web.poe.garena.tw',
-          'Connection': 'keep-alive',
-          'Content-Length': 0,
-          'Pragma': 'no-cache',
-          'Cache-Control': 'no-cache',
-          'Accept': '*/*',
-          'X-Requested-With': 'XMLHttpRequest',
-          'Origin': 'https://web.poe.garena.tw',
-          'Sec-Fetch-Site': 'same-origin',
-          'Sec-Fetch-Mode': 'cors',
-          'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'rChinPoeTrade/v1.312.5',
-        },
-        rejectUnauthorized: false,
-        requestCert: false,
-        agent: false,
-      }
-      request(options, function (error, response, body) {
-        // console.log(response.statusCode, body)
-        res.send(body);
+        res.status(response.statusCode).send(body);
       });
     });
 
@@ -139,7 +109,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'rChinPoeTrade/v1.312.5',
+          'User-Agent': 'rChinPoeTrade/v1.313.1',
         },
         rejectUnauthorized: false,
         requestCert: false,

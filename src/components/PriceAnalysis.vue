@@ -155,7 +155,8 @@ export default {
         this.axios.all(accounts.map(element => {
             return this.axios.post(`http://localhost:3031/ignorePUT`, {
               accountName: `${element}`,
-              cookie: `POESESSID=${this.$store.state.POESESSID};`,
+              baseUrl: this.baseUrl,
+              cookie: `POESESSID=${this.$store.state.POESESSID}`
             })
           }))
           .then(vm.axios.spread((...res) => {
