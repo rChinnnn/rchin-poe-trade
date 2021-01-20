@@ -132,14 +132,8 @@ export default {
           this.$emit('countdown', 4 / 1.33)
           break;
         case 13:
-          this.$emit('countdown', 6 / 1.33)
-          break;
         case 14:
-          this.$emit('countdown', 6 / 1.33)
-          break;
         case 15:
-          this.$emit('countdown', 6 / 1.33)
-          break;
         case 16:
           this.$emit('countdown', 6 / 1.33)
           break;
@@ -161,7 +155,8 @@ export default {
         this.axios.all(accounts.map(element => {
             return this.axios.post(`http://localhost:3031/ignorePUT`, {
               accountName: `${element}`,
-              cookie: `POESESSID=${this.$store.state.POESESSID};`,
+              baseUrl: this.baseUrl,
+              cookie: `POESESSID=${this.$store.state.POESESSID}`
             })
           }))
           .then(vm.axios.spread((...res) => {
