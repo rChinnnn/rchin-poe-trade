@@ -353,6 +353,10 @@
     <hr v-else>
     <h5 :style="isItem && searchStats.length > 0 ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
     <b-container class="bv-example-row">
+      <b-collapse :visible="!isStatsCollapse && searchStats.length > 0">
+        <b-icon-card-text @click="isStatsCollapse = !isStatsCollapse" style="cursor: pointer; user-select:none;"></b-icon-card-text>
+        <b-icon-arrows-expand @click="isStatsCollapse = !isStatsCollapse" style="cursor: pointer; user-select:none;"></b-icon-arrows-expand>
+      </b-collapse>
       <b-collapse :visible="isStatsCollapse && searchStats.length > 0">
         <table class="table table-sm">
           <thead class="thead-dark">
@@ -385,7 +389,11 @@
           </tbody>
         </table>
         <b-row>
-          <b-col sm="10"></b-col>
+          <b-col sm="2"></b-col>
+          <b-col sm="8">
+            <b-icon-card-text @click="isStatsCollapse = !isStatsCollapse" style="cursor: pointer; user-select:none;"></b-icon-card-text>
+            <b-icon-arrows-collapse @click="isStatsCollapse = !isStatsCollapse" style="cursor: pointer; user-select:none;"></b-icon-arrows-collapse>
+          </b-col>
           <b-col sm="2">
             <b-button @click="clickToSearch" :disabled="isCounting" variant="outline-primary">查詢</b-button>
           </b-col>
@@ -412,6 +420,10 @@
           巴哈姆特討論串
         </b-button>
         <span> 回報，感謝！</span>
+        <hr>
+        <b-button @click="searchTrade(searchJson)" size="sm" variant="outline-info" class="mb-2">
+          <b-icon-arrow-repeat></b-icon-arrow-repeat> 或點我重新查詢 <b-icon-arrow-repeat></b-icon-arrow-repeat>
+        </b-button>
       </b-card-text>
     </b-card>
   </div>
@@ -475,7 +487,7 @@ export default {
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       searchName: '',
       fetchQueryID: '',
-      allItems: [], // 物品 API 抓回來的資料
+      // allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
       priceSetting: { // 價格設定
         min: 0.1,
@@ -693,7 +705,7 @@ export default {
                   "option": "priced"
                 },
                 "price": {
-                  "min": 1
+                  "min": 0.1
                 }
               }
             },
@@ -885,6 +897,7 @@ export default {
     }, 500),
     searchTrade: _.debounce(function (obj) {
       let vm = this
+      this.isSupported = true
       if (this.searchJson.query.stats[0].filters.length === 0) {
         this.searchStats.forEach((element, index, array) => {
           let value = {}
@@ -926,8 +939,8 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.status = `此次搜尋異常！${errMsg}`
-          vm.issueText = vm.copyText.replace('稀有度: ', 'Rarity: ')
+          vm.issueText = `此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
           vm.$message({
@@ -1045,8 +1058,7 @@ export default {
       this.gemBasic.option.length = 0
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
         .then((response) => {
-          this.allItems = response.data.result
-          // TODO: 把 allItems 改為可套用至全域搜尋的資料格式
+          // this.allItems = response.data.result
           let result = response.data.result
           result[0].entries.forEach((element, index) => { // "label": "飾品"
             const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
@@ -1229,6 +1241,21 @@ export default {
                 break;
             }
           });
+          result[12].entries.forEach((element, index) => { // "label": "守望石"
+            const basetype = ["象白守望石"]
+            if (_.isUndefined(element.flags)) {
+              heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+            }
+            switch (heistIndex) {
+              case 1: // 一般守望石起始點 { "type": "象白守望石", "text": "象白守望石" }
+                element.name = "守望石"
+                element.option = "watchstone"
+                this.equipItems.push(element)
+                break;
+              default:
+                break;
+            }
+          });
           result[13].entries.forEach((element, index) => { // "label": "劫盜裝備"
             const basetype = ["鰻皮鞋底"]
             if (_.isUndefined(element.flags)) {
@@ -1248,6 +1275,10 @@ export default {
             const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
             if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
               this.mapBasic.option.push(element.text)
+            } else if (element.text.indexOf('釋界之邀：') > -1) { // 3.13 釋界之邀
+              element.name = "釋界之邀"
+              element.option = "map.invitation"
+              this.equipItems.push(element)
             }
           });
           result[5].entries.forEach((element, index) => { // "label": "技能寶石"
@@ -1519,12 +1550,13 @@ export default {
       // console.log(itemDisplayStats)
       // console.log(tempStat)
       let elementalResistanceTotal = 0
+      let spellDamageTotal = 0
       tempStat.forEach((element, idx, array) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
         let itemStatText = itemDisplayStats[idx] // 物品上的詞綴字串
         switch (true) { // 偽屬性、部分(Local)屬性判斷處理
-          case statID.indexOf('stat_210067635') > -1: // 攻擊速度 (部分)
+          case statID.indexOf('stat_210067635') > -1 || statID.indexOf('stat_681332047') > -1: // 攻擊速度 (部分) 
             statID = 'pseudo.pseudo_total_attack_speed'
             break;
           case statID.indexOf('stat_3489782002') > -1 || statID.indexOf('stat_4052037485') > -1: // # 最大能量護盾 (部分)
@@ -1642,6 +1674,10 @@ export default {
             // 三抗詞綴 '全部元素抗性'
             elementalResistanceTotal += (randomMinValue * 3)
             break;
+          case statID.indexOf('stat_2974417149') > -1:
+            // "增加 #% 法術傷害"
+            spellDamageTotal += randomMinValue
+            break;
           default:
             break;
         }
@@ -1651,6 +1687,19 @@ export default {
             "text": `+#% 元素抗性`,
             "option": optionValue,
             "min": elementalResistanceTotal,
+            "max": '',
+            "isValue": true,
+            "isNegative": false,
+            "isSearch": false,
+            "type": "偽屬性"
+          })
+        }
+        if (spellDamageTotal && idx === array.length - 1) {
+          this.searchStats.unshift({ // 計算法術傷害偽屬性
+            "id": "pseudo.pseudo_increased_spell_damage",
+            "text": `增加 #% 法術傷害`,
+            "option": optionValue,
+            "min": spellDamageTotal,
             "max": '',
             "isValue": true,
             "isNegative": false,
@@ -1747,10 +1796,6 @@ export default {
           prop: matchItem.weapon === "weapon.one" ? "weapon.one" : "weapon.twomelee",
         })
       }
-      if (matchItem.option === 'heistequipment') {
-        this.itemBasic.isSearch = true
-        this.isItemBasicSearch()
-      }
       this.itemCategory.isSearch = true
       this.isItemCategorySearch()
       // 判斷勢力基底
@@ -1797,6 +1842,19 @@ export default {
           break;
       }
       this.isExBasicSearch()
+
+      switch (matchItem.option) { // 藥劑、守望石、釋界之邀、劫盜裝備會自動搜尋該基底
+        case 'flask':
+        case 'watchstone':
+        case 'map.invitation':
+        case 'heistequipment':
+          this.itemBasic.isSearch = true
+          this.isItemBasicSearch()
+          this.searchTrade(this.searchJson)
+          break;
+        default:
+          break;
+      }
     },
     isItemLevelSearch() {
       if (!this.itemLevel.isSearch && this.isSearchJson) {
@@ -2117,7 +2175,7 @@ export default {
         // console.log(itemNameString, itemNameStringIndex)
         if (itemNameStringIndex > -1 && !itemBasicCount && (itemNameString.indexOf('碎片') === -1 || Rarity !== '傳奇')) {
           itemBasicCount++
-          element.text = this.isGarenaSvr ? element.text : this.replaceString(itemNameString)
+          element.text = this.isGarenaSvr ? element.text : this.replaceString(itemArray[2] === "--------" ? itemArray[1] : itemArray[2])
           this.itemAnalysis(item, itemArray, element)
           this.isItem = true
           this.isItemCollapse = true
@@ -2209,20 +2267,20 @@ export default {
         }
         this.gemQuality.min = minQuality
         this.isGemQualitySearch()
-      } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1)) {
-        // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器
+      } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1 || item.indexOf('將你之前祭祀神壇保存的怪物加入至該地圖的祭祀神壇中') > -1 || item.indexOf('使用此物品開啟前往無悲憫與同情之地的時空之門') > -1)) {
+        // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器、浸血碑器、釋界之令 
         this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
         let name = this.isGarenaSvr ? searchName : this.replaceString(searchName.split('(')[1])
         this.searchJson.query.name = name
-      } else if (item.indexOf('地圖階級') > -1) { // 地圖搜尋
+      } else if (item.indexOf('地圖階級: ') > -1) { // 地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
-      } else if (this.isItem && (Rarity === "稀有" || Rarity === "魔法" || Rarity === "普通")) {
+      } else if (this.isItem) {
         this.itemStatsAnalysis(itemArray, 0)
         return
       } else {
-        this.status = `目前版本尚未支援搜尋該道具`
-        this.issueText = this.copyText.replace('稀有度: ', 'Rarity: ')
+        this.itemsAPI()
+        this.issueText = `目前版本尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
@@ -2371,6 +2429,11 @@ export default {
           case '傳奇':
             return {
               'color': '#af6025'
+            }
+            break;
+          case '偽屬性':
+            return {
+              'color': '#96bf47'
             }
             break;
           default:

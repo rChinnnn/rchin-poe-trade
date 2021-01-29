@@ -62,7 +62,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'rChinPoeTrade/v1.313.1',
+          'User-Agent': 'rChinPoeTrade/v1.313.2',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -109,7 +109,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'rChinPoeTrade/v1.313.1',
+          'User-Agent': 'rChinPoeTrade/v1.313.2',
         },
         rejectUnauthorized: false,
         requestCert: false,

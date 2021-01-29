@@ -198,7 +198,7 @@ export default {
           []
         ]
         this.itemImage = ''
-        if (this.isLoading || !this.isPriced || val.length === 0) {
+        if (!this.isPriced || val.length === 0) {
           return
         }
         let indexLength = val.length >= 4 ? 4 : val.length
