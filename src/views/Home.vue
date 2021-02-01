@@ -1051,7 +1051,7 @@ export default {
       let flasksIndex = 0
       let jewelIndex = 0
       let weaponIndex = 0
-      let mapIndex = 0
+      let watchstoneIndex = 0
       let heistIndex = 0
       this.equipItems.length = 0
       this.mapBasic.option.length = 0
@@ -1244,9 +1244,9 @@ export default {
           result[12].entries.forEach((element, index) => { // "label": "守望石"
             const basetype = ["象白守望石"]
             if (_.isUndefined(element.flags)) {
-              heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+              watchstoneIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
             }
-            switch (heistIndex) {
+            switch (watchstoneIndex) {
               case 1: // 一般守望石起始點 { "type": "象白守望石", "text": "象白守望石" }
                 element.name = "守望石"
                 element.option = "watchstone"
