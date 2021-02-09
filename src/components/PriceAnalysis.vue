@@ -9,7 +9,7 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析
-            <b-icon-arrow-repeat v-show="$store.state.POESESSID" @click="isCounting ? '' : $emit('refresh')" :style="[`cursor: ${isCounting ? `not-allowed` : `pointer`};`,'margin-left: 3px;']" v-b-tooltip.hover.top.v-secondary :title="`重新整理`"></b-icon-arrow-repeat>
+            <span v-if="corruptedCount" :style="`${corruptedCount > 5 && corruptedCount !== fetchResultPrice.length ? 'color: lightpink;' : ''}`"><br>{{ corruptedCount }} 筆已汙染</span>
             <br>
             <b-button v-if="searchTotal > 40 && fetchResultPrice.length <= 40" @click="priceAnalysis(8)" :disabled="isCounting" size="sm" variant="outline-light">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
           </th>
@@ -17,7 +17,8 @@
       </thead>
       <tbody @mouseleave="hoveredIndex = -1">
         <tr v-for="(item, index) in collectionCurrency" :key="index">
-          <td :style="`opacity: ${hoveredIndex == index ? 1 : parseFloat(item.accountName.length / item.count)};`" @mouseover="handleHover(index)">
+          <td :style="`opacity: ${hoveredIndex == index ? 1 : parseFloat(item.accountName.length / item.count)}; 
+                       color: ${maxValuableIndex == index && parseFloat(item.accountName.length / item.count) > 0.85 ? 'darkred;' : ''}`">
             報價：{{ item.amount }} x
             <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img>
             / <b>{{ item.count }}</b>筆（<b>{{ item.accountName.length }}</b>人標）
@@ -25,9 +26,11 @@
           </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tfoot v-show="$store.state.POESESSID">
         <tr>
-          <td></td>
+          <th>
+            <b-icon-arrow-repeat @click="isCounting ? '' : $emit('refresh')" :style="[`cursor: ${isCounting ? `not-allowed` : `pointer`};`,'margin-left: 3px;']" v-b-tooltip.hover.top.v-secondary :title="`重新整理`"></b-icon-arrow-repeat>
+          </th>
         </tr>
       </tfoot>
     </table>
@@ -279,6 +282,17 @@ export default {
         }
       });
       return targetIndex
+    },
+    corruptedCount() { // 計算已污染的數量
+      let count = 0
+      this.fetchResult.flat(Infinity).map(item => {
+        return Object.values(item)[2]
+      }).forEach(element => {
+        if (element.corrupted) {
+          count++
+        }
+      })
+      return count
     },
   },
 }
