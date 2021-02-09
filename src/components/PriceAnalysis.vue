@@ -126,7 +126,7 @@ export default {
         })
     },
     switchLimitState(limitState) {
-      // console.log(limitState)
+      // console.log('PriceAnalysis', limitState)
       switch (limitState) {
         case 12:
           this.$emit('countdown', 4 / 1.33)

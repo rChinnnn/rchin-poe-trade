@@ -130,10 +130,13 @@
             }
             fetchID[idx].push(element)
           });
+          let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
+          let limitState = limitString[0].substring(0, limitString[0].indexOf(':'))
           res.send({
             id: body.id,
             total: body.total,
-            fetchID: fetchID
+            fetchID: fetchID,
+            limitState: parseInt(limitState, 10) 
           });
         } else {
           res.status(response.statusCode).send(body);
