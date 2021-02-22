@@ -420,10 +420,6 @@
           巴哈姆特討論串
         </b-button>
         <span> 回報，感謝！</span>
-        <hr>
-        <b-button @click="searchTrade(searchJson)" size="sm" variant="outline-info" class="mb-2">
-          <b-icon-arrow-repeat></b-icon-arrow-repeat> 或點我重新查詢 <b-icon-arrow-repeat></b-icon-arrow-repeat>
-        </b-button>
       </b-card-text>
     </b-card>
   </div>
@@ -479,6 +475,7 @@ export default {
       pseudoStats: [], // 偽屬性
       explicitStats: [], // 隨機屬性
       implicitStats: [], // 固定屬性
+      fracturedStats: [], // 破裂
       enchantStats: [], // 附魔
       clusterJewelStats: [], // 星團珠寶附魔詞綴
       allocatesStats: [], // 項鍊塗油配置附魔詞綴
@@ -1014,6 +1011,13 @@ export default {
             }
             this.implicitStats.push(text, element.id)
           })
+          response.data.result[3].entries.forEach((element, index) => { // 破裂
+            let text = element.text
+            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (部分)'))
+            }
+            this.fracturedStats.push(text, element.id)
+          })
           response.data.result[4].entries.forEach((element, index) => { // 附魔
             let text = element.text
             if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
@@ -1542,6 +1546,10 @@ export default {
             text = text.substring(0, text.indexOf('(implicit)')) // 刪除(implicit)字串
             tempStat.push(findBestStat(text, this.implicitStats))
             tempStat[tempStat.length - 1].type = "固定"
+          } else if (itemArray[index].indexOf('(fractured)') > -1) { // 破裂
+            text = text.substring(0, text.indexOf('(fractured)'))
+            tempStat.push(findBestStat(text, this.fracturedStats))
+            tempStat[tempStat.length - 1].type = "破裂"
           } else if (itemArray[index].indexOf('(crafted)') > -1) { // 已工藝屬性
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(findBestStat(text, this.craftedStats))
@@ -1984,7 +1992,6 @@ export default {
     mapAnalysis(item, itemArray, Rarity) {
       // this.itemStatsAnalysis(itemArray, 1) 地圖先不加入詞綴判斷
       const NL = this.newLine
-      let searchName = ''
       this.isMap = true
       this.isMapCollapse = true
       this.mapCategory = {
@@ -2198,8 +2205,17 @@ export default {
           return true
         }
       });
-
-      if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
+      if (item.indexOf('地圖階級: ') > -1) { // 地圖搜尋
+        this.mapAnalysis(item, itemArray, Rarity)
+      } else if ((Rarity === "稀有" || Rarity === "傳奇") && item.indexOf('點擊右鍵將此加入你的獸獵寓言。') > -1) { // 獸獵（物品化怪物）
+        let monstersCount = 0
+        this.monstersItems.some(element => {
+          if (itemNameString.indexOf(element.text) > -1 && !monstersCount) {
+            this.searchJson.query.type = element.type
+            return true
+          }
+        });
+      } else if (Rarity === "傳奇" && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
         if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
           this.searchJson.query.name = this.replaceString(searchName)
           this.searchJson.query.type = this.replaceString(itemBasic)
@@ -2289,16 +2305,6 @@ export default {
       } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
         let name = this.isGarenaSvr ? searchName : this.replaceString(searchName.split('(')[1])
         this.searchJson.query.name = name
-      } else if (Rarity === "稀有" && item.indexOf('點擊右鍵將此加入你的獸獵寓言。' > -1)) { // 獸獵（物品化怪物）
-        let monstersCount = 0
-        this.monstersItems.some(element => {
-          if (itemNameString.indexOf(element.text) > -1 && !monstersCount) {
-            this.searchJson.query.type = element.type
-            return true
-          }
-        });
-      } else if (item.indexOf('地圖階級: ') > -1) { // 地圖搜尋
-        this.mapAnalysis(item, itemArray, Rarity)
       } else if (this.isItem) {
         this.itemStatsAnalysis(itemArray, 0)
         return
@@ -2443,6 +2449,11 @@ export default {
           case '附魔':
             return {
               'color': '#8181ff'
+            }
+            break;
+          case '破裂':
+            return {
+              'color': '#a29162'
             }
             break;
           case '工藝':
