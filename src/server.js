@@ -62,7 +62,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'rChinPoeTrade/v1.313.2',
+          'User-Agent': 'rChinPoeTrade/v1.313.3',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -109,7 +109,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'rChinPoeTrade/v1.313.2',
+          'User-Agent': 'rChinPoeTrade/v1.313.3',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -130,10 +130,13 @@
             }
             fetchID[idx].push(element)
           });
+          let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
+          let limitState = limitString[0].substring(0, limitString[0].indexOf(':'))
           res.send({
             id: body.id,
             total: body.total,
-            fetchID: fetchID
+            fetchID: fetchID,
+            limitState: parseInt(limitState, 10) 
           });
         } else {
           res.status(response.statusCode).send(body);

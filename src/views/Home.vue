@@ -420,10 +420,6 @@
           巴哈姆特討論串
         </b-button>
         <span> 回報，感謝！</span>
-        <hr>
-        <b-button @click="searchTrade(searchJson)" size="sm" variant="outline-info" class="mb-2">
-          <b-icon-arrow-repeat></b-icon-arrow-repeat> 或點我重新查詢 <b-icon-arrow-repeat></b-icon-arrow-repeat>
-        </b-button>
       </b-card-text>
     </b-card>
   </div>
@@ -479,6 +475,7 @@ export default {
       pseudoStats: [], // 偽屬性
       explicitStats: [], // 隨機屬性
       implicitStats: [], // 固定屬性
+      fracturedStats: [], // 破裂
       enchantStats: [], // 附魔
       clusterJewelStats: [], // 星團珠寶附魔詞綴
       allocatesStats: [], // 項鍊塗油配置附魔詞綴
@@ -489,6 +486,7 @@ export default {
       fetchQueryID: '',
       // allItems: [], // 物品 API 抓回來的資料
       equipItems: [], // 可裝備的物品資料
+      monstersItems: [], // 物品化怪物資料
       priceSetting: { // 價格設定
         min: 0.1,
         max: '',
@@ -936,6 +934,17 @@ export default {
           this.status = `共 ${response.data.total} 筆符合`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
+          // console.log('Home', response.data.limitState)
+          switch (response.data.limitState) {
+            case 3:
+              this.startCountdown(2)
+              break;
+            case 4:
+              this.startCountdown(4)
+              break;
+            default:
+              break;
+          }
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
@@ -1002,6 +1011,13 @@ export default {
             }
             this.implicitStats.push(text, element.id)
           })
+          response.data.result[3].entries.forEach((element, index) => { // 破裂
+            let text = element.text
+            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+              text = text.substring(0, text.indexOf(' (部分)'))
+            }
+            this.fracturedStats.push(text, element.id)
+          })
           response.data.result[4].entries.forEach((element, index) => { // 附魔
             let text = element.text
             if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
@@ -1051,9 +1067,10 @@ export default {
       let flasksIndex = 0
       let jewelIndex = 0
       let weaponIndex = 0
-      let mapIndex = 0
+      let watchstoneIndex = 0
       let heistIndex = 0
       this.equipItems.length = 0
+      this.monstersItems.length = 0
       this.mapBasic.option.length = 0
       this.gemBasic.option.length = 0
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
@@ -1244,9 +1261,9 @@ export default {
           result[12].entries.forEach((element, index) => { // "label": "守望石"
             const basetype = ["象白守望石"]
             if (_.isUndefined(element.flags)) {
-              heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+              watchstoneIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
             }
-            switch (heistIndex) {
+            switch (watchstoneIndex) {
               case 1: // 一般守望石起始點 { "type": "象白守望石", "text": "象白守望石" }
                 element.name = "守望石"
                 element.option = "watchstone"
@@ -1283,6 +1300,9 @@ export default {
           });
           result[5].entries.forEach((element, index) => { // "label": "技能寶石"
             this.gemBasic.option.push(element.text)
+          });
+          result[11].entries.forEach((element, index) => { // "label": "物品化怪物"
+            this.monstersItems.push(element)
           });
         })
         .catch(function (error) {
@@ -1526,6 +1546,10 @@ export default {
             text = text.substring(0, text.indexOf('(implicit)')) // 刪除(implicit)字串
             tempStat.push(findBestStat(text, this.implicitStats))
             tempStat[tempStat.length - 1].type = "固定"
+          } else if (itemArray[index].indexOf('(fractured)') > -1) { // 破裂
+            text = text.substring(0, text.indexOf('(fractured)'))
+            tempStat.push(findBestStat(text, this.fracturedStats))
+            tempStat[tempStat.length - 1].type = "破裂"
           } else if (itemArray[index].indexOf('(crafted)') > -1) { // 已工藝屬性
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(findBestStat(text, this.craftedStats))
@@ -1968,7 +1992,6 @@ export default {
     mapAnalysis(item, itemArray, Rarity) {
       // this.itemStatsAnalysis(itemArray, 1) 地圖先不加入詞綴判斷
       const NL = this.newLine
-      let searchName = ''
       this.isMap = true
       this.isMapCollapse = true
       this.mapCategory = {
@@ -2182,8 +2205,17 @@ export default {
           return true
         }
       });
-
-      if (Rarity === "傳奇" && item.indexOf('地圖階級') === -1 && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
+      if (item.indexOf('地圖階級: ') > -1) { // 地圖搜尋
+        this.mapAnalysis(item, itemArray, Rarity)
+      } else if ((Rarity === "稀有" || Rarity === "傳奇") && item.indexOf('點擊右鍵將此加入你的獸獵寓言。') > -1) { // 獸獵（物品化怪物）
+        let monstersCount = 0
+        this.monstersItems.some(element => {
+          if (itemNameString.indexOf(element.text) > -1 && !monstersCount) {
+            this.searchJson.query.type = element.type
+            return true
+          }
+        });
+      } else if (Rarity === "傳奇" && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
         if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
           this.searchJson.query.name = this.replaceString(searchName)
           this.searchJson.query.type = this.replaceString(itemBasic)
@@ -2267,14 +2299,12 @@ export default {
         }
         this.gemQuality.min = minQuality
         this.isGemQualitySearch()
-      } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1 || item.indexOf('將你之前祭祀神壇保存的怪物加入至該地圖的祭祀神壇中') > -1 || item.indexOf('使用此物品開啟前往無悲憫與同情之地的時空之門') > -1)) {
-        // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器、浸血碑器、釋界之令 
+      } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1 || item.indexOf('將你之前祭祀神壇保存的怪物加入至該地圖的祭祀神壇中') > -1 || item.indexOf('使用此物品開啟前往無悲憫與同情之地的時空之門') > -1 || item.indexOf('在個人地圖裝置使用此物品開啟譫妄異域時空之門') > -1)) {
+        // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器、浸血碑器、釋界之令、幻像異界
         this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
         let name = this.isGarenaSvr ? searchName : this.replaceString(searchName.split('(')[1])
         this.searchJson.query.name = name
-      } else if (item.indexOf('地圖階級: ') > -1) { // 地圖搜尋
-        this.mapAnalysis(item, itemArray, Rarity)
       } else if (this.isItem) {
         this.itemStatsAnalysis(itemArray, 0)
         return
@@ -2419,6 +2449,11 @@ export default {
           case '附魔':
             return {
               'color': '#8181ff'
+            }
+            break;
+          case '破裂':
+            return {
+              'color': '#a29162'
             }
             break;
           case '工藝':
