@@ -1,42 +1,3 @@
-<template>
-<div id="app" v-bind:class="{ 'theme-dark' : nightMode }">
-  <div id="nav">
-    <router-link to="/home">Home</router-link> |
-    <router-link to="/">About</router-link> |
-    <input type="checkbox" id="theme-toggle" v-model="nightMode">
-    <label for="theme-toggle"><span></span></label>
-  </div>
-  <router-view />
-</div>
-</template>
-
-<style lang="stylus">
-#app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 30px
-</style>
-
-<script>
-export default {
-  data() {
-    return {
-      nightMode: false
-    }
-  },
-  watch: {
-    nightMode: function () {
-      localStorage.setItem("nightMode", JSON.stringify(this.nightMode));
-      console.log('Night Mode: ' + JSON.stringify(this.nightMode))
-    },
-  },
-}
-</script>
-
-<style lang="scss">
 :root {
   --toggle-size: 2rem;
   --switch-w: 2em;
@@ -124,4 +85,3 @@ body {
 //   align-items: center;
 //   transition: .2s ease;
 // }
-</style>
