@@ -2179,13 +2179,16 @@ export default {
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
+      if (item.indexOf('Item Class') > -1) { // 暫時移除 3.14 增加 Item Class 的資訊以符合原先邏輯
+        itemArray.splice(0, 1);
+      }
       const regExp = new RegExp("[A-Za-z]+"); // 有英文字就代表是國際服
       if (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1) { // 預言特殊判斷
         this.isGarenaSvr = regExp.test(itemArray[3]) ? false : true
       } else {
         this.isGarenaSvr = regExp.test(itemArray[1]) ? false : true // 國際服中文化判斷 
       }
-      let posRarity = item.indexOf(': ')
+      let posRarity = itemArray[0].indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
       let searchName = itemArray[1]
       this.searchName = itemArray[2] === "--------" ? `物品名稱 <br>『${itemArray[1]}』` : `物品名稱 <br>『${itemArray[1]} ${itemArray[2]}』`

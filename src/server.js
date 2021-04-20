@@ -62,7 +62,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'rChinPoeTrade/v1.313.3',
+          'User-Agent': 'OAuth rChinPoeTrade/1.314.1 (contact: b10121035@gemail.yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -109,7 +109,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'rChinPoeTrade/v1.313.3',
+          'User-Agent': 'OAuth rChinPoeTrade/1.314.1 (contact: b10121035@gemail.yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
