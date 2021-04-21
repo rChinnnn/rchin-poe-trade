@@ -2258,21 +2258,22 @@ export default {
           label: "精良的（預設）",
           prop: '0'
         }
-        if (item.indexOf('異常的 ') > -1) { // 替代品質判斷
+        let regMatchGem = /\((.+?)\)/g
+        if (item.indexOf('異常的') > -1) { // 替代品質判斷
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '1'
           this.gemQualitySet.chosenObj.label = '異常的'
-          this.gemBasic.chosenG = searchName.substring(4)
-        } else if (item.indexOf('相異的 ') > -1) {
+          this.gemBasic.chosenG = this.isGarenaSvr ? searchName.split(' ')[1] : searchName.match(regMatchGem)[1] 
+        } else if (item.indexOf('相異的') > -1) {
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '2'
           this.gemQualitySet.chosenObj.label = '相異的'
-          this.gemBasic.chosenG = searchName.substring(4)
-        } else if (item.indexOf('幻影的 ') > -1) {
+          this.gemBasic.chosenG = this.isGarenaSvr ? searchName.split(' ')[1] : searchName.match(regMatchGem)[1] 
+        } else if (item.indexOf('幻影的') > -1) {
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '3'
           this.gemQualitySet.chosenObj.label = '幻影的'
-          this.gemBasic.chosenG = searchName.substring(4)
+          this.gemBasic.chosenG = this.isGarenaSvr ? searchName.split(' ')[1] : searchName.match(regMatchGem)[1] 
         }
         this.gemQualityTypeInput()
 
