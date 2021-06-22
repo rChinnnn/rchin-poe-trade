@@ -941,13 +941,17 @@ export default {
           this.status = `共 ${response.data.total} 筆符合`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
-          // console.log('Home', response.data.limitState)
-          switch (response.data.limitState) {
-            case 3:
-              this.startCountdown(2)
+          let limitState = response.data.limitState
+          // console.log(limitState)
+          switch (true) {
+            case limitState.third > 25:
+              this.startCountdown(10)
               break;
-            case 4:
+            case limitState.second > 13:
               this.startCountdown(4)
+              break;
+            case limitState.first > 6:
+              this.startCountdown(1.25)
               break;
             default:
               break;
