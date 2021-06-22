@@ -9,9 +9,11 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析
-            <span v-if="corruptedCount" :style="`${corruptedCount > 5 && corruptedCount !== fetchResultPrice.length ? 'color: lightpink;' : ''}`"><br>{{ corruptedCount }} 筆已汙染</span>
             <br>
-            <b-button v-if="searchTotal > 40 && fetchResultPrice.length <= 40" @click="priceAnalysis(8)" :disabled="isCounting" size="sm" variant="outline-light">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
+            <span v-if="isPriceCollapse">標價已折疊<br></span>
+            <b-button v-if="corruptedCount" @click="$emit('exclude')" :style="`${corruptedCount > 5 && corruptedCount !== fetchResultPrice.length ? 'color: lightpink;' : ''}`" size="sm" variant="outline-danger">排除 {{ corruptedCount }} 筆已汙染</b-button>
+            <div v-if="corruptedCount" style="padding: 2px 0px;"></div>
+            <b-button v-if="fetchResultPrice.length <= 40 && fetchID.length >= 4 && calResultLength" @click="priceAnalysis(8)" :disabled="isCounting" size="sm" variant="outline-light">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
           </th>
         </tr>
       </thead>
@@ -21,7 +23,8 @@
                        color: ${maxValuableIndex == index && parseFloat(item.accountName.length / item.count) > 0.85 ? 'darkred;' : ''}`" @mouseover="handleHover(index)">
             報價：{{ item.amount }} x
             <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img>
-            / <b>{{ item.count }}</b>筆（<b>{{ item.accountName.length }}</b>人標）
+            / <b>{{ item.count }}</b>筆
+            <span v-if="item.count !== item.accountName.length">（<b>{{ item.accountName.length }}</b>人標）</span>
             <b-icon-x-square v-show="hoveredIndex == index && $store.state.POESESSID" @click="addToBlackList(item.accountName)" v-b-tooltip.hover.right.v-secondary :title="`將這 ${item.accountName.length} 人加入黑名單`" style="cursor: pointer;"></b-icon-x-square>
           </td>
         </tr>
@@ -57,8 +60,10 @@ export default {
     fetchQueryID: String,
     isPriced: Boolean,
     isCounting: Boolean,
+    isPriceCollapse: Boolean,
     baseUrl: String,
     searchTotal: Number,
+    resultLength: Number
   },
   components: {
     loading: VueLoading,
@@ -231,7 +236,7 @@ export default {
       return Math.ceil(this.fetchResultPrice.length / 10)
     },
     calResultLength() { // 官方回傳的總數扣除目前搜尋且已整理的數量
-      return this.searchTotal - this.fetchResultPrice.length
+      return this.resultLength - this.fetchResultPrice.length
     },
     collectionRepeat() {
       if (!this.isPriced || !this.fetchResultPrice[0]) {

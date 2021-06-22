@@ -404,7 +404,7 @@
   </div>
   <div>
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ whichServer }} 官方交易市集</b-button>
-    <PriceAnalysis @countdown="startCountdown" @refresh="searchTrade(searchJson)" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal"></PriceAnalysis>
+    <PriceAnalysis @countdown="startCountdown" @refresh="searchTrade(searchJson)" @exclude="excludeCorrupted()" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal" :isPriceCollapse="isPriceCollapse" :resultLength="resultLength"></PriceAnalysis>
   </div>
   <div v-if="!isSupported" style="padding:5px 30px;">
     <b-card header="問題回報" border-variant="info" header-bg-variant="info" header-text-variant="white" align="center">
@@ -482,6 +482,8 @@ export default {
       wrapStats: [],
       craftedStats: [], // 已工藝
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
+      isPriceCollapse: false,
+      resultLength: 0,
       searchName: '',
       fetchQueryID: '',
       // allItems: [], // 物品 API 抓回來的資料
@@ -704,6 +706,9 @@ export default {
                 },
                 "price": {
                   "min": 0.1
+                },
+                "collapse": {
+                  "option": "true"
                 }
               }
             },
@@ -929,6 +934,8 @@ export default {
           cookie: this.$store.state.POESESSID,
         })
         .then((response) => {
+          this.isPriceCollapse = response.data.resultLength === 100 ? false : response.data.total !== response.data.resultLength
+          this.resultLength = response.data.resultLength
           this.searchTotal = parseInt(response.data.total, 10) // 總共搜到幾項物品
           response.data.total += response.data.total == "100000" ? `+` : ``
           this.status = `共 ${response.data.total} 筆符合`
@@ -1935,6 +1942,13 @@ export default {
         this.searchTrade(this.searchJson)
       }
     },
+    excludeCorrupted() { // 排除已污染
+      this.corruptedSet.chosenObj = {
+        label: "否",
+        prop: 'false'
+      }
+      this.corruptedInput()
+    },
     gemQualityTypeInput() { // 寶石替代品質設定 
       if (!this.gemQualitySet.isSearch && this.gemQualitySet.chosenObj.prop && this.isSearchJson) {
         delete this.searchJson.query.filters.misc_filters.filters.gem_alternate_quality // 刪除寶石替代品質 filter
@@ -2206,7 +2220,7 @@ export default {
           return true
         }
       });
-      if (item.indexOf('地圖階級: ') > -1) { // 地圖搜尋
+      if (item.indexOf('地圖階級: ') > -1 && item.indexOf('透過個人的地圖裝置來使用這張地圖以前往異界探險。') > -1) { // 地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
       } else if ((Rarity === "稀有" || Rarity === "傳奇") && item.indexOf('點擊右鍵將此加入你的獸獵寓言。') > -1) { // 獸獵（物品化怪物）
         let monstersCount = 0
@@ -2301,12 +2315,13 @@ export default {
         }
         this.gemQuality.min = minQuality
         this.isGemQualitySearch()
-      } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1 || item.indexOf('將你之前祭祀神壇保存的怪物加入至該地圖的祭祀神壇中') > -1 || item.indexOf('使用此物品開啟前往無悲憫與同情之地的時空之門') > -1 || item.indexOf('在個人地圖裝置使用此物品開啟譫妄異域時空之門') > -1 || item.indexOf('地圖裝置來使用此物品以前往進入瓦爾寶庫') > -1)) {
-        // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器、浸血碑器、釋界之令、幻像異界、瓦爾遺鑰
-        this.searchJson.query.type = this.replaceString(searchName)
       } else if (Rarity === "普通" && (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1)) { // 預言
         let name = this.isGarenaSvr ? searchName : this.replaceString(searchName.split('(')[1])
         this.searchJson.query.name = name
+      } else if (Rarity === "普通" && !this.isItem) {
+        // } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1 || item.indexOf('將你之前祭祀神壇保存的怪物加入至該地圖的祭祀神壇中') > -1 || item.indexOf('使用此物品開啟前往無悲憫與同情之地的時空之門') > -1 || item.indexOf('在個人地圖裝置使用此物品開啟譫妄異域時空之門') > -1 || item.indexOf('地圖裝置來使用此物品以前往進入瓦爾寶庫') > -1)) {
+        // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器、浸血碑器、釋界之令、幻像異界、瓦爾遺鑰
+        this.searchJson.query.type = this.replaceString(searchName)
       } else if (this.isItem) {
         this.itemStatsAnalysis(itemArray, 0)
         return

@@ -136,6 +136,7 @@
           res.send({
             id: body.id,
             total: body.total,
+            resultLength: body.result.length,
             fetchID: fetchID,
             limitState: parseInt(limitState, 10) 
           });
