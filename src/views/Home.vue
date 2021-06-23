@@ -942,16 +942,22 @@ export default {
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
           let limitState = response.data.limitState
-          // console.log(limitState)
-          switch (true) {
-            case limitState.third > 25:
+          // console.log(limitState, this.$moment().format('HH:mm:ss.SSS'))
+          switch (true) { // X-Rate-Limit-Ip: 5:10:60,15:60:300,30:300:1800
+            case limitState.third >= 28:
+              this.startCountdown(50)
+              break;
+            case limitState.third >= 24:
               this.startCountdown(10)
               break;
-            case limitState.second > 13:
+            case limitState.second >= 14:
+              this.startCountdown(8)
+              break;
+            case limitState.second >= 12:
               this.startCountdown(4)
               break;
-            case limitState.first > 6:
-              this.startCountdown(1.25)
+            case limitState.first >= 4:
+              this.startCountdown(2)
               break;
             default:
               break;

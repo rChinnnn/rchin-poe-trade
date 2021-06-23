@@ -52,6 +52,9 @@ const $message = options => {
 });
 Vue.prototype.$message = $message;
 
+import moment from 'moment'
+Vue.prototype.$moment = moment
+
 Vue.config.productionTip = false
 
 new Vue({
