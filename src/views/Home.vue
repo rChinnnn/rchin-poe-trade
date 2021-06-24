@@ -1,6 +1,6 @@
 <template>
-<div class="home">
-  <go-top :size="30" :bottom="50" :max-width="575" bg-color="#04a9f3" :boundary="50"></go-top>
+<div class="home" ref="home">
+  <go-top :size="30" :bottom="50" :max-width="575" bg-color="#04a9f3" :boundary="10"></go-top>
   <hr>
   <b-alert v-if="isApiError" show variant="danger" style="margin-top: 5px;">
     <div>Oops! API 串接時似乎發生了一點錯誤...</div>
@@ -351,7 +351,7 @@
       </countdown>
     </b-alert>
     <hr v-else>
-    <h5 :style="isItem && searchStats.length > 0 ? 'cursor: pointer; user-select:none;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
+    <h5 :style="isItem && searchStats.length > 0 ? 'cursor: pointer;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
     <b-container class="bv-example-row">
       <b-collapse :visible="!isStatsCollapse && searchStats.length > 0">
         <b-icon-card-text @click="isStatsCollapse = !isStatsCollapse" style="cursor: pointer; user-select:none;"></b-icon-card-text>
@@ -404,7 +404,7 @@
   </div>
   <div>
     <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ whichServer }} 官方交易市集</b-button>
-    <PriceAnalysis @countdown="startCountdown" @refresh="searchTrade(searchJson)" @exclude="excludeCorrupted()" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal" :isPriceCollapse="isPriceCollapse" :resultLength="resultLength"></PriceAnalysis>
+    <PriceAnalysis @countdown="startCountdown" @refresh="searchTrade(searchJson)" @exclude="excludeCorrupted()" @scroll="scrollToPriceAnalysis()" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal" :isPriceCollapse="isPriceCollapse" :resultLength="resultLength"></PriceAnalysis>
   </div>
   <div v-if="!isSupported" style="padding:5px 30px;">
     <b-card header="問題回報" border-variant="info" header-bg-variant="info" header-text-variant="white" align="center">
@@ -428,12 +428,11 @@
 
 <script>
 // @ is an alias to /src
+// import hotkeys from "hotkeys-js";
 import PriceAnalysis from '@/components/PriceAnalysis.vue'
-import hotkeys from "hotkeys-js";
 import GoTop from '@inotom/vue-go-top';
 
 const _ = require('lodash');
-const axios = require('axios');
 const stringSimilarity = require('string-similarity');
 const {
   clipboard,
@@ -2012,6 +2011,16 @@ export default {
         type: 'success',
         message: `價格設置已更新！`
       });
+    },
+    scrollToPriceAnalysis() {
+      // console.log(this.$refs.home)
+      setTimeout(() => {
+        this.$refs.home.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest"
+        });
+      }, 50);
     },
     mapAnalysis(item, itemArray, Rarity) {
       // this.itemStatsAnalysis(itemArray, 1) 地圖先不加入詞綴判斷

@@ -1,11 +1,10 @@
 <template>
-
-<div id="app" v-bind:class="{ 'theme-dark' : nightMode }">
+<div id="app">
   <div style="float: right;">
     <input type="checkbox" id="theme-toggle" v-model="nightMode">
     <label for="theme-toggle"><span></span></label>
   </div>
-  <div id="nav">
+  <div id="nav" style="clear: both;">
     <router-link to="/home">Home</router-link> |
     <router-link to="/">About</router-link>
   </div>
@@ -20,7 +19,7 @@
   -moz-osx-font-smoothing grayscale
   text-align center
   color #2c3e50
-  margin-top 30px
+  margin-top 5px
 </style>
 
 <script>
