@@ -1,19 +1,11 @@
 :root {
-  --toggle-size: 2rem;
+  --toggle-size: 1.5rem;
   --switch-w: 2em;
   --switch-h: 1em;
   --switch-handle-scale: .65;
   --switch-off-handle-x: -.125em;
   --switch-on-handle-x: calc(100% - .125em);
   --switch-transition-duration: .2s;
-}
-
-#app {
-  background: hsl(0, 0%, 100%);
-
-  &.theme-dark {
-    background: hsl(207, 30%, 5%);
-  }
 }
 
 #theme-toggle {

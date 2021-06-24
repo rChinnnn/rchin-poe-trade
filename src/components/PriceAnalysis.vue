@@ -1,7 +1,7 @@
 <template>
 <div v-if="isPriced && fetchQueryID" style="padding-top: 10px;">
   <div>
-    <!-- <b-img :src="itemImage" style="max-height:100px;"></b-img> -->
+    <b-img :src="itemImage" style="max-height:100px;"></b-img>
   </div>
   <div class="d-inline-flex p-2 bd-highlight">
     <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
@@ -20,7 +20,7 @@
           <td :style="`opacity: ${hoveredIndex == index ? 1 : parseFloat(item.accountName.length / item.count)}; 
                        color: ${maxValuableIndex == index && parseFloat(item.accountName.length / item.count) > 0.85 ? 'darkred;' : ''}`" @mouseover="handleHover(index)">
             報價：{{ item.amount }} x
-            <!-- <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img> -->
+            <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img>
             / <b>{{ item.count }}</b>筆（<b>{{ item.accountName.length }}</b>人標）
             <b-icon-x-square v-show="hoveredIndex == index && $store.state.POESESSID" @click="addToBlackList(item.accountName)" v-b-tooltip.hover.right.v-secondary :title="`將這 ${item.accountName.length} 人加入黑名單`" style="cursor: pointer;"></b-icon-x-square>
           </td>
