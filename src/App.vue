@@ -1,11 +1,16 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/home">Home</router-link> |
-      <router-link to="/">About</router-link>
-    </div>
-    <router-view/>
+
+<div id="app" v-bind:class="{ 'theme-dark' : nightMode }">
+  <div style="float: right;">
+    <input type="checkbox" id="theme-toggle" v-model="nightMode">
+    <label for="theme-toggle"><span></span></label>
   </div>
+  <div id="nav">
+    <router-link to="/home">Home</router-link> |
+    <router-link to="/">About</router-link>
+  </div>
+  <router-view />
+</div>
 </template>
 
 <style lang="stylus">
@@ -17,3 +22,40 @@
   color #2c3e50
   margin-top 30px
 </style>
+
+<script>
+import {
+    enable as enableDarkMode,
+    disable as disableDarkMode,
+    isEnabled as isDarkReaderEnabled
+} from 'darkreader';
+
+enableDarkMode({
+  brightness: 100,
+  contrast: 90,
+  sepia: 10,
+});
+
+export default {
+  data() {
+    return {
+      nightMode: true
+    }
+  },
+  watch: {
+    nightMode: function () {
+      if (this.nightMode) {
+        enableDarkMode({
+          brightness: 100,
+          contrast: 90,
+          sepia: 10,
+        });
+      } else {
+        disableDarkMode();
+      }
+      localStorage.setItem("nightMode", JSON.stringify(this.nightMode));
+      // console.log('Night Mode: ' + JSON.stringify(this.nightMode), isDarkReaderEnabled())
+    },
+  },
+}
+</script>

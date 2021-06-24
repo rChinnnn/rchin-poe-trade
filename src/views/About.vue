@@ -1,5 +1,5 @@
 <template>
-<div class="about">
+<div class="about" style="padding-top: 5px;">
   <div style="padding:5px 30px;">
     <b-card-group deck>
       <b-card border-variant="primary" header="POE 查價工具 v1.314.2" header-bg-variant="primary" header-text-variant="white" align="center">
