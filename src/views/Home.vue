@@ -1446,7 +1446,8 @@ export default {
       this.searchTrade(this.searchJson)
     }, 500),
     itemStatsAnalysis(itemArray, rarityFlag) {
-      if (itemArray[itemArray.length - 2].indexOf(': ~b/o') > -1 || itemArray[itemArray.length - 2].indexOf(': ~price') > -1) {
+      let priceText = itemArray[itemArray.length - 2]
+      if (priceText.indexOf(': ~b/o') > -1 || priceText.indexOf(': ~price') > -1 || priceText.indexOf('Note:') > -1) {
         // 處理在高倉標價後搜尋的物品陣列
         itemArray.splice(itemArray.length - 3, 2)
       }
@@ -1462,6 +1463,13 @@ export default {
         itemArray.splice(itemArray.indexOf('狩獵者物品'), 1)
       if (itemArray.indexOf('總督軍物品') > -1)
         itemArray.splice(itemArray.indexOf('總督軍物品'), 1)
+
+      let clusterA = itemArray.findIndex((e) => e.indexOf('個附加的天賦為珠寶插槽') > -1) // 星團珠寶贅詞
+      let clusterB = itemArray.findIndex((e) => e.indexOf('附加的天賦點不與珠寶範圍互動。點擊右鍵從插槽中移除。') > -1)
+      if (clusterB)
+        itemArray.splice(clusterB, 1)
+      if (clusterA)
+        itemArray.splice(clusterA, 1)
 
       this.isStatsCollapse = rarityFlag ? false : true
       let tempStat = []
@@ -1496,7 +1504,7 @@ export default {
             spliceWrapStats(newLineCount, index)
           }
         });
-        if (element.indexOf("附加的小型天賦給予：") > -1 && element.indexOf("(enchant)") == -1) { // 有折行的星團珠寶附魔詞綴
+        if (element.indexOf("附加的小型天賦給予：") > -1 && element.indexOf("(enchant)") > -1) { // 有折行的星團珠寶附魔詞綴
           switch (true) {
             case element.indexOf("斧攻擊增加 12% 擊中和異常狀態傷害") > -1:
               itemArray[index] = `${itemArray[index]}\n劍攻擊增加 12% 擊中和異常狀態傷害 (enchant)`
@@ -1525,6 +1533,9 @@ export default {
             default:
               break;
           }
+        } else if (element.indexOf("只影響") > -1 && element.indexOf("範圍天賦") > -1) { // 希望之絃 Thread of Hope 特殊判斷
+          let areaStat = itemArray[index].substr(3, 1)
+          itemArray[index] = `Only affects Passives in # Ring,${areaStat}`
         }
         if (element === "--------" && !isEnchantOrImplicit && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
@@ -1560,7 +1571,7 @@ export default {
         return reference[index]
       }
       for (let index = itemStatStart; index < itemStatEnd; index++) {
-        if (itemArray[index] !== "--------") {
+        if (itemArray[index] !== "--------" && itemArray[index]) {
           let text = itemArray[index]
           itemDisplayStats.push(itemArray[index])
           if (itemArray[index].indexOf('(implicit)') > -1) { // 固定屬性
@@ -1597,6 +1608,7 @@ export default {
       let elementalResistanceTotal = 0
       let spellDamageTotal = 0
       tempStat.forEach((element, idx, array) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
+        let isStatSearch = false
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
         let itemStatText = itemDisplayStats[idx] // 物品上的詞綴字串
@@ -1665,6 +1677,7 @@ export default {
         let optionValue = 0 // 星團珠寶附魔 / 項鍊塗油配置 的 ID
 
         if (statID === "enchant.stat_3948993189") {
+          isStatSearch = true
           let obj = stringSimilarity.findBestMatch(itemStatText, this.clusterJewelStats)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
           apiStatText = `附加的小型天賦給予：\n${obj.ratings[obj.bestMatchIndex].target}`
@@ -1672,6 +1685,26 @@ export default {
           let obj = stringSimilarity.findBestMatch(itemStatText, this.allocatesStats)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
           apiStatText = `配置塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
+        } else if (statID === "explicit.stat_3642528642") {
+          isStatSearch = true
+          let areaStat = itemStatText.split(',')[1]
+          switch (areaStat) {
+            case '小':
+              optionValue = '1'
+              break;
+            case '中':
+              optionValue = '2'
+              break;
+            case '大':
+              optionValue = '3'
+              break;
+            case '非':
+              optionValue = '4'
+              break;
+            default:
+              break;
+          }
+          apiStatText = `只影響 [${areaStat}] 範圍天賦`
         } else {
           for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
             if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 物品詞綴最大值
@@ -1698,10 +1731,42 @@ export default {
           apiStatText = apiStatText.replace('增加', '減少')
           isNegativeStat = true
         }
-        if (statID === "enchant.stat_3086156145") { // 星團珠寶附加天賦數量調整為帶入最大值，最小值為最大值 - 1
+        if (statID === "enchant.stat_3086156145") { // cluster jewel analysis
+          isStatSearch = true
           let tempValue = randomMinValue
-          randomMaxValue = tempValue
-          randomMinValue = tempValue - 1
+          switch (randomMinValue) { // 附加天賦數判斷
+            case 4:
+              randomMaxValue += randomMinValue
+              break;
+            case 5:
+              randomMaxValue = tempValue
+              randomMinValue = tempValue - 1
+              break;
+            default:
+              randomMaxValue = tempValue
+              break;
+          }
+          switch (true) { // 物品等級區分判斷 
+            case this.itemLevel.min >= 84:
+              this.itemLevel.min = 84
+              break;
+            case this.itemLevel.min >= 75:
+              this.itemLevel.min = 75
+              break;
+            case this.itemLevel.min >= 68:
+              this.itemLevel.min = 68
+              break;
+            case this.itemLevel.min >= 50:
+              this.itemLevel.min = 50
+              break;
+            case this.itemLevel.min < 50:
+              this.itemLevel.min = ''
+              this.itemLevel.max = 49
+              break;
+            default:
+              break;
+          }
+          this.itemLevel.isSearch = true
         } else if (randomMaxValue) { // 物品中包含 "# 至 #" 的詞綴，在官方市集搜尋中皆以相加除二作搜尋
           randomMinValue = (randomMinValue + randomMaxValue) / 2
           randomMaxValue = ''
@@ -1735,7 +1800,7 @@ export default {
             "max": '',
             "isValue": true,
             "isNegative": false,
-            "isSearch": false,
+            "isSearch": elementalResistanceTotal >= 35 ? true : false,
             "type": "偽屬性"
           })
         }
@@ -1748,7 +1813,7 @@ export default {
             "max": '',
             "isValue": true,
             "isNegative": false,
-            "isSearch": false,
+            "isSearch": spellDamageTotal >= 50 ? true : false,
             "type": "偽屬性"
           })
         }
@@ -1760,7 +1825,7 @@ export default {
           "max": randomMaxValue,
           "isValue": randomMinValue ? true : false,
           "isNegative": isNegativeStat,
-          "isSearch": false,
+          "isSearch": isStatSearch,
           "type": element.type
         })
       })
