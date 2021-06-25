@@ -345,13 +345,13 @@
         </b-card>
       </b-collapse>
     </b-container>
+    <hr ref="refAnalysis">
+    <h5 :style="isItem && searchStats.length > 0 ? 'cursor: pointer;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
     <b-alert v-if="isCounting && !isApiError" show variant="warning" style="margin-top: 5px;">
       <countdown ref="countdown" :time="countTime" @end="handleCountdownEnd" :interval="100">
         <template slot-scope="props">因 API 發送次數限制，請再等待：{{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒</template>
       </countdown>
     </b-alert>
-    <hr v-else>
-    <h5 :style="isItem && searchStats.length > 0 ? 'cursor: pointer;' : ''" @click="isStatsCollapse = !isStatsCollapse" v-html="searchName"></h5>
     <b-container class="bv-example-row">
       <b-collapse :visible="!isStatsCollapse && searchStats.length > 0">
         <b-icon-card-text @click="isStatsCollapse = !isStatsCollapse" style="cursor: pointer; user-select:none;"></b-icon-card-text>
@@ -527,6 +527,9 @@ export default {
         }, {
           label: "傳奇",
           prop: 'unique'
+        }, {
+          label: "古典傳奇",
+          prop: 'uniquefoil'
         }, {
           label: "非傳奇",
           prop: 'nonunique'
@@ -935,8 +938,10 @@ export default {
         .then((response) => {
           this.isPriceCollapse = response.data.resultLength === 100 ? false : response.data.total !== response.data.resultLength
           this.resultLength = response.data.resultLength
-          this.searchTotal = parseInt(response.data.total, 10) // 總共搜到幾項物品
-          response.data.total += response.data.total == "100000" ? `+` : ``
+          this.searchTotal = response.data.total // 總共搜到幾項物品
+          if (response.data.total === 10000) { // 嘗試修復有時搜尋會無法代入條件的 bug
+            this.copyText = ''
+          }
           this.status = `共 ${response.data.total} 筆符合`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
@@ -2013,14 +2018,14 @@ export default {
       });
     },
     scrollToPriceAnalysis() {
-      // console.log(this.$refs.home)
-      setTimeout(() => {
-        this.$refs.home.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "nearest"
+      // console.log(this.$refs.refAnalysis)
+      this.$nextTick(function () {
+        this.$refs.refAnalysis.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'start'
         });
-      }, 50);
+      });
     },
     mapAnalysis(item, itemArray, Rarity) {
       // this.itemStatsAnalysis(itemArray, 1) 地圖先不加入詞綴判斷
@@ -2250,13 +2255,20 @@ export default {
           }
         });
       } else if (Rarity === "傳奇" && item.indexOf('在塔恩的鍊金室') === -1) { // 傳奇道具
-        if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
-          this.searchJson.query.name = this.replaceString(searchName)
-          this.searchJson.query.type = this.replaceString(itemBasic)
+        if (item.indexOf('古典傳奇') > -1) {
+          this.raritySet.chosenObj = {
+            label: "古典傳奇",
+            prop: 'uniquefoil'
+          }
+        } else {
           this.raritySet.chosenObj = {
             label: "傳奇",
             prop: 'unique'
           }
+        }
+        if (item.indexOf('未鑑定') === -1) { // 已鑑定傳奇
+          this.searchJson.query.name = this.replaceString(searchName)
+          this.searchJson.query.type = this.replaceString(itemBasic)
           this.raritySet.isSearch = true
           this.isRaritySearch()
           if (this.isItem) {
@@ -2265,10 +2277,6 @@ export default {
         } else { // 未鑑定傳奇(但會搜到相同基底)
           if (searchName.indexOf('精良的') > -1) { // 未鑑定的品質傳奇物品
             searchName = searchName.substring(4)
-          }
-          this.raritySet.chosenObj = {
-            label: "傳奇",
-            prop: 'unique'
           }
           this.raritySet.isSearch = true
           this.isRaritySearch()

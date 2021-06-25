@@ -31,8 +31,8 @@ import {
 
 enableDarkMode({
   brightness: 100,
-  contrast: 90,
-  sepia: 10,
+  contrast: 95,
+  sepia: 5
 });
 
 export default {
@@ -46,8 +46,8 @@ export default {
       if (this.nightMode) {
         enableDarkMode({
           brightness: 100,
-          contrast: 90,
-          sepia: 10,
+          contrast: 95,
+          sepia: 5
         });
       } else {
         disableDarkMode();
