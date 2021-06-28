@@ -5,14 +5,14 @@
   </div>
   <div class="d-inline-flex p-2 bd-highlight">
     <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
-    <table class="table table-striped" v-if="collectionCurrency && !isLoading">
+    <table class="table table-striped" sticky-header v-if="collectionCurrency && !isLoading">
       <thead class="thead-dark">
         <tr>
           <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析
             <br>
-            <span v-if="isPriceCollapse">報價已折疊<br></span>
-            <b-button v-if="corruptedCount" @click="$emit('exclude')" :style="`${corruptedCount > 5 && corruptedCount !== fetchResultPrice.length ? 'color: lightpink;' : ''}`" size="sm" variant="outline-danger">排除 {{ corruptedCount }} 筆已汙染</b-button>
-            <div v-if="corruptedCount" style="padding: 2px 0px;"></div>
+            <span v-if="corruptedCount && corruptedCount === fetchResultPrice.length" style="color: lightpink;">{{ corruptedCount }} 筆皆汙染</span>
+            <b-button v-else-if="corruptedCount" @click="$emit('exclude')" size="sm" variant="outline-danger">排除 {{ corruptedCount }} 筆已汙染</b-button>
+            <div v-if="corruptedCount" style="padding: 1px 0px;"></div>
             <b-button v-if="fetchResultPrice.length <= 40 && fetchID.length >= 4 && calResultLength" @click="priceAnalysis(8)" :disabled="isCounting" size="sm" variant="outline-secondary">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
           </th>
         </tr>

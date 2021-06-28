@@ -942,7 +942,7 @@ export default {
           if (response.data.total === 10000) { // 嘗試修復有時搜尋會無法代入條件的 bug
             this.copyText = ''
           }
-          this.status = `共 ${response.data.total} 筆符合`
+          this.status = ` 共 ${response.data.total} 筆符合 ${this.isPriceCollapse ? '<br>〖報價已折疊〗' : ''}`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
           let limitState = response.data.limitState
@@ -1010,7 +1010,11 @@ export default {
       this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
         .then((response) => {
           response.data.result[0].entries.forEach((element, index) => { // 偽屬性
-            this.pseudoStats.push(element.text, element.id)
+            let text = element.text
+            if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
+              text = text.substring(4, 15)
+            }
+            this.pseudoStats.push(text, element.id)
           })
           response.data.result[1].entries.forEach((element, index) => { // 隨機屬性
             let text = element.text
@@ -1466,9 +1470,9 @@ export default {
 
       let clusterA = itemArray.findIndex((e) => e.indexOf('個附加的天賦為珠寶插槽') > -1) // 星團珠寶贅詞
       let clusterB = itemArray.findIndex((e) => e.indexOf('附加的天賦點不與珠寶範圍互動。點擊右鍵從插槽中移除。') > -1)
-      if (clusterB)
+      if (clusterB > -1)
         itemArray.splice(clusterB, 1)
-      if (clusterA)
+      if (clusterA > -1)
         itemArray.splice(clusterA, 1)
 
       this.isStatsCollapse = rarityFlag ? false : true
@@ -1546,59 +1550,59 @@ export default {
         }
       });
 
-      function findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用 '#' 取代的兩種字串皆判斷並取最符合那一筆
-        let floatValue = []
-        let reference = []
+      // function findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用 '#' 取代的兩種字串皆判斷並取最符合那一筆
+      //   let floatValue = []
+      //   let reference = []
 
-        let originalObj = stringSimilarity.findBestMatch(text, stats)
-        let modifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
+      //   let originalObj = stringSimilarity.findBestMatch(text, stats)
+      //   let modifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
 
-        reference.push(originalObj, modifiedObj)
-        floatValue.push(originalObj.bestMatch.rating, modifiedObj.bestMatch.rating)
+      //   reference.push(originalObj, modifiedObj)
+      //   floatValue.push(originalObj.bestMatch.rating, modifiedObj.bestMatch.rating)
 
-        if (text.includes('減少')) { // 處理物品上原先詞綴包含 '減少' 的情況：因部分詞綴於 api 中只顯示 '增加'，會造成詞綴誤判
-          text = text.replace('減少', '增加')
-          let specialOriginalObj = stringSimilarity.findBestMatch(text, stats)
-          let specialModifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
-          reference.push(specialOriginalObj, specialModifiedObj)
-          floatValue.push(specialOriginalObj.bestMatch.rating, specialModifiedObj.bestMatch.rating)
-          // console.log(floatValue)
-        }
+      //   if (text.includes('減少')) { // 處理物品上原先詞綴包含 '減少' 的情況：因部分詞綴於 api 中只顯示 '增加'，會造成詞綴誤判
+      //     text = text.replace('減少', '增加')
+      //     let specialOriginalObj = stringSimilarity.findBestMatch(text, stats)
+      //     let specialModifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
+      //     reference.push(specialOriginalObj, specialModifiedObj)
+      //     floatValue.push(specialOriginalObj.bestMatch.rating, specialModifiedObj.bestMatch.rating)
+      //     // console.log(floatValue)
+      //   }
 
-        let maxFloat = Math.max.apply(null, floatValue);
-        let index = floatValue.indexOf(maxFloat);
+      //   let maxFloat = Math.max.apply(null, floatValue);
+      //   let index = floatValue.indexOf(maxFloat);
 
-        return reference[index]
-      }
+      //   return reference[index]
+      // }
       for (let index = itemStatStart; index < itemStatEnd; index++) {
         if (itemArray[index] !== "--------" && itemArray[index]) {
           let text = itemArray[index]
           itemDisplayStats.push(itemArray[index])
           if (itemArray[index].indexOf('(implicit)') > -1) { // 固定屬性
             text = text.substring(0, text.indexOf('(implicit)')) // 刪除(implicit)字串
-            tempStat.push(findBestStat(text, this.implicitStats))
+            tempStat.push(this.findBestStat(text, this.implicitStats))
             tempStat[tempStat.length - 1].type = "固定"
           } else if (itemArray[index].indexOf('(fractured)') > -1) { // 破裂
             text = text.substring(0, text.indexOf('(fractured)'))
-            tempStat.push(findBestStat(text, this.fracturedStats))
+            tempStat.push(this.findBestStat(text, this.fracturedStats))
             tempStat[tempStat.length - 1].type = "破裂"
           } else if (itemArray[index].indexOf('(crafted)') > -1) { // 已工藝屬性
             text = text.substring(0, text.indexOf('(crafted)'))
-            tempStat.push(findBestStat(text, this.craftedStats))
+            tempStat.push(this.findBestStat(text, this.craftedStats))
             tempStat[tempStat.length - 1].type = "工藝"
           } else if (itemArray[index].indexOf('(enchant)') > -1) {
             text = text.substring(0, text.indexOf('(enchant)'))
             if (text.indexOf('附加的小型天賦給予：') > -1) {
               tempStat.push(findBestStat('附加的小型天賦給予：#', this.enchantStats))
             } else {
-              tempStat.push(findBestStat(text, this.enchantStats))
+              tempStat.push(this.findBestStat(text, this.enchantStats))
             }
             tempStat[tempStat.length - 1].type = "附魔"
           } else if (rarityFlag) { // 傳奇裝詞綴
-            tempStat.push(findBestStat(text, this.explicitStats))
+            tempStat.push(this.findBestStat(text, this.explicitStats))
             tempStat[tempStat.length - 1].type = "傳奇"
           } else { // 隨機屬性
-            tempStat.push(findBestStat(text, this.explicitStats))
+            tempStat.push(this.findBestStat(text, this.explicitStats))
             tempStat[tempStat.length - 1].type = "隨機"
           }
         }
@@ -1687,6 +1691,7 @@ export default {
           apiStatText = `配置塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
         } else if (statID === "explicit.stat_3642528642") {
           isStatSearch = true
+          this.isStatsCollapse = true
           let areaStat = itemStatText.split(',')[1]
           switch (areaStat) {
             case '小':
@@ -1736,7 +1741,7 @@ export default {
           let tempValue = randomMinValue
           switch (randomMinValue) { // 附加天賦數判斷
             case 4:
-              randomMaxValue += randomMinValue
+              randomMaxValue = randomMinValue + 1
               break;
             case 5:
               randomMaxValue = tempValue
@@ -1800,7 +1805,7 @@ export default {
             "max": '',
             "isValue": true,
             "isNegative": false,
-            "isSearch": elementalResistanceTotal >= 35 ? true : false,
+            "isSearch": false,
             "type": "偽屬性"
           })
         }
@@ -1813,7 +1818,7 @@ export default {
             "max": '',
             "isValue": true,
             "isNegative": false,
-            "isSearch": spellDamageTotal >= 50 ? true : false,
+            "isSearch": false,
             "type": "偽屬性"
           })
         }
@@ -1829,6 +1834,76 @@ export default {
           "type": element.type
         })
       })
+    },
+    templeStatsAnalysis(itemArray) {
+      if (itemArray.indexOf('受阻的房間：') > -1) // 只判斷是否有該房間，受阻房間可用彈藥房炸通
+        itemArray.splice(itemArray.indexOf('受阻的房間：'), 1)
+
+      let tempStat = []
+      let itemStatStart = 6 // 開啟房間： index = 5
+      let itemStatEnd = 17 //  房間 index 結束點
+
+      for (let index = itemStatStart; index <= itemStatEnd; index++) {
+        tempStat.push(this.findBestStat(itemArray[index], this.pseudoStats))
+        tempStat[tempStat.length - 1].type = "偽屬性"
+      }
+
+      tempStat.forEach((element, idx) => {
+        let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
+        let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
+        let isLevel3Room = (apiStatText.indexOf('階級 3') > -1)
+
+        // console.log(apiStatText, isLevel3Room)
+        if (isLevel3Room) { // 階級三的房間放到詞綴最前面
+          this.searchStats.unshift({
+            "id": statID,
+            "text": apiStatText,
+            "option": '',
+            "min": '',
+            "max": '',
+            "isValue": false,
+            "isNegative": false,
+            "isSearch": true,
+            "type": element.type
+          })
+        } else {
+          this.searchStats.push({
+            "id": statID,
+            "text": apiStatText,
+            "option": '',
+            "min": '',
+            "max": '',
+            "isValue": false,
+            "isNegative": false,
+            "isSearch": false,
+            "type": element.type
+          })
+        }
+      })
+    },
+    findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用 '#' 取代的兩種字串皆判斷並取最符合那一筆
+      let floatValue = []
+      let reference = []
+
+      let originalObj = stringSimilarity.findBestMatch(text, stats)
+      let modifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
+
+      reference.push(originalObj, modifiedObj)
+      floatValue.push(originalObj.bestMatch.rating, modifiedObj.bestMatch.rating)
+
+      if (text.includes('減少')) { // 處理物品上原先詞綴包含 '減少' 的情況：因部分詞綴於 api 中只顯示 '增加'，會造成詞綴誤判
+        text = text.replace('減少', '增加')
+        let specialOriginalObj = stringSimilarity.findBestMatch(text, stats)
+        let specialModifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
+        reference.push(specialOriginalObj, specialModifiedObj)
+        floatValue.push(specialOriginalObj.bestMatch.rating, specialModifiedObj.bestMatch.rating)
+        // console.log(floatValue)
+      }
+
+      let maxFloat = Math.max.apply(null, floatValue);
+      let index = floatValue.indexOf(maxFloat);
+
+      return reference[index]
     },
     isRaritySearch() {
       if (!this.raritySet.isSearch && this.isSearchJson) {
@@ -2354,6 +2429,11 @@ export default {
         }
       } else if (Rarity === "命運卡" || Rarity === "通貨" || Rarity === "通貨不足") {
         this.searchJson.query.type = this.replaceString(searchName)
+        if (item.indexOf('可以使用於個人地圖裝置以開啟前往現今阿茲瓦特神殿的傳送門。' > -1)) { // 史記房間判斷
+          this.templeStatsAnalysis(itemArray)
+          this.isStatsCollapse = true
+          return
+        }
       } else if (Rarity === "寶石") {
         this.isGem = true
         this.gemQualitySet.isSearch = false
