@@ -1569,7 +1569,7 @@ export default {
           } else if (itemArray[index].indexOf('(enchant)') > -1) {
             text = text.substring(0, text.indexOf('(enchant)'))
             if (text.indexOf('附加的小型天賦給予：') > -1) {
-              tempStat.push(findBestStat('附加的小型天賦給予：#', this.enchantStats))
+              tempStat.push(this.findBestStat('附加的小型天賦給予：#', this.enchantStats))
             } else {
               tempStat.push(this.findBestStat(text, this.enchantStats))
             }
