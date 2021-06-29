@@ -1012,7 +1012,7 @@ export default {
           response.data.result[0].entries.forEach((element, index) => { // 偽屬性
             let text = element.text
             if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
-              text = text.substring(4, 15)
+              text = text.substring(4, 20)
             }
             this.pseudoStats.push(text, element.id)
           })
@@ -1550,30 +1550,6 @@ export default {
         }
       });
 
-      // function findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用 '#' 取代的兩種字串皆判斷並取最符合那一筆
-      //   let floatValue = []
-      //   let reference = []
-
-      //   let originalObj = stringSimilarity.findBestMatch(text, stats)
-      //   let modifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
-
-      //   reference.push(originalObj, modifiedObj)
-      //   floatValue.push(originalObj.bestMatch.rating, modifiedObj.bestMatch.rating)
-
-      //   if (text.includes('減少')) { // 處理物品上原先詞綴包含 '減少' 的情況：因部分詞綴於 api 中只顯示 '增加'，會造成詞綴誤判
-      //     text = text.replace('減少', '增加')
-      //     let specialOriginalObj = stringSimilarity.findBestMatch(text, stats)
-      //     let specialModifiedObj = stringSimilarity.findBestMatch(text.replace(/\d+/g, '#'), stats)
-      //     reference.push(specialOriginalObj, specialModifiedObj)
-      //     floatValue.push(specialOriginalObj.bestMatch.rating, specialModifiedObj.bestMatch.rating)
-      //     // console.log(floatValue)
-      //   }
-
-      //   let maxFloat = Math.max.apply(null, floatValue);
-      //   let index = floatValue.indexOf(maxFloat);
-
-      //   return reference[index]
-      // }
       for (let index = itemStatStart; index < itemStatEnd; index++) {
         if (itemArray[index] !== "--------" && itemArray[index]) {
           let text = itemArray[index]
@@ -1736,8 +1712,9 @@ export default {
           apiStatText = apiStatText.replace('增加', '減少')
           isNegativeStat = true
         }
-        if (statID === "enchant.stat_3086156145") { // cluster jewel analysis
+        if (statID === "enchant.stat_3086156145" || statID === "explicit.stat_1085446536") { // cluster jewel analysis
           isStatSearch = true
+          this.isStatsCollapse = true
           let tempValue = randomMinValue
           switch (randomMinValue) { // 附加天賦數判斷
             case 4:
@@ -1854,19 +1831,7 @@ export default {
         let isLevel3Room = (apiStatText.indexOf('階級 3') > -1)
 
         // console.log(apiStatText, isLevel3Room)
-        if (isLevel3Room) { // 階級三的房間放到詞綴最前面
-          this.searchStats.unshift({
-            "id": statID,
-            "text": apiStatText,
-            "option": '',
-            "min": '',
-            "max": '',
-            "isValue": false,
-            "isNegative": false,
-            "isSearch": true,
-            "type": element.type
-          })
-        } else {
+        if (isLevel3Room) { // 只保留階級三房間
           this.searchStats.push({
             "id": statID,
             "text": apiStatText,
@@ -2429,7 +2394,7 @@ export default {
         }
       } else if (Rarity === "命運卡" || Rarity === "通貨" || Rarity === "通貨不足") {
         this.searchJson.query.type = this.replaceString(searchName)
-        if (item.indexOf('可以使用於個人地圖裝置以開啟前往現今阿茲瓦特神殿的傳送門。' > -1)) { // 史記房間判斷
+        if (item.indexOf('可以使用於個人地圖裝置以開啟前往現今阿茲瓦特神殿的傳送門。') > -1) { // 史記房間判斷
           this.templeStatsAnalysis(itemArray)
           this.isStatsCollapse = true
           return

@@ -5,6 +5,8 @@ import store from './store'
 
 import "@/assets/scss/main.scss";
 
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
