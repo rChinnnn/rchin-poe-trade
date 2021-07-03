@@ -1681,11 +1681,12 @@ export default {
               break;
             case '非':
               optionValue = '4'
+              areaStat = '非常大'
               break;
             default:
               break;
           }
-          apiStatText = `只影響 [${areaStat}] 範圍天賦`
+          apiStatText = `只影響『${areaStat}』範圍天賦`
         } else {
           for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
             if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 物品詞綴最大值

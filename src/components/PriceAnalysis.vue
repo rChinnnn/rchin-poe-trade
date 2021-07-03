@@ -11,9 +11,9 @@
           <th scope="col">前 {{ fetchResultPrice.length }} 筆價格分析
             <br>
             <span v-if="corruptedCount && corruptedCount === fetchResultPrice.length" style="color: lightpink;">{{ corruptedCount }} 筆皆汙染</span>
-            <b-button v-else-if="corruptedCount" @click="$emit('exclude')" size="sm" variant="outline-danger">排除 {{ corruptedCount }} 筆已汙染</b-button>
+            <b-button v-else-if="corruptedCount" @click="$emit('exclude')" size="sm" :variant="corruptedCount > 5 ? 'outline-danger' : 'outline-warning'">排除 {{ corruptedCount }} 筆已汙染</b-button>
             <div v-if="corruptedCount" style="padding: 1px 0px;"></div>
-            <b-button v-if="fetchResultPrice.length <= 40 && fetchID.length >= 4 && calResultLength" @click="priceAnalysis(8)" :disabled="isCounting" size="sm" variant="outline-secondary">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
+            <b-button v-if="fetchResultPrice.length <= 40 && fetchID.length >= 4 && calResultLength" @click="priceAnalysis(8)" :disabled="isCounting" size="sm" variant="outline-primary">再多搜 {{ calResultLength >= 40 ? 40 : calResultLength }} 筆價格</b-button>
           </th>
         </tr>
       </thead>
