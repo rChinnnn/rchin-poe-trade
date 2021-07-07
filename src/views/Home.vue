@@ -1391,7 +1391,7 @@ export default {
         .then((response) => {
           let result = response.data.result
           let mapMatchIndex = 0
-          result[7].entries.forEach((element, index) => { // "label": "Maps" 台服 143 / 國際服 140
+          result[7].entries.forEach((element, index) => { // "label": "Maps"
             const basetype = ["Academy Map"] // 地圖起始點 { "type": "Academy Map", "text": "Academy Map" }
             if (stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1) {
               mapMatchIndex = index
@@ -1400,8 +1400,17 @@ export default {
               this.gggMapBasic.push(`${tempMapBasic[index - mapMatchIndex]} (${element.text})`)
             }
           });
-          result[5].entries.forEach((element, index) => { // "label": "Gems" 台服國際服皆 436
-            this.gggGemBasic.push(`${this.gemBasic.option[index]} (${element.text})`)
+          let bloodthirstGemIndex = 0
+          result[5].entries.forEach((element, index) => { // "label": "Gems"
+            if (element.text === 'Bloodthirst Support') { // 解決台服將 Bloodthirst Support, Bloodlust Support 都翻譯為嗜血輔助的 bug
+              bloodthirstGemIndex += 1
+              this.gggGemBasic.push(`嗜血輔助 (${element.text})`)
+            } else {
+              this.gggGemBasic.push(`${this.gemBasic.option[index - bloodthirstGemIndex]} (${element.text})`)
+            }
+          });
+          this.gggGemBasic.forEach(element => {
+            console.log(element)
           });
         })
         .catch(function (error) {
