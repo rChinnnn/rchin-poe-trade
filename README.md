@@ -1,28 +1,29 @@
 # Readme.md
 
+![GitHub Repo stars](https://img.shields.io/github/stars/rChinnnn/rchin-poe-trade?style=social)
 ![GitHub Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/total)
 ![GitHub Latest Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/total)
-![GitHub Release Date](https://img.shields.io/github/release-date/rChinnnn/rchin-poe-trade)
 
 # rChin POE Trade
-POE 快速查價工具 (Built with Electron and Vue.)
-> 絕大部分的物品皆可搜尋 - 限定台服及國際服(中文化)使用 
+POE 查價工具 (Built with Electron and Vue.)
+> 絕大部分的物品皆可搜尋 - 支援台服、國際服（中文化 by poedb）
 
 ### 贊助連結 
-若此工具對你有不少幫助，也有餘力的話，請作者在開發新功能時喝瓶麥香紅茶或一杯咖啡吧：）
-  * [麥香紅茶（O'Pay）](https://p.opay.tw/lE5Yu)
+* 此工具為開源程式，歡迎分享給親朋好友使用，也歡迎贊助一杯咖啡
+  * [歐付寶（O'Pay）](https://p.opay.tw/lE5Yu)
   * [Buy me a coffee](https://www.buymeacoffee.com/rChinnn)
 
 ### 安裝版本說明
 * 點選 [Releases頁面](https://github.com/rChinnnn/rchin-poe-trade/releases)，有兩種版本可以下載
-    * `rchin-poe-trade-Setup-1.314.2.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
-    * `rchin-poe-trade-1.314.2.exe` 可攜版，無法支援自動更新
+    * `rchin-poe-trade-Setup-1.315.1.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
+    * `rchin-poe-trade-1.315.1.exe` 可攜版，無法支援自動更新
 
 ## 【免責聲明】
 * **使用此程式者請自行承擔所有可能後果和風險**
   * 此程式並無修改任何記憶體
   * 運作原理為抓取 POE 遊戲內對物品複製後的文字進行分析，以利快速查價
   * 串接的 API 皆為官方公開資源，請勿於短時間內快速搜尋造成伺服器負擔
+  * This product isn't affiliated with or endorsed by Grinding Gear Games and Garena in any way.
  
 ## 熱鍵功能
 | 按鍵 | 功能說明 | 
@@ -40,16 +41,16 @@ POE 快速查價工具 (Built with Electron and Vue.)
 3. 切換視窗回遊戲中
 4. 將滑鼠停在物品上，按下 Ctrl+C 
 5. 程式將自動判斷此次搜尋物品
-6. 各類物品有不同設定，詳見下列狀況
 
-- [非自動搜尋項目](#非自動搜尋項目)
-    - [非傳奇裝備](#非傳奇裝備)
-- [自動搜尋項目](#自動搜尋項目)
-    - [傳奇裝備](#傳奇裝備)
-    - [地圖](#地圖)
-    - [技能](#技能)
-    - [其餘項目](#其餘項目)
-- [未支援項目](#未支援項目)
+- 各類物品有不同設定，詳見下列狀況
+    - [非自動搜尋項目](#非自動搜尋項目)
+        - [非傳奇裝備](#非傳奇裝備)
+    - [自動搜尋項目](#自動搜尋項目)
+        - [傳奇裝備](#傳奇裝備)
+        - [地圖](#地圖)
+        - [技能](#技能)
+        - [其餘項目](#其餘項目)
+    - [未支援項目](#未支援項目)
 
 ### 非自動搜尋項目
 
@@ -91,8 +92,8 @@ POE 快速查價工具 (Built with Electron and Vue.)
 * 通貨、卡片、精髓、聖甲蟲、裂片..等其餘物品皆會自動搜尋
 
 ### 未支援項目
-* 非傳奇藥劑(白/藍水)
 * 鍊魔器官
+* 劫盜契約、藍圖
 
 ## 其他功能
 

@@ -62,7 +62,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'OAuth rChinPoeTrade/1.314.2 (contact: b10121035@gemail.yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.315.1 (contact: b10121035@gemail.yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -84,7 +84,7 @@
         headers: {
           'accept': '*/*',
           'Cookie': req.body.cookie,
-          'User-Agent': 'OAuth rChinPoeTrade/1.314.2 (contact: b10121035@gemail.yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.315.1 (contact: b10121035@gemail.yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -110,7 +110,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'OAuth rChinPoeTrade/1.314.2 (contact: b10121035@gemail.yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.315.1 (contact: b10121035@gemail.yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -132,12 +132,17 @@
             fetchID[idx].push(element)
           });
           let limitString = (response.headers["x-rate-limit-ip-state"]).split(",")
-          let limitState = limitString[0].substring(0, limitString[0].indexOf(':'))
+          let limitState = {
+            "first": parseInt(limitString[0].substring(0, limitString[0].indexOf(':')), 10),
+            "second": parseInt(limitString[1].substring(0, limitString[1].indexOf(':')), 10),
+            "third": parseInt(limitString[2].substring(0, limitString[2].indexOf(':')), 10),
+          }
           res.send({
             id: body.id,
             total: body.total,
+            resultLength: body.result.length,
             fetchID: fetchID,
-            limitState: parseInt(limitState, 10) 
+            limitState: limitState
           });
         } else {
           res.status(response.statusCode).send(body);

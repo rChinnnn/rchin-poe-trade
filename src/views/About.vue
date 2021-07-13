@@ -1,8 +1,8 @@
 <template>
-<div class="about">
+<div class="about" style="padding-top: 5px;">
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="primary" header="POE 查價工具 v1.314.2" header-bg-variant="primary" header-text-variant="white" align="center">
+      <b-card border-variant="primary" header="POE 查價工具 v1.315.1" header-bg-variant="primary" header-text-variant="white" align="center">
         <b-card-text>作者：rChinnnn</b-card-text>
         <b-card-text>
           <b-button @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/releases`)" size="sm" variant="outline-primary" class="mb-2">
@@ -21,6 +21,25 @@
         <b-card-text>此程式並無修改任何記憶體</b-card-text>
         <b-card-text>運作原理為抓取 POE 遊戲內對物品複製後的文字進行分析，以利快速查價</b-card-text>
         <b-card-text>串接的 API 皆為官方公開資源，請勿於短時間內快速搜尋造成伺服器負擔</b-card-text>
+        <b-card-text>
+          <b style="font-family: monospace; background-color: lightyellow;">This product isn't affiliated with or endorsed by Grinding Gear Games and Garena in any way.</b>
+        </b-card-text>
+      </b-card>
+    </b-card-group>
+  </div>
+  <div style="padding:5px 30px;">
+    <b-card-group deck>
+      <b-card border-variant="info" header-bg-variant="info" header-text-variant="white" header="這是免費程式 / 贊助連結" align="center">
+        <b-card-text>此程式已在 GitHub 上開源，歡迎分享給親朋好友使用</b-card-text>
+        <b-card-text>也歡迎贊助一杯咖啡</b-card-text>
+        <b-card-text>
+          <b-button @click="openLink(`https://p.opay.tw/lE5Yu`)" size="sm" variant="outline-primary" class="mb-2">
+            歐付寶（O'Pay）<i class="fas fa-coffee"></i>
+          </b-button> /
+          <b-button @click="openLink(`https://www.buymeacoffee.com/rChinnn`)" size="sm" variant="outline-primary" class="mb-2">
+            Buy me a coffee <i class="fas fa-mug-hot"></i>
+          </b-button>
+        </b-card-text>
       </b-card>
     </b-card-group>
   </div>
@@ -56,25 +75,7 @@
             </tr>
           </tbody>
         </table>
-        <b-card-text><b style="background-color: lightyellow;">注意事項：所有熱鍵於 POE 遊戲視窗內皆無作用！必須在工具視窗內才能驅動各功能</b></b-card-text>
-      </b-card>
-    </b-card-group>
-  </div>
-  <div style="padding:5px 30px;">
-    <b-card-group deck>
-      <b-card border-variant="info" header-bg-variant="info" header-text-variant="white" header="這是免費程式 / 贊助連結" align="center">
-        <b-card-text>此程式已在 GitHub 上開源</b-card-text>
-        <b-card-text>歡迎分享給親朋好友使用</b-card-text>
-        <b-card-text>若工具對你有不少幫助，也有餘力的話</b-card-text>
-        <b-card-text>請作者在開發新功能時喝瓶麥香紅茶或一杯咖啡吧：）</b-card-text>
-        <b-card-text>
-          <b-button @click="openLink(`https://p.opay.tw/lE5Yu`)" size="sm" variant="outline-primary" class="mb-2">
-            麥香紅茶（O'Pay） <b-icon icon="credit-card"></b-icon>
-          </b-button> /
-          <b-button @click="openLink(`https://www.buymeacoffee.com/rChinnn`)" size="sm" variant="outline-primary" class="mb-2">
-            Buy me a coffee <b-icon icon="credit-card"></b-icon>
-          </b-button>
-        </b-card-text>
+        <b-card-text><b style="background-color: lightyellow;">注意事項：所有熱鍵於 POE 遊戲視窗內皆無作用！必須點選至查價工具視窗內才能驅動各功能</b></b-card-text>
       </b-card>
     </b-card-group>
   </div>
