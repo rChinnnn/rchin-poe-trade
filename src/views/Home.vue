@@ -142,14 +142,18 @@
               <v-select :options="priceSetting.option" v-model="priceSetting.chosenObj" @input="priceSettingChange" :disabled="isCounting" :clearable="false" :filterable="false"></v-select>
             </b-col>
             <b-col sm="1" class="lesspadding" style="padding-top: 2px;">
-              <b-form-input v-model.number="priceSetting.min" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999"></b-form-input>
+              <b-form-input v-model.number="storePriceMin" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999"></b-form-input>
             </b-col>
             <b-col sm="1" class="lesspadding" style="padding-top: 2px;">
-              <b-form-input v-model.number="priceSetting.max" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999" :style="!isNaN(priceSetting.max) && (priceSetting.max < priceSetting.min) ? 'color: #fc3232; font-weight:bold;' : ''"></b-form-input>
+              <b-form-input v-model.number="storePriceMax" @change="priceSettingChange" :disabled="isCounting" size="sm" type="number" min="0" max="999" :style="!isNaN(storePriceMax) && (storePriceMax < storePriceMin) ? 'color: #fc3232; font-weight:bold;' : ''"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
-            <b-col sm="3"></b-col>
+            <b-col sm="3">
+              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="collapseSet" :disabled="isCounting" switch :inline="false">
+                <b v-b-tooltip.hover.right.v-secondary :title="`交易過濾條件：透過帳號摺疊名單 (Collapse Listings by Account)`">依帳號摺疊</b>
+              </b-form-checkbox>
+            </b-col>
             <b-col sm="2">
               <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="corruptedSet.isSearch" :disabled="true" switch>已汙染</b-form-checkbox>
             </b-col>
@@ -457,6 +461,7 @@ export default {
       isGarenaSvr: true,
       isApiError: false,
       apiErrorStr: '',
+      collapseSet: true, // 透過帳號摺疊名單 (Collapse Listings by Account) 預設為 true
       isCounting: false,
       isOnline: true,
       isPriced: true,
@@ -489,8 +494,6 @@ export default {
       equipItems: [], // 可裝備的物品資料
       monstersItems: [], // 物品化怪物資料
       priceSetting: { // 價格設定
-        min: 0.1,
-        max: '',
         option: [{
           label: "與混沌石等值",
           prop: ''
@@ -707,11 +710,10 @@ export default {
                   "option": "priced"
                 },
                 "price": {
-                  "min": 0.1
+                  "min": localStorage.getItem('priceSettingMin') || 0.1,
+                  "max": localStorage.getItem('priceSettingMax') || '',
                 },
-                "collapse": {
-                  "option": "true"
-                }
+                "collapse": {}
               }
             },
             "misc_filters": {
@@ -806,6 +808,7 @@ export default {
     if (clipboard.readText().indexOf('稀有度:') > -1) {
       this.cleanClipboard()
     }
+    this.initLocalStorage()
   },
   mounted() {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
@@ -813,6 +816,16 @@ export default {
     this.getAllAPI(true);
   },
   methods: {
+    initLocalStorage() {
+      this.collapseSet = localStorage.getItem('collapseSet') ? JSON.parse(localStorage.getItem('collapseSet')) : true
+      if (this.collapseSet) {
+        this.searchJson_Def.query.filters.trade_filters.filters.collapse = {
+          option: "true"
+        }
+      } else {
+        delete this.searchJson_Def.query.filters.trade_filters.filters.collapse
+      }
+    },
     checkAPI() {
       this.equipItems.forEach(element => {
         console.log(element.text, element.name, element.option)
@@ -942,7 +955,7 @@ export default {
           if (response.data.total === 10000) { // 嘗試修復有時搜尋會無法代入條件的 bug
             this.copyText = ''
           }
-          this.status = ` 共 ${response.data.total} 筆符合 ${this.isPriceCollapse ? '<br>〖報價已折疊〗' : ''}`
+          this.status = ` 共 ${response.data.total} 筆符合 ${this.isPriceCollapse ? '<br>〖報價已摺疊〗' : ''}`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
           let limitState = response.data.limitState
@@ -1409,9 +1422,6 @@ export default {
               this.gggGemBasic.push(`${this.gemBasic.option[index - bloodthirstGemIndex]} (${element.text})`)
             }
           });
-          this.gggGemBasic.forEach(element => {
-            console.log(element)
-          });
         })
         .catch(function (error) {
           vm.isApiError = true
@@ -1673,7 +1683,7 @@ export default {
         } else if (statID === "enchant.stat_2954116742") {
           let obj = stringSimilarity.findBestMatch(itemStatText, this.allocatesStats)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
-          apiStatText = `配置塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
+          apiStatText = `配置 塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
         } else if (statID === "explicit.stat_3642528642") {
           isStatSearch = true
           this.isStatsCollapse = true
@@ -2116,8 +2126,8 @@ export default {
       this.itemExBasic.chosenObj = value
     },
     priceSettingChange() {
-      this.searchJson_Def.query.filters.trade_filters.filters.price.min = this.priceSetting.min
-      this.searchJson_Def.query.filters.trade_filters.filters.price.max = this.priceSetting.max
+      this.searchJson_Def.query.filters.trade_filters.filters.price.min = this.storePriceMin
+      this.searchJson_Def.query.filters.trade_filters.filters.price.max = this.storePriceMax
       if (this.priceSetting.chosenObj.prop) {
         this.searchJson_Def.query.filters.trade_filters.filters.price.option = this.priceSetting.chosenObj.prop
       } else {
@@ -2494,6 +2504,26 @@ export default {
         this.leaguesAPI();
       }
     },
+    collapseSet: function () {
+      localStorage.setItem('collapseSet', JSON.stringify(this.collapseSet))
+      if (this.collapseSet) {
+        this.searchJson_Def.query.filters.trade_filters.filters.collapse = {
+          option: "true"
+        }
+      } else {
+        delete this.searchJson_Def.query.filters.trade_filters.filters.collapse
+      }
+      if (this.isSearchJson && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
+        if (this.collapseSet) {
+          this.searchJson.query.filters.trade_filters.filters.collapse = {
+            option: "true"
+          }
+        } else {
+          delete this.searchJson.query.filters.trade_filters.filters.collapse
+        }
+        this.searchTrade(this.searchJson)
+      }
+    },
     isOnline: _.debounce(function () {
       let option = this.isOnline ? 'online' : 'any'
       this.searchJson_Def.query.status.option = option
@@ -2588,6 +2618,22 @@ export default {
       },
       set(newID) { // commit a mutation to set message
         this.$store.commit('setPOESESSID', newID);
+      }
+    },
+    storePriceMin: {
+      get() {
+        return this.$store.state.priceSettingMin;
+      },
+      set(newValue) {
+        this.$store.commit('setPriceMin', newValue);
+      }
+    },
+    storePriceMax: {
+      get() {
+        return this.$store.state.priceSettingMax;
+      },
+      set(newValue) {
+        this.$store.commit('setPriceMax', newValue);
       }
     },
     isDevMode() {

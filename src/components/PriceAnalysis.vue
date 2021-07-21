@@ -24,7 +24,7 @@
             報價：{{ item.amount }} x
             <b-img :src="item.image" :alt="item.text" width=30 height=30></b-img>
             / <b>{{ item.count }}</b>筆
-            <span v-if="item.count !== item.accountName.length">（<b>{{ item.accountName.length }}</b>人標）</span>
+            <span v-if="isPriceCollapse === false">（<b>{{ item.accountName.length }}</b>人標）</span>
             <b-icon-x-square v-show="hoveredIndex == index && $store.state.POESESSID" @click="addToBlackList(item.accountName)" v-b-tooltip.hover.right.v-secondary :title="`將這 ${item.accountName.length} 人加入黑名單`" style="cursor: pointer;"></b-icon-x-square>
           </td>
         </tr>
