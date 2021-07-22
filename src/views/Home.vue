@@ -150,7 +150,7 @@
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px; padding-left: 2px;">
             <b-col sm="3">
-              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="collapseSet" :disabled="isCounting" switch :inline="false">
+              <b-form-checkbox class="float-right" style="padding-top: 5px;" v-model="isPriceCollapse" :disabled="isCounting" switch :inline="false">
                 <b v-b-tooltip.hover.right.v-secondary :title="`交易過濾條件：透過帳號摺疊名單 (Collapse Listings by Account)`">依帳號摺疊</b>
               </b-form-checkbox>
             </b-col>
@@ -461,7 +461,6 @@ export default {
       isGarenaSvr: true,
       isApiError: false,
       apiErrorStr: '',
-      collapseSet: true, // 透過帳號摺疊名單 (Collapse Listings by Account) 預設為 true
       isCounting: false,
       isOnline: true,
       isPriced: true,
@@ -486,7 +485,7 @@ export default {
       wrapStats: [],
       craftedStats: [], // 已工藝
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
-      isPriceCollapse: false,
+      isPriceCollapse: true, // 透過帳號摺疊名單 (Collapse Listings by Account) 預設為 true
       resultLength: 0,
       searchName: '',
       fetchQueryID: '',
@@ -817,8 +816,8 @@ export default {
   },
   methods: {
     initLocalStorage() {
-      this.collapseSet = localStorage.getItem('collapseSet') ? JSON.parse(localStorage.getItem('collapseSet')) : true
-      if (this.collapseSet) {
+      this.isPriceCollapse = localStorage.getItem('isPriceCollapse') ? JSON.parse(localStorage.getItem('isPriceCollapse')) : true
+      if (this.isPriceCollapse) {
         this.searchJson_Def.query.filters.trade_filters.filters.collapse = {
           option: "true"
         }
@@ -949,13 +948,12 @@ export default {
           cookie: this.$store.state.POESESSID,
         })
         .then((response) => {
-          this.isPriceCollapse = response.data.resultLength === 100 ? false : response.data.total !== response.data.resultLength
           this.resultLength = response.data.resultLength
           this.searchTotal = response.data.total // 總共搜到幾項物品
           if (response.data.total === 10000) { // 嘗試修復有時搜尋會無法代入條件的 bug
             this.copyText = ''
           }
-          this.status = ` 共 ${response.data.total} 筆符合 ${this.isPriceCollapse ? '<br>〖報價已摺疊〗' : ''}`
+          this.status = ` 共 ${response.data.total} 筆符合 ${this.isPriceCollapse && response.data.total !== response.data.resultLength ? '- 報價已摺疊' : ''}`
           this.fetchID = response.data.fetchID
           this.fetchQueryID = response.data.id
           let limitState = response.data.limitState
@@ -2504,9 +2502,9 @@ export default {
         this.leaguesAPI();
       }
     },
-    collapseSet: function () {
-      localStorage.setItem('collapseSet', JSON.stringify(this.collapseSet))
-      if (this.collapseSet) {
+    isPriceCollapse: function () {
+      localStorage.setItem('isPriceCollapse', JSON.stringify(this.isPriceCollapse))
+      if (this.isPriceCollapse) {
         this.searchJson_Def.query.filters.trade_filters.filters.collapse = {
           option: "true"
         }
@@ -2514,7 +2512,7 @@ export default {
         delete this.searchJson_Def.query.filters.trade_filters.filters.collapse
       }
       if (this.isSearchJson && JSON.stringify(this.searchJson_Def) !== JSON.stringify(this.searchJson)) {
-        if (this.collapseSet) {
+        if (this.isPriceCollapse) {
           this.searchJson.query.filters.trade_filters.filters.collapse = {
             option: "true"
           }
