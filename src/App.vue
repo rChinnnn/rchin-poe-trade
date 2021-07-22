@@ -41,6 +41,9 @@ export default {
       nightMode: true
     }
   },
+  created() {
+    this.nightMode = localStorage.getItem('nightMode') ? JSON.parse(localStorage.getItem('nightMode')) : true
+  },
   watch: {
     nightMode: function () {
       if (this.nightMode) {

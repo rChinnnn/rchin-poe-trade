@@ -1,8 +1,8 @@
 # Readme.md
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/rChinnnn/rchin-poe-trade?style=social)
-![GitHub Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/total)
-![GitHub Latest Releases](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/total)
+![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-Setup-1.315.1.exe?label=Downloads&style=social)
+![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-1.315.1.exe?label=Downloads&style=social)
 
 # rChin POE Trade
 POE 查價工具 (Built with Electron and Vue.)

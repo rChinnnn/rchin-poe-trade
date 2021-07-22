@@ -8,6 +8,8 @@ export default new Vuex.Store({
     POESESSID: '' || localStorage.getItem('POESESSID'),
     accountName: '' || localStorage.getItem('accountName'),
     selectedTab: localStorage.getItem('selectedTab') || '0',
+    priceSettingMin: localStorage.getItem('priceSettingMin') || 0.1,
+    priceSettingMax: localStorage.getItem('priceSettingMax') || '',
   },
   mutations: {
     setPOESESSID(state, POESESSID) {
@@ -21,6 +23,14 @@ export default new Vuex.Store({
     setSelectedTab(state, selectedTab) {
       state.selectedTab = selectedTab
       localStorage.setItem('selectedTab', selectedTab)
+    },
+    setPriceMin(state, value) {
+      state.priceSettingMin = value
+      localStorage.setItem('priceSettingMin', value)
+    },
+    setPriceMax(state, value) {
+      state.priceSettingMax = value
+      localStorage.setItem('priceSettingMax', value)
     },
   },
   actions: {},
