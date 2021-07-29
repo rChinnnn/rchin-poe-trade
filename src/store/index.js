@@ -9,7 +9,7 @@ export default new Vuex.Store({
     accountName: '' || localStorage.getItem('accountName'),
     selectedTab: localStorage.getItem('selectedTab') || '0',
     priceSettingMin: localStorage.getItem('priceSettingMin') || 0.1,
-    priceSettingMax: localStorage.getItem('priceSettingMax') || '',
+    priceSettingMax: localStorage.getItem('priceSettingMax') || null,
   },
   mutations: {
     setPOESESSID(state, POESESSID) {

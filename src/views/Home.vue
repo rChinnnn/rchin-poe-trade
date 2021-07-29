@@ -710,7 +710,7 @@ export default {
                 },
                 "price": {
                   "min": localStorage.getItem('priceSettingMin') || 0.1,
-                  "max": localStorage.getItem('priceSettingMax') || '',
+                  "max": localStorage.getItem('priceSettingMax') || null,
                 },
                 "collapse": {}
               }
