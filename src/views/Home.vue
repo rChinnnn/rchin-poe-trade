@@ -710,7 +710,7 @@ export default {
                 },
                 "price": {
                   "min": localStorage.getItem('priceSettingMin') || 0.1,
-                  "max": localStorage.getItem('priceSettingMax') || '',
+                  "max": localStorage.getItem('priceSettingMax') || null,
                 },
                 "collapse": {}
               }
@@ -1606,7 +1606,8 @@ export default {
       let spellDamageTotal = 0
       tempStat.forEach((element, idx, array) => { // 比對詞綴，抓出隨機數值與詞綴搜尋 ID
         let isStatSearch = false
-        let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
+        let bestIndex = (element.bestMatchIndex % 2 === 0) ? element.bestMatchIndex + 1 : element.bestMatchIndex // 處理判斷到英文詞綴的例外狀況，通常是季初有新詞綴尚未翻譯時才發生
+        let statID = element.ratings[bestIndex].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
         let itemStatText = itemDisplayStats[idx] // 物品上的詞綴字串
         switch (true) { // 偽屬性、部分(Local)屬性判斷處理
@@ -2029,8 +2030,8 @@ export default {
         delete this.searchJson.query.filters.misc_filters.filters.ilvl // 刪除物品等級 filter
       } else if (this.itemLevel.isSearch && this.isSearchJson) {
         this.searchJson.query.filters.misc_filters.filters.ilvl = { // 增加物品等級最小值 filter
-          "min": this.itemLevel.min,
-          "max": this.itemLevel.max ? this.itemLevel.max : ''
+          "min": this.itemLevel.min ? this.itemLevel.min : null,
+          "max": this.itemLevel.max ? this.itemLevel.max : null
         }
       }
     },
@@ -2041,8 +2042,8 @@ export default {
         this.searchJson.query.filters.socket_filters = { // 增加物品連線 filter
           "filters": {
             "links": {
-              "min": this.itemLinked.min ? this.itemLinked.min : '',
-              "max": this.itemLinked.max ? this.itemLinked.max : ''
+              "min": this.itemLinked.min ? this.itemLinked.min : null,
+              "max": this.itemLinked.max ? this.itemLinked.max : null
             }
           }
         }
@@ -2124,8 +2125,8 @@ export default {
       this.itemExBasic.chosenObj = value
     },
     priceSettingChange() {
-      this.searchJson_Def.query.filters.trade_filters.filters.price.min = this.storePriceMin
-      this.searchJson_Def.query.filters.trade_filters.filters.price.max = this.storePriceMax
+      this.searchJson_Def.query.filters.trade_filters.filters.price.min = this.storePriceMin ? this.storePriceMin : null
+      this.searchJson_Def.query.filters.trade_filters.filters.price.max = this.storePriceMax ? this.storePriceMax : null
       if (this.priceSetting.chosenObj.prop) {
         this.searchJson_Def.query.filters.trade_filters.filters.price.option = this.priceSetting.chosenObj.prop
       } else {
@@ -2266,8 +2267,8 @@ export default {
         delete this.searchJson.query.filters.map_filters.filters.map_tier // 刪除地圖階級 filter
       } else if (this.mapLevel.isSearch && this.isSearchJson) {
         this.searchJson.query.filters.map_filters.filters.map_tier = { // 指定地圖階級最小 / 最大值 filter
-          "min": this.mapLevel.min,
-          "max": this.mapLevel.max
+          "min": this.mapLevel.min ? this.mapLevel.min : null,
+          "max": this.mapLevel.max ? this.mapLevel.max : null
         }
       }
     },
@@ -2295,8 +2296,8 @@ export default {
         delete this.searchJson.query.filters.misc_filters.filters.gem_level // 刪除技能等級 filter
       } else if (this.gemLevel.isSearch && this.isSearchJson) {
         this.searchJson.query.filters.misc_filters.filters.gem_level = { // 指定技能等級最小 / 最大值 filter
-          "min": this.gemLevel.min,
-          "max": this.gemLevel.max
+          "min": this.gemLevel.min ? this.gemLevel.min : null,
+          "max": this.gemLevel.max ? this.gemLevel.max : null
         }
       }
     },
@@ -2305,8 +2306,8 @@ export default {
         delete this.searchJson.query.filters.misc_filters.filters.quality // 刪除技能品質 filter
       } else if (this.gemQuality.isSearch && this.isSearchJson) {
         this.searchJson.query.filters.misc_filters.filters.quality = { // 指定技能品質最小 / 最大值 filter
-          "min": this.gemQuality.min,
-          "max": this.gemQuality.max
+          "min": this.gemQuality.min ? this.gemQuality.min : null,
+          "max": this.gemQuality.max ? this.gemQuality.max : null
         }
       }
     },
@@ -2493,8 +2494,8 @@ export default {
       let vm = this
       this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
       if (!this.isGarenaSvr) {
-        this.leagues.option = this.gggLeagues
-        this.leagues.chosenL = this.gggLeagues[0]
+        this.leagues.option = Object.assign([], this.gggLeagues);
+        this.leagues.chosenL = this.leagues.option[0]
         this.mapBasic.option = Object.assign([], this.gggMapBasic);
         this.gemBasic.option = Object.assign([], this.gggGemBasic);
       } else {
