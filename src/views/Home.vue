@@ -74,6 +74,9 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
+            <b-col sm="12" v-if="handlePOESESSID">
+              <ChaosRecipe></ChaosRecipe>
+            </b-col>
           </b-row>
           <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
             <b-row style="padding-top: 10px;">
@@ -434,6 +437,7 @@
 // @ is an alias to /src
 // import hotkeys from "hotkeys-js";
 import PriceAnalysis from '@/components/PriceAnalysis.vue'
+import ChaosRecipe from '@/components/ChaosRecipe.vue'
 import GoTop from '@inotom/vue-go-top';
 
 const _ = require('lodash');
@@ -446,6 +450,7 @@ export default {
   name: 'home',
   components: {
     PriceAnalysis,
+    ChaosRecipe,
     GoTop
   },
   data() {
