@@ -440,6 +440,9 @@ import PriceAnalysis from '@/components/PriceAnalysis.vue'
 import ChaosRecipe from '@/components/ChaosRecipe.vue'
 import GoTop from '@inotom/vue-go-top';
 
+import itemsData from "../assets/poe/items.json";
+import statsData from "../assets/poe/stats.json";
+
 const _ = require('lodash');
 const stringSimilarity = require('string-similarity');
 const {
@@ -480,21 +483,23 @@ export default {
       issueText: '',
       isMapAreaCollapse: false,
       searchStats: [], // 分析拆解後的物品詞綴陣列，提供使用者在界面勾選是否查詢及輸入數值
+      allStats: statsData, // 詞綴 API 資料
       pseudoStats: [], // 偽屬性
       explicitStats: [], // 隨機屬性
       implicitStats: [], // 固定屬性
       fracturedStats: [], // 破裂
       enchantStats: [], // 附魔
+      scourgeStats: [], // 災魘詞綴
+      craftedStats: [], // 已工藝
       clusterJewelStats: [], // 星團珠寶附魔詞綴
       allocatesStats: [], // 項鍊塗油配置附魔詞綴
       wrapStats: [],
-      craftedStats: [], // 已工藝
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       isPriceCollapse: true, // 透過帳號摺疊名單 (Collapse Listings by Account) 預設為 true
       resultLength: 0,
       searchName: '',
       fetchQueryID: '',
-      // allItems: [], // 物品 API 抓回來的資料
+      allItems: itemsData, // 物品 API 資料
       equipItems: [], // 可裝備的物品資料
       monstersItems: [], // 物品化怪物資料
       priceSetting: { // 價格設定
@@ -1023,83 +1028,94 @@ export default {
     },
     statsAPI() { // 詞綴 API
       let vm = this
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
-        .then((response) => {
-          response.data.result[0].entries.forEach((element, index) => { // 偽屬性
-            let text = element.text
-            if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
-              text = text.substring(4, 20)
-            }
-            this.pseudoStats.push(text, element.id)
+      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
+      //   .then((response) => {
+      let result = this.allStats
+      result[0].entries.forEach((element, index) => { // 偽屬性
+        let text = element.text
+        if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
+          text = text.substring(4, 20)
+        }
+        this.pseudoStats.push(text, element.id)
+      })
+      result[1].entries.forEach((element, index) => { // 隨機屬性
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.explicitStats.push(text, element.id)
+      })
+      result[2].entries.forEach((element, index) => { // 固定屬性
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.implicitStats.push(text, element.id)
+      })
+      result[3].entries.forEach((element, index) => { // 破裂
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        this.fracturedStats.push(text, element.id)
+      })
+      result[4].entries.forEach((element, index) => { // 附魔
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (element.id === "enchant.stat_3948993189") { // 星團珠寶固定附魔詞綴
+          element.option.options.forEach((element, index) => {
+            this.clusterJewelStats.push(element.text, (element.id).toString())
           })
-          response.data.result[1].entries.forEach((element, index) => { // 隨機屬性
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            if (text.includes('\n')) { // 處理折行詞綴
-              this.wrapStats.push(text)
-            }
-            this.explicitStats.push(text, element.id)
+        } else if (element.id === "enchant.stat_2954116742") { // 項鍊塗油配置附魔詞綴
+          element.option.options.forEach((element, index) => {
+            this.allocatesStats.push(element.text, (element.id).toString())
           })
-          response.data.result[2].entries.forEach((element, index) => { // 固定屬性
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            if (text.includes('\n')) { // 處理折行詞綴
-              this.wrapStats.push(text)
-            }
-            this.implicitStats.push(text, element.id)
-          })
-          response.data.result[3].entries.forEach((element, index) => { // 破裂
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            this.fracturedStats.push(text, element.id)
-          })
-          response.data.result[4].entries.forEach((element, index) => { // 附魔
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            if (element.id === "enchant.stat_3948993189") { // 星團珠寶固定附魔詞綴
-              element.option.options.forEach((element, index) => {
-                this.clusterJewelStats.push(element.text, (element.id).toString())
-              })
-            } else if (element.id === "enchant.stat_2954116742") { // 項鍊塗油配置附魔詞綴
-              element.option.options.forEach((element, index) => {
-                this.allocatesStats.push(element.text, (element.id).toString())
-              })
-            }
-            if (text.includes('\n')) { // 處理折行詞綴
-              this.wrapStats.push(text)
-            }
-            this.enchantStats.push(text, element.id)
-          })
-          response.data.result[5].entries.forEach((element, index) => { // 已工藝
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            if (text.includes('\n')) { // 處理折行詞綴
-              this.wrapStats.push(text)
-            }
-            this.craftedStats.push(text, element.id)
-          })
-        })
-        .catch(function (error) {
-          vm.isApiError = true
-          vm.apiErrorStr = error
-          vm.startCountdown(10)
-          vm.resetSearchData()
-          vm.$message({
-            type: 'error',
-            message: `error: ${error}`
-          });
-          console.log(error);
-        })
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.enchantStats.push(text, element.id)
+      })
+      result[5].entries.forEach((element, index) => { // 災魘詞綴
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.scourgeStats.push(text, element.id)
+      })
+      result[6].entries.forEach((element, index) => { // 已工藝
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.craftedStats.push(text, element.id)
+      })
+      // })
+      // .catch(function (error) {
+      //   vm.isApiError = true
+      //   vm.apiErrorStr = error
+      //   vm.startCountdown(10)
+      //   vm.resetSearchData()
+      //   vm.$message({
+      //     type: 'error',
+      //     message: `error: ${error}`
+      //   });
+      //   console.log(error);
+      // })
     },
     itemsAPI() { // 物品 API
       let vm = this
@@ -1509,8 +1525,8 @@ export default {
       }
 
       itemArray.forEach((element, index) => {
-        let isEnchantOrImplicit = index > 0 ? itemArray[index - 1].indexOf("(enchant)") > -1 || itemArray[index - 1].indexOf("(implicit)") > -1 : false
-        // "--------" 字串前一筆資料若為固定詞或附魔詞，則不將此 index 視為詞綴結束點
+        let isEnchantOrImplicit = index > 0 ? itemArray[index - 1].indexOf("(enchant)") > -1 || itemArray[index - 1].indexOf("(implicit)") > -1 || itemArray[index - 1].indexOf("(scourge)") > -1 : false
+        // "--------" 字串前一筆資料若為固定詞或附魔詞或災魘詞，則不將此 index 視為詞綴結束點
         if (stringSimilarity.compareTwoStrings(element, '魔符階級:') > 0.7) {
           itemStatStart = index + 2
         } else if (stringSimilarity.compareTwoStrings(element, '物品等級:') > 0.7) {
@@ -1584,6 +1600,10 @@ export default {
             text = text.substring(0, text.indexOf('(fractured)'))
             tempStat.push(this.findBestStat(text, this.fracturedStats))
             tempStat[tempStat.length - 1].type = "破裂"
+          } else if (itemArray[index].indexOf('(scourge)') > -1) { // 災魘
+            text = text.substring(0, text.indexOf('(scourge)'))
+            tempStat.push(this.findBestStat(text, this.scourgeStats))
+            tempStat[tempStat.length - 1].type = "災魘"
           } else if (itemArray[index].indexOf('(crafted)') > -1) { // 已工藝屬性
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(this.findBestStat(text, this.craftedStats))
@@ -2019,6 +2039,7 @@ export default {
 
       switch (matchItem.option) { // 藥劑、守望石、釋界之邀、劫盜裝備會自動搜尋該基底
         case 'flask':
+          this.itemLevel.isSearch = true // 3.16 藥劑增加物等篩選
         case 'watchstone':
         case 'map.invitation':
         case 'heistequipment':
@@ -2668,6 +2689,11 @@ export default {
           case '破裂':
             return {
               'color': '#a29162'
+            }
+            break;
+          case '災魘':
+            return {
+              'color': '#ff6e25'
             }
             break;
           case '工藝':
