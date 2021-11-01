@@ -1,5 +1,6 @@
 {
     "win": {
+        "icon": "public/app.ico",
         "target": [
             "nsis",
             "portable"
