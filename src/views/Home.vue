@@ -1030,7 +1030,7 @@ export default {
       let vm = this
       // this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
       //   .then((response) => {
-      let result = this.allStats
+      let result = this.allStats.result
       result[0].entries.forEach((element, index) => { // 偽屬性
         let text = element.text
         if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
