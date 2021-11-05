@@ -81,40 +81,18 @@
           <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
             <b-row style="padding-top: 10px;">
               <b-col sm="5">
-                <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上外)</b-button>
+                <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上)</b-button>
               </b-col>
-              <b-col sm="2"></b-col>
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('雷克斯．伊喬里斯')" size="sm" variant="outline-primary">雷克斯．伊喬里斯 (右上外)</b-button>
+              <b-col sm="4">
+                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" variant="outline-primary">瓦爾多憩地 (右上)</b-button>
               </b-col>
             </b-row>
             <b-row style="padding-top: 8px;">
-              <b-col sm="3"></b-col>
-              <b-col sm="3">
-                <b-button @click="mapAreaCopy('特恩之盡')" size="sm" variant="outline-primary">特恩之盡 (左上內)</b-button>
-              </b-col>
               <b-col sm="5">
-                <b-button @click="mapAreaCopy('雷克斯．普拉克斯瑪')" size="sm" variant="outline-primary">雷克斯．普拉克斯瑪 (右上內)</b-button>
-              </b-col>
-              <b-col sm="1"></b-col>
-            </b-row>
-            <b-row style="padding-top: 8px;">
-              <b-col sm="1"></b-col>
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary">格倫納許．凱恩斯 (左下內)</b-button>
+                <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary" @click.shift.middle="(clickCount > 5 && isGem) || handlePOESESSID ? clickOpen() : ''">格倫納許．凱恩斯 (左下)</b-button>
               </b-col>
               <b-col sm="4">
-                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" @click.right="clickCount++" variant="outline-primary">瓦爾多憩地 (右下內)</b-button>
-              </b-col>
-              <b-col sm="2"></b-col>
-            </b-row>
-            <b-row style="padding-top: 8px;">
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('新瓦斯提里')" size="sm" variant="outline-primary" @click.shift.middle="(clickCount > 5 && isGem) || handlePOESESSID ? clickOpen() : ''">新瓦斯提里 (左下外)</b-button>
-              </b-col>
-              <b-col sm="4"></b-col>
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" variant="outline-primary">里拉．奧斯汀 (右下外)</b-button>
+                <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" @click.right="clickCount++" variant="outline-primary">里拉．奧斯汀 (右下)</b-button>
               </b-col>
             </b-row>
           </b-collapse>
@@ -1030,7 +1008,7 @@ export default {
       let vm = this
       // this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
       //   .then((response) => {
-      let result = this.allStats
+      let result = this.allStats.result
       result[0].entries.forEach((element, index) => { // 偽屬性
         let text = element.text
         if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
@@ -1525,7 +1503,7 @@ export default {
       }
 
       itemArray.forEach((element, index) => {
-        let isEnchantOrImplicit = index > 0 ? itemArray[index - 1].indexOf("(enchant)") > -1 || itemArray[index - 1].indexOf("(implicit)") > -1 || itemArray[index - 1].indexOf("(scourge)") > -1 : false
+        let isEndPoint = index > 0 ? itemArray[index - 1].indexOf("(enchant)") > -1 || itemArray[index - 1].indexOf("(implicit)") > -1 || itemArray[index - 1].indexOf("(scourge)") > -1 : false
         // "--------" 字串前一筆資料若為固定詞或附魔詞或災魘詞，則不將此 index 視為詞綴結束點
         if (stringSimilarity.compareTwoStrings(element, '魔符階級:') > 0.7) {
           itemStatStart = index + 2
@@ -1568,8 +1546,8 @@ export default {
               itemArray[index] = `${itemArray[index]}\n增加 12% 地雷傷害 (enchant)`
               spliceWrapStats(1, index)
               break;
-            case element.indexOf("增加 10% 藥劑回復生命") > -1:
-              itemArray[index] = `${itemArray[index]}\n增加 10% 藥劑回復魔力 (enchant)`
+            case element.indexOf("增加 10% 來自藥劑的生命回復") > -1:
+              itemArray[index] = `${itemArray[index]}\n增加 10% 來自藥劑的魔力回復`
               spliceWrapStats(1, index)
               break;
             default:
@@ -1579,7 +1557,7 @@ export default {
           let areaStat = itemArray[index].substr(3, 1)
           itemArray[index] = `Only affects Passives in # Ring,${areaStat}`
         }
-        if (element === "--------" && !isEnchantOrImplicit && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
+        if (element === "--------" && !isEndPoint && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
         }
         if (element.indexOf('未鑑定') > -1) {
@@ -1635,31 +1613,71 @@ export default {
         let statID = element.ratings[bestIndex].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
         let itemStatText = itemDisplayStats[idx] // 物品上的詞綴字串
-        switch (true) { // 偽屬性、部分(Local)屬性判斷處理
-          case statID.indexOf('stat_210067635') > -1 || statID.indexOf('stat_681332047') > -1: // 攻擊速度 (部分) 
-            statID = 'pseudo.pseudo_total_attack_speed'
-            break;
-          case statID.indexOf('stat_3489782002') > -1 || statID.indexOf('stat_4052037485') > -1: // # 最大能量護盾 (部分)
-            statID = 'pseudo.pseudo_total_energy_shield'
-            break;
+        switch (true) { // 部分(Local)屬性判斷處理：若物品為武器，攻擊屬性應為（部分）標籤
           case statID.indexOf('stat_960081730') > -1 || statID.indexOf('stat_1940865751') > -1: // 附加 # 至 # 物理傷害 (部分)
-            statID = 'pseudo.pseudo_adds_physical_damage'
+            if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) { // 武器類別
+              statID = `${statID.split('.')[0]}.stat_1940865751`
+            } else { // 非武器
+              statID = `${statID.split('.')[0]}.stat_960081730`
+            }
             break;
           case statID.indexOf('stat_321077055') > -1 || statID.indexOf('stat_709508406') > -1: // 附加 # 至 # 火焰傷害 (部分)
-            statID = 'pseudo.pseudo_adds_fire_damage'
+            if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
+              statID = `${statID.split('.')[0]}.stat_709508406`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_321077055`
+            }
             break;
           case statID.indexOf('stat_3531280422') > -1 || statID.indexOf('stat_2223678961') > -1: // 附加 # 至 # 混沌傷害 (部分)
-            statID = 'pseudo.pseudo_adds_chaos_damage'
+            if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
+              statID = `${statID.split('.')[0]}.stat_2223678961`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_3531280422`
+            }
             break;
-          case statID.indexOf('stat_2885144362') > -1 || statID.indexOf('stat_1334060246') > -1 || statID.indexOf('stat_3336890334') > -1: // 附加 # 至 # 閃電傷害 (部分)
-            // stat_2885144362 應改為攻擊和法術附加 # 至 # 閃電傷害
-            statID = 'pseudo.pseudo_adds_lightning_damage'
+          case statID.indexOf('stat_1334060246') > -1 || statID.indexOf('stat_3336890334') > -1: // 附加 # 至 # 閃電傷害 (部分)
+            if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
+              statID = `${statID.split('.')[0]}.stat_3336890334`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_1334060246`
+            }
             break;
-          case statID.indexOf('stat_1662717006') > -1 || statID.indexOf('stat_1037193709') > -1 || statID.indexOf('stat_2387423236') > -1: // 附加 # 至 # 冰冷傷害 (部分)
-            // stat_1662717006 應改為攻擊和法術附加 # 至 # 冰冷傷害
-            statID = 'pseudo.pseudo_adds_cold_damage'
+          case statID.indexOf('stat_2387423236') > -1 || statID.indexOf('stat_1037193709') > -1: // 附加 # 至 # 冰冷傷害 (部分)
+            if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
+              statID = `${statID.split('.')[0]}.stat_1037193709`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_2387423236`
+            }
             break;
-            // 閃避值與護甲無偽屬性，若物品為護甲，應為（部分）標籤
+          case statID.indexOf('stat_681332047') > -1 || statID.indexOf('stat_210067635') > -1: // 攻擊速度 (部分) 
+            if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
+              statID = `${statID.split('.')[0]}.stat_210067635`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_681332047`
+            }
+            break;
+          case statID.indexOf('stat_681332047') > -1 || statID.indexOf('stat_210067635') > -1: // 攻擊速度 (部分) 
+            if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
+              statID = `${statID.split('.')[0]}.stat_210067635`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_681332047`
+            }
+            break;
+          case statID.indexOf('stat_3593843976') > -1 || statID.indexOf('stat_55876295') > -1: // #% 的物理攻擊傷害偷取生命 (部分)
+            if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
+              statID = `${statID.split('.')[0]}.stat_55876295`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_3593843976`
+            }
+            break;
+          case statID.indexOf('stat_3237948413') > -1 || statID.indexOf('stat_669069897') > -1: // #% 所造成的物理攻擊傷害偷取魔力 (部分)
+            if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
+              statID = `${statID.split('.')[0]}.stat_669069897`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_3237948413`
+            }
+            break;
+            // 若物品為護甲，防禦屬性應為（部分）標籤
           case statID.indexOf('stat_2144192055') > -1 || statID.indexOf('stat_53045048') > -1: // # 點閃避值 (部分)
             if (this.itemCategory.chosenObj.prop.indexOf('armour') > -1) { // 護甲類別
               statID = `${statID.split('.')[0]}.stat_53045048`
@@ -1686,6 +1704,13 @@ export default {
               statID = `${statID.split('.')[0]}.stat_1062208444`
             } else {
               statID = `${statID.split('.')[0]}.stat_2866361420`
+            }
+            break;
+          case statID.indexOf('stat_3489782002') > -1 || statID.indexOf('stat_4052037485') > -1: // # 最大能量護盾 (部分)
+            if (this.itemCategory.chosenObj.prop.indexOf('armour') > -1) {
+              statID = `${statID.split('.')[0]}.stat_4052037485`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_3489782002`
             }
             break;
           default:
@@ -2367,13 +2392,9 @@ export default {
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
-      itemArray.splice(0, 1); // 暫時移除 3.14 增加 物品種類 的資訊以符合原先邏輯
       const regExp = new RegExp("[A-Za-z]+"); // 有英文字就代表是國際服
-      if (item.indexOf('點擊右鍵將此預言附加於你的角色之上。') > -1) { // 預言特殊判斷
-        this.isGarenaSvr = regExp.test(itemArray[3]) ? false : true
-      } else {
-        this.isGarenaSvr = regExp.test(itemArray[1]) ? false : true // 國際服中文化判斷 
-      }
+      this.isGarenaSvr = regExp.test(itemArray[0]) ? false : true // 國際服中文化抓取物品種類作判斷
+      itemArray.splice(0, 1); // 暫時移除 3.14 增加 物品種類 的資訊以符合原先邏輯
       let posRarity = itemArray[0].indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
       let searchName = itemArray[1]
