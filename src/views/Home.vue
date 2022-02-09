@@ -24,7 +24,7 @@
     <b-container class="bv-example-row">
       <b-row class="lesspadding">
         <b-col align-self="center" style="padding-left: 6px !important;">
-          <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary">搜尋設定</b-button>
+          <b-button v-b-toggle.collapse-1 size="sm" variant="outline-primary" @click.shift.middle="(clickCount > 5 && isGem) || handlePOESESSID ? clickOpen() : ''">搜尋設定</b-button>
         </b-col>
         <b-col align-self="center">
           <b-button @click="isItemCollapse = !isItemCollapse" :disabled="!isItem" size="sm" variant="outline-primary">物品設定</b-button>
@@ -39,7 +39,7 @@
           <b-button @click="isGemCollapse = !isGemCollapse" :disabled="!isGem" size="sm" variant="outline-primary">技能設定</b-button>
         </b-col>
         <b-col align-self="center">
-          <b-button v-b-toggle.collapse-2 size="sm" variant="outline-primary">附加功能</b-button>
+          <b-button v-b-toggle.collapse-2 size="sm" variant="outline-primary" @click.right="clickCount++">附加功能</b-button>
         </b-col>
         <b-col v-if="isDevMode" align-self="center">
           <b-button @click="checkAPI" size="sm" variant="outline-primary">API 測試</b-button>
@@ -58,12 +58,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col sm="4">
-              <b-form-checkbox style="padding-top: 7px;" class="float-right" v-model="isMapAreaCollapse" switch :inline="false">
-                <b>輿圖區域名稱複製</b>
-              </b-form-checkbox>
-            </b-col>
-            <b-col sm="1"></b-col>
+            <b-col sm="5"></b-col>
             <b-col sm="7" class="my-1">
               <b-form-group label="" label-cols-sm="0" label-align-sm="right" label-size="sm" class="mb-0">
                 <b-input-group size="sm">
@@ -78,24 +73,6 @@
               <ChaosRecipe></ChaosRecipe>
             </b-col>
           </b-row>
-          <b-collapse :visible="isMapAreaCollapse" class="lesspadding">
-            <b-row style="padding-top: 10px;">
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('海沃克．哈姆雷特')" size="sm" variant="outline-primary">海沃克．哈姆雷特 (左上)</b-button>
-              </b-col>
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('瓦爾多憩地')" size="sm" variant="outline-primary">瓦爾多憩地 (右上)</b-button>
-              </b-col>
-            </b-row>
-            <b-row style="padding-top: 8px;">
-              <b-col sm="5">
-                <b-button @click="mapAreaCopy('格倫納許．凱恩斯')" size="sm" variant="outline-primary" @click.shift.middle="(clickCount > 5 && isGem) || handlePOESESSID ? clickOpen() : ''">格倫納許．凱恩斯 (左下)</b-button>
-              </b-col>
-              <b-col sm="4">
-                <b-button @click="mapAreaCopy('里拉．奧斯汀')" size="sm" @click.right="clickCount++" variant="outline-primary">里拉．奧斯汀 (右下)</b-button>
-              </b-col>
-            </b-row>
-          </b-collapse>
         </b-card>
       </b-collapse>
       <b-collapse visible id="collapse-1" class="mt-2">
@@ -104,7 +81,10 @@
             <!-- <b-col sm="5" class="lesspadding">
               <v-select :options="leagues.option" v-model="leagues.chosenL" :searchable="false" :clearable="false" :filterable="false"></v-select>
             </b-col> -->
-            <b-col sm="5" class="lesspadding">
+            <b-col sm="3" class="">
+              <multiselect :options="serverOptions" v-model="storeServerString" @input="serverChange" :showLabels="false" :searchable="false" :allow-empty="false"></multiselect>
+            </b-col>
+            <b-col sm="5" class="">
               <multiselect :options="leagues.option" v-model="leagues.chosenL" :showLabels="false" :searchable="false" :allow-empty="false"></multiselect>
             </b-col>
           </b-row>
@@ -420,6 +400,7 @@ import GoTop from '@inotom/vue-go-top';
 
 import itemsData from "../assets/poe/items.json";
 import statsData from "../assets/poe/stats.json";
+import poedbTW from "../assets/poe/poedb-tw.json";
 
 const _ = require('lodash');
 const stringSimilarity = require('string-similarity');
@@ -444,6 +425,7 @@ export default {
       testResponse: '',
       countTime: 0,
       baseUrl: 'https://web.poe.garena.tw',
+      serverOptions: ['台服', '國際服'],
       isGarenaSvr: true,
       isApiError: false,
       apiErrorStr: '',
@@ -478,6 +460,7 @@ export default {
       searchName: '',
       fetchQueryID: '',
       allItems: itemsData, // 物品 API 資料
+      poedbTW: poedbTW, // 編年史翻譯表
       equipItems: [], // 可裝備的物品資料
       monstersItems: [], // 物品化怪物資料
       priceSetting: { // 價格設定
@@ -503,7 +486,7 @@ export default {
         option: [],
         chosenL: ""
       },
-      gggLeagues: [], // 暫存 ggg 聯盟字串
+      // gggLeagues: [], // 暫存 ggg 聯盟字串
       raritySet: { // 稀有度設定
         option: [{
           label: "一般",
@@ -796,6 +779,8 @@ export default {
       this.cleanClipboard()
     }
     this.initLocalStorage()
+    this.isGarenaSvr = this.storeServerString === '台服' ? true : false
+    this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
   },
   mounted() {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
@@ -819,13 +804,15 @@ export default {
       });
     },
     replaceString(string) {
-      const regMatchBrackets = /\((.+?)\)/g // 取出括號內文字
-      string = regMatchBrackets.test(string) ? string.match(regMatchBrackets)[0] : string
-      const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
+      // const regMatchBrackets = /\((.+?)\)/g // 取出括號內文字
+      // string = regMatchBrackets.test(string) ? string.match(regMatchBrackets)[0] : string
+      // const regEnglish = /[\u4e00-\u9fa5]+|\(|\)|．|：/g // 全域搜尋中文字、括號及特定符號，ready for replace
       if (string.indexOf('追憶之') > -1) { // 追憶物品只取 itemBasic Name
         string = string.slice(4).trim()
       }
-      return this.isGarenaSvr ? string : string.replace(regEnglish, '').trim()
+      // 3.17 中文化更動，改為判斷 poedb 提供之物品翻譯表
+      // console.log(string, this.poedbTW.data.find(data => data.lang === string))
+      return this.isGarenaSvr ? string : this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : ''
     },
     resetSearchData() {
       this.searchName = ''
@@ -1108,253 +1095,254 @@ export default {
       this.monstersItems.length = 0
       this.mapBasic.option.length = 0
       this.gemBasic.option.length = 0
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
-        .then((response) => {
-          // this.allItems = response.data.result
-          let result = response.data.result
-          result[0].entries.forEach((element, index) => { // "label": "飾品"
-            const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
-            // _.isUndefined(element.flags) == true 表示非傳奇物品
-            if (_.isUndefined(element.flags)) {
-              accessoryIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (accessoryIndex) {
-              case 1: // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
-                element.name = "項鍊"
-                element.option = "accessory.amulet"
-                this.equipItems.push(element)
-                break;
-              case 2: // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
-                element.name = "腰帶"
-                element.option = "accessory.belt"
-                this.equipItems.push(element)
-                break;
-              case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }  
-                element.name = "戒指"
-                element.option = "accessory.ring"
-                this.equipItems.push(element)
-                break;
-              case 4: // 飾品起始點 { "type": "盜賊飾品", "text": "盜賊飾品" }  
-                element.name = "飾品"
-                element.option = "accessory.trinket"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[1].entries.forEach((element, index) => { // "label": "護甲"
-            const basetype = ["黃金戰甲", "異色鞋", "擒拿手套", "喚骨頭盔", "黃金聖炎", "火靈箭袋"]
-            if (_.isUndefined(element.flags)) {
-              armourIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (armourIndex) {
-              case 1: // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
-                element.name = "胸甲"
-                element.option = "armour.chest"
-                this.equipItems.push(element)
-                break;
-              case 2: // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
-                element.name = "鞋子"
-                element.option = "armour.boots"
-                this.equipItems.push(element)
-                break;
-              case 3: // 手套起始點 { "type": "擒拿手套", "text": "擒拿手套" }
-                element.name = "手套"
-                element.option = "armour.gloves"
-                this.equipItems.push(element)
-                break;
-              case 4: // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
-                element.name = "頭部"
-                element.option = "armour.helmet"
-                this.equipItems.push(element)
-                break;
-              case 5: // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
-                element.name = "盾"
-                element.option = "armour.shield"
-                this.equipItems.push(element)
-                break;
-              case 6: // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
-                element.name = "箭袋"
-                element.option = "armour.quiver"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[4].entries.forEach((element, index) => { // "label": "藥劑" 
-            const basetype = ["小型複合藥劑"]
-            if (_.isUndefined(element.flags)) {
-              flasksIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (flasksIndex) {
-              case 1: // 藥劑起始點 { "type": "小型複合藥劑", "text": "小型複合藥劑" }
-                element.name = "藥劑"
-                element.option = "flask"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[6].entries.forEach((element, index) => { // "label": "珠寶"
-            const basetype = ["催眠之眼珠寶"]
-            if (_.isUndefined(element.flags)) {
-              jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (jewelIndex) {
-              case 1: // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
-                element.name = "珠寶"
-                element.option = "jewel"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[8].entries.forEach((element, index) => { // "label": "武器"
-            const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
-            if (_.isUndefined(element.flags)) {
-              weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (weaponIndex) {
-              case 1: // 爪起始點 { "type": "拳釘", "text": "拳釘" }
-                element.name = "爪"
-                element.option = "weapon.claw"
-                element.weapon = "weapon.one" // "weapon.one" 單手武器
-                this.equipItems.push(element)
-                break;
-              case 2: // 匕首起始點 { "type": "玻璃利片", "text": "玻璃利片" }
-                element.name = "匕首"
-                element.option = "weapon.dagger"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 3: // 單手斧起始點 { "type": "鏽斧", "text": "鏽斧" }
-                element.name = "單手斧"
-                element.option = "weapon.oneaxe"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 4: // 單手錘起始點 { "type": "朽木之棒", "text": "朽木之棒" }
-                element.name = "單手錘"
-                element.option = "weapon.onemace"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 5: // 單手劍起始點 { "type": "鏽劍", "text": "鏽劍" }
-                element.name = "單手劍"
-                element.option = "weapon.onesword"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 6: // 法杖起始點 { "type": "朽木法杖", "text": "朽木法杖" }
-                element.name = "法杖"
-                element.option = "weapon.wand"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 7: // { "type": "魚竿", "text": "魚竿" }
-                element.name = "釣竿"
-                element.option = "weapon.rod"
-                this.equipItems.push(element)
-                break;
-              case 8: // 弓起始點 { "type": "粗製弓", "text": "粗製弓" }
-                element.name = "弓"
-                element.option = "weapon.bow"
-                this.equipItems.push(element)
-                break;
-              case 9: // 長杖起始點 { "type": "朽木之幹", "text": "朽木之幹" }
-                element.name = "長杖"
-                element.option = "weapon.staff"
-                element.weapon = "weapon.twomelee"
-                this.equipItems.push(element)
-                break;
-              case 10: // 雙手斧起始點 { "type": "石斧", "text": "石斧" }
-                element.name = "雙手斧"
-                element.option = "weapon.twoaxe"
-                element.weapon = "weapon.twomelee"
-                this.equipItems.push(element)
-                break;
-              case 11: // 雙手錘起始點 { "type": "朽木巨錘", "text": "朽木巨錘" }
-                element.name = "雙手錘"
-                element.option = "weapon.twomace"
-                element.weapon = "weapon.twomelee"
-                this.equipItems.push(element)
-                break;
-              case 12: // 雙手劍起始點 { "type": "鏽斑巨劍", "text": "鏽斑巨劍" }
-                element.name = "雙手劍"
-                element.option = "weapon.twosword"
-                element.weapon = "weapon.twomelee"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[12].entries.forEach((element, index) => { // "label": "守望石"
-            const basetype = ["象白守望石"]
-            if (_.isUndefined(element.flags)) {
-              watchstoneIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (watchstoneIndex) {
-              case 1: // 一般守望石起始點 { "type": "象白守望石", "text": "象白守望石" }
-                element.name = "守望石"
-                element.option = "watchstone"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[13].entries.forEach((element, index) => { // "label": "劫盜裝備"
-            const basetype = ["鰻皮鞋底"]
-            if (_.isUndefined(element.flags)) {
-              heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (heistIndex) {
-              case 1: // 劫盜裝備起始點 { "type": "鰻皮鞋底", "text": "鰻皮鞋底" }
-                element.name = "劫盜裝備"
-                element.option = "heistequipment"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[7].entries.forEach((element, index) => { // "label": "地圖" 
-            const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
-            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
-              this.mapBasic.option.push(element.text)
-            } else if (element.text.indexOf('釋界之邀：') > -1) { // 3.13 釋界之邀
-              element.name = "釋界之邀"
-              element.option = "map.invitation"
-              this.equipItems.push(element)
-            }
-          });
-          result[5].entries.forEach((element, index) => { // "label": "技能寶石"
-            this.gemBasic.option.push(element.text)
-          });
-          result[11].entries.forEach((element, index) => { // "label": "物品化怪物"
-            this.monstersItems.push(element)
-          });
-        })
-        .catch(function (error) {
-          vm.isApiError = true
-          vm.apiErrorStr = error
-          vm.startCountdown(10)
-          vm.resetSearchData()
-          vm.$message({
-            type: 'error',
-            message: `error: ${error}`
-          });
-          console.log(error);
-        })
+      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
+      //   .then((response) => {
+      let result = this.allItems.result
+      // let result = response.data.result
+      result[0].entries.forEach((element, index) => { // "label": "飾品"
+        const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
+        // _.isUndefined(element.flags) == true 表示非傳奇物品
+        if (_.isUndefined(element.flags)) {
+          accessoryIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (accessoryIndex) {
+          case 1: // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
+            element.name = "項鍊"
+            element.option = "accessory.amulet"
+            this.equipItems.push(element)
+            break;
+          case 2: // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
+            element.name = "腰帶"
+            element.option = "accessory.belt"
+            this.equipItems.push(element)
+            break;
+          case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }  
+            element.name = "戒指"
+            element.option = "accessory.ring"
+            this.equipItems.push(element)
+            break;
+          case 4: // 飾品起始點 { "type": "盜賊飾品", "text": "盜賊飾品" }  
+            element.name = "飾品"
+            element.option = "accessory.trinket"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[1].entries.forEach((element, index) => { // "label": "護甲"
+        const basetype = ["黃金戰甲", "異色鞋", "擒拿手套", "喚骨頭盔", "黃金聖炎", "火靈箭袋"]
+        if (_.isUndefined(element.flags)) {
+          armourIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (armourIndex) {
+          case 1: // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
+            element.name = "胸甲"
+            element.option = "armour.chest"
+            this.equipItems.push(element)
+            break;
+          case 2: // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
+            element.name = "鞋子"
+            element.option = "armour.boots"
+            this.equipItems.push(element)
+            break;
+          case 3: // 手套起始點 { "type": "擒拿手套", "text": "擒拿手套" }
+            element.name = "手套"
+            element.option = "armour.gloves"
+            this.equipItems.push(element)
+            break;
+          case 4: // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
+            element.name = "頭部"
+            element.option = "armour.helmet"
+            this.equipItems.push(element)
+            break;
+          case 5: // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
+            element.name = "盾"
+            element.option = "armour.shield"
+            this.equipItems.push(element)
+            break;
+          case 6: // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
+            element.name = "箭袋"
+            element.option = "armour.quiver"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[4].entries.forEach((element, index) => { // "label": "藥劑" 
+        const basetype = ["小型複合藥劑"]
+        if (_.isUndefined(element.flags)) {
+          flasksIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (flasksIndex) {
+          case 1: // 藥劑起始點 { "type": "小型複合藥劑", "text": "小型複合藥劑" }
+            element.name = "藥劑"
+            element.option = "flask"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[6].entries.forEach((element, index) => { // "label": "珠寶"
+        const basetype = ["催眠之眼珠寶"]
+        if (_.isUndefined(element.flags)) {
+          jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (jewelIndex) {
+          case 1: // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
+            element.name = "珠寶"
+            element.option = "jewel"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[8].entries.forEach((element, index) => { // "label": "武器"
+        const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
+        if (_.isUndefined(element.flags)) {
+          weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (weaponIndex) {
+          case 1: // 爪起始點 { "type": "拳釘", "text": "拳釘" }
+            element.name = "爪"
+            element.option = "weapon.claw"
+            element.weapon = "weapon.one" // "weapon.one" 單手武器
+            this.equipItems.push(element)
+            break;
+          case 2: // 匕首起始點 { "type": "玻璃利片", "text": "玻璃利片" }
+            element.name = "匕首"
+            element.option = "weapon.dagger"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 3: // 單手斧起始點 { "type": "鏽斧", "text": "鏽斧" }
+            element.name = "單手斧"
+            element.option = "weapon.oneaxe"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 4: // 單手錘起始點 { "type": "朽木之棒", "text": "朽木之棒" }
+            element.name = "單手錘"
+            element.option = "weapon.onemace"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 5: // 單手劍起始點 { "type": "鏽劍", "text": "鏽劍" }
+            element.name = "單手劍"
+            element.option = "weapon.onesword"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 6: // 法杖起始點 { "type": "朽木法杖", "text": "朽木法杖" }
+            element.name = "法杖"
+            element.option = "weapon.wand"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 7: // { "type": "魚竿", "text": "魚竿" }
+            element.name = "釣竿"
+            element.option = "weapon.rod"
+            this.equipItems.push(element)
+            break;
+          case 8: // 弓起始點 { "type": "粗製弓", "text": "粗製弓" }
+            element.name = "弓"
+            element.option = "weapon.bow"
+            this.equipItems.push(element)
+            break;
+          case 9: // 長杖起始點 { "type": "朽木之幹", "text": "朽木之幹" }
+            element.name = "長杖"
+            element.option = "weapon.staff"
+            element.weapon = "weapon.twomelee"
+            this.equipItems.push(element)
+            break;
+          case 10: // 雙手斧起始點 { "type": "石斧", "text": "石斧" }
+            element.name = "雙手斧"
+            element.option = "weapon.twoaxe"
+            element.weapon = "weapon.twomelee"
+            this.equipItems.push(element)
+            break;
+          case 11: // 雙手錘起始點 { "type": "朽木巨錘", "text": "朽木巨錘" }
+            element.name = "雙手錘"
+            element.option = "weapon.twomace"
+            element.weapon = "weapon.twomelee"
+            this.equipItems.push(element)
+            break;
+          case 12: // 雙手劍起始點 { "type": "鏽斑巨劍", "text": "鏽斑巨劍" }
+            element.name = "雙手劍"
+            element.option = "weapon.twosword"
+            element.weapon = "weapon.twomelee"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[11].entries.forEach((element, index) => { // "label": "守望石"
+        const basetype = ["象白守望石"]
+        if (_.isUndefined(element.flags)) {
+          watchstoneIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (watchstoneIndex) {
+          case 1: // 一般守望石起始點 { "type": "象白守望石", "text": "象白守望石" }
+            element.name = "守望石"
+            element.option = "watchstone"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[12].entries.forEach((element, index) => { // "label": "劫盜裝備"
+        const basetype = ["鰻皮鞋底"]
+        if (_.isUndefined(element.flags)) {
+          heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (heistIndex) {
+          case 1: // 劫盜裝備起始點 { "type": "鰻皮鞋底", "text": "鰻皮鞋底" }
+            element.name = "劫盜裝備"
+            element.option = "heistequipment"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[7].entries.forEach((element, index) => { // "label": "地圖" 
+        const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
+        if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+          this.mapBasic.option.push(element.text)
+        } else if (element.text.indexOf('釋界之邀：') > -1) { // 3.13 釋界之邀
+          element.name = "釋界之邀"
+          element.option = "map.invitation"
+          this.equipItems.push(element)
+        }
+      });
+      result[5].entries.forEach((element, index) => { // "label": "技能寶石"
+        this.gemBasic.option.push(element.text)
+      });
+      result[10].entries.forEach((element, index) => { // "label": "物品化怪物"
+        this.monstersItems.push(element)
+      });
+      // })
+      // .catch(function (error) {
+      //   vm.isApiError = true
+      //   vm.apiErrorStr = error
+      //   vm.startCountdown(10)
+      //   vm.resetSearchData()
+      //   vm.$message({
+      //     type: 'error',
+      //     message: `error: ${error}`
+      //   });
+      //   console.log(error);
+      // })
     },
     leaguesAPI() { // 聯盟 API
       let vm = this
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/leagues`, )
+      // baseUrl
+      this.axios.get(`${this.baseUrl}/api/trade/data/leagues`, )
         .then((response) => {
           const getID = _.property('id')
           this.leagues.option = _.map(response.data.result, 'id')
@@ -1382,21 +1370,21 @@ export default {
           tempMapBasic.push(element)
         }
       });
-      this.axios.get(`https://www.pathofexile.com/api/trade/data/leagues`, )
-        .then((response) => {
-          this.gggLeagues = _.map(response.data.result, 'id')
-        })
-        .catch(function (error) {
-          vm.isApiError = true
-          vm.apiErrorStr = error
-          vm.startCountdown(10)
-          vm.resetSearchData()
-          vm.$message({
-            type: 'error',
-            message: `error: ${error}`
-          });
-          console.log(error);
-        })
+      // this.axios.get(`https://www.pathofexile.com/api/trade/data/leagues`, )
+      //   .then((response) => {
+      //     this.gggLeagues = _.map(response.data.result, 'id')
+      //   })
+      //   .catch(function (error) {
+      //     vm.isApiError = true
+      //     vm.apiErrorStr = error
+      //     vm.startCountdown(10)
+      //     vm.resetSearchData()
+      //     vm.$message({
+      //       type: 'error',
+      //       message: `error: ${error}`
+      //     });
+      //     console.log(error);
+      //   })
       this.axios.get(`https://www.pathofexile.com/api/trade/data/items`, )
         .then((response) => {
           let result = response.data.result
@@ -1410,14 +1398,8 @@ export default {
               this.gggMapBasic.push(`${tempMapBasic[index - mapMatchIndex]} (${element.text})`)
             }
           });
-          let bloodthirstGemIndex = 0
           result[5].entries.forEach((element, index) => { // "label": "Gems"
-            if (element.text === 'Bloodthirst Support') { // 解決台服將 Bloodthirst Support, Bloodlust Support 都翻譯為嗜血輔助的 bug
-              bloodthirstGemIndex += 1
-              this.gggGemBasic.push(`嗜血輔助 (${element.text})`)
-            } else {
-              this.gggGemBasic.push(`${this.gemBasic.option[index - bloodthirstGemIndex]} (${element.text})`)
-            }
+            this.gggGemBasic.push(`${this.gemBasic.option[index]} (${element.text})`)
           });
         })
         .catch(function (error) {
@@ -1969,7 +1951,7 @@ export default {
       this.raritySet.isSearch = true
       this.isRaritySearch()
       // 判斷物品基底
-      this.itemBasic.text = matchItem.text
+      this.itemBasic.text = this.replaceString(matchItem.text)
       // 判斷物品等級
       if (item.indexOf('物品等級: ') > -1) {
         let levelPos = item.substring(item.indexOf('物品等級: ') + 5)
@@ -2104,7 +2086,7 @@ export default {
       if (!this.itemBasic.isSearch && this.isSearchJson) {
         delete this.searchJson.query.type // 刪除物品基底 filter
       } else if (this.itemBasic.isSearch && this.isSearchJson) {
-        this.searchJson.query.type = this.replaceString(this.itemBasic.text) // 增加物品基底 filter
+        this.searchJson.query.type = this.itemBasic.text // 增加物品基底 filter
       }
     },
     isItemCategorySearch() {
@@ -2371,6 +2353,19 @@ export default {
         }
       }
     },
+    serverChange() {
+      // console.log(this.storeServerString)
+      this.isGarenaSvr = this.storeServerString === '台服' ? true : false
+      this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
+      this.leaguesAPI();
+      this.resetSearchData();
+      // if (!this.isGarenaSvr) {
+      //   this.mapBasic.option = Object.assign([], this.gggMapBasic);
+      //   this.gemBasic.option = Object.assign([], this.gggGemBasic);
+      // } else {
+      //   this.itemsAPI();
+      // }
+    },
   },
   watch: {
     copyText: function () {
@@ -2392,8 +2387,6 @@ export default {
       this.searchJson = JSON.parse(JSON.stringify(this.searchJson_Def)); // Deep Copy：用JSON.stringify把物件轉成字串 再用JSON.parse把字串轉成新的物件
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
-      const regExp = new RegExp("[A-Za-z]+"); // 有英文字就代表是國際服
-      this.isGarenaSvr = regExp.test(itemArray[0]) ? false : true // 國際服中文化抓取物品種類作判斷
       itemArray.splice(0, 1); // 暫時移除 3.14 增加 物品種類 的資訊以符合原先邏輯
       let posRarity = itemArray[0].indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
@@ -2408,7 +2401,6 @@ export default {
         // console.log(itemNameString, itemNameStringIndex)
         if (itemNameStringIndex > -1 && !itemBasicCount && (itemNameString.indexOf('碎片') === -1 || Rarity !== '傳奇')) {
           itemBasicCount++
-          element.text = this.isGarenaSvr ? element.text : this.replaceString(itemArray[2] === "--------" ? itemArray[1] : itemArray[2])
           this.itemAnalysis(item, itemArray, element)
           this.isItem = true
           this.isItemCollapse = true
@@ -2478,17 +2470,17 @@ export default {
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '1'
           this.gemQualitySet.chosenObj.label = '異常的'
-          this.gemBasic.chosenG = this.isGarenaSvr ? searchName.split(' ')[1] : searchName.match(regMatchGem)[1]
+          this.gemBasic.chosenG = searchName.split(' ')[1]
         } else if (item.indexOf('相異的') > -1) {
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '2'
           this.gemQualitySet.chosenObj.label = '相異的'
-          this.gemBasic.chosenG = this.isGarenaSvr ? searchName.split(' ')[1] : searchName.match(regMatchGem)[1]
+          this.gemBasic.chosenG = searchName.split(' ')[1]
         } else if (item.indexOf('幻影的') > -1) {
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '3'
           this.gemQualitySet.chosenObj.label = '幻影的'
-          this.gemBasic.chosenG = this.isGarenaSvr ? searchName.split(' ')[1] : searchName.match(regMatchGem)[1]
+          this.gemBasic.chosenG = searchName.split(' ')[1]
         }
         this.gemQualityTypeInput()
 
@@ -2497,7 +2489,6 @@ export default {
           let vaalPosEnd = vaalPos.indexOf(NL)
           let vaalGem = vaalPos.substring(0, vaalPosEnd)
           this.searchName = `物品名稱『${vaalGem}』`
-          this.isGarenaSvr = regExp.test(vaalGem) ? false : true
           this.gemBasic.chosenG = vaalGem
         }
         this.gemBasic.isSearch = true
@@ -2533,19 +2524,6 @@ export default {
         return
       }
       this.searchTrade(this.searchJson)
-    },
-    isGarenaSvr: function () { // 國際服相關 function 處理
-      let vm = this
-      this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
-      if (!this.isGarenaSvr) {
-        this.leagues.option = Object.assign([], this.gggLeagues);
-        this.leagues.chosenL = this.leagues.option[0]
-        this.mapBasic.option = Object.assign([], this.gggMapBasic);
-        this.gemBasic.option = Object.assign([], this.gggGemBasic);
-      } else {
-        this.itemsAPI();
-        this.leaguesAPI();
-      }
     },
     isPriceCollapse: function () {
       localStorage.setItem('isPriceCollapse', JSON.stringify(this.isPriceCollapse))
@@ -2677,6 +2655,14 @@ export default {
       },
       set(newValue) {
         this.$store.commit('setPriceMax', newValue);
+      }
+    },
+    storeServerString: {
+      get() {
+        return this.$store.state.serverString;
+      },
+      set(newValue) {
+        this.$store.commit('setServerString', newValue);
       }
     },
     isDevMode() {

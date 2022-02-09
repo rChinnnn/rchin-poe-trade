@@ -295,11 +295,6 @@
         },
         {
             "type": "Class",
-            "us": "Expedition Logbooks",
-            "lang": "探險日誌"
-        },
-        {
-            "type": "Class",
             "us": "Archnemesis Mod",
             "lang": "宿敵詞綴"
         },
