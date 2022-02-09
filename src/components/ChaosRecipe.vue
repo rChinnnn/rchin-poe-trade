@@ -56,7 +56,7 @@ export default {
   methods: {
     getStashTab() {
       let vm = this
-      let baseUrl = `https://www.pathofexile.com/character-window/get-stash-items?league=Scourge`
+      let baseUrl = `https://www.pathofexile.com/character-window/get-stash-items?league=Archnemesis`
       let url = `${baseUrl}&accountName=${this.$store.state.accountName}&tabs=1`
       let cookie = `POESESSID=${this.$store.state.POESESSID};`
       let tabsIndex = []
