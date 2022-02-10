@@ -1491,12 +1491,12 @@
         {
             "type": "BaseType",
             "us": "Deft Fossil",
-            "lang": "附魔化石"
+            "lang": "靈巧化石"
         },
         {
             "type": "BaseType",
             "us": "Fundamental Fossil",
-            "lang": "鑲飾化石"
+            "lang": "根本化石"
         },
         {
             "type": "BaseType",
@@ -9031,17 +9031,17 @@
         {
             "type": "BaseType",
             "us": "Divine Blessing Support",
-            "lang": "祝福輔助"
+            "lang": "神聖祝福輔助"
         },
         {
             "type": "BaseType",
             "us": "Mark On Hit Support",
-            "lang": "擊中時標記輔助"
+            "lang": "擊中時印記輔助"
         },
         {
             "type": "BaseType",
             "us": "Eternal Blessing Support",
-            "lang": null
+            "lang": "永恆祝福輔助"
         },
         {
             "type": "BaseType",
@@ -13726,7 +13726,7 @@
         {
             "type": "BaseType",
             "us": "Maven's Invitation: The Atlas",
-            "lang": null
+            "lang": "釋界之邀：輿圖"
         },
         {
             "type": "BaseType",
@@ -14086,42 +14086,42 @@
         {
             "type": "BaseType",
             "us": "Comprehensive Scouting Report",
-            "lang": null
+            "lang": "全面偵查報告"
         },
         {
             "type": "BaseType",
             "us": "Vaal Scouting Report",
-            "lang": null
+            "lang": "瓦爾偵查報告"
         },
         {
             "type": "BaseType",
             "us": "Delirious Scouting Report",
-            "lang": null
+            "lang": "譫妄偵查報告"
         },
         {
             "type": "BaseType",
             "us": "Operative's Scouting Report",
-            "lang": null
+            "lang": "技工偵查報告"
         },
         {
             "type": "BaseType",
             "us": "Blighted Scouting Report",
-            "lang": null
+            "lang": "凋落偵查報告"
         },
         {
             "type": "BaseType",
             "us": "Influenced Scouting Report",
-            "lang": null
+            "lang": "勢力偵查報告"
         },
         {
             "type": "BaseType",
             "us": "Explorer's Scouting Report",
-            "lang": null
+            "lang": "探險家偵查報告"
         },
         {
             "type": "BaseType",
             "us": "Oil Extractor",
-            "lang": null
+            "lang": "精油淬鍊"
         },
         {
             "type": "Unique",
@@ -17916,7 +17916,7 @@
         {
             "type": "Unique",
             "us": "Unending Hunger",
-            "lang": "無盡渴望"
+            "lang": "無盡飢餓"
         },
         {
             "type": "Unique",
@@ -20756,12 +20756,12 @@
         {
             "type": "Unique",
             "us": "Inextricable Fate",
-            "lang": "蔓藤綁鞋"
+            "lang": "無法掙脫之命"
         },
         {
             "type": "Unique",
             "us": "Dawnbreaker",
-            "lang": null
+            "lang": "破曉"
         },
         {
             "type": "Unique",
@@ -20776,7 +20776,7 @@
         {
             "type": "Unique",
             "us": "Divine Inferno",
-            "lang": null
+            "lang": "神聖煉獄"
         }
     ]
 }
