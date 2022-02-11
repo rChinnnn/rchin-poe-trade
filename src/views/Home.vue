@@ -219,28 +219,31 @@
             <b-col sm="3" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="mapBasic.isSearch" @input="isMapBasicSearch" switch>地圖基底</b-form-checkbox>
             </b-col>
-            <b-col :sm="isGarenaSvr ? 4 : 9">
+            <b-col sm="4">
               <!-- <b-form-input v-model="mapBasic.chosenM" :disabled="true"></b-form-input> -->
               <v-select :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" label="label" :disabled="!mapBasic.isSearch" :clearable="false" :filterable="true"></v-select>
             </b-col>
           </b-row>
           <b-collapse :visible="raritySet.chosenObj.label !== '傳奇'">
-            <b-row style="padding-top: 10px;">
+            <b-row class="lesspadding" style="padding-top: 10px;">
               <b-col sm="4">
-                <b-form-checkbox style="padding-left: 8px !important" v-model="mapCategory.isShaper" switch :inline="false">塑者領域</b-form-checkbox>
+                <b-form-checkbox style="padding-left: 18px !important" v-model="mapCategory.isShaper" switch :inline="false">塑者領域</b-form-checkbox>
               </b-col>
-              <b-col sm="4">
+              <b-col sm="3">
                 <b-form-checkbox v-model="mapCategory.isElder" switch :inline="false">尊師領域</b-form-checkbox>
               </b-col>
-              <b-col sm="4">
-                <b-form-checkbox v-model="mapCategory.isBlighted" switch :inline="false">凋落地區</b-form-checkbox>
+              <b-col sm="3">
+                <b-form-checkbox v-model="mapCategory.isCitadel" switch :inline="false">壁壘領域</b-form-checkbox>
+              </b-col>
+              <b-col sm="2">
+                <b-form-checkbox style="padding-left: 10px !important" v-model="mapCategory.isBlighted" switch :inline="false">凋落地區</b-form-checkbox>
               </b-col>
             </b-row>
           </b-collapse>
           <b-collapse :visible="mapCategory.isElder">
             <b-row style="padding-top: 8px;">
-              <b-col sm="4"></b-col>
-              <b-col sm="3" style="padding-left: 28px; padding-top: 5px;">
+              <b-col sm="2"></b-col>
+              <b-col sm="4" style="padding-left: 72px; padding-top: 5px;">
                 <b-form-checkbox v-model="mapElderGuard.isSearch" @input="isMapElderGuardSearch" switch :inline="false">守衛</b-form-checkbox>
               </b-col>
               <b-col sm="5" class="lesspadding">
@@ -248,6 +251,22 @@
                   <template v-slot:option="mapElderGuard">
                     <b-img style="max-width: 25px;" :src="mapElderGuard.url"></b-img>
                     {{ mapElderGuard.label }}
+                  </template>
+                </v-select>
+              </b-col>
+            </b-row>
+          </b-collapse>
+          <b-collapse :visible="mapCategory.isCitadel">
+            <b-row style="padding-top: 8px;">
+              <b-col sm="2"></b-col>
+              <b-col sm="4" style="padding-left: 72px; padding-top: 5px;">
+                <b-form-checkbox v-model="mapCitadelGuard.isSearch" @input="isMapCitadelGuardSearch" switch :inline="false">守衛</b-form-checkbox>
+              </b-col>
+              <b-col sm="6" class="lesspadding">
+                <v-select :options="mapCitadelGuard.option" v-model="mapCitadelGuard.chosenObj" @input="isMapCitadelGuardSearch" label="label" :disabled="!mapCitadelGuard.isSearch" :clearable="false" :filterable="false">
+                  <template v-slot:option="mapCitadelGuard">
+                    <b-img style="max-width: 25px;" :src="mapCitadelGuard.url"></b-img>
+                    {{ mapCitadelGuard.label }}
                   </template>
                 </v-select>
               </b-col>
@@ -561,6 +580,7 @@ export default {
       mapCategory: { // 地圖種類
         isShaper: false,
         isElder: false,
+        isCitadel: false,
         isBlighted: false
       },
       mapElderGuard: { // 尊師守衛地圖
@@ -580,6 +600,30 @@ export default {
           label: "異界．淨化",
           prop: "4",
           url: "https://twwebcdnpoe-a.akamaihd.net/image/Art/2DItems/Maps/AtlasMapGuardianChaos.png?v=e131ac9d26855fcbd7eb44deee8a9ef1"
+        }, ],
+        chosenObj: {
+          label: "無",
+          prop: ''
+        },
+        isSearch: false,
+      },
+      mapCitadelGuard: { // 壁壘守衛地圖
+        option: [{
+          label: "聖戰軍王．巴倫",
+          prop: "1",
+          url: "https://twwebcdnpoe-a.akamaihd.net/gen/image/WzI4LDE0LHsiZiI6IjJESXRlbXMvTWFwcy9BdGxhczJNYXBzL05ldy9TdHJhbmQiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MSwibW4iOjEzLCJtdCI6MTYsIm1jIjoxLCJtZCI6dHJ1ZX1d/96597c9663/Strand.png"
+        }, {
+          label: "救贖者．維羅提尼亞",
+          prop: "2",
+          url: "https://twwebcdnpoe-a.akamaihd.net/gen/image/WzI4LDE0LHsiZiI6IjJESXRlbXMvTWFwcy9BdGxhczJNYXBzL05ldy9EcnlXb29kcyIsInciOjEsImgiOjEsInNjYWxlIjoxLCJtbiI6MTMsIm10IjoxNiwibWMiOjJ9XQ/e5277d41b0/DryWoods.png"
+        }, {
+          label: "狩獵者．奧赫茲明",
+          prop: "3",
+          url: "https://twwebcdnpoe-a.akamaihd.net/gen/image/WzI4LDE0LHsiZiI6IjJESXRlbXMvTWFwcy9BdGxhczJNYXBzL05ldy9Db3Jwc2VUcmVuY2giLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MSwibW4iOjEzLCJtdCI6MTUsIm1jIjozfV0/5fa6981f32/CorpseTrench.png"
+        }, {
+          label: "總督軍．圖拉克斯",
+          prop: "4",
+          url: "https://twwebcdnpoe-a.akamaihd.net/gen/image/WzI4LDE0LHsiZiI6IjJESXRlbXMvTWFwcy9BdGxhczJNYXBzL05ldy9CdXJpYWxDaGFtYmVycyIsInciOjEsImgiOjEsInNjYWxlIjoxLCJtbiI6MTMsIm10IjoxNCwibWMiOjR9XQ/07aeacfeb9/BurialChambers.png"
         }, ],
         chosenObj: {
           label: "無",
@@ -1932,6 +1976,7 @@ export default {
           this.mapCategory = {
             isShaper: false,
             isElder: false,
+            isCitadel: false,
             isBlighted: false
           }
         }
@@ -2192,6 +2237,7 @@ export default {
       this.mapCategory = {
         isShaper: false,
         isElder: false,
+        isCitadel: false,
         isBlighted: false
       }
       this.raritySet.chosenObj = {
@@ -2276,6 +2322,38 @@ export default {
           this.mapElderGuard.isSearch = true
           this.isMapElderGuardSearch()
         }
+      } else if (item.indexOf('地圖含有巴倫的壁壘 (implicit)') > -1) { // 壁壘守衛地圖
+        this.mapCategory.isCitadel = true
+        this.mapCitadelGuard.chosenObj = {
+          label: "聖戰軍王．巴倫",
+          prop: "1"
+        }
+        this.mapCitadelGuard.isSearch = true
+        this.isMapCitadelGuardSearch()
+      } else if (item.indexOf('地圖含有維羅提尼亞的壁壘 (implicit)') > -1) {
+        this.mapCategory.isCitadel = true
+        this.mapCitadelGuard.chosenObj = {
+          label: "救贖者．維羅提尼亞",
+          prop: "2"
+        }
+        this.mapCitadelGuard.isSearch = true
+        this.isMapCitadelGuardSearch()
+      } else if (item.indexOf('地圖含有奧赫茲明的壁壘 (implicit)') > -1) {
+        this.mapCategory.isCitadel = true
+        this.mapCitadelGuard.chosenObj = {
+          label: "狩獵者．奧赫茲明",
+          prop: "3"
+        }
+        this.mapCitadelGuard.isSearch = true
+        this.isMapCitadelGuardSearch()
+      } else if (item.indexOf('地圖含有圖拉克斯的壁壘 (implicit)') > -1) {
+        this.mapCategory.isCitadel = true
+        this.mapCitadelGuard.chosenObj = {
+          label: "總督軍．圖拉克斯",
+          prop: "4"
+        }
+        this.mapCitadelGuard.isSearch = true
+        this.isMapCitadelGuardSearch()
       } else if (item.indexOf('凋落的') > -1 || item.indexOf('Blighted') > -1) {
         this.mapCategory.isBlighted = true
         this.searchJson.query.filters.map_filters.filters.map_blighted = {
@@ -2313,6 +2391,18 @@ export default {
           "id": "implicit.stat_3624393862",
           "value": {
             "option": this.mapElderGuard.chosenObj.prop
+          }
+        }
+      }
+    },
+    isMapCitadelGuardSearch() {
+      if (this.mapCategory.isCitadel && !this.mapCitadelGuard.isSearch && this.isSearchJson) {
+        this.searchJson.query.stats[0].filters.length = 1
+      } else if (this.mapCitadelGuard.isSearch && this.mapCitadelGuard.chosenObj.prop && this.isSearchJson) {
+        this.searchJson.query.stats[0].filters[1] = {
+          "id": "implicit.stat_2563183002",
+          "value": {
+            "option": this.mapCitadelGuard.chosenObj.prop
           }
         }
       }
@@ -2567,7 +2657,7 @@ export default {
         this.searchTrade(this.searchJson)
       }
     },
-    'mapCategory.isShaper': { // TODO: 判斷塑者/尊師/凋落圖方式需重構
+    'mapCategory.isShaper': { // TODO: 判斷塑者/尊師/壁壘/凋落圖方式需重構
       handler(newVal) {
         if (newVal) {
           this.searchJson.query.stats[0].filters.length = 0
@@ -2575,6 +2665,7 @@ export default {
             "option": "false"
           }
           this.mapCategory.isElder = false
+          this.mapCategory.isCitadel = false
           this.mapCategory.isBlighted = false
           this.searchJson.query.stats[0].filters[0] = {
             "id": "implicit.stat_1792283443",
@@ -2582,7 +2673,7 @@ export default {
               "option": "1", // 塑界者
             }
           }
-        } else if (!newVal && !this.mapCategory.isElder && !this.mapCategory.isBlighted) {
+        } else if (!newVal && !this.mapCategory.isElder && !this.mapCategory.isCitadel && !this.mapCategory.isBlighted) {
           this.searchJson.query.stats[0].filters.length = 0
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
@@ -2599,6 +2690,7 @@ export default {
             "option": "false"
           }
           this.mapCategory.isShaper = false
+          this.mapCategory.isCitadel = false
           this.mapCategory.isBlighted = false
           this.searchJson.query.stats[0].filters[0] = {
             "id": "implicit.stat_1792283443",
@@ -2606,7 +2698,7 @@ export default {
               "option": "2", // 尊師
             }
           }
-        } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isBlighted) {
+        } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isCitadel && !this.mapCategory.isBlighted) {
           this.mapElderGuard.isSearch = false
           this.searchJson.query.stats[0].filters.length = 0
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
@@ -2618,16 +2710,42 @@ export default {
       },
       deep: true
     },
+    'mapCategory.isCitadel': {
+      handler(newVal) {
+        if (newVal) {
+          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.filters.map_filters.filters.map_blighted = {
+            "option": "false"
+          }
+          this.mapCategory.isShaper = false
+          this.mapCategory.isElder = false
+          this.mapCategory.isBlighted = false
+          this.searchJson.query.stats[0].filters[0] = {
+            "id": "implicit.stat_2563183002",
+          }
+        } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isElder && !this.mapCategory.isBlighted) {
+          this.mapCitadelGuard.isSearch = false
+          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.filters.map_filters.filters.map_blighted = {
+            "option": "false"
+          }
+        } else if (!newVal) {
+          this.mapCitadelGuard.isSearch = false
+        }
+      },
+      deep: true
+    },
     'mapCategory.isBlighted': {
       handler(newVal) {
         if (newVal) {
           this.searchJson.query.stats[0].filters.length = 0
           this.mapCategory.isShaper = false
           this.mapCategory.isElder = false
+          this.mapCategory.isCitadel = false
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "true"
           }
-        } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isElder) {
+        } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isElder && !this.mapCategory.isCitadel) {
           this.searchJson.query.stats[0].filters.length = 0
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
