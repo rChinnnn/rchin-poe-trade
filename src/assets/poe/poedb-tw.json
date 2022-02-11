@@ -9870,6 +9870,21 @@
         },
         {
             "type": "BaseType",
+            "us": "Harbinger Map",
+            "lang": "神諭之殿．神臨"
+        },
+        {
+            "type": "BaseType",
+            "us": "Harbinger Map",
+            "lang": "神諭之殿．歸徒"
+        },
+        {
+            "type": "BaseType",
+            "us": "Harbinger Map",
+            "lang": "神諭之殿．降師"
+        },
+        {
+            "type": "BaseType",
             "us": "Sacrifice at Midnight",
             "lang": "午夜的奉獻"
         },
