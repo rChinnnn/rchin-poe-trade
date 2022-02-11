@@ -2388,8 +2388,14 @@ export default {
       const NL = this.newLine
       let itemArray = item.split(NL); // 以行數拆解複製物品文字
       itemArray.splice(0, 1); // 暫時移除 3.14 增加 物品種類 的資訊以符合原先邏輯
+      if (itemArray[1].indexOf('你無法使用這項裝備，它的數值將被忽略') > -1) {
+        itemArray.splice(1, 2);
+      }
       let posRarity = itemArray[0].indexOf(': ')
       let Rarity = itemArray[0].substring(posRarity + 2).trim()
+      const regSetString = /\<(.+)\>/g // 全域搜尋 <<set:MS>><<set:M>><<set:S>> 字串並移除
+      itemArray[1] = itemArray[1].replace(regSetString, '')
+      itemArray[2] = itemArray[2].replace(regSetString, '')
       let searchName = itemArray[1]
       this.searchName = itemArray[2] === "--------" ? `物品名稱 <br>『${itemArray[1]}』` : `物品名稱 <br>『${itemArray[1]} ${itemArray[2]}』`
       let itemBasic = itemArray[2]
@@ -2465,7 +2471,6 @@ export default {
           label: "精良的（預設）",
           prop: '0'
         }
-        let regMatchGem = /\((.+?)\)/g
         if (item.indexOf('異常的') > -1) { // 替代品質判斷
           this.gemQualitySet.isSearch = true
           this.gemQualitySet.chosenObj.prop = '1'
