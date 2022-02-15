@@ -856,7 +856,16 @@ export default {
       }
       // 3.17 中文化更動，改為判斷 poedb 提供之物品翻譯表
       // console.log(string, this.poedbTW.data.find(data => data.lang === string))
-      return this.isGarenaSvr ? string : this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : ''
+      if (!this.isGarenaSvr) {
+        let baseTypeLang = this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : ''
+        if (this.isItem && this.raritySet.chosenObj.prop == 'unique') {
+          let uniqueLang = this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique') ? this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique').us : ''
+          string = uniqueLang ? uniqueLang : baseTypeLang
+        } else {
+          string = baseTypeLang
+        }
+      }
+      return string
     },
     resetSearchData() {
       this.searchName = ''
