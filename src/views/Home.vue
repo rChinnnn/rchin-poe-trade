@@ -471,6 +471,7 @@ export default {
       craftedStats: [], // 已工藝
       clusterJewelStats: [], // 星團珠寶附魔詞綴
       allocatesStats: [], // 項鍊塗油配置附魔詞綴
+      forbiddenZoneStats: [], // 禁忌烈焰/血肉配置詞綴
       wrapStats: [],
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       isPriceCollapse: true, // 透過帳號摺疊名單 (Collapse Listings by Account) 預設為 true
@@ -856,7 +857,16 @@ export default {
       }
       // 3.17 中文化更動，改為判斷 poedb 提供之物品翻譯表
       // console.log(string, this.poedbTW.data.find(data => data.lang === string))
-      return this.isGarenaSvr ? string : this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : ''
+      if (!this.isGarenaSvr) {
+        let baseTypeLang = this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : ''
+        if (this.isItem && this.raritySet.chosenObj.prop == 'unique') {
+          let uniqueLang = this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique') ? this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique').us : ''
+          string = uniqueLang ? uniqueLang : baseTypeLang
+        } else {
+          string = baseTypeLang
+        }
+      }
+      return string
     },
     resetSearchData() {
       this.searchName = ''
@@ -969,7 +979,7 @@ export default {
         .then((response) => {
           this.resultLength = response.data.resultLength
           this.searchTotal = response.data.total // 總共搜到幾項物品
-          if (response.data.total === 10000) { // 嘗試修復有時搜尋會無法代入條件的 bug
+          if (JSON.stringify(this.searchJson) == JSON.stringify(this.searchJson_Def)) { // 嘗試修復有時搜尋會無法代入條件的 bug
             this.copyText = ''
           }
           this.status = ` 共 ${response.data.total} 筆符合 ${this.isPriceCollapse && response.data.total !== response.data.resultLength ? '- 報價已摺疊' : ''}`
@@ -999,7 +1009,7 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.issueText = `此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.317.3\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1053,6 +1063,11 @@ export default {
             if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
               text = text.substring(0, text.indexOf(' (部分)'))
             }
+            if (element.id === "explicit.stat_2460506030") { // 禁忌烈焰/血肉配置詞綴
+              element.option.options.forEach((element, index) => {
+                this.forbiddenZoneStats.push(element.text, (element.id).toString())
+              })
+            }
             if (text.includes('\n')) { // 處理折行詞綴
               this.wrapStats.push(text)
             }
@@ -1080,7 +1095,7 @@ export default {
             if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
               text = text.substring(0, text.indexOf(' (部分)'))
             }
-            if (element.id === "enchant.stat_3948993189") { // 星團珠寶固定附魔詞綴
+            if (element.id === "enchant.stat_3948993189") { // 星團珠寶附魔詞綴
               element.option.options.forEach((element, index) => {
                 this.clusterJewelStats.push(element.text, (element.id).toString())
               })
@@ -1134,7 +1149,6 @@ export default {
       let flasksIndex = 0
       let jewelIndex = 0
       let weaponIndex = 0
-      let watchstoneIndex = 0
       let heistIndex = 0
       this.equipItems.length = 0
       this.monstersItems.length = 0
@@ -1325,22 +1339,7 @@ export default {
                 break;
             }
           });
-          result[11].entries.forEach((element, index) => { // "label": "守望石"
-            const basetype = ["象白守望石"]
-            if (_.isUndefined(element.flags)) {
-              watchstoneIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (watchstoneIndex) {
-              case 1: // 一般守望石起始點 { "type": "象白守望石", "text": "象白守望石" }
-                element.name = "守望石"
-                element.option = "watchstone"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[12].entries.forEach((element, index) => { // "label": "劫盜裝備"
+          result[11].entries.forEach((element, index) => { // "label": "劫盜裝備"
             const basetype = ["鰻皮鞋底"]
             if (_.isUndefined(element.flags)) {
               heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1748,7 +1747,7 @@ export default {
         // console.log(matchStatArray)
         let randomMinValue = '' // 預設詞綴隨機數值最小值為空值
         let randomMaxValue = '' // 預設詞綴隨機數值最大值為空值
-        let optionValue = 0 // 星團珠寶附魔 / 項鍊塗油配置 的 ID
+        let optionValue = 0 // 星團珠寶附魔 / 項鍊塗油配置 / 禁忌烈焰.血肉配置 的 ID
 
         if (statID === "enchant.stat_3948993189") {
           isStatSearch = true
@@ -1759,6 +1758,12 @@ export default {
           let obj = stringSimilarity.findBestMatch(itemStatText, this.allocatesStats)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
           apiStatText = `配置 塗油天賦：${obj.ratings[obj.bestMatchIndex].target}`
+        } else if (statID === "explicit.stat_2460506030" || statID === "explicit.stat_1190333629") {
+          isStatSearch = true
+          this.isStatsCollapse = true
+          let obj = stringSimilarity.findBestMatch(itemStatText, this.forbiddenZoneStats)
+          optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
+          apiStatText = `若禁忌${statID === "explicit.stat_2460506030" ? '烈焰' : '血肉'}上有符合的詞綴，\n配置：${obj.ratings[obj.bestMatchIndex].target}`
         } else if (statID === "explicit.stat_3642528642") {
           isStatSearch = true
           this.isStatsCollapse = true
@@ -1941,6 +1946,34 @@ export default {
         }
       })
     },
+    compassStatsAnalysis(itemArray) {
+      let tempStat = []
+      let itemStatStart = 5 // 羅盤詞綴起始點
+      let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。") - 2  //  羅盤詞綴結束點
+
+      for (let index = itemStatStart; index <= itemStatEnd; index++) {
+        tempStat.push(this.findBestStat(itemArray[index], this.enchantStats))
+        tempStat[tempStat.length - 1].type = "附魔"
+      }
+
+      tempStat.forEach((element, idx) => {
+        let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
+        let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
+
+        // console.log(apiStatText)
+        this.searchStats.push({
+          "id": statID,
+          "text": apiStatText,
+          "option": '',
+          "min": '',
+          "max": '',
+          "isValue": false,
+          "isNegative": false,
+          "isSearch": false,
+          "type": element.type
+        })
+      })
+    },
     findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用 '#' 取代的兩種字串皆判斷並取最符合那一筆
       let floatValue = []
       let reference = []
@@ -2089,12 +2122,11 @@ export default {
       }
       this.isExBasicSearch()
 
-      switch (matchItem.option) { // 藥劑、守望石、釋界之邀、劫盜裝備會自動搜尋該基底
+      switch (matchItem.option) { // 藥劑、劫盜裝備、釋界之邀會自動搜尋該基底
         case 'flask':
-          this.itemLevel.isSearch = true // 3.16 藥劑增加物等篩選
-        case 'watchstone':
-        case 'map.invitation':
         case 'heistequipment':
+          this.itemLevel.isSearch = true // 藥劑及劫盜裝備增加物等篩選
+        case 'map.invitation':
           this.itemBasic.isSearch = true
           this.isItemBasicSearch()
           this.searchTrade(this.searchJson)
@@ -2274,6 +2306,9 @@ export default {
         this.raritySet.chosenObj = {
           label: "傳奇",
           prop: 'unique'
+        }
+        if (item.indexOf('未鑑定') === -1) { // 已鑑定地圖
+          this.searchJson.query.name = this.replaceString(itemArray[1])
         }
         this.raritySet.isSearch = true
         this.isRaritySearch()
@@ -2608,12 +2643,17 @@ export default {
         // } else if (Rarity === "普通" && (item.indexOf('透過聖殿實驗室或個人') > -1 || item.indexOf('可以使用於個人的地圖裝置來增加地圖的詞綴') > -1 || item.indexOf('放置兩個以上不同的徽印在地圖裝置中') > -1 || item.indexOf('你必須完成異界地圖中出現的全部六種試煉才能進入此區域') > -1 || item.indexOf('擊殺指定數量的怪物後會掉落培育之物') > -1 || item.indexOf('將你之前祭祀神壇保存的怪物加入至該地圖的祭祀神壇中') > -1 || item.indexOf('使用此物品開啟前往無悲憫與同情之地的時空之門') > -1 || item.indexOf('在個人地圖裝置使用此物品開啟譫妄異域時空之門') > -1 || item.indexOf('地圖裝置來使用此物品以前往進入瓦爾寶庫') > -1)) {
         // 地圖碎片、裂痕石、徽印、聖甲蟲、眾神聖器、女神祭品、培育器、浸血碑器、釋界之令、幻像異界、瓦爾遺鑰
         this.searchJson.query.type = this.replaceString(searchName)
+        if (item.indexOf('右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。') > -1) { // 充能的羅盤
+          this.compassStatsAnalysis(itemArray)
+          this.isStatsCollapse = true
+          return
+        }
       } else if (this.isItem) {
         this.itemStatsAnalysis(itemArray, 0)
         return
       } else {
         this.itemsAPI()
-        this.issueText = `目前版本尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.317.3\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
