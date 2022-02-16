@@ -62,7 +62,7 @@ function createWindow() {
 
   if (os.platform() === 'darwin' && isDevelopment) {
     BrowserWindow.addDevToolsExtension(
-      path.join(os.homedir(), '/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/5.3.4_6')
+      path.join(os.homedir(), '/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/6.0.8_3')
     )
   }
 
