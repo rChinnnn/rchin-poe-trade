@@ -1948,8 +1948,42 @@ export default {
     },
     compassStatsAnalysis(itemArray) {
       let tempStat = []
+      let optionValue = 0 // 大師 / 裂痕選項
       let itemStatStart = 5 // 羅盤詞綴起始點
-      let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。") - 2  //  羅盤詞綴結束點
+      let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。") - 2 //  羅盤詞綴結束點
+
+      itemArray.forEach((element, index) => {
+        if (element.indexOf("區域能包含裂痕") > -1) { // enchant.stat_2180286756: 遊戲內敘述 "區域能包含裂痕"、詞綴 API 敘述 "此區域可能含有裂痕"
+          itemArray[index] = `此區域可能含有裂痕`
+        } else if (element.indexOf("區域含有埃哈") > -1) { // enchant.stat_3187151138: 遊戲內敘述 "區域含有埃哈"、詞綴 API 敘述 "區域包含 # (大師)"，需輸入 option
+          itemArray[index] = `區域包含 # (大師)`
+          optionValue = 2
+        } else if (element.indexOf("區域含有艾瓦") > -1) {
+          itemArray[index] = `區域包含 # (大師)`
+          optionValue = 3
+        } else if (element.indexOf("區域含有尼科") > -1) {
+          itemArray[index] = `區域包含 # (大師)`
+          optionValue = 5
+        } else if (element.indexOf("區域含有瓊恩") > -1) {
+          itemArray[index] = `區域包含 # (大師)`
+          optionValue = 6
+        } else if (element.indexOf("區域中的裂痕為烏爾尼多") > -1) { // enchant.stat_1542416476: 遊戲內敘述 "區域中的裂痕為烏爾尼多"、詞綴 API 敘述 "區域中的裂痕為 # (?)"，需輸入 option
+          itemArray[index] = `區域中的裂痕為 #`
+          optionValue = 1
+        } else if (element.indexOf("區域中的裂痕為索伏") > -1) {
+          itemArray[index] = `區域中的裂痕為 #`
+          optionValue = 2
+        } else if (element.indexOf("區域中的裂痕為托沃") > -1) {
+          itemArray[index] = `區域中的裂痕為 #`
+          optionValue = 3
+        } else if (element.indexOf("區域中的裂痕為艾許") > -1) {
+          itemArray[index] = `區域中的裂痕為 #`
+          optionValue = 4
+        } else if (element.indexOf("區域中的裂痕為夏烏拉") > -1) {
+          itemArray[index] = `區域中的裂痕為 #`
+          optionValue = 5
+        }
+      });
 
       for (let index = itemStatStart; index <= itemStatEnd; index++) {
         tempStat.push(this.findBestStat(itemArray[index], this.enchantStats))
@@ -1959,15 +1993,48 @@ export default {
       tempStat.forEach((element, idx) => {
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
-
+        if (statID == 'enchant.stat_3187151138') { // 處理在 UI 上顯示的"區域含有大師"詞綴，與遊戲內一致
+          switch (optionValue) {
+            case 2:
+              apiStatText = '區域含有埃哈'
+              break;
+            case 3:
+              apiStatText = '區域含有艾瓦'
+              break;
+            case 5:
+              apiStatText = '區域含有尼科'
+              break;
+            case 6:
+              apiStatText = '區域含有瓊恩'
+              break;
+          }
+        } else if (statID == 'enchant.stat_1542416476') { // 處理在 UI 上顯示的"區域中的裂痕為"詞綴，與遊戲內一致
+          switch (optionValue) {
+            case 1:
+              apiStatText = '區域中的裂痕為烏爾尼多'
+              break;
+            case 2:
+              apiStatText = '區域中的裂痕為索伏'
+              break;
+            case 3:
+              apiStatText = '區域中的裂痕為托沃'
+              break;
+            case 4:
+              apiStatText = '區域中的裂痕為艾許'
+              break;
+            case 5:
+              apiStatText = '區域中的裂痕為夏烏拉'
+              break;
+          }
+        }
         // console.log(apiStatText)
         this.searchStats.push({
           "id": statID,
           "text": apiStatText,
-          "option": '',
+          "option": optionValue ? optionValue : '',
           "min": '',
           "max": '',
-          "isValue": false,
+          "isValue": statID == 'enchant.stat_290368246' ? true : false,
           "isNegative": false,
           "isSearch": false,
           "type": element.type
