@@ -54,6 +54,7 @@ function createWindow() {
       defaultFontSize: 14,
       nodeIntegration: true,
       webSecurity: false,
+      contextIsolation: false,
       // nodeIntegrationInWorker: true
       // preload: path.join(app.getAppPath(), 'preload.js')
     },
@@ -117,6 +118,12 @@ app.on('activate', () => {
   }
 })
 
+app.whenReady().then(() => {
+  installExtension(VUEJS_DEVTOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -128,11 +135,11 @@ app.on('ready', async () => {
     // Electron will not launch with Devtools extensions installed on Windows 10 with dark mode
     // If you are not using Windows 10 dark mode, you may uncomment these lines
     // In addition, if the linked issue is closed, you can upgrade electron and uncomment these lines
-    try {
-      await installExtension(VUEJS_DEVTOOLS)
-    } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
-    }
+    // try {
+    //   await installExtension(VUEJS_DEVTOOLS)
+    // } catch (e) {
+    //   console.error('Vue Devtools failed to install:', e.toString())
+    // }
 
   }
   createWindow()
