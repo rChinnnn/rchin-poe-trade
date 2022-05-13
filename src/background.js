@@ -54,6 +54,7 @@ function createWindow() {
       defaultFontSize: 14,
       nodeIntegration: true,
       webSecurity: false,
+      contextIsolation: false,
       // nodeIntegrationInWorker: true
       // preload: path.join(app.getAppPath(), 'preload.js')
     },
@@ -80,7 +81,7 @@ function createWindow() {
   localShortcut.register('F5', () => {
     console.log('F5 is pressed, setAlwaysOnTop(true)')
     mainWindow.setOpacity(mainWindow.getOpacity() === 1 ? 0.8 : mainWindow.getOpacity())
-    mainWindow.setAlwaysOnTop(true);
+    mainWindow.setAlwaysOnTop(true, 'normal');
   })
   localShortcut.register('F6', () => {
     console.log('F6 is pressed, setAlwaysOnTop(false), setOpacity(1)')
@@ -117,6 +118,12 @@ app.on('activate', () => {
   }
 })
 
+app.whenReady().then(() => {
+  installExtension(VUEJS_DEVTOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -128,11 +135,11 @@ app.on('ready', async () => {
     // Electron will not launch with Devtools extensions installed on Windows 10 with dark mode
     // If you are not using Windows 10 dark mode, you may uncomment these lines
     // In addition, if the linked issue is closed, you can upgrade electron and uncomment these lines
-    try {
-      await installExtension(VUEJS_DEVTOOLS)
-    } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
-    }
+    // try {
+    //   await installExtension(VUEJS_DEVTOOLS)
+    // } catch (e) {
+    //   console.error('Vue Devtools failed to install:', e.toString())
+    // }
 
   }
   createWindow()
