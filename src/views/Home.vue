@@ -858,7 +858,7 @@ export default {
       // 3.17 中文化更動，改為判斷 poedb 提供之物品翻譯表
       // console.log(string, this.poedbTW.data.find(data => data.lang === string))
       if (!this.isGarenaSvr) {
-        let baseTypeLang = this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : ''
+        let baseTypeLang = this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : string
         if (this.isItem && this.raritySet.chosenObj.prop == 'unique') {
           let uniqueLang = this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique') ? this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique').us : ''
           string = uniqueLang ? uniqueLang : baseTypeLang
@@ -1748,6 +1748,15 @@ export default {
               statID = `${statID.split('.')[0]}.stat_3489782002`
             }
             break;
+          case statID.indexOf('stat_3240073117') > -1 || statID.indexOf('stat_44972811') > -1: // # 處理台服兩詞綴相同翻譯 "增加 #% 生命回復率"
+          // stat_3240073117 Recovery rate: 腰帶、護甲
+          // stat_44972811 Regeneration rate: 項鍊、頭手鞋
+            if (this.itemCategory.chosenObj.prop.indexOf('belt') > -1 || this.itemCategory.chosenObj.prop.indexOf('chest') > -1) {
+              statID = `${statID.split('.')[0]}.stat_3240073117`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_44972811`
+            }
+            break;
           case statID.indexOf('pseudo.pseudo_logbook') > -1: // 探險日誌詞綴為偽屬性
             element.type = '偽屬性'
             break;
@@ -1987,6 +1996,10 @@ export default {
           itemArray[index] = `傳奇頭目伴隨著 1 個神祕的神諭`
         } else if (element.indexOf("地圖頭目掉落額外通貨碎片") > -1) { // enchant.stat_1508220097: 遊戲內敘述 "地圖頭目掉落額外通貨碎片"、詞綴 API 敘述 "傳奇頭目掉落額外通貨碎片"
           itemArray[index] = `傳奇頭目掉落額外通貨碎片`
+        } else if (element.indexOf("地圖頭目身旁有保鑣") > -1) { // enchant.stat_3481854423: 遊戲內敘述 "地圖頭目身旁有保鑣"、詞綴 API 敘述 "傳奇頭目伴隨著護衛"
+          itemArray[index] = `傳奇頭目伴隨著護衛`
+        } else if (element.indexOf("地圖頭目掉落 1 個額外傳奇物品") > -1) { // enchant.stat_3760667977: 遊戲內敘述 "地圖頭目掉落 1 個額外傳奇物品"、詞綴 API 敘述 "傳奇頭目掉落額外 # 件傳奇物品"
+          itemArray[index] = `傳奇頭目掉落額外 # 件傳奇物品`
         } else if (element.indexOf("區域含有埃哈") > -1) { // enchant.stat_3187151138: 遊戲內敘述 "區域含有埃哈"、詞綴 API 敘述 "區域包含 # (大師)"，需輸入 option
           itemArray[index] = `區域包含 # (大師)`
           optionValue = 2
@@ -2042,6 +2055,10 @@ export default {
           apiStatText = '地圖頭目身旁有神祕的神諭'
         } else if (statID == 'enchant.stat_1508220097') { // 處理在 UI 上顯示的"地圖頭目掉落額外通貨碎片"詞綴，與遊戲內一致
           apiStatText = '地圖頭目掉落額外通貨碎片'
+        } else if (statID == 'enchant.stat_3481854423') { // 處理在 UI 上顯示的"地圖頭目身旁有保鑣"詞綴，與遊戲內一致
+          apiStatText = '地圖頭目身旁有保鑣'
+        } else if (statID == 'enchant.stat_3760667977') { // 處理在 UI 上顯示的"地圖頭目掉落 1 個額外傳奇物品"詞綴，與遊戲內一致
+          apiStatText = '地圖頭目掉落 1 個額外傳奇物品'
         } else if (statID == 'enchant.stat_3187151138') { // 處理在 UI 上顯示的"區域含有大師"詞綴，與遊戲內一致
           switch (optionValue) {
             case 2:

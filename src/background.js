@@ -81,7 +81,7 @@ function createWindow() {
   localShortcut.register('F5', () => {
     console.log('F5 is pressed, setAlwaysOnTop(true)')
     mainWindow.setOpacity(mainWindow.getOpacity() === 1 ? 0.8 : mainWindow.getOpacity())
-    mainWindow.setAlwaysOnTop(true);
+    mainWindow.setAlwaysOnTop(true, 'normal');
   })
   localShortcut.register('F6', () => {
     console.log('F6 is pressed, setAlwaysOnTop(false), setOpacity(1)')
