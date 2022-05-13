@@ -8,11 +8,13 @@ import {
 } from 'electron'
 import {
   createProtocol,
-  installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
 import {
   autoUpdater
 } from 'electron-updater'
+import installExtension, {
+  VUEJS_DEVTOOLS
+} from 'electron-devtools-installer'
 import path from 'path'
 import hotkeys from "hotkeys-js";
 const server = require('./server');
@@ -52,6 +54,7 @@ function createWindow() {
       defaultFontSize: 14,
       nodeIntegration: true,
       webSecurity: false,
+      contextIsolation: false,
       // nodeIntegrationInWorker: true
       // preload: path.join(app.getAppPath(), 'preload.js')
     },
@@ -59,12 +62,6 @@ function createWindow() {
   })
 
   mainWindow.removeMenu()
-
-  if (os.platform() === 'darwin' && isDevelopment) {
-    BrowserWindow.addDevToolsExtension(
-      path.join(os.homedir(), '/Library/Application Support/Google/Chrome/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/6.0.8_3')
-    )
-  }
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -84,7 +81,7 @@ function createWindow() {
   localShortcut.register('F5', () => {
     console.log('F5 is pressed, setAlwaysOnTop(true)')
     mainWindow.setOpacity(mainWindow.getOpacity() === 1 ? 0.8 : mainWindow.getOpacity())
-    mainWindow.setAlwaysOnTop(true);
+    mainWindow.setAlwaysOnTop(true, 'normal');
   })
   localShortcut.register('F6', () => {
     console.log('F6 is pressed, setAlwaysOnTop(false), setOpacity(1)')
@@ -121,6 +118,12 @@ app.on('activate', () => {
   }
 })
 
+app.whenReady().then(() => {
+  installExtension(VUEJS_DEVTOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -133,7 +136,7 @@ app.on('ready', async () => {
     // If you are not using Windows 10 dark mode, you may uncomment these lines
     // In addition, if the linked issue is closed, you can upgrade electron and uncomment these lines
     // try {
-    //   await installVueDevtools()
+    //   await installExtension(VUEJS_DEVTOOLS)
     // } catch (e) {
     //   console.error('Vue Devtools failed to install:', e.toString())
     // }

@@ -858,7 +858,7 @@ export default {
       // 3.17 中文化更動，改為判斷 poedb 提供之物品翻譯表
       // console.log(string, this.poedbTW.data.find(data => data.lang === string))
       if (!this.isGarenaSvr) {
-        let baseTypeLang = this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : ''
+        let baseTypeLang = this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : string
         if (this.isItem && this.raritySet.chosenObj.prop == 'unique') {
           let uniqueLang = this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique') ? this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique').us : ''
           string = uniqueLang ? uniqueLang : baseTypeLang
@@ -1009,7 +1009,7 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.issueText = `Version: v1.317.3\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.318.1\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1057,6 +1057,9 @@ export default {
               text = text.substring(4, 20)
             }
             this.pseudoStats.push(text, element.id)
+            if (text.indexOf('有日誌') > -1) { // 探險日誌詞綴
+              this.explicitStats.push(text, element.id)
+            }
           })
           result[1].entries.forEach((element, index) => { // 隨機屬性
             let text = element.text
@@ -1370,6 +1373,11 @@ export default {
           result[10].entries.forEach((element, index) => { // "label": "物品化怪物"
             this.monstersItems.push(element)
           });
+          result[13].entries.forEach((element, index) => { // "label": "探險日誌"
+            element.name = "探險日誌"
+            element.option = "logbook"
+            this.equipItems.push(element)
+          });
         })
         .catch(function (error) {
           vm.isApiError = true
@@ -1581,6 +1589,8 @@ export default {
         } else if (element.indexOf("只影響") > -1 && element.indexOf("範圍天賦") > -1) { // 希望之絃 Thread of Hope 特殊判斷
           let areaStat = itemArray[index].substr(3, 1)
           itemArray[index] = `Only affects Passives in # Ring,${areaStat}`
+        } else if (element.indexOf("卓烙總督物品") > -1 || element.indexOf("吞噬天地物品") > -1 || element.indexOf("Searing Exarch Item") > -1 || element.indexOf("Eater of Worlds Item") > -1) {
+          spliceWrapStats(2, index + 1) // 忽略 3.17 新勢力詞綴
         }
         if (element === "--------" && !isEndPoint && itemStatStart && index > itemStatStart && itemStatEnd == itemArray.length - 1) { // 判斷隨機詞墜結束點
           itemStatEnd = index
@@ -1738,6 +1748,18 @@ export default {
               statID = `${statID.split('.')[0]}.stat_3489782002`
             }
             break;
+          case statID.indexOf('stat_3240073117') > -1 || statID.indexOf('stat_44972811') > -1: // # 處理台服兩詞綴相同翻譯 "增加 #% 生命回復率"
+          // stat_3240073117 Recovery rate: 腰帶、護甲
+          // stat_44972811 Regeneration rate: 項鍊、頭手鞋
+            if (this.itemCategory.chosenObj.prop.indexOf('belt') > -1 || this.itemCategory.chosenObj.prop.indexOf('chest') > -1) {
+              statID = `${statID.split('.')[0]}.stat_3240073117`
+            } else {
+              statID = `${statID.split('.')[0]}.stat_44972811`
+            }
+            break;
+          case statID.indexOf('pseudo.pseudo_logbook') > -1: // 探險日誌詞綴為偽屬性
+            element.type = '偽屬性'
+            break;
           default:
             break;
         }
@@ -1811,6 +1833,15 @@ export default {
         if (apiStatText.includes('增加') && itemStatText.includes('減少')) {
           apiStatText = apiStatText.replace('增加', '減少')
           isNegativeStat = true
+        }
+        if (itemStatText.includes('區域含有') && statID === "implicit.stat_1671749203" && this.itemCategory.chosenObj.prop === 'logbook') { // 探險日誌探險頭目相關處理
+          isStatSearch = true
+          statID = "implicit.stat_3159649981"
+          apiStatText = itemStatText.replace('(implicit)', '')
+          if (itemStatText.indexOf("梅德偉") > -1) optionValue = 1
+          else if (itemStatText.indexOf("沃拉娜") > -1) optionValue = 2
+          else if (itemStatText.indexOf("烏特雷") > -1) optionValue = 3
+          else if (itemStatText.indexOf("奧爾羅斯") > -1) optionValue = 4
         }
         if (statID === "enchant.stat_3086156145" || statID === "explicit.stat_1085446536") { // cluster jewel analysis
           isStatSearch = true
@@ -1948,8 +1979,61 @@ export default {
     },
     compassStatsAnalysis(itemArray) {
       let tempStat = []
+      let optionValue = 0 // 大師 / 裂痕 / 豐收選項
       let itemStatStart = 5 // 羅盤詞綴起始點
-      let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。") - 2  //  羅盤詞綴結束點
+      let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。") - 2 //  羅盤詞綴結束點
+
+      itemArray.forEach((element, index) => { // 處理遊戲內述敘與 API 敘述不一致之詞綴
+        if (element.indexOf("區域能包含裂痕") > -1) { // enchant.stat_2180286756: 遊戲內敘述 "區域能包含裂痕"、詞綴 API 敘述 "此區域可能含有裂痕"
+          itemArray[index] = `此區域可能含有裂痕`
+        } else if (element.indexOf("區域含有額外 2 個保險箱") > -1) { // enchant.stat_3240183538: 遊戲內敘述 "區域含有額外 2 個保險箱"、詞綴 API 敘述 "地圖裡有 1 個額外的保險箱"
+          itemArray[index] = `地圖裡有 1 個額外的保險箱`
+        } else if (element.indexOf("區域內的保險箱已汙染") > -1) { // enchant.stat_2681419531: 遊戲內敘述 "區域內的保險箱已汙染"、詞綴 API 敘述 "區域內的保險箱已被腐化"
+          itemArray[index] = `區域內的保險箱已被腐化`
+        } else if (element.indexOf("區域內的保險箱最低稀有度為稀有等級") > -1) { // enchant.stat_3522828354: 遊戲內敘述 "區域內的保險箱最低稀有度為稀有等級"、詞綴 API 敘述 "區域中保險箱至少 #"
+          itemArray[index] = `區域中保險箱至少 #`
+        } else if (element.indexOf("地圖頭目身旁有神祕的神諭") > -1) { // enchant.stat_397012377: 遊戲內敘述 "地圖頭目身旁有神祕的神諭"、詞綴 API 敘述 "傳奇頭目伴隨著 1 個神祕的神諭"
+          itemArray[index] = `傳奇頭目伴隨著 1 個神祕的神諭`
+        } else if (element.indexOf("地圖頭目掉落額外通貨碎片") > -1) { // enchant.stat_1508220097: 遊戲內敘述 "地圖頭目掉落額外通貨碎片"、詞綴 API 敘述 "傳奇頭目掉落額外通貨碎片"
+          itemArray[index] = `傳奇頭目掉落額外通貨碎片`
+        } else if (element.indexOf("地圖頭目身旁有保鑣") > -1) { // enchant.stat_3481854423: 遊戲內敘述 "地圖頭目身旁有保鑣"、詞綴 API 敘述 "傳奇頭目伴隨著護衛"
+          itemArray[index] = `傳奇頭目伴隨著護衛`
+        } else if (element.indexOf("地圖頭目掉落 1 個額外傳奇物品") > -1) { // enchant.stat_3760667977: 遊戲內敘述 "地圖頭目掉落 1 個額外傳奇物品"、詞綴 API 敘述 "傳奇頭目掉落額外 # 件傳奇物品"
+          itemArray[index] = `傳奇頭目掉落額外 # 件傳奇物品`
+        } else if (element.indexOf("區域含有埃哈") > -1) { // enchant.stat_3187151138: 遊戲內敘述 "區域含有埃哈"、詞綴 API 敘述 "區域包含 # (大師)"，需輸入 option
+          itemArray[index] = `區域包含 # (大師)`
+          optionValue = 2
+        } else if (element.indexOf("區域含有艾瓦") > -1) {
+          itemArray[index] = `區域包含 # (大師)`
+          optionValue = 3
+        } else if (element.indexOf("區域含有尼科") > -1) {
+          itemArray[index] = `區域包含 # (大師)`
+          optionValue = 5
+        } else if (element.indexOf("區域含有瓊恩") > -1) {
+          itemArray[index] = `區域包含 # (大師)`
+          optionValue = 6
+        } else if (element.indexOf("區域中的裂痕為烏爾尼多") > -1) { // enchant.stat_1542416476: 遊戲內敘述 "區域中的裂痕為烏爾尼多"、詞綴 API 敘述 "區域中裂痕屬於 #"，需輸入 option
+          itemArray[index] = `區域中裂痕屬於 #`
+          optionValue = 1
+        } else if (element.indexOf("區域中的裂痕為索伏") > -1) {
+          itemArray[index] = `區域中裂痕屬於 #`
+          optionValue = 2
+        } else if (element.indexOf("區域中的裂痕為托沃") > -1) {
+          itemArray[index] = `區域中裂痕屬於 #`
+          optionValue = 3
+        } else if (element.indexOf("區域中的裂痕為艾許") > -1) {
+          itemArray[index] = `區域中裂痕屬於 #`
+          optionValue = 4
+        } else if (element.indexOf("區域中的裂痕為夏烏拉") > -1) {
+          itemArray[index] = `區域中裂痕屬於 #`
+          optionValue = 5
+        } else if (element.indexOf("區域中的豐收含有至少 1 個") > -1) { // enchant.stat_832377952: 遊戲內敘述 "區域中的豐收含有至少 1 個 # 色作物"、詞綴 API 敘述 "區域中豐收至少含有 1 個 # 作物"，需輸入 option
+          if (element.indexOf("紫色") > -1) optionValue = 1
+          else if (element.indexOf("黃色") > -1) optionValue = 2
+          else if (element.indexOf("藍色") > -1) optionValue = 3
+          itemArray[index] = `區域中豐收至少含有 1 個 # 作物`
+        }
+      });
 
       for (let index = itemStatStart; index <= itemStatEnd; index++) {
         tempStat.push(this.findBestStat(itemArray[index], this.enchantStats))
@@ -1959,15 +2043,76 @@ export default {
       tempStat.forEach((element, idx) => {
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
-
+        if (statID == 'enchant.stat_2180286756') { // 處理在 UI 上顯示的"區域能包含裂痕"詞綴，與遊戲內一致
+          apiStatText = '區域能包含裂痕'
+        } else if (statID == 'enchant.stat_3240183538') { // 處理在 UI 上顯示的"區域含有額外 2 個保險箱"詞綴，與遊戲內一致
+          apiStatText = '區域含有額外 2 個保險箱'
+        } else if (statID == 'enchant.stat_2681419531') { // 處理在 UI 上顯示的"區域內的保險箱已汙染"詞綴，與遊戲內一致
+          apiStatText = '區域內的保險箱已汙染'
+        } else if (statID == 'enchant.stat_3522828354') { // 處理在 UI 上顯示的"區域內的保險箱最低稀有度為稀有等級"詞綴，與遊戲內一致
+          apiStatText = '區域內的保險箱最低稀有度為稀有等級'
+        } else if (statID == 'enchant.stat_397012377') { // 處理在 UI 上顯示的"地圖頭目身旁有神祕的神諭"詞綴，與遊戲內一致
+          apiStatText = '地圖頭目身旁有神祕的神諭'
+        } else if (statID == 'enchant.stat_1508220097') { // 處理在 UI 上顯示的"地圖頭目掉落額外通貨碎片"詞綴，與遊戲內一致
+          apiStatText = '地圖頭目掉落額外通貨碎片'
+        } else if (statID == 'enchant.stat_3481854423') { // 處理在 UI 上顯示的"地圖頭目身旁有保鑣"詞綴，與遊戲內一致
+          apiStatText = '地圖頭目身旁有保鑣'
+        } else if (statID == 'enchant.stat_3760667977') { // 處理在 UI 上顯示的"地圖頭目掉落 1 個額外傳奇物品"詞綴，與遊戲內一致
+          apiStatText = '地圖頭目掉落 1 個額外傳奇物品'
+        } else if (statID == 'enchant.stat_3187151138') { // 處理在 UI 上顯示的"區域含有大師"詞綴，與遊戲內一致
+          switch (optionValue) {
+            case 2:
+              apiStatText = '區域含有埃哈'
+              break;
+            case 3:
+              apiStatText = '區域含有艾瓦'
+              break;
+            case 5:
+              apiStatText = '區域含有尼科'
+              break;
+            case 6:
+              apiStatText = '區域含有瓊恩'
+              break;
+          }
+        } else if (statID == 'enchant.stat_1542416476') { // 處理在 UI 上顯示的"區域中的裂痕為"詞綴，與遊戲內一致
+          switch (optionValue) {
+            case 1:
+              apiStatText = '區域中的裂痕為烏爾尼多'
+              break;
+            case 2:
+              apiStatText = '區域中的裂痕為索伏'
+              break;
+            case 3:
+              apiStatText = '區域中的裂痕為托沃'
+              break;
+            case 4:
+              apiStatText = '區域中的裂痕為艾許'
+              break;
+            case 5:
+              apiStatText = '區域中的裂痕為夏烏拉'
+              break;
+          }
+        } else if (statID == 'enchant.stat_832377952') { // 處理在 UI 上顯示的"區域中的豐收含有至少 1 個 # 色作物"詞綴，與遊戲內一致
+          switch (optionValue) {
+            case 1:
+              apiStatText = '區域中的豐收含有至少 1 個紫色作物'
+              break;
+            case 2:
+              apiStatText = '區域中的豐收含有至少 1 個黃色作物'
+              break;
+            case 3:
+              apiStatText = '區域中的豐收含有至少 1 個藍色作物'
+              break;
+          }
+        }
         // console.log(apiStatText)
         this.searchStats.push({
           "id": statID,
           "text": apiStatText,
-          "option": '',
+          "option": optionValue ? optionValue : '',
           "min": '',
           "max": '',
-          "isValue": false,
+          "isValue": statID == 'enchant.stat_290368246' ? true : false,
           "isNegative": false,
           "isSearch": false,
           "type": element.type
@@ -2653,7 +2798,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.317.3\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.318.1\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
