@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 4156,
+    "size": 4295,
     "data": [
         {
             "type": "Class",
@@ -297,6 +297,16 @@
             "type": "Class",
             "us": "Archnemesis Mod",
             "lang": "宿敵詞綴"
+        },
+        {
+            "type": "Class",
+            "us": "Instance Local Item",
+            "lang": "地區物品"
+        },
+        {
+            "type": "Class",
+            "us": "Sentinel",
+            "lang": "守望號令"
         },
         {
             "type": "BaseType",
@@ -1367,6 +1377,61 @@
             "type": "BaseType",
             "us": "Regal Shard",
             "lang": "富豪石碎片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Simple Rope Net",
+            "lang": "簡易套索捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Reinforced Rope Net",
+            "lang": "強化套索捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Strong Rope Net",
+            "lang": "堅固套索捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Simple Iron Net",
+            "lang": "簡易硬鐵捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Reinforced Iron Net",
+            "lang": "強化硬鐵捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Strong Iron Net",
+            "lang": "堅固硬鐵捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Simple Steel Net",
+            "lang": "簡易鋼鐵捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Reinforced Steel Net",
+            "lang": "強化鋼鐵捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Strong Steel Net",
+            "lang": "堅固鋼鐵捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Thaumaturgical Net",
+            "lang": "幻術捕獸網"
+        },
+        {
+            "type": "BaseType",
+            "us": "Necromancy Net",
+            "lang": "亡靈捕獸網"
         },
         {
             "type": "BaseType",
@@ -6230,28 +6295,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Cured Quiver",
-            "lang": "火焰箭袋"
-        },
-        {
-            "type": "BaseType",
-            "us": "Rugged Quiver",
-            "lang": "冰晶箭袋"
-        },
-        {
-            "type": "BaseType",
-            "us": "Conductive Quiver",
-            "lang": "電光箭袋"
-        },
-        {
-            "type": "BaseType",
-            "us": "Heavy Quiver",
-            "lang": "重矢箭袋 "
-        },
-        {
-            "type": "BaseType",
-            "us": "Light Quiver",
-            "lang": "輕巧箭袋"
+            "us": "Ornate Quiver",
+            "lang": "華麗箭袋"
         },
         {
             "type": "BaseType",
@@ -6260,8 +6305,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Two-Point Arrow Quiver",
-            "lang": "雙鋒箭袋"
+            "us": "Fire Arrow Quiver",
+            "lang": "火靈箭袋"
         },
         {
             "type": "BaseType",
@@ -6270,18 +6315,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Blunt Arrow Quiver",
-            "lang": "鈍矢箭袋 "
-        },
-        {
-            "type": "BaseType",
-            "us": "Fire Arrow Quiver",
-            "lang": "火靈箭袋"
-        },
-        {
-            "type": "BaseType",
-            "us": "Broadhead Arrow Quiver",
-            "lang": "寬矢箭袋"
+            "us": "Feathered Arrow Quiver",
+            "lang": "羽翼箭袋"
         },
         {
             "type": "BaseType",
@@ -6290,23 +6325,28 @@
         },
         {
             "type": "BaseType",
+            "us": "Blunt Arrow Quiver",
+            "lang": "鈍矢箭袋 "
+        },
+        {
+            "type": "BaseType",
+            "us": "Two-Point Arrow Quiver",
+            "lang": "雙鋒箭袋"
+        },
+        {
+            "type": "BaseType",
             "us": "Spike-Point Arrow Quiver",
             "lang": "刺鋒箭袋"
         },
         {
             "type": "BaseType",
-            "us": "Ornate Quiver",
-            "lang": "華麗箭袋"
-        },
-        {
-            "type": "BaseType",
-            "us": "Feathered Arrow Quiver",
-            "lang": "羽翼箭袋"
-        },
-        {
-            "type": "BaseType",
             "us": "Blazing Arrow Quiver",
             "lang": "熾熱箭袋"
+        },
+        {
+            "type": "BaseType",
+            "us": "Broadhead Arrow Quiver",
+            "lang": "寬矢箭袋"
         },
         {
             "type": "BaseType",
@@ -8655,6 +8695,21 @@
         },
         {
             "type": "BaseType",
+            "us": "Awakened Empower Support",
+            "lang": "覺醒．賦予輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Awakened Enlighten Support",
+            "lang": "覺醒．啟蒙輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Awakened Enhance Support",
+            "lang": "覺醒．增幅輔助"
+        },
+        {
+            "type": "BaseType",
             "us": "Infernal Legion Support",
             "lang": "煉獄軍團輔助"
         },
@@ -9867,21 +9922,6 @@
             "type": "BaseType",
             "us": "Harbinger Map",
             "lang": "神諭之殿．煉獄"
-        },
-        {
-            "type": "BaseType",
-            "us": "Harbinger Map",
-            "lang": "神諭之殿．神臨"
-        },
-        {
-            "type": "BaseType",
-            "us": "Harbinger Map",
-            "lang": "神諭之殿．歸徒"
-        },
-        {
-            "type": "BaseType",
-            "us": "Harbinger Map",
-            "lang": "神諭之殿．降師"
         },
         {
             "type": "BaseType",
@@ -12270,6 +12310,66 @@
         },
         {
             "type": "BaseType",
+            "us": "Altered Perception",
+            "lang": "變動感知"
+        },
+        {
+            "type": "BaseType",
+            "us": "Further Invention",
+            "lang": "進步發明"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Brawny Battle Mage",
+            "lang": "頑強的戰鬥法"
+        },
+        {
+            "type": "BaseType",
+            "us": "A Fate Worse Than Death",
+            "lang": "比死更慘的命運"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Destination",
+            "lang": "終點站"
+        },
+        {
+            "type": "BaseType",
+            "us": "Rebirth and Renewal",
+            "lang": "重生與復興"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Forward Gaze",
+            "lang": "凝視前方"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Apothecary",
+            "lang": "藥劑師"
+        },
+        {
+            "type": "BaseType",
+            "us": "Home",
+            "lang": "家園"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Dungeon Master",
+            "lang": "地牢大師"
+        },
+        {
+            "type": "BaseType",
+            "us": "From Bone to Ashes",
+            "lang": "骨頭燒到灰燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Darker Half",
+            "lang": "晦暗不明"
+        },
+        {
+            "type": "BaseType",
             "us": "Mystery Leaguestone",
             "lang": "神秘聯盟石"
         },
@@ -12425,8 +12525,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Shock and Horror",
-            "lang": "奪取之魂：恐懼之雷"
+            "us": "Captured Soul of Captain Clayborne, The Accursed",
+            "lang": "奪取之魂：被詛咒的．隊長克雷波恩"
         },
         {
             "type": "BaseType",
@@ -12450,13 +12550,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Murgeth Bogsong",
-            "lang": "奪取之魂：莫格斯．博格桑"
+            "us": "Captured Soul of Armala, the Widow",
+            "lang": "奪取之魂：寡婦阿摩拉"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Sumter the Twisted",
-            "lang": "奪取之魂：桑特"
+            "us": "Captured Soul of Forest of Flames",
+            "lang": "奪取之魂：烈焰之森"
         },
         {
             "type": "BaseType",
@@ -12475,13 +12575,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Herald of Thunder",
-            "lang": "奪取之魂：天雷之兆"
+            "us": "Captured Soul of Varhesh, Shimmering Aberration",
+            "lang": "奪取之魂：微光之屍弗賽斯"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of The Sanguine Siren",
-            "lang": "奪取之魂：血腥女妖"
+            "us": "Captured Soul of Shock and Horror",
+            "lang": "奪取之魂：恐懼之雷"
         },
         {
             "type": "BaseType",
@@ -12495,8 +12595,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Piety the Empyrean",
-            "lang": "奪取之魂：天雷之使派蒂"
+            "us": "Captured Soul of Pagan Bishop of Agony",
+            "lang": "奪取之魂：苦痛主教"
         },
         {
             "type": "BaseType",
@@ -12510,18 +12610,18 @@
         },
         {
             "type": "BaseType",
+            "us": "Captured Soul of The Hallowed Husk",
+            "lang": "奪取之魂：超靈之體"
+        },
+        {
+            "type": "BaseType",
             "us": "Captured Soul of Drek, Apex Hunter",
             "lang": "奪取之魂：獵者之巔德雷克"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Stalker of the Endless Dunes",
-            "lang": "奪取之魂：無邊沙丘潛行者"
-        },
-        {
-            "type": "BaseType",
-            "us": "Captured Soul of The Forgotten Soldier",
-            "lang": "奪取之魂：被遺忘的士兵"
+            "us": "Captured Soul of Lycius, Midnight's Howl",
+            "lang": "奪取之魂：利希斯嘯夜"
         },
         {
             "type": "BaseType",
@@ -14137,6 +14237,171 @@
             "type": "BaseType",
             "us": "Oil Extractor",
             "lang": "精油淬鍊"
+        },
+        {
+            "type": "BaseType",
+            "us": "Rusted Stalker Sentinel",
+            "lang": "鏽蝕的潛行守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Bronze Stalker Sentinel",
+            "lang": "青銅的潛行守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Cobalt Stalker Sentinel",
+            "lang": "鈷藍的潛行守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Brimstone Stalker Sentinel",
+            "lang": "硫磺的潛行守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Emberstone Stalker Sentinel",
+            "lang": "灰石的潛行守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Obsidian Stalker Sentinel",
+            "lang": "黑曜的潛行守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Cryptic Stalker Sentinel",
+            "lang": "神秘的潛行守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Primeval Stalker Sentinel",
+            "lang": "原始的潛行守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ancient Stalker Sentinel",
+            "lang": "古代的潛行守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Bronze Pandemonium Sentinel",
+            "lang": "青銅的萬劫守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Cobalt Pandemonium Sentinel",
+            "lang": "鈷藍的萬劫守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Brimstone Pandemonium Sentinel",
+            "lang": "硫磺的萬劫守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Emberstone Pandemonium Sentinel",
+            "lang": "灰石的萬劫守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Obsidian Pandemonium Sentinel",
+            "lang": "黑曜的萬劫守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Cryptic Pandemonium Sentinel",
+            "lang": "神秘的萬劫守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Primeval Pandemonium Sentinel",
+            "lang": "原始的萬劫守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ancient Pandemonium Sentinel",
+            "lang": "古代的萬劫守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Bronze Apex Sentinel",
+            "lang": "青銅的巔峰守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Cobalt Apex Sentinel",
+            "lang": "鈷藍的巔峰守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Brimstone Apex Sentinel",
+            "lang": "硫磺的巔峰守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Emberstone Apex Sentinel",
+            "lang": "灰石的巔峰守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Obsidian Apex Sentinel",
+            "lang": "黑曜的巔峰守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Cryptic Apex Sentinel",
+            "lang": "神秘的巔峰守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Primeval Apex Sentinel",
+            "lang": "原始的巔峰守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ancient Apex Sentinel",
+            "lang": "古代的巔峰守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Cosmic Apex Sentinel",
+            "lang": "宇宙的巔峰守望"
+        },
+        {
+            "type": "BaseType",
+            "us": "Power Core",
+            "lang": "動力核心"
+        },
+        {
+            "type": "BaseType",
+            "us": "Transforming Power Core",
+            "lang": "改造動力核心"
+        },
+        {
+            "type": "BaseType",
+            "us": "Amplifying Power Core",
+            "lang": "增強動力核心"
+        },
+        {
+            "type": "BaseType",
+            "us": "Augmenting Power Core",
+            "lang": "提升動力核心"
+        },
+        {
+            "type": "BaseType",
+            "us": "Armour Recombinator",
+            "lang": "護甲重組裝置"
+        },
+        {
+            "type": "BaseType",
+            "us": "Weapon Recombinator",
+            "lang": "武器重組裝置"
+        },
+        {
+            "type": "BaseType",
+            "us": "Jewellery Recombinator",
+            "lang": "飾品重組裝置"
         },
         {
             "type": "Unique",
@@ -20792,6 +21057,421 @@
             "type": "Unique",
             "us": "Divine Inferno",
             "lang": "神聖煉獄"
+        },
+        {
+            "type": "Unique",
+            "us": "The Burden of Truth",
+            "lang": "真理負擔"
+        },
+        {
+            "type": "Unique",
+            "us": "Echoes of Creation",
+            "lang": "創造迴聲"
+        },
+        {
+            "type": "Unique",
+            "us": "The Eternal Struggle",
+            "lang": "永恆鬥爭"
+        },
+        {
+            "type": "Unique",
+            "us": "Call of the Void",
+            "lang": "虛空呼喚"
+        },
+        {
+            "type": "Unique",
+            "us": "Impossible Escape",
+            "lang": "逃脫不能"
+        },
+        {
+            "type": "Unique",
+            "us": "Sublime Vision",
+            "lang": "崇高願景"
+        },
+        {
+            "type": "Unique",
+            "us": "The Hollow-Eyed Skull",
+            "lang": "挖眼髏骨"
+        },
+        {
+            "type": "Unique",
+            "us": "The Basilisk",
+            "lang": "咒怨蛇妖"
+        },
+        {
+            "type": "Unique",
+            "us": "The Angel of Vengeance",
+            "lang": "復仇天使"
+        },
+        {
+            "type": "Unique",
+            "us": "The Narcissist",
+            "lang": "孤芳自賞"
+        },
+        {
+            "type": "Unique",
+            "us": "The Epiphany",
+            "lang": "頓悟"
+        },
+        {
+            "type": "Unique",
+            "us": "The Depraved",
+            "lang": "墮落"
+        },
+        {
+            "type": "Unique",
+            "us": "The Twisted Trinity",
+            "lang": "邪惡三體"
+        },
+        {
+            "type": "Unique",
+            "us": "The Raging Inferno",
+            "lang": "憤怒煉獄"
+        },
+        {
+            "type": "Unique",
+            "us": "The Unbridled Tempest",
+            "lang": "狂風暴雨"
+        },
+        {
+            "type": "Unique",
+            "us": "Insomnia",
+            "lang": "失眠"
+        },
+        {
+            "type": "Unique",
+            "us": "The Megalomaniac",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "The Ancient Angler",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "Escalation",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "The Arbiter",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "The Benefactor",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "The Infested",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": " The Torturer",
+            "lang": null
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Rhoa",
+            "lang": "斯卡沃恐喙鳥"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Tiger Alpha",
+            "lang": "費爾羅猛虎幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Flame Hellion Alpha",
+            "lang": "費爾羅烈焰犬幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Frost Hellion Alpha",
+            "lang": "費爾羅冰霜犬幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Frost Hellion Alpha",
+            "lang": "費爾羅冰霜犬幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Lynx Alpha",
+            "lang": "費爾羅山貓幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Chieftain",
+            "lang": "費爾羅酋長"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Ape",
+            "lang": "費爾羅狂猿"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Goatman",
+            "lang": "費爾羅羊人"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Wolf Alpha",
+            "lang": "費爾羅惡狼幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Magma Hound",
+            "lang": "費爾羅岩漿獵犬"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Pit Hound",
+            "lang": "費爾羅坑穴獵犬"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Gargantuan",
+            "lang": "費爾羅巨人"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Gargantuan",
+            "lang": "費爾羅巨人"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Ursa",
+            "lang": "費爾羅暴熊"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Taurus",
+            "lang": "費爾羅金牛人"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Goliath",
+            "lang": "費爾羅巨獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Goliath",
+            "lang": "費爾羅巨獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Retch",
+            "lang": "斯卡沃反芻鳥"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Vulture",
+            "lang": "斯卡沃禿鷹"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Rhex",
+            "lang": "斯卡沃雛鳥"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Cobra",
+            "lang": "斯卡沃眼鏡蛇"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Cobra",
+            "lang": "斯卡沃眼鏡蛇"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Blood Viper",
+            "lang": "斯卡沃噬血毒蛇"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Blood Viper",
+            "lang": "斯卡沃噬血毒蛇"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Chimeral",
+            "lang": "斯卡沃龍蜥"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Queen",
+            "lang": "菲恩絲女皇"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Queen",
+            "lang": "菲恩絲女皇"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Scrabbler",
+            "lang": "菲恩絲搗亂者"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Scrabbler",
+            "lang": "菲恩絲搗亂者"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Devourer",
+            "lang": "菲恩絲吞噬獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Devourer",
+            "lang": "菲恩絲吞噬獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Plagued Arachnid",
+            "lang": "菲恩絲疫病蜘蛛"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Hybrid Arachnid",
+            "lang": "菲恩絲混血蜘蛛"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Widow",
+            "lang": "菲恩絲黑寡婦"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Scorpion",
+            "lang": "菲恩絲毒蠍"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Scorpion",
+            "lang": "菲恩絲毒蠍"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Vassal",
+            "lang": "奎爾珊之奴"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Vassal",
+            "lang": "奎爾珊之奴"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Squid",
+            "lang": "奎爾珊烏賊"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Watcher",
+            "lang": "奎爾珊看守者"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Watcher",
+            "lang": "奎爾珊看守者"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Sand Spitter",
+            "lang": "奎爾珊噴砂爪蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Sand Spitter",
+            "lang": "奎爾珊噴砂爪蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Shield Crab",
+            "lang": "奎爾珊重盾巨蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Shield Crab",
+            "lang": "奎爾珊重盾巨蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Savage Crab",
+            "lang": "奎爾珊殘暴的蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Savage Crab",
+            "lang": "奎爾珊殘暴的蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Spider Crab",
+            "lang": "奎爾珊蛛蛛蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Maw",
+            "lang": "奎爾珊裂齒獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Maw",
+            "lang": "奎爾珊裂齒獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Maw",
+            "lang": "奎爾珊裂齒獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Maw",
+            "lang": "奎爾珊裂齒獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Maw",
+            "lang": "奎爾珊裂齒獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Maw",
+            "lang": "奎爾珊裂齒獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Chimeral",
+            "lang": "奎爾珊龍蜥"
+        },
+        {
+            "type": "Monster",
+            "us": "Farrul, First of the Plains",
+            "lang": "初始之地費爾羅"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawal, First of the Sky",
+            "lang": "初始之天斯卡沃"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumus, First of the Night",
+            "lang": "初始之夜菲恩絲"
+        },
+        {
+            "type": "Monster",
+            "us": "Craiceann, First of the Deep",
+            "lang": "初始之潭奎爾珊"
         }
     ]
 }
