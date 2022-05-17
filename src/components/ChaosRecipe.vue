@@ -12,24 +12,27 @@
           </b-input-group>
         </b-form-group>
       </b-col>
-      <b-col sm="12">
+      <b-col sm="12" style="margin-left: 20px;">
         <el-badge :value="helmetCount" :max="18" class="badgeItem" :type="`${helmetCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round disabled>頭</el-button>
+          <el-button size="small" round @click="stringCopy('頭部')">頭</el-button>
         </el-badge>
         <el-badge :value="glovesCount" :max="18" class="badgeItem" :type="`${glovesCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round disabled>手</el-button>
+          <el-button size="small" round @click="stringCopy('手套')">手</el-button>
         </el-badge>
         <el-badge :value="bootsCount" :max="18" class="badgeItem" :type="`${bootsCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round disabled>鞋</el-button>
+          <el-button size="small" round @click="stringCopy('鞋子')">鞋</el-button>
         </el-badge>
         <el-badge :value="beltCount" :max="18" class="badgeItem" :type="`${beltCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round disabled>腰</el-button>
+          <el-button size="small" round @click="stringCopy('腰帶')">腰</el-button>
         </el-badge>
         <el-badge :value="weaponCount" :max="18" class="badgeItem" :type="`${weaponCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round disabled>武器</el-button>
+          <el-button size="small" round @click="stringCopy('單手')">武器</el-button>
         </el-badge>
         <el-badge :value="bodyCount" :max="36" class="badgeItem" :type="`${bodyCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round disabled>護甲</el-button>
+          <el-button size="small" round @click="stringCopy('胸甲')">胸甲</el-button>
+        </el-badge>
+        <el-badge :value="veiledCount" class="badgeItem" type="success">
+          <el-button size="small" round @click="stringCopy('隱匿')">隱</el-button>
         </el-badge>
       </b-col>
     </b-row>
@@ -39,6 +42,10 @@
 </template>
 
 <script>
+const {
+  clipboard,
+} = require('electron')
+
 export default {
   data() {
     return {
@@ -49,6 +56,7 @@ export default {
       beltCount: 0,
       weaponCount: 0,
       bodyCount: 0,
+      veiledCount: 0,
     }
   },
   created() {},
@@ -56,7 +64,7 @@ export default {
   methods: {
     getStashTab() {
       let vm = this
-      let baseUrl = `https://www.pathofexile.com/character-window/get-stash-items?league=Archnemesis`
+      let baseUrl = `https://www.pathofexile.com/character-window/get-stash-items?league=Sentinel`
       let url = `${baseUrl}&accountName=${this.$store.state.accountName}&tabs=1`
       let cookie = `POESESSID=${this.$store.state.POESESSID};`
       let tabsIndex = []
@@ -97,19 +105,19 @@ export default {
                 case 'Q':
                   tabsIndex.push(element.i)
                   break;
-                case '頭 / 項鍊':
+                case '頭部/項鍊':
                   tabsIndex.push(element.i)
                   break;
-                case '手 / 戒指':
+                case '手套/戒指':
                   tabsIndex.push(element.i)
                   break;
-                case '鞋 / 腰帶':
+                case '鞋子/腰帶':
                   tabsIndex.push(element.i)
                   break;
                 case '武器':
                   tabsIndex.push(element.i)
                   break;
-                case '護甲':
+                case '胸甲':
                   tabsIndex.push(element.i)
                   break;
                 default:
@@ -126,7 +134,7 @@ export default {
                 .then(vm.axios.spread((...res) => {
                   res.forEach((element, index) => {
                     element.data.items.forEach(item => {
-                      if (item.identified === false && !item.influences) {
+                      if (item.identified === false && item.ilvl <= 74 && item.ilvl >= 60) {
                         switch (true) {
                           case item.icon.indexOf("/Helmet") > -1:
                             this.helmetCount += 1
@@ -158,6 +166,8 @@ export default {
                           default:
                             break;
                         }
+                      } else if (item.veiled === true) {
+                        this.veiledCount += 1
                       }
                     })
                   });
@@ -179,6 +189,14 @@ export default {
           });
           console.log(error);
         })
+    },
+    stringCopy(name) {
+      clipboard.writeText(name)
+      this.$message({
+        duration: 1500,
+        type: 'success',
+        message: `"${name}" 文字已複製!`
+      });
     },
   },
   watch: {},
