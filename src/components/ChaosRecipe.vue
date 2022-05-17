@@ -74,6 +74,7 @@ export default {
       this.beltCount = 0
       this.weaponCount = 0
       this.bodyCount = 0
+      this.veiledCount = 0
 
       this.axios.post(`http://localhost:3031/get_stash`, {
           url: url,
