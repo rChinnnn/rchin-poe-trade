@@ -199,15 +199,15 @@
         <b-card>
           <b-row class="lesspadding">
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="mapLevel.isSearch" @input="isMapLevelSearch" switch>地圖階級</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="areaLevel.isSearch" @input="isAreaLevelSearch" switch>區域等級</b-form-checkbox>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="mapLevel.min" @dblclick="mapLevel.min= ''" @input="isMapLevelSearch" :disabled="!mapLevel.isSearch" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="areaLevel.min" @dblclick="areaLevel.min= ''" @input="isAreaLevelSearch" :disabled="!areaLevel.isSearch" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="mapLevel.max" @dblclick="mapLevel.max= ''" @input="isMapLevelSearch" :disabled="!mapLevel.isSearch" :style="mapLevel.max && (mapLevel.max < mapLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="areaLevel.max" @dblclick="areaLevel.max= ''" @input="isAreaLevelSearch" :disabled="!areaLevel.isSearch" :style="areaLevel.max && (areaLevel.max < areaLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
-            <b-col sm="2"></b-col>
+            <b-col sm="1"></b-col>
             <b-col sm="2" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="raritySet.isSearch" @input="isRaritySearch" switch>稀有度</b-form-checkbox>
             </b-col>
@@ -217,14 +217,25 @@
           </b-row>
           <b-row class="lesspadding" style="padding-top: 5px;">
             <b-col sm="3" style="padding-top: 6px;">
-              <b-form-checkbox class="float-right" v-model="mapBasic.isSearch" @input="isMapBasicSearch" switch>地圖基底</b-form-checkbox>
+              <b-form-checkbox class="float-right" v-model="mapLevel.isSearch" @input="isMapLevelSearch" switch>地圖階級</b-form-checkbox>
             </b-col>
-            <b-col sm="4">
-              <!-- <b-form-input v-model="mapBasic.chosenM" :disabled="true"></b-form-input> -->
-              <v-select :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" label="label" :disabled="!mapBasic.isSearch" :clearable="false" :filterable="true"></v-select>
+            <b-col sm="1" style="padding-top: 3px;">
+              <b-form-input v-model.number="mapLevel.min" @dblclick="mapLevel.min= ''" @input="isMapLevelSearch" :disabled="!mapLevel.isSearch" size="sm" type="number"></b-form-input>
+            </b-col>
+            <b-col sm="1" style="padding-top: 3px;">
+              <b-form-input v-model.number="mapLevel.max" @dblclick="mapLevel.max= ''" @input="isMapLevelSearch" :disabled="!mapLevel.isSearch" :style="mapLevel.max && (mapLevel.max < mapLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
           </b-row>
-          <b-collapse :visible="raritySet.chosenObj.label !== '傳奇'">
+          <b-row class="lesspadding" style="padding-top: 8px;">
+            <b-col sm="3" style="margin-top: 10px;">
+              <b-form-checkbox class="float-right" v-model="mapBasic.isSearch" @input="isMapBasicSearch" switch>地圖基底</b-form-checkbox>
+            </b-col>
+            <b-col sm="6">
+              <multiselect :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" :disabled="!mapBasic.isSearch" :showLabels="false" :searchable="true" :allow-empty="false"></multiselect>
+              <!-- <v-select :options="mapBasic.option" v-model="mapBasic.chosenM" @input="isMapBasicSearch" label="label" :disabled="!mapBasic.isSearch" :clearable="false" :filterable="true"></v-select> -->
+            </b-col>
+          </b-row>
+          <b-collapse :visible="raritySet.chosenObj.label !== '傳奇' && isNormalMap">
             <b-row class="lesspadding" style="padding-top: 10px;">
               <b-col sm="4">
                 <b-form-checkbox style="padding-left: 18px !important" v-model="mapCategory.isShaper" switch :inline="false">塑者領域</b-form-checkbox>
@@ -240,7 +251,7 @@
               </b-col>
             </b-row>
           </b-collapse>
-          <b-collapse :visible="mapCategory.isElder">
+          <b-collapse :visible="mapCategory.isElder && isNormalMap">
             <b-row style="padding-top: 8px;">
               <b-col sm="2"></b-col>
               <b-col sm="4" style="padding-left: 72px; padding-top: 5px;">
@@ -256,7 +267,7 @@
               </b-col>
             </b-row>
           </b-collapse>
-          <b-collapse :visible="mapCategory.isCitadel">
+          <b-collapse :visible="mapCategory.isCitadel && isNormalMap">
             <b-row style="padding-top: 8px;">
               <b-col sm="2"></b-col>
               <b-col sm="4" style="padding-left: 72px; padding-top: 5px;">
@@ -578,6 +589,11 @@ export default {
         max: 0,
         isSearch: false,
       },
+      areaLevel: { // 區域等級
+        min: 0,
+        max: 0,
+        isSearch: false,
+      },
       mapCategory: { // 地圖種類
         isShaper: false,
         isElder: false,
@@ -858,12 +874,12 @@ export default {
       // 3.17 中文化更動，改為判斷 poedb 提供之物品翻譯表
       // console.log(string, this.poedbTW.data.find(data => data.lang === string))
       if (!this.isGarenaSvr) {
-        let baseTypeLang = this.poedbTW.data.find(data => data.lang === string) ? this.poedbTW.data.find(data => data.lang === string).us : string
+        let baseTypeLang = this.poedbTW.data.find(data => data.lang === string)?.us
         if (this.isItem && this.raritySet.chosenObj.prop == 'unique') {
-          let uniqueLang = this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique') ? this.poedbTW.data.find(data => data.lang === string && data.type == 'Unique').us : ''
+          let uniqueLang = this.poedbTW.data.filter(data => data.type == 'Unique').find(data => data.lang === string)?.us
           string = uniqueLang ? uniqueLang : baseTypeLang
         } else {
-          string = baseTypeLang
+          string = baseTypeLang ? baseTypeLang : string
         }
       }
       return string
@@ -878,6 +894,12 @@ export default {
       this.raritySet.isSearch = false
       this.itemLevel.isSearch = false
       this.itemLevel.max = ''
+      this.mapLevel.isSearch = false
+      this.mapLevel.min = ''
+      this.mapLevel.max = ''
+      this.areaLevel.isSearch = false
+      this.areaLevel.min = ''
+      this.areaLevel.max = ''
       this.itemLinked.isSearch = false
       this.itemLinked.min = ''
       this.itemLinked.max = ''
@@ -1132,6 +1154,12 @@ export default {
             }
             this.craftedStats.push(text, element.id)
           })
+          result[7].entries.forEach((element, index) => { // 隱匿屬性
+            let text = element.text
+            if (text === '隱匿之') text = '隱匿後綴'
+            else if (text === '隱匿的') text = '隱匿前綴'
+            this.explicitStats.push(text, element.id)
+          })
         })
         .catch(function (error) {
           vm.isApiError = true
@@ -1362,9 +1390,12 @@ export default {
             if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
               this.mapBasic.option.push(element.text)
             } else if (element.text.indexOf('釋界之邀：') > -1) { // 3.13 釋界之邀
-              element.name = "釋界之邀"
-              element.option = "map.invitation"
-              this.equipItems.push(element)
+              this.mapBasic.option.push(element.text)
+            }
+          });
+          result[12].entries.forEach((element, index) => { // "id": "heistmission"
+            if (_.isUndefined(element.flags)) {
+              this.mapBasic.option.push(element.text)
             }
           });
           result[5].entries.forEach((element, index) => { // "label": "技能寶石"
@@ -1749,8 +1780,8 @@ export default {
             }
             break;
           case statID.indexOf('stat_3240073117') > -1 || statID.indexOf('stat_44972811') > -1: // # 處理台服兩詞綴相同翻譯 "增加 #% 生命回復率"
-          // stat_3240073117 Recovery rate: 腰帶、護甲
-          // stat_44972811 Regeneration rate: 項鍊、頭手鞋
+            // stat_3240073117 Recovery rate: 腰帶、護甲
+            // stat_44972811 Regeneration rate: 項鍊、頭手鞋
             if (this.itemCategory.chosenObj.prop.indexOf('belt') > -1 || this.itemCategory.chosenObj.prop.indexOf('chest') > -1) {
               statID = `${statID.split('.')[0]}.stat_3240073117`
             } else {
@@ -2027,7 +2058,7 @@ export default {
         } else if (element.indexOf("區域中的裂痕為夏烏拉") > -1) {
           itemArray[index] = `區域中裂痕屬於 #`
           optionValue = 5
-        } else if (element.indexOf("區域中的豐收含有至少 1 個") > -1) { // enchant.stat_832377952: 遊戲內敘述 "區域中的豐收含有至少 1 個 # 色作物"、詞綴 API 敘述 "區域中豐收至少含有 1 個 # 作物"，需輸入 option
+        } else if (element.indexOf("你地圖中的豐收含有至少 1 個") > -1) { // enchant.stat_832377952: 遊戲內敘述 "你地圖中的豐收含有至少 1 個 # 色作物"、詞綴 API 敘述 "區域中豐收至少含有 1 個 # 作物"，需輸入 option
           if (element.indexOf("紫色") > -1) optionValue = 1
           else if (element.indexOf("黃色") > -1) optionValue = 2
           else if (element.indexOf("藍色") > -1) optionValue = 3
@@ -2092,16 +2123,16 @@ export default {
               apiStatText = '區域中的裂痕為夏烏拉'
               break;
           }
-        } else if (statID == 'enchant.stat_832377952') { // 處理在 UI 上顯示的"區域中的豐收含有至少 1 個 # 色作物"詞綴，與遊戲內一致
+        } else if (statID == 'enchant.stat_832377952') { // 處理在 UI 上顯示的"你地圖中的豐收含有至少 1 個 # 色作物"詞綴，與遊戲內一致
           switch (optionValue) {
             case 1:
-              apiStatText = '區域中的豐收含有至少 1 個紫色作物'
+              apiStatText = '你地圖中的豐收含有至少 1 個紫色作物'
               break;
             case 2:
-              apiStatText = '區域中的豐收含有至少 1 個黃色作物'
+              apiStatText = '你地圖中的豐收含有至少 1 個黃色作物'
               break;
             case 3:
-              apiStatText = '區域中的豐收含有至少 1 個藍色作物'
+              apiStatText = '你地圖中的豐收含有至少 1 個藍色作物'
               break;
           }
         }
@@ -2267,11 +2298,11 @@ export default {
       }
       this.isExBasicSearch()
 
-      switch (matchItem.option) { // 藥劑、劫盜裝備、釋界之邀會自動搜尋該基底
+      switch (matchItem.option) { // 藥劑、劫盜裝備、守望會自動搜尋該基底
         case 'flask':
         case 'heistequipment':
           this.itemLevel.isSearch = true // 藥劑及劫盜裝備增加物等篩選
-        case 'map.invitation':
+        case 'sentinel':
           this.itemBasic.isSearch = true
           this.isItemBasicSearch()
           this.searchTrade(this.searchJson)
@@ -2423,22 +2454,32 @@ export default {
       }
       this.raritySet.isSearch = true
       this.isRaritySearch()
-      let mapPos = item.substring(item.indexOf('地圖階級:') + 5) // 地圖階級截斷字串
-      let mapPosEnd = mapPos.indexOf(NL) // 地圖階級換行定位點
-      let mapTier = parseInt(mapPos.substring(0, mapPosEnd).trim(), 10)
-      this.mapLevel.min = mapTier
-      this.mapLevel.max = mapTier
-      this.mapLevel.isSearch = true
-      this.isMapLevelSearch()
+      let mapPos = item.indexOf('地圖階級:') > -1 ? item.substring(item.indexOf('地圖階級:') + 5) : 0 // 地圖階級截斷字串
+      let areaPos = item.indexOf('地區等級:') > -1 ? item.substring(item.indexOf('地區等級:') + 5) : 0 // 地區等級截斷字串
+      areaPos = item.indexOf('區域等級:') > -1 ? item.substring(item.indexOf('區域等級:') + 5) : 0 // 區域等級截斷字串
+      if (mapPos) {
+        let mapPosEnd = mapPos.indexOf(NL) // 地圖階級換行定位點
+        let mapTier = parseInt(mapPos.substring(0, mapPosEnd).trim(), 10)
+        this.mapLevel.min = mapTier
+        this.mapLevel.max = mapTier
+        this.mapLevel.isSearch = true
+        this.isMapLevelSearch()
+      } else if (areaPos) {
+        let areaPosEnd = areaPos.indexOf(NL) // 地區等級換行定位點
+        let areaTier = parseInt(areaPos.substring(0, areaPosEnd).trim(), 10)
+        this.areaLevel.min = areaTier
+        this.areaLevel.isSearch = true
+        this.isAreaLevelSearch()
+      }
 
       let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
       let mapBasicCount = 0
 
       this.mapBasic.option.some(element => {
-        let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5|．]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
+        let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5|．|：]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
         if (itemNameStringIndex > -1 && !mapBasicCount) {
           mapBasicCount++
-          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5|．]/gi, "") : itemNameString.slice(itemNameStringIndex)
+          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5|．|：]/gi, "") : itemNameString.slice(itemNameStringIndex)
           return true
         }
       });
@@ -2563,6 +2604,16 @@ export default {
         }
       }
     },
+    isAreaLevelSearch() {
+      if (!this.areaLevel.isSearch && this.isSearchJson) {
+        delete this.searchJson.query.filters.map_filters.filters.area_level // 刪除區域等級 filter
+      } else if (this.areaLevel.isSearch && this.isSearchJson) {
+        this.searchJson.query.filters.map_filters.filters.area_level = { // 指定區域等級最小 / 最大值 filter
+          "min": this.areaLevel.min ? this.areaLevel.min : null,
+          "max": this.areaLevel.max ? this.areaLevel.max : null
+        }
+      }
+    },
     isMapElderGuardSearch() {
       if (this.mapCategory.isElder && !this.mapElderGuard.isSearch && this.isSearchJson) {
         this.searchJson.query.stats[0].filters.length = 1
@@ -2683,7 +2734,7 @@ export default {
           return true
         }
       });
-      if (item.indexOf('地圖階級: ') > -1 && item.indexOf('透過個人的地圖裝置來使用這張地圖以前往異界探險。') > -1) { // 地圖搜尋
+      if (item.indexOf('物品種類: 異界地圖') > -1 || item.indexOf('釋界之邀：') > -1 || item.indexOf('物品種類: 契約書') > -1 || item.indexOf('物品種類: 藍圖') > -1) { // 類地圖搜尋
         this.mapAnalysis(item, itemArray, Rarity)
       } else if ((Rarity === "稀有" || Rarity === "傳奇") && item.indexOf('點擊右鍵將此加入你的獸獵寓言。') > -1) { // 獸獵（物品化怪物）
         let monstersCount = 0
@@ -3035,6 +3086,9 @@ export default {
         }
       }
     },
+    isNormalMap() {
+      return this.mapBasic.chosenM.indexOf('釋界之邀：') === -1 && this.mapBasic.chosenM.indexOf('藍圖：') === -1 && this.mapBasic.chosenM.indexOf('契約書：') === -1
+    }
   },
 }
 </script>
