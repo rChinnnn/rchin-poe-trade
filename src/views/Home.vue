@@ -2456,7 +2456,8 @@ export default {
       this.isRaritySearch()
       let mapPos = item.indexOf('地圖階級:') > -1 ? item.substring(item.indexOf('地圖階級:') + 5) : 0 // 地圖階級截斷字串
       let areaPos = item.indexOf('地區等級:') > -1 ? item.substring(item.indexOf('地區等級:') + 5) : 0 // 地區等級截斷字串
-      areaPos = item.indexOf('區域等級:') > -1 ? item.substring(item.indexOf('區域等級:') + 5) : 0 // 區域等級截斷字串
+      if (!areaPos)
+        areaPos = item.indexOf('區域等級:') > -1 ? item.substring(item.indexOf('區域等級:') + 5) : 0 // 區域等級截斷字串
       if (mapPos) {
         let mapPosEnd = mapPos.indexOf(NL) // 地圖階級換行定位點
         let mapTier = parseInt(mapPos.substring(0, mapPosEnd).trim(), 10)
