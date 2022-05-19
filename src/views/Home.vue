@@ -1069,10 +1069,10 @@ export default {
     },
     statsAPI() { // 詞綴 API
       let vm = this
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
-        .then((response) => {
-          let result = response.data.result
-          // let result = this.allStats.result
+      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
+      //   .then((response) => {
+      //     let result = response.data.result
+          let result = this.allStats.result
           result[0].entries.forEach((element, index) => { // 偽屬性
             let text = element.text
             if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
@@ -1160,18 +1160,18 @@ export default {
             else if (text === '隱匿的') text = '隱匿前綴'
             this.explicitStats.push(text, element.id)
           })
-        })
-        .catch(function (error) {
-          vm.isApiError = true
-          vm.apiErrorStr = error
-          vm.startCountdown(10)
-          vm.resetSearchData()
-          vm.$message({
-            type: 'error',
-            message: `error: ${error}`
-          });
-          console.log(error);
-        })
+        // })
+        // .catch(function (error) {
+        //   vm.isApiError = true
+        //   vm.apiErrorStr = error
+        //   vm.startCountdown(10)
+        //   vm.resetSearchData()
+        //   vm.$message({
+        //     type: 'error',
+        //     message: `error: ${error}`
+        //   });
+        //   console.log(error);
+        // })
     },
     itemsAPI() { // 物品 API
       let vm = this
@@ -1185,10 +1185,10 @@ export default {
       this.monstersItems.length = 0
       this.mapBasic.option.length = 0
       this.gemBasic.option.length = 0
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
-        .then((response) => {
-          let result = response.data.result
-          // let result = this.allItems.result
+      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
+      //   .then((response) => {
+      //     let result = response.data.result
+          let result = this.allItems.result
           result[0].entries.forEach((element, index) => { // "label": "飾品"
             const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
             // _.isUndefined(element.flags) == true 表示非傳奇物品
@@ -1409,18 +1409,23 @@ export default {
             element.option = "logbook"
             this.equipItems.push(element)
           });
-        })
-        .catch(function (error) {
-          vm.isApiError = true
-          vm.apiErrorStr = error
-          vm.startCountdown(10)
-          vm.resetSearchData()
-          vm.$message({
-            type: 'error',
-            message: `error: ${error}`
+          result[14].entries.forEach((element, index) => { // "id": "sentinel"
+            element.name = "哨兵守望"
+            element.option = "sentinel"
+            this.equipItems.push(element)
           });
-          console.log(error);
-        })
+        // })
+        // .catch(function (error) {
+        //   vm.isApiError = true
+        //   vm.apiErrorStr = error
+        //   vm.startCountdown(10)
+        //   vm.resetSearchData()
+        //   vm.$message({
+        //     type: 'error',
+        //     message: `error: ${error}`
+        //   });
+        //   console.log(error);
+        // })
     },
     leaguesAPI() { // 聯盟 API
       let vm = this

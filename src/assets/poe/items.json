@@ -25011,6 +25011,116 @@
             ]
         },
         {
+            "id": "sentinel",
+            "label": "",
+            "entries": [
+                {
+                    "type": "Rusted Stalker Sentinel",
+                    "text": "鏽蝕的潛行守望"
+                },
+                {
+                    "type": "Bronze Stalker Sentinel",
+                    "text": "青銅的潛行守望"
+                },
+                {
+                    "type": "Cobalt Stalker Sentinel",
+                    "text": "鈷藍的潛行守望"
+                },
+                {
+                    "type": "Brimstone Stalker Sentinel",
+                    "text": "硫磺的潛行守望"
+                },
+                {
+                    "type": "Emberstone Stalker Sentinel",
+                    "text": "灰石的潛行守望"
+                },
+                {
+                    "type": "Obsidian Stalker Sentinel",
+                    "text": "黑曜的潛行守望"
+                },
+                {
+                    "type": "Bronze Pandemonium Sentinel",
+                    "text": "青銅的萬劫守望"
+                },
+                {
+                    "type": "Cobalt Pandemonium Sentinel",
+                    "text": "鈷藍的萬劫守望"
+                },
+                {
+                    "type": "Brimstone Pandemonium Sentinel",
+                    "text": "硫磺的萬劫守望"
+                },
+                {
+                    "type": "Emberstone Pandemonium Sentinel",
+                    "text": "灰石的萬劫守望"
+                },
+                {
+                    "type": "Obsidian Pandemonium Sentinel",
+                    "text": "黑曜的萬劫守望"
+                },
+                {
+                    "type": "Bronze Apex Sentinel",
+                    "text": "青銅的巔峰守望"
+                },
+                {
+                    "type": "Cobalt Apex Sentinel",
+                    "text": "鈷藍的巔峰守望"
+                },
+                {
+                    "type": "Brimstone Apex Sentinel",
+                    "text": "硫磺的巔峰守望"
+                },
+                {
+                    "type": "Emberstone Apex Sentinel",
+                    "text": "灰石的巔峰守望"
+                },
+                {
+                    "type": "Obsidian Apex Sentinel",
+                    "text": "黑曜的巔峰守望"
+                },
+                {
+                    "type": "Cryptic Stalker Sentinel",
+                    "text": "神秘的潛行守望"
+                },
+                {
+                    "type": "Primeval Stalker Sentinel",
+                    "text": "原始的潛行守望"
+                },
+                {
+                    "type": "Ancient Stalker Sentinel",
+                    "text": "古代的潛行守望"
+                },
+                {
+                    "type": "Cryptic Pandemonium Sentinel",
+                    "text": "神秘的萬劫守望"
+                },
+                {
+                    "type": "Primeval Pandemonium Sentinel",
+                    "text": "原始的萬劫守望"
+                },
+                {
+                    "type": "Ancient Pandemonium Sentinel",
+                    "text": "古代的萬劫守望"
+                },
+                {
+                    "type": "Cryptic Apex Sentinel",
+                    "text": "神秘的巔峰守望"
+                },
+                {
+                    "type": "Primeval Apex Sentinel",
+                    "text": "原始的巔峰守望"
+                },
+                {
+                    "type": "Ancient Apex Sentinel",
+                    "text": "古代的巔峰守望"
+                },
+                {
+                    "type": "Cosmic Apex Sentinel",
+                    "text": "宇宙的巔峰守望"
+                }
+            ]
+        },
+        {
             "id": "watchstones",
             "label": "",
             "entries": [
