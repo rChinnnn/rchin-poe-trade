@@ -1189,7 +1189,7 @@ export default {
       //   .then((response) => {
       //     let result = response.data.result
           let result = this.allItems.result
-          result[0].entries.forEach((element, index) => { // "label": "飾品"
+          result[result.findIndex(e => e.id === "accessories")].entries.forEach((element, index) => { // "id": "accessories", "label": "飾品"
             const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
             // _.isUndefined(element.flags) == true 表示非傳奇物品
             if (_.isUndefined(element.flags)) {
@@ -1220,7 +1220,7 @@ export default {
                 break;
             }
           });
-          result[1].entries.forEach((element, index) => { // "label": "護甲"
+          result[result.findIndex(e => e.id === "armour")].entries.forEach((element, index) => { // "id": "armour", "label": "護甲"
             const basetype = ["黃金戰甲", "異色鞋", "擒拿手套", "喚骨頭盔", "黃金聖炎", "火靈箭袋"]
             if (_.isUndefined(element.flags)) {
               armourIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1260,7 +1260,7 @@ export default {
                 break;
             }
           });
-          result[4].entries.forEach((element, index) => { // "label": "藥劑" 
+          result[result.findIndex(e => e.id === "flasks")].entries.forEach((element, index) => { // "id": "flasks", "label": "藥劑"
             const basetype = ["小型複合藥劑"]
             if (_.isUndefined(element.flags)) {
               flasksIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1275,7 +1275,7 @@ export default {
                 break;
             }
           });
-          result[6].entries.forEach((element, index) => { // "label": "珠寶"
+          result[result.findIndex(e => e.id === "accessories")].entries.forEach((element, index) => { // "id": "jewels", "label": "珠寶"
             const basetype = ["催眠之眼珠寶"]
             if (_.isUndefined(element.flags)) {
               jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1290,7 +1290,7 @@ export default {
                 break;
             }
           });
-          result[8].entries.forEach((element, index) => { // "label": "武器"
+          result[result.findIndex(e => e.id === "weapons")].entries.forEach((element, index) => { // "id": "weapons", "label": "武器"
             const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
             if (_.isUndefined(element.flags)) {
               weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1370,7 +1370,7 @@ export default {
                 break;
             }
           });
-          result[11].entries.forEach((element, index) => { // "label": "劫盜裝備"
+          result[result.findIndex(e => e.id === "heistequipment")].entries.forEach((element, index) => { // "id": "heistequipment"
             const basetype = ["鰻皮鞋底"]
             if (_.isUndefined(element.flags)) {
               heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1385,7 +1385,7 @@ export default {
                 break;
             }
           });
-          result[7].entries.forEach((element, index) => { // "label": "地圖" 
+          result[result.findIndex(e => e.id === "maps")].entries.forEach((element, index) => { // "id": "maps", "label": "地圖" 
             const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
             if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
               this.mapBasic.option.push(element.text)
@@ -1393,23 +1393,23 @@ export default {
               this.mapBasic.option.push(element.text)
             }
           });
-          result[12].entries.forEach((element, index) => { // "id": "heistmission"
+          result[result.findIndex(e => e.id === "heistmission")].entries.forEach((element, index) => { // "id": "heistmission"
             if (_.isUndefined(element.flags)) {
               this.mapBasic.option.push(element.text)
             }
           });
-          result[5].entries.forEach((element, index) => { // "label": "技能寶石"
+          result[result.findIndex(e => e.id === "gems")].entries.forEach((element, index) => { // "id": "gems", "label": "技能寶石"
             this.gemBasic.option.push(element.text)
           });
-          result[10].entries.forEach((element, index) => { // "label": "物品化怪物"
+          result[result.findIndex(e => e.id === "monsters")].entries.forEach((element, index) => { // "id": "monsters", "label": "物品化怪物"
             this.monstersItems.push(element)
           });
-          result[13].entries.forEach((element, index) => { // "label": "探險日誌"
+          result[result.findIndex(e => e.id === "logbook")].entries.forEach((element, index) => { // "id": "logbook"
             element.name = "探險日誌"
             element.option = "logbook"
             this.equipItems.push(element)
           });
-          result[14].entries.forEach((element, index) => { // "id": "sentinel"
+          result[result.findIndex(e => e.id === "sentinel")].entries.forEach((element, index) => { // "id": "sentinel"
             element.name = "守望號令"
             element.option = "sentinel"
             this.equipItems.push(element)
