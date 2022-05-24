@@ -398,7 +398,7 @@
     <h6 v-html="status" style="padding-top: 10px;"></h6>
   </div>
   <div>
-    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ whichServer }} 官方交易市集</b-button>
+    <b-button v-if="fetchQueryID" @click="popOfficialWebsite" :disabled="isCounting" size="sm" variant="outline-primary">{{ storeServerString }} 官方交易市集</b-button>
     <PriceAnalysis @countdown="startCountdown" @refresh="searchTrade(searchJson)" @exclude="excludeCorrupted()" @scroll="scrollToPriceAnalysis()" :isCounting="isCounting" :fetchID="fetchID" :fetchQueryID="fetchQueryID" :isPriced="isPriced" :baseUrl="baseUrl" :searchTotal="searchTotal" :isPriceCollapse="isPriceCollapse" :resultLength="resultLength"></PriceAnalysis>
   </div>
   <div v-if="!isSupported" style="padding:5px 30px;">
@@ -1031,7 +1031,7 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.issueText = `Version: v1.318.2\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.318.2, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1069,10 +1069,10 @@ export default {
     },
     statsAPI() { // 詞綴 API
       let vm = this
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
-        .then((response) => {
-          let result = response.data.result
-          // let result = this.allStats.result
+      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
+      //   .then((response) => {
+      //     let result = response.data.result
+          let result = this.allStats.result
           result[0].entries.forEach((element, index) => { // 偽屬性
             let text = element.text
             if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
@@ -1160,18 +1160,18 @@ export default {
             else if (text === '隱匿的') text = '隱匿前綴'
             this.explicitStats.push(text, element.id)
           })
-        })
-        .catch(function (error) {
-          vm.isApiError = true
-          vm.apiErrorStr = error
-          vm.startCountdown(10)
-          vm.resetSearchData()
-          vm.$message({
-            type: 'error',
-            message: `error: ${error}`
-          });
-          console.log(error);
-        })
+        // })
+        // .catch(function (error) {
+        //   vm.isApiError = true
+        //   vm.apiErrorStr = error
+        //   vm.startCountdown(10)
+        //   vm.resetSearchData()
+        //   vm.$message({
+        //     type: 'error',
+        //     message: `error: ${error}`
+        //   });
+        //   console.log(error);
+        // })
     },
     itemsAPI() { // 物品 API
       let vm = this
@@ -1185,10 +1185,10 @@ export default {
       this.monstersItems.length = 0
       this.mapBasic.option.length = 0
       this.gemBasic.option.length = 0
-      this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
-        .then((response) => {
-          let result = response.data.result
-          // let result = this.allItems.result
+      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
+      //   .then((response) => {
+      //     let result = response.data.result
+          let result = this.allItems.result
           result[0].entries.forEach((element, index) => { // "label": "飾品"
             const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
             // _.isUndefined(element.flags) == true 表示非傳奇物品
@@ -1414,18 +1414,18 @@ export default {
             element.option = "sentinel"
             this.equipItems.push(element)
           });
-        })
-        .catch(function (error) {
-          vm.isApiError = true
-          vm.apiErrorStr = error
-          vm.startCountdown(10)
-          vm.resetSearchData()
-          vm.$message({
-            type: 'error',
-            message: `error: ${error}`
-          });
-          console.log(error);
-        })
+        // })
+        // .catch(function (error) {
+        //   vm.isApiError = true
+        //   vm.apiErrorStr = error
+        //   vm.startCountdown(10)
+        //   vm.resetSearchData()
+        //   vm.$message({
+        //     type: 'error',
+        //     message: `error: ${error}`
+        //   });
+        //   console.log(error);
+        // })
     },
     leaguesAPI() { // 聯盟 API
       let vm = this
@@ -3038,9 +3038,6 @@ export default {
     },
     pricedText() {
       return this.isPriced ? "有標價" : "未標價"
-    },
-    whichServer() {
-      return this.isGarenaSvr ? "台服" : "國際服"
     },
     statsFontColor() {
       return function (item) {

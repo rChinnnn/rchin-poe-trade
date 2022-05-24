@@ -122,14 +122,16 @@ export default {
         }))
         .catch(function (error) {
           console.log(error)
-          let limitString = (error.response.headers["x-rate-limit-ip-state"]).split(",")
-          let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
-          limitState = parseInt(limitState, 10)
           vm.isLoading = false;
-          vm.$message({
-            type: 'error',
-            message: `被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`
-          });
+          if (error.response.headers) {
+            let limitString = (error.response.headers["x-rate-limit-ip-state"]).split(",")
+            let limitState = limitString[1].slice(limitString[1].lastIndexOf(":") + 1)
+            limitState = parseInt(limitState, 10)
+            vm.$message({
+              type: 'error',
+              message: `被 Server 限制發送需求了，請等待 ${limitState} 秒後再重試`
+            });
+          }
         })
     },
     switchLimitState(limitState) {
@@ -268,7 +270,7 @@ export default {
       collectionCurrency.forEach((collection, index) => {
         this.Currency.forEach(element => {
           if (collection.currency === element.id) {
-            collectionCurrency[index].image = `https://web.poe.garena.tw${element.image}`
+            collectionCurrency[index].image = `https://web.poecdn.com${element.image}`
             collectionCurrency[index].text = element.text
           }
         });
