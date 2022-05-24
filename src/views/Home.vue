@@ -1275,7 +1275,7 @@ export default {
                 break;
             }
           });
-          result[result.findIndex(e => e.id === "accessories")].entries.forEach((element, index) => { // "id": "jewels", "label": "珠寶"
+          result[result.findIndex(e => e.id === "jewels")].entries.forEach((element, index) => { // "id": "jewels", "label": "珠寶"
             const basetype = ["催眠之眼珠寶"]
             if (_.isUndefined(element.flags)) {
               jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
