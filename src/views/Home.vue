@@ -1410,7 +1410,7 @@ export default {
             this.equipItems.push(element)
           });
           result[14].entries.forEach((element, index) => { // "id": "sentinel"
-            element.name = "哨兵守望"
+            element.name = "守望號令"
             element.option = "sentinel"
             this.equipItems.push(element)
           });
