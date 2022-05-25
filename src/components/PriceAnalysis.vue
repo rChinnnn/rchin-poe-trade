@@ -69,28 +69,318 @@ export default {
   data() {
     return {
       fetchResult: [],
-      Currency: [],
       itemImage: '',
       isLoading: false,
       hoveredIndex: -1,
+      Currency: [{
+          "id": "alt",
+          "text": "改造石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxNYWdpYyIsInNjYWxlIjoxfV0/6308fc8ca2/CurrencyRerollMagic.png"
+        },
+        {
+          "id": "fusing",
+          "text": "鏈結石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxTb2NrZXRMaW5rcyIsInNjYWxlIjoxfV0/c5e1959880/CurrencyRerollSocketLinks.png"
+        },
+        {
+          "id": "alch",
+          "text": "點金石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lVcGdyYWRlVG9SYXJlIiwic2NhbGUiOjF9XQ/0c72cd1d44/CurrencyUpgradeToRare.png"
+        },
+        {
+          "id": "chaos",
+          "text": "混沌石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxSYXJlIiwic2NhbGUiOjF9XQ/46a2347805/CurrencyRerollRare.png"
+        },
+        {
+          "id": "gcp",
+          "text": "寶石匠的稜鏡",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lHZW1RdWFsaXR5Iiwic2NhbGUiOjF9XQ/dbe9678a28/CurrencyGemQuality.png"
+        },
+        {
+          "id": "exalted",
+          "text": "崇高石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lBZGRNb2RUb1JhcmUiLCJzY2FsZSI6MX1d/33f2656aea/CurrencyAddModToRare.png"
+        },
+        {
+          "id": "chrome",
+          "text": "幻色石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxTb2NrZXRDb2xvdXJzIiwic2NhbGUiOjF9XQ/19c8ddae20/CurrencyRerollSocketColours.png"
+        },
+        {
+          "id": "jewellers",
+          "text": "工匠石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxTb2NrZXROdW1iZXJzIiwic2NhbGUiOjF9XQ/ba411ff58a/CurrencyRerollSocketNumbers.png"
+        },
+        {
+          "id": "engineers",
+          "text": "工程石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRW5naW5lZXJzT3JiIiwic2NhbGUiOjF9XQ/114b671d41/EngineersOrb.png"
+        },
+        {
+          "id": "infused-engineers-orb",
+          "text": "充能的工程石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSW5mdXNlZEVuZ2luZWVyc09yYiIsInNjYWxlIjoxfV0/55774baf2f/InfusedEngineersOrb.png"
+        },
+        {
+          "id": "chance",
+          "text": "機會石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lVcGdyYWRlUmFuZG9tbHkiLCJzY2FsZSI6MX1d/a3f9bf0917/CurrencyUpgradeRandomly.png"
+        },
+        {
+          "id": "chisel",
+          "text": "製圖釘",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lNYXBRdWFsaXR5Iiwic2NhbGUiOjF9XQ/0246313b99/CurrencyMapQuality.png"
+        },
+        {
+          "id": "scour",
+          "text": "重鑄石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lDb252ZXJ0VG9Ob3JtYWwiLCJzY2FsZSI6MX1d/a0981d67fe/CurrencyConvertToNormal.png"
+        },
+        {
+          "id": "blessed",
+          "text": "祝福石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lJbXBsaWNpdE1vZCIsInNjYWxlIjoxfV0/48e700cc20/CurrencyImplicitMod.png"
+        },
+        {
+          "id": "regret",
+          "text": "後悔石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lQYXNzaXZlU2tpbGxSZWZ1bmQiLCJzY2FsZSI6MX1d/32d499f562/CurrencyPassiveSkillRefund.png"
+        },
+        {
+          "id": "regal",
+          "text": "富豪石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lVcGdyYWRlTWFnaWNUb1JhcmUiLCJzY2FsZSI6MX1d/0ded706f57/CurrencyUpgradeMagicToRare.png"
+        },
+        {
+          "id": "divine",
+          "text": "神聖石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lNb2RWYWx1ZXMiLCJzY2FsZSI6MX1d/ec48896769/CurrencyModValues.png"
+        },
+        {
+          "id": "vaal",
+          "text": "瓦爾寶珠",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lWYWFsIiwic2NhbGUiOjF9XQ/593fe2e22e/CurrencyVaal.png"
+        },
+        {
+          "id": "annul",
+          "text": "無效石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQW5udWxsT3JiIiwic2NhbGUiOjF9XQ/0858a418ac/AnnullOrb.png"
+        },
+        {
+          "id": "orb-of-binding",
+          "text": "束縛石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQmluZGluZ09yYiIsInNjYWxlIjoxfV0/aac9579bd2/BindingOrb.png"
+        },
+        {
+          "id": "ancient-orb",
+          "text": "古變石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQW5jaWVudE9yYiIsInNjYWxlIjoxfV0/83015d0dc9/AncientOrb.png"
+        },
+        {
+          "id": "orb-of-horizons",
+          "text": "地平石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSG9yaXpvbk9yYiIsInNjYWxlIjoxfV0/0891338fb0/HorizonOrb.png"
+        },
+        {
+          "id": "harbingers-orb",
+          "text": "神諭石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSGFyYmluZ2VyT3JiIiwic2NhbGUiOjF9XQ/0a26e01f15/HarbingerOrb.png"
+        },
+        {
+          "id": "wisdom",
+          "text": "知識卷軸",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lJZGVudGlmaWNhdGlvbiIsInNjYWxlIjoxfV0/c2d03ed3fd/CurrencyIdentification.png"
+        },
+        {
+          "id": "portal",
+          "text": "傳送卷軸",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lQb3J0YWwiLCJzY2FsZSI6MX1d/d92d3478a0/CurrencyPortal.png"
+        },
+        {
+          "id": "scrap",
+          "text": "護甲片",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lBcm1vdXJRdWFsaXR5Iiwic2NhbGUiOjF9XQ/fc4e26afbc/CurrencyArmourQuality.png"
+        },
+        {
+          "id": "whetstone",
+          "text": "磨刀石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lXZWFwb25RdWFsaXR5Iiwic2NhbGUiOjF9XQ/c9cd72719e/CurrencyWeaponQuality.png"
+        },
+        {
+          "id": "bauble",
+          "text": "玻璃彈珠",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lGbGFza1F1YWxpdHkiLCJzY2FsZSI6MX1d/59e57027e5/CurrencyFlaskQuality.png"
+        },
+        {
+          "id": "transmute",
+          "text": "蛻變石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lVcGdyYWRlVG9NYWdpYyIsInNjYWxlIjoxfV0/ded9e8ee63/CurrencyUpgradeToMagic.png"
+        },
+        {
+          "id": "aug",
+          "text": "增幅石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lBZGRNb2RUb01hZ2ljIiwic2NhbGUiOjF9XQ/d879c15321/CurrencyAddModToMagic.png"
+        },
+        {
+          "id": "mirror",
+          "text": "卡蘭德的魔鏡",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lEdXBsaWNhdGUiLCJzY2FsZSI6MX1d/8d7fea29d1/CurrencyDuplicate.png"
+        },
+        {
+          "id": "eternal",
+          "text": "永恆寶珠",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lJbXByaW50T3JiIiwic2NhbGUiOjF9XQ/49500c70ba/CurrencyImprintOrb.png"
+        },
+        {
+          "id": "rogues-marker",
+          "text": "盜賊之印",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSGVpc3QvSGVpc3RDb2luQ3VycmVuY3kiLCJzY2FsZSI6MX1d/335e66630d/HeistCoinCurrency.png"
+        },
+        {
+          "id": "crusaders-exalted-orb",
+          "text": "聖戰士的崇高石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSW5mbHVlbmNlIEV4YWx0cy9DcnVzYWRlck9yYiIsInNjYWxlIjoxfV0/8b48230188/CrusaderOrb.png"
+        },
+        {
+          "id": "redeemers-exalted-orb",
+          "text": "救贖者的崇高石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSW5mbHVlbmNlIEV4YWx0cy9FeXJpZU9yYiIsInNjYWxlIjoxfV0/8ec9b52d65/EyrieOrb.png"
+        },
+        {
+          "id": "hunters-exalted-orb",
+          "text": "狩獵者的崇高石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSW5mbHVlbmNlIEV4YWx0cy9CYXNpbGlza09yYiIsInNjYWxlIjoxfV0/cd2131d564/BasiliskOrb.png"
+        },
+        {
+          "id": "warlords-exalted-orb",
+          "text": "總督軍的崇高石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSW5mbHVlbmNlIEV4YWx0cy9Db25xdWVyb3JPcmIiLCJzY2FsZSI6MX1d/57f0d85951/ConquerorOrb.png"
+        },
+        {
+          "id": "awakeners-orb",
+          "text": "喚醒者之玉",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvVHJhbnNmZXJPcmIiLCJzY2FsZSI6MX1d/f3b1c1566f/TransferOrb.png"
+        },
+        {
+          "id": "mavens-orb",
+          "text": "支配之玉",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvTWF2ZW5PcmIiLCJzY2FsZSI6MX1d/f307d80bfd/MavenOrb.png"
+        },
+        {
+          "id": "facetors",
+          "text": "費斯特之鏡",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lHZW1FeHBlcmllbmNlIiwic2NhbGUiOjF9XQ/7011b1ed48/CurrencyGemExperience.png"
+        },
+        {
+          "id": "prime-regrading-lens",
+          "text": "初階篩分之鏡",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQWx0ZXJuYXRlU2tpbGxHZW1DdXJyZW5jeSIsInNjYWxlIjoxfV0/d514645103/AlternateSkillGemCurrency.png"
+        },
+        {
+          "id": "secondary-regrading-lens",
+          "text": "次階篩分之鏡",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQWx0ZXJuYXRlU3VwcG9ydEdlbUN1cnJlbmN5Iiwic2NhbGUiOjF9XQ/bde7f354d4/AlternateSupportGemCurrency.png"
+        },
+        {
+          "id": "tempering-orb",
+          "text": "淬鍊石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRGl2aW5lRW5jaGFudEJvZHlBcm1vdXJDdXJyZW5jeSIsInNjYWxlIjoxfV0/37681eda1c/DivineEnchantBodyArmourCurrency.png"
+        },
+        {
+          "id": "tailoring-orb",
+          "text": "裁縫石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRGl2aW5lRW5jaGFudFdlYXBvbkN1cnJlbmN5Iiwic2NhbGUiOjF9XQ/d417654a23/DivineEnchantWeaponCurrency.png"
+        },
+        {
+          "id": "awakened-sextant",
+          "text": "製圖六分儀．覺醒",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQXRsYXNSYWRpdXNUaWVyMyIsInNjYWxlIjoxfV0/0561e8049e/AtlasRadiusTier3.png"
+        },
+        {
+          "id": "elevated-sextant",
+          "text": "製圖六分儀．高尚",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQXRsYXNSYWRpdXNUaWVyNCIsInNjYWxlIjoxfV0/3e53bafe61/AtlasRadiusTier4.png"
+        },
+        {
+          "id": "surveyors-compass",
+          "text": "調查員的羅盤",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvU3VydmV5b3JzQ29tcGFzcyIsInNjYWxlIjoxfV0/e67bfaa9cf/SurveyorsCompass.png"
+        },
+        {
+          "id": "orb-of-unmaking",
+          "text": "撤銷石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvUmVncmV0T3JiIiwic2NhbGUiOjF9XQ/beae1b00c7/RegretOrb.png"
+        },
+        {
+          "id": "blessing-xoph",
+          "text": "索伏的祝福",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQnJlYWNoL0JyZWFjaFVwZ3JhZGVyRmlyZSIsInNjYWxlIjoxfV0/16a58db13d/BreachUpgraderFire.png"
+        },
+        {
+          "id": "blessing-tul",
+          "text": "托沃的祝福",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQnJlYWNoL0JyZWFjaFVwZ3JhZGVyQ29sZCIsInNjYWxlIjoxfV0/3573fedbf3/BreachUpgraderCold.png"
+        },
+        {
+          "id": "blessing-esh",
+          "text": "艾許的祝福",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQnJlYWNoL0JyZWFjaFVwZ3JhZGVyTGlnaHRuaW5nIiwic2NhbGUiOjF9XQ/3d1db83ad2/BreachUpgraderLightning.png"
+        },
+        {
+          "id": "blessing-uul-netol",
+          "text": "烏爾尼多的祝福",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQnJlYWNoL0JyZWFjaFVwZ3JhZGVyUGh5c2ljYWwiLCJzY2FsZSI6MX1d/f230a19a13/BreachUpgraderPhysical.png"
+        },
+        {
+          "id": "blessing-chayula",
+          "text": "夏烏拉的祝福",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQnJlYWNoL0JyZWFjaFVwZ3JhZGVyQ2hhb3MiLCJzY2FsZSI6MX1d/45e8da717e/BreachUpgraderChaos.png"
+        },
+        {
+          "id": "veiled-chaos-orb",
+          "text": "隱匿混沌石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvVmVpbGVkQ2hhb3NPcmIiLCJzY2FsZSI6MX1d/fd913b89d0/VeiledChaosOrb.png"
+        },
+        {
+          "id": "enkindling-orb",
+          "text": "點燃石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRXhwZWRpdGlvbi9GbGFza1BsYXRlIiwic2NhbGUiOjF9XQ/7c1a584a8d/FlaskPlate.png"
+        },
+        {
+          "id": "instilling-orb",
+          "text": "滴注石",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRXhwZWRpdGlvbi9GbGFza0luamVjdG9yIiwic2NhbGUiOjF9XQ/efc518b1be/FlaskInjector.png"
+        },
+        {
+          "id": "sacred-orb",
+          "text": "聖玉",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvU2FjcmVkT3JiIiwic2NhbGUiOjF9XQ/0380fd0dba/SacredOrb.png"
+        },
+        {
+          "id": "stacked-deck",
+          "text": "豐裕牌組",
+          "image": "/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvRGl2aW5hdGlvbi9EZWNrIiwic2NhbGUiOjF9XQ/8e83aea79a/Deck.png"
+        }
+      ]
     }
   },
   created() {
 
   },
   mounted() {
-    let vm = this
-    this.axios.get(`https://web.poe.garena.tw/api/trade/data/static`, )
-      .then((response) => { // 通貨 icon
-        this.Currency = response.data.result[0].entries
-      })
-      .catch(function (error) {
-        vm.$message({
-          type: 'error',
-          message: `error: ${error}`
-        });
-        console.log(error);
-      })
+    // let vm = this
+    // this.axios.get(`https://web.poe.garena.tw/api/trade/data/static`, )
+    //   .then((response) => { // 通貨 icon
+    //     this.Currency = response.data.result[0].entries
+    //   })
+    //   .catch(function (error) {
+    //     vm.$message({
+    //       type: 'error',
+    //       message: `error: ${error}`
+    //     });
+    //     console.log(error);
+    //   })
   },
   methods: {
     hotkeyPressed() {
