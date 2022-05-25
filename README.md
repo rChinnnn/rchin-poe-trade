@@ -1,8 +1,8 @@
 # Readme.md
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/rChinnnn/rchin-poe-trade?style=social)
-![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-Setup-1.318.2.exe?label=Downloads&style=social)
-![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-1.318.2.exe?label=Downloads&style=social)
+![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-Setup-1.318.3.exe?label=Downloads&style=social)
+![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-1.318.3.exe?label=Downloads&style=social)
 
 # rChin POE Trade
 POE 查價工具 (Built with Electron and Vue.)
@@ -15,8 +15,8 @@ POE 查價工具 (Built with Electron and Vue.)
 
 ### 安裝版本說明
 * 點選 [Releases頁面](https://github.com/rChinnnn/rchin-poe-trade/releases)，有兩種版本可以下載
-    * `rchin-poe-trade-Setup-1.318.2.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
-    * `rchin-poe-trade-1.318.2.exe` 可攜版，無法支援自動更新
+    * `rchin-poe-trade-Setup-1.318.3.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
+    * `rchin-poe-trade-1.318.3.exe` 可攜版，無法支援自動更新
 
 ## 【免責聲明】
 * **使用此程式者請自行承擔所有可能後果和風險**
@@ -43,6 +43,7 @@ POE 查價工具 (Built with Electron and Vue.)
 5. 程式將自動判斷此次搜尋物品
 
 - 各類物品有不同設定，詳見下列狀況
+    - [共通設定](#共通設定)
     - [非自動搜尋項目](#非自動搜尋項目)
         - [非傳奇裝備](#非傳奇裝備)
     - [自動搜尋項目](#自動搜尋項目)
@@ -51,6 +52,9 @@ POE 查價工具 (Built with Electron and Vue.)
         - [技能](#技能)
         - [其餘項目](#其餘項目)
     - [未支援項目](#未支援項目)
+
+### 共通設定
+* 在數值輸入框中連點兩下左鍵，皆可快速清除已輸入數值
 
 ### 非自動搜尋項目
 
@@ -86,6 +90,7 @@ POE 查價工具 (Built with Electron and Vue.)
 #### 技能
 * 預設帶入技能品質
 * 預設帶入技能基底
+* 預設帶入品質類型
 * 技能等級、污染為手動選擇項目
 
 #### 其餘項目
@@ -93,37 +98,8 @@ POE 查價工具 (Built with Electron and Vue.)
 
 ### 未支援項目
 * 鍊魔器官
-* 劫盜契約、藍圖
 
-## 其他功能
-
-### 輿圖區域名稱複製
-1. 點選開關展開
-2. 選擇想搜尋的輿圖區域（點選即複製）
-3. 回到輿圖倉庫頁搜尋欄貼上，可快速搜尋各區地圖
-![](https://i.imgur.com/loaymoI.png)
-
-## 遊戲內搜尋截圖
-### 傳奇物品
-#### 一般物品
-![](https://i.imgur.com/KlsWdZl.jpg)
-### 三相珠寶
-![](https://i.imgur.com/tTW2UUm.jpg)
-
-### 稀有裝備
-#### 範例1
-![](https://i.imgur.com/bQpIr9H.png)
-#### 範例2
-![](https://i.imgur.com/BSM3Cu9.jpg)
-
-### 技能寶石
-#### 一般
-![](https://i.imgur.com/DSdGJwz.png)
-#### 瓦爾
-![](https://i.imgur.com/DFDmXF6.jpg)
-
-### 地圖
-#### 塑者
-![](https://i.imgur.com/XWD8aCS.png)
-#### 尊師(守衛)
-![](https://i.imgur.com/1NrkPjP.png)
+## 遊戲內查價截圖
+![](https://i.imgur.com/ftKM7G4.jpg)
+![](https://i.imgur.com/bTVDT2r.jpg)
+![](https://i.imgur.com/fj951r1.jpg)

@@ -1031,7 +1031,7 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.issueText = `Version: v1.318.2, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.318.3, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1410,9 +1410,11 @@ export default {
             this.equipItems.push(element)
           });
           result[result.findIndex(e => e.id === "sentinel")].entries.forEach((element, index) => { // "id": "sentinel"
-            element.name = "守望號令"
-            element.option = "sentinel"
-            this.equipItems.push(element)
+            if (_.isUndefined(element.flags)) {
+              element.name = "守望號令"
+              element.option = "sentinel"
+              this.equipItems.push(element)
+            }
           });
         // })
         // .catch(function (error) {
@@ -2855,7 +2857,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.318.2\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.318.3\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
