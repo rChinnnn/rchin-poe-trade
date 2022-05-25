@@ -14,19 +14,19 @@
       </b-col>
       <b-col sm="12" style="margin-left: 20px;">
         <el-badge :value="helmetCount" :max="18" class="badgeItem" :type="`${helmetCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('頭部')">頭</el-button>
+          <el-button size="small" round @click="stringCopy('頭部|項鍊')">頭</el-button>
         </el-badge>
         <el-badge :value="glovesCount" :max="18" class="badgeItem" :type="`${glovesCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('手套')">手</el-button>
+          <el-button size="small" round @click="stringCopy('手套|戒指')">手</el-button>
         </el-badge>
         <el-badge :value="bootsCount" :max="18" class="badgeItem" :type="`${bootsCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('鞋子')">鞋</el-button>
+          <el-button size="small" round @click="stringCopy('鞋子|腰帶')">鞋</el-button>
         </el-badge>
         <el-badge :value="beltCount" :max="18" class="badgeItem" :type="`${beltCount < 18 ? 'warning' : 'primary'}`">
           <el-button size="small" round @click="stringCopy('腰帶')">腰</el-button>
         </el-badge>
         <el-badge :value="weaponCount" :max="18" class="badgeItem" :type="`${weaponCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('單手')">武器</el-button>
+          <el-button size="small" round @click="stringCopy('單手|匕首|法杖|弓')">武器</el-button>
         </el-badge>
         <el-badge :value="bodyCount" :max="36" class="badgeItem" :type="`${bodyCount < 18 ? 'warning' : 'primary'}`">
           <el-button size="small" round @click="stringCopy('胸甲')">胸甲</el-button>
@@ -135,7 +135,7 @@ export default {
                 .then(vm.axios.spread((...res) => {
                   res.forEach((element, index) => {
                     element.data.items.forEach(item => {
-                      if (item.identified === false && item.ilvl <= 74 && item.ilvl >= 60) {
+                      if (item.identified === false && item.ilvl >= 60) {
                         switch (true) {
                           case item.icon.indexOf("/Helmet") > -1:
                             this.helmetCount += 1

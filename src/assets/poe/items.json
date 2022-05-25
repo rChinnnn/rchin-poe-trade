@@ -269,6 +269,14 @@
                     }
                 },
                 {
+                    "name": "虛空呼喚",
+                    "type": "藍玉戒指",
+                    "text": "虛空呼喚 藍玉戒指",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
                     "name": "屠戮之心",
                     "type": "黑曜護身符",
                     "text": "屠戮之心 黑曜護身符",
@@ -1357,6 +1365,14 @@
                     }
                 },
                 {
+                    "name": "真理負擔",
+                    "type": "水晶腰帶",
+                    "text": "真理負擔 水晶腰帶",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
                     "name": "純貨",
                     "type": "飾布腰帶",
                     "text": "純貨 飾布腰帶",
@@ -1376,6 +1392,14 @@
                     "name": "短期債券",
                     "type": "海玉護身符",
                     "text": "短期債券 海玉護身符",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "永恆鬥爭",
+                    "type": "黑曜護身符",
+                    "text": "永恆鬥爭 黑曜護身符",
                     "flags": {
                         "unique": true
                     }
@@ -3042,6 +3066,14 @@
                     "name": "希伯的統治",
                     "type": "靈主之環",
                     "text": "希伯的統治 靈主之環",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "創造迴聲",
+                    "type": "皇室堅盔",
+                    "text": "創造迴聲 皇室堅盔",
                     "flags": {
                         "unique": true
                     }
@@ -7517,6 +7549,10 @@
                     "text": "似曾相識"
                 },
                 {
+                    "type": "比死更慘的命運",
+                    "text": "比死更慘的命運"
+                },
+                {
                     "type": "阿基爾的預言",
                     "text": "阿基爾的預言"
                 },
@@ -7527,6 +7563,10 @@
                 {
                     "type": "暗黑孤單中",
                     "text": "暗黑孤單中"
+                },
+                {
+                    "type": "變動感知",
+                    "text": "變動感知"
                 },
                 {
                     "type": "上進執迷",
@@ -7681,6 +7721,10 @@
                     "text": "漆黑夢魘"
                 },
                 {
+                    "type": "晦暗不明",
+                    "text": "晦暗不明"
+                },
+                {
                     "type": "暗黑的誘惑",
                     "text": "暗黑的誘惑"
                 },
@@ -7737,6 +7781,10 @@
                     "text": "披夢"
                 },
                 {
+                    "type": "雙重性",
+                    "text": "雙重性"
+                },
+                {
                     "type": "消逝之怒",
                     "text": "消逝之怒"
                 },
@@ -7781,6 +7829,14 @@
                     "text": "友誼小船"
                 },
                 {
+                    "type": "骨頭燒到灰燼",
+                    "text": "骨頭燒到灰燼"
+                },
+                {
+                    "type": "進步發明",
+                    "text": "進步發明"
+                },
+                {
                     "type": "寶石匠的允諾",
                     "text": "寶石匠的允諾"
                 },
@@ -7821,6 +7877,10 @@
                     "text": "陰陽眼"
                 },
                 {
+                    "type": "家園",
+                    "text": "家園"
+                },
+                {
                     "type": "希望",
                     "text": "希望"
                 },
@@ -7859,6 +7919,10 @@
                 {
                     "type": "驚喜盒",
                     "text": "驚喜盒"
+                },
+                {
+                    "type": "審判之聲",
+                    "text": "審判之聲"
                 },
                 {
                     "type": "正義野心",
@@ -8009,6 +8073,10 @@
                     "text": "重生"
                 },
                 {
+                    "type": "重生與復興",
+                    "text": "重生與復興"
+                },
+                {
                     "type": "魯莽的野心",
                     "text": "魯莽的野心"
                 },
@@ -8075,6 +8143,10 @@
                 {
                     "type": "大藝術家",
                     "text": "大藝術家"
+                },
+                {
+                    "type": "藥劑師",
+                    "text": "藥劑師"
                 },
                 {
                     "type": "魔法師的右手",
@@ -8147,6 +8219,10 @@
                 {
                     "type": "識骨尋蹤",
                     "text": "識骨尋蹤"
+                },
+                {
+                    "type": "頑強的戰鬥法",
+                    "text": "頑強的戰鬥法"
                 },
                 {
                     "type": "裂痕",
@@ -8265,6 +8341,10 @@
                     "text": "魅魔"
                 },
                 {
+                    "type": "終點站",
+                    "text": "終點站"
+                },
+                {
                     "type": "瘋醫",
                     "text": "瘋醫"
                 },
@@ -8291,6 +8371,10 @@
                 {
                     "type": "酒醉貴族",
                     "text": "酒醉貴族"
+                },
+                {
+                    "type": "地牢大師",
+                    "text": "地牢大師"
                 },
                 {
                     "type": "輕鬆漫步",
@@ -8387,6 +8471,10 @@
                 {
                     "type": "遺棄",
                     "text": "遺棄"
+                },
+                {
+                    "type": "凝視前方",
+                    "text": "凝視前方"
                 },
                 {
                     "type": "狡狐",
@@ -10631,6 +10719,10 @@
                     "text": "凋落偵查報告"
                 },
                 {
+                    "type": "超凡偵查報告",
+                    "text": "超凡偵查報告"
+                },
+                {
                     "type": "瓦爾偵查報告",
                     "text": "瓦爾偵查報告"
                 },
@@ -10647,12 +10739,44 @@
                     "text": "勢力偵查報告"
                 },
                 {
+                    "type": "技工偵查報告",
+                    "text": "技工偵查報告"
+                },
+                {
                     "type": "全面偵查報告",
                     "text": "全面偵查報告"
                 },
                 {
                     "type": "卓越偵查報告",
                     "text": "卓越偵查報告"
+                },
+                {
+                    "type": "提升動力核心",
+                    "text": "提升動力核心"
+                },
+                {
+                    "type": "護甲重組裝置",
+                    "text": "護甲重組裝置"
+                },
+                {
+                    "type": "動力核心",
+                    "text": "動力核心"
+                },
+                {
+                    "type": "飾品重組裝置",
+                    "text": "飾品重組裝置"
+                },
+                {
+                    "type": "改造動力核心",
+                    "text": "改造動力核心"
+                },
+                {
+                    "type": "增強動力核心",
+                    "text": "增強動力核心"
+                },
+                {
+                    "type": "武器重組裝置",
+                    "text": "武器重組裝置"
                 },
                 {
                     "type": "原始混沌鑄新儀",
@@ -12707,8 +12831,8 @@
                     "text": "啟蒙輔助"
                 },
                 {
-                    "type": "覺醒．先祖呼喚輔助",
-                    "text": "覺醒．先祖呼喚輔助"
+                    "type": "覺醒．先祖怒嚎輔助",
+                    "text": "覺醒．先祖怒嚎輔助"
                 },
                 {
                     "type": "秘能波動輔助",
@@ -12935,12 +13059,24 @@
                     "text": "元素擴散輔助"
                 },
                 {
+                    "type": "覺醒．賦予輔助",
+                    "text": "覺醒．賦予輔助"
+                },
+                {
                     "type": "近戰擊暈獲得耐力球輔助",
                     "text": "近戰擊暈獲得耐力球輔助"
                 },
                 {
                     "type": "能量偷取輔助",
                     "text": "能量偷取輔助"
+                },
+                {
+                    "type": "覺醒．增幅輔助",
+                    "text": "覺醒．增幅輔助"
+                },
+                {
+                    "type": "覺醒．啟蒙輔助",
+                    "text": "覺醒．啟蒙輔助"
                 },
                 {
                     "type": "永恆祝福輔助",
@@ -13047,8 +13183,8 @@
                     "text": "末日厄運輔助"
                 },
                 {
-                    "type": "增大範圍輔助",
-                    "text": "增大範圍輔助"
+                    "type": "增加範圍輔助",
+                    "text": "增加範圍輔助"
                 },
                 {
                     "type": "覺醒．增加範圍效果輔助",
@@ -13945,6 +14081,14 @@
                     }
                 },
                 {
+                    "name": "逃脫不能",
+                    "type": "翠綠珠寶",
+                    "text": "逃脫不能 翠綠珠寶",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
                     "name": "慣性",
                     "type": "赤紅珠寶",
                     "text": "慣性 赤紅珠寶",
@@ -14420,6 +14564,14 @@
                     "name": "堅毅心靈",
                     "type": "翠綠珠寶",
                     "text": "堅毅心靈 翠綠珠寶",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "崇高願景",
+                    "type": "三相珠寶",
+                    "text": "崇高願景 三相珠寶",
                     "flags": {
                         "unique": true
                     }
@@ -15000,6 +15152,15 @@
                     "type": "古典密室",
                     "disc": "warfortheatlas",
                     "text": "贗品．深沉記憶 古典密室",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "贗品．深沉記憶",
+                    "type": "尋夢追憶",
+                    "disc": "warfortheatlas",
+                    "text": "贗品．深沉記憶 尋夢追憶",
                     "flags": {
                         "unique": true
                     }
@@ -22895,6 +23056,10 @@
                     "text": "墮落幼爪"
                 },
                 {
+                    "type": "Plummeting Ursa",
+                    "text": "墮落之爪"
+                },
+                {
                     "type": "Tunnelfiend",
                     "text": "地穴惡靈"
                 },
@@ -22913,10 +23078,6 @@
                 {
                     "type": "Q'uru",
                     "text": "庫魯"
-                },
-                {
-                    "type": "Plummeting Ursa",
-                    "text": "墮落之爪"
                 },
                 {
                     "type": "It That Fell",
@@ -25015,107 +25176,239 @@
             "label": "",
             "entries": [
                 {
-                    "type": "Rusted Stalker Sentinel",
+                    "name": "惡化",
+                    "type": "硫磺的潛行守望",
+                    "text": "惡化 硫磺的潛行守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "失眠",
+                    "type": "宇宙的巔峰守望",
+                    "text": "失眠 宇宙的巔峰守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "古代釣手",
+                    "type": "灰石的巔峰守望",
+                    "text": "古代釣手 灰石的巔峰守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "復仇天使",
+                    "type": "宇宙的巔峰守望",
+                    "text": "復仇天使 宇宙的巔峰守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "仲裁者",
+                    "type": "硫磺的萬劫守望",
+                    "text": "仲裁者 硫磺的萬劫守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "咒怨蛇妖",
+                    "type": "灰石的萬劫守望",
+                    "text": "咒怨蛇妖 灰石的萬劫守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "施主",
+                    "type": "鈷藍的潛行守望",
+                    "text": "施主 鈷藍的潛行守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "墮落",
+                    "type": "宇宙的巔峰守望",
+                    "text": "墮落 宇宙的巔峰守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "頓悟",
+                    "type": "宇宙的巔峰守望",
+                    "text": "頓悟 宇宙的巔峰守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "挖眼髏骨",
+                    "type": "灰石的潛行守望",
+                    "text": "挖眼髏骨 灰石的潛行守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "感染",
+                    "type": "黑曜的潛行守望",
+                    "text": "感染 黑曜的潛行守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "自大狂",
+                    "type": "青銅的潛行守望",
+                    "text": "自大狂 青銅的潛行守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "孤芳自賞",
+                    "type": "宇宙的巔峰守望",
+                    "text": "孤芳自賞 宇宙的巔峰守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "憤怒煉獄",
+                    "type": "宇宙的巔峰守望",
+                    "text": "憤怒煉獄 宇宙的巔峰守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": " 折磨者",
+                    "type": "黑曜的萬劫守望",
+                    "text": " 折磨者 黑曜的萬劫守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "邪惡三體",
+                    "type": "宇宙的巔峰守望",
+                    "text": "邪惡三體 宇宙的巔峰守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "狂風暴雨",
+                    "type": "宇宙的巔峰守望",
+                    "text": "狂風暴雨 宇宙的巔峰守望",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "type": "鏽蝕的潛行守望",
                     "text": "鏽蝕的潛行守望"
                 },
                 {
-                    "type": "Bronze Stalker Sentinel",
+                    "type": "青銅的潛行守望",
                     "text": "青銅的潛行守望"
                 },
                 {
-                    "type": "Cobalt Stalker Sentinel",
+                    "type": "鈷藍的潛行守望",
                     "text": "鈷藍的潛行守望"
                 },
                 {
-                    "type": "Brimstone Stalker Sentinel",
+                    "type": "硫磺的潛行守望",
                     "text": "硫磺的潛行守望"
                 },
                 {
-                    "type": "Emberstone Stalker Sentinel",
+                    "type": "灰石的潛行守望",
                     "text": "灰石的潛行守望"
                 },
                 {
-                    "type": "Obsidian Stalker Sentinel",
+                    "type": "黑曜的潛行守望",
                     "text": "黑曜的潛行守望"
                 },
                 {
-                    "type": "Bronze Pandemonium Sentinel",
+                    "type": "青銅的萬劫守望",
                     "text": "青銅的萬劫守望"
                 },
                 {
-                    "type": "Cobalt Pandemonium Sentinel",
+                    "type": "鈷藍的萬劫守望",
                     "text": "鈷藍的萬劫守望"
                 },
                 {
-                    "type": "Brimstone Pandemonium Sentinel",
+                    "type": "硫磺的萬劫守望",
                     "text": "硫磺的萬劫守望"
                 },
                 {
-                    "type": "Emberstone Pandemonium Sentinel",
+                    "type": "灰石的萬劫守望",
                     "text": "灰石的萬劫守望"
                 },
                 {
-                    "type": "Obsidian Pandemonium Sentinel",
+                    "type": "黑曜的萬劫守望",
                     "text": "黑曜的萬劫守望"
                 },
                 {
-                    "type": "Bronze Apex Sentinel",
+                    "type": "青銅的巔峰守望",
                     "text": "青銅的巔峰守望"
                 },
                 {
-                    "type": "Cobalt Apex Sentinel",
+                    "type": "鈷藍的巔峰守望",
                     "text": "鈷藍的巔峰守望"
                 },
                 {
-                    "type": "Brimstone Apex Sentinel",
+                    "type": "硫磺的巔峰守望",
                     "text": "硫磺的巔峰守望"
                 },
                 {
-                    "type": "Emberstone Apex Sentinel",
+                    "type": "灰石的巔峰守望",
                     "text": "灰石的巔峰守望"
                 },
                 {
-                    "type": "Obsidian Apex Sentinel",
+                    "type": "黑曜的巔峰守望",
                     "text": "黑曜的巔峰守望"
                 },
                 {
-                    "type": "Cryptic Stalker Sentinel",
+                    "type": "神秘的潛行守望",
                     "text": "神秘的潛行守望"
                 },
                 {
-                    "type": "Primeval Stalker Sentinel",
+                    "type": "原始的潛行守望",
                     "text": "原始的潛行守望"
                 },
                 {
-                    "type": "Ancient Stalker Sentinel",
+                    "type": "古代的潛行守望",
                     "text": "古代的潛行守望"
                 },
                 {
-                    "type": "Cryptic Pandemonium Sentinel",
+                    "type": "神秘的萬劫守望",
                     "text": "神秘的萬劫守望"
                 },
                 {
-                    "type": "Primeval Pandemonium Sentinel",
+                    "type": "原始的萬劫守望",
                     "text": "原始的萬劫守望"
                 },
                 {
-                    "type": "Ancient Pandemonium Sentinel",
+                    "type": "古代的萬劫守望",
                     "text": "古代的萬劫守望"
                 },
                 {
-                    "type": "Cryptic Apex Sentinel",
+                    "type": "神秘的巔峰守望",
                     "text": "神秘的巔峰守望"
                 },
                 {
-                    "type": "Primeval Apex Sentinel",
+                    "type": "原始的巔峰守望",
                     "text": "原始的巔峰守望"
                 },
                 {
-                    "type": "Ancient Apex Sentinel",
-                    "text": "古代的巔峰守望"
-                },
-                {
-                    "type": "Cosmic Apex Sentinel",
+                    "type": "宇宙的巔峰守望",
                     "text": "宇宙的巔峰守望"
                 }
             ]

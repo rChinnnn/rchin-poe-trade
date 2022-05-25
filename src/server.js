@@ -62,7 +62,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'OAuth rChinPoeTrade/1.318.2 (contact: b10121035@gemail.yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.318.3 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -84,7 +84,7 @@
         headers: {
           'accept': '*/*',
           'Cookie': req.body.cookie,
-          'User-Agent': 'OAuth rChinPoeTrade/1.318.2 (contact: b10121035@gemail.yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.318.3 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -100,6 +100,7 @@
     app.post('/trade', function (req, res) {
       console.log(moment().format('HH:mm:ss'), "Call trade(post) API", req.body.league)
       console.log(req.body.searchJson.query)
+      const localErrorMsg = '無法正確獲得官方 API 資源，請稍後再試'
       let league = encodeURI(req.body.league)
       let baseUrl = req.body.baseUrl
       let fetchID = [] // 儲存得到的 result ID, 10 個 ID 為一組陣列
@@ -110,7 +111,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'OAuth rChinPoeTrade/1.318.2 (contact: b10121035@gemail.yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.318.3 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -145,8 +146,8 @@
             limitState: limitState
           });
         } else {
-          res.status(response.statusCode).send(body);
-          console.log(response.statusCode, body)
+          // console.log(body)
+          res.status(response ? response.statusCode : 500).send(body ? body : localErrorMsg);
         }
       });
     });
