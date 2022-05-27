@@ -1918,6 +1918,7 @@ export default {
               break;
           }
           this.itemLevel.isSearch = true
+          this.isItemLevelSearch()
         } else if (randomMaxValue) { // 物品中包含 "# 至 #" 的詞綴，在官方市集搜尋中皆以相加除二作搜尋
           randomMinValue = (randomMinValue + randomMaxValue) / 2
           randomMaxValue = ''
@@ -2309,6 +2310,7 @@ export default {
         case 'flask':
         case 'heistequipment':
           this.itemLevel.isSearch = true // 藥劑及劫盜裝備增加物等篩選
+          this.isItemLevelSearch()
         case 'sentinel':
           this.itemBasic.isSearch = true
           this.isItemBasicSearch()
