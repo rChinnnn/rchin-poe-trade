@@ -135,10 +135,10 @@
               <b-form-checkbox class="float-right" v-model="itemLevel.isSearch" @input="isItemLevelSearch" switch>物品等級</b-form-checkbox>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="itemLevel.min" @dblclick="itemLevel.min = ''" @input="isItemLevelSearch" :disabled="!itemLevel.isSearch" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="itemLevel.min" @dblclick="itemLevel.min = null" @update="isItemLevelSearch" :disabled="!itemLevel.isSearch" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="itemLevel.max" @dblclick="itemLevel.max = ''" @input="isItemLevelSearch" :disabled="!itemLevel.isSearch" :style="itemLevel.max && (itemLevel.max < itemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="itemLevel.max" @dblclick="itemLevel.max = null" @update="isItemLevelSearch" :style="itemLevel.max && (itemLevel.max < itemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="3" style="padding-top: 6px;">
               <b-form-checkbox style="padding-right: 19px !important;" class="float-right" v-model="raritySet.isSearch" @input="isRaritySearch" switch>稀有度</b-form-checkbox>
@@ -152,10 +152,10 @@
               <b-form-checkbox class="float-right" v-model="itemLinked.isSearch" @input="isLinkedSearch" switch>物品連線</b-form-checkbox>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="itemLinked.min" @dblclick="itemLinked.min = ''" @input="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="itemLinked.min > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="itemLinked.min" @dblclick="itemLinked.min = null" @update="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="itemLinked.min > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="itemLinked.max" @dblclick="itemLinked.max = ''" @input="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="(itemLinked.max && (itemLinked.max < itemLinked.min)) || itemLinked.max > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="itemLinked.max" @dblclick="itemLinked.max = null" @update="isLinkedSearch" :disabled="!itemLinked.isSearch" :style="(itemLinked.max && (itemLinked.max < itemLinked.min)) || itemLinked.max > 6 ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="3" style="padding-top: 6px;">
               <b-form-checkbox class="float-right" v-model="itemCategory.isSearch" @input="isItemCategorySearch" switch>物品分類</b-form-checkbox>
@@ -202,10 +202,10 @@
               <b-form-checkbox class="float-right" v-model="areaLevel.isSearch" @input="isAreaLevelSearch" switch>區域等級</b-form-checkbox>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="areaLevel.min" @dblclick="areaLevel.min= ''" @input="isAreaLevelSearch" :disabled="!areaLevel.isSearch" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="areaLevel.min" @dblclick="areaLevel.min = null" @update="isAreaLevelSearch" :disabled="!areaLevel.isSearch" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="areaLevel.max" @dblclick="areaLevel.max= ''" @input="isAreaLevelSearch" :disabled="!areaLevel.isSearch" :style="areaLevel.max && (areaLevel.max < areaLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="areaLevel.max" @dblclick="areaLevel.max = null" @update="isAreaLevelSearch" :disabled="!areaLevel.isSearch" :style="areaLevel.max && (areaLevel.max < areaLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="1"></b-col>
             <b-col sm="2" style="padding-top: 6px;">
@@ -220,10 +220,10 @@
               <b-form-checkbox class="float-right" v-model="mapLevel.isSearch" @input="isMapLevelSearch" switch>地圖階級</b-form-checkbox>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="mapLevel.min" @dblclick="mapLevel.min= ''" @input="isMapLevelSearch" :disabled="!mapLevel.isSearch" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="mapLevel.min" @dblclick="mapLevel.min = null" @update="isMapLevelSearch" :disabled="!mapLevel.isSearch" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="1" style="padding-top: 3px;">
-              <b-form-input v-model.number="mapLevel.max" @dblclick="mapLevel.max= ''" @input="isMapLevelSearch" :disabled="!mapLevel.isSearch" :style="mapLevel.max && (mapLevel.max < mapLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="mapLevel.max" @dblclick="mapLevel.max = null" @update="isMapLevelSearch" :disabled="!mapLevel.isSearch" :style="mapLevel.max && (mapLevel.max < mapLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="lesspadding" style="padding-top: 8px;">
@@ -300,19 +300,19 @@
               <b-form-checkbox class="float-right" v-model="gemLevel.isSearch" @input="isGemLevelSearch" switch>技能等級</b-form-checkbox>
             </b-col>
             <b-col sm="1">
-              <b-form-input v-model.number="gemLevel.min" @dblclick="gemLevel.min= ''" @input="isGemLevelSearch" :disabled="!gemLevel.isSearch" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="gemLevel.min" @dblclick="gemLevel.min = null" @update="isGemLevelSearch" :disabled="!gemLevel.isSearch" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="1">
-              <b-form-input v-model.number="gemLevel.max" @dblclick="gemLevel.max= ''" @input="isGemLevelSearch" :disabled="!gemLevel.isSearch" :style="gemLevel.max && (gemLevel.max < gemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="gemLevel.max" @dblclick="gemLevel.max = null" @update="isGemLevelSearch" :disabled="!gemLevel.isSearch" :style="gemLevel.max && (gemLevel.max < gemLevel.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="3" style="padding-top: 3px;">
               <b-form-checkbox class="float-right" v-model="gemQuality.isSearch" @input="isGemQualitySearch" switch>技能品質</b-form-checkbox>
             </b-col>
             <b-col sm="1">
-              <b-form-input v-model.number="gemQuality.min" @dblclick="gemQuality.min= ''" @input="isGemQualitySearch" :disabled="!gemQuality.isSearch" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="gemQuality.min" @dblclick="gemQuality.min = null" @update="isGemQualitySearch" :disabled="!gemQuality.isSearch" size="sm" type="number"></b-form-input>
             </b-col>
             <b-col sm="1">
-              <b-form-input v-model.number="gemQuality.max" @dblclick="gemQuality.max= ''" @input="isGemQualitySearch" :disabled="!gemQuality.isSearch" :style="gemQuality.max && (gemQuality.max < gemQuality.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
+              <b-form-input v-model.number="gemQuality.max" @dblclick="gemQuality.max = null" @update="isGemQualitySearch" :disabled="!gemQuality.isSearch" :style="gemQuality.max && (gemQuality.max < gemQuality.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="lesspadding" style="padding-top: 10px;">
@@ -372,12 +372,12 @@
               <td style="cursor: pointer; user-select:none; white-space:pre-wrap;" @click="item.isSearch = !item.isSearch">{{ item.text }} </td>
               <td style="width: 64px; padding-top: 5px !important;">
                 <div style="padding:0px 4px 0px 6px;">
-                  <b-form-input v-if="item.isValue" v-model.number="item.min" @dblclick="item.min = ''" :disabled="!item.isSearch" size="sm" type="number" style="text-align: center;"></b-form-input>
+                  <b-form-input v-if="item.isValue" v-model.number="item.min" @dblclick="item.min = null" :disabled="!item.isSearch" size="sm" type="number" style="text-align: center;"></b-form-input>
                 </div>
               </td>
               <td style="width: 64px; padding-top: 5px !important;">
                 <div style="padding:0px 4px 0px 6px;">
-                  <b-form-input v-if="item.isValue" v-model.number="item.max" @dblclick="item.max = ''" :disabled="!item.isSearch" :style="item.max && (item.max < item.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number" style="text-align: center;"></b-form-input>
+                  <b-form-input v-if="item.isValue" v-model.number="item.max" @dblclick="item.max = null" :disabled="!item.isSearch" :style="item.max && (item.max < item.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number" style="text-align: center;"></b-form-input>
                 </div>
               </td>
             </tr>
@@ -893,6 +893,7 @@ export default {
       this.isSupported = true
       this.raritySet.isSearch = false
       this.itemLevel.isSearch = false
+      this.itemLevel.min = ''
       this.itemLevel.max = ''
       this.mapLevel.isSearch = false
       this.mapLevel.min = ''
@@ -905,8 +906,10 @@ export default {
       this.itemLinked.max = ''
       this.itemBasic.isSearch = false
       this.gemLevel.isSearch = false
+      this.gemLevel.min = ''
       this.gemLevel.max = ''
       this.gemQuality.isSearch = false
+      this.gemQuality.min = ''
       this.gemQuality.max = ''
       this.corruptedSet.chosenObj = {
         label: "任何",
@@ -1072,106 +1075,106 @@ export default {
       // this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
       //   .then((response) => {
       //     let result = response.data.result
-          let result = this.allStats.result
-          result[0].entries.forEach((element, index) => { // 偽屬性
-            let text = element.text
-            if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
-              text = text.substring(4, 20)
-            }
-            this.pseudoStats.push(text, element.id)
-            if (text.indexOf('有日誌') > -1) { // 探險日誌詞綴
-              this.explicitStats.push(text, element.id)
-            }
+      let result = this.allStats.result
+      result[0].entries.forEach((element, index) => { // 偽屬性
+        let text = element.text
+        if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
+          text = text.substring(4, 20)
+        }
+        this.pseudoStats.push(text, element.id)
+        if (text.indexOf('有日誌') > -1) { // 探險日誌詞綴
+          this.explicitStats.push(text, element.id)
+        }
+      })
+      result[1].entries.forEach((element, index) => { // 隨機屬性
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (element.id === "explicit.stat_2460506030") { // 禁忌烈焰/血肉配置詞綴
+          element.option.options.forEach((element, index) => {
+            this.forbiddenZoneStats.push(element.text, (element.id).toString())
           })
-          result[1].entries.forEach((element, index) => { // 隨機屬性
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            if (element.id === "explicit.stat_2460506030") { // 禁忌烈焰/血肉配置詞綴
-              element.option.options.forEach((element, index) => {
-                this.forbiddenZoneStats.push(element.text, (element.id).toString())
-              })
-            }
-            if (text.includes('\n')) { // 處理折行詞綴
-              this.wrapStats.push(text)
-            }
-            this.explicitStats.push(text, element.id)
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.explicitStats.push(text, element.id)
+      })
+      result[2].entries.forEach((element, index) => { // 固定屬性
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.implicitStats.push(text, element.id)
+      })
+      result[3].entries.forEach((element, index) => { // 破裂
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        this.fracturedStats.push(text, element.id)
+      })
+      result[4].entries.forEach((element, index) => { // 附魔
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (element.id === "enchant.stat_3948993189") { // 星團珠寶附魔詞綴
+          element.option.options.forEach((element, index) => {
+            this.clusterJewelStats.push(element.text, (element.id).toString())
           })
-          result[2].entries.forEach((element, index) => { // 固定屬性
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            if (text.includes('\n')) { // 處理折行詞綴
-              this.wrapStats.push(text)
-            }
-            this.implicitStats.push(text, element.id)
+        } else if (element.id === "enchant.stat_2954116742") { // 項鍊塗油配置附魔詞綴
+          element.option.options.forEach((element, index) => {
+            this.allocatesStats.push(element.text, (element.id).toString())
           })
-          result[3].entries.forEach((element, index) => { // 破裂
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            this.fracturedStats.push(text, element.id)
-          })
-          result[4].entries.forEach((element, index) => { // 附魔
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            if (element.id === "enchant.stat_3948993189") { // 星團珠寶附魔詞綴
-              element.option.options.forEach((element, index) => {
-                this.clusterJewelStats.push(element.text, (element.id).toString())
-              })
-            } else if (element.id === "enchant.stat_2954116742") { // 項鍊塗油配置附魔詞綴
-              element.option.options.forEach((element, index) => {
-                this.allocatesStats.push(element.text, (element.id).toString())
-              })
-            }
-            if (text.includes('\n')) { // 處理折行詞綴
-              this.wrapStats.push(text)
-            }
-            this.enchantStats.push(text, element.id)
-          })
-          result[5].entries.forEach((element, index) => { // 災魘詞綴
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            if (text.includes('\n')) { // 處理折行詞綴
-              this.wrapStats.push(text)
-            }
-            this.scourgeStats.push(text, element.id)
-          })
-          result[6].entries.forEach((element, index) => { // 已工藝
-            let text = element.text
-            if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
-              text = text.substring(0, text.indexOf(' (部分)'))
-            }
-            if (text.includes('\n')) { // 處理折行詞綴
-              this.wrapStats.push(text)
-            }
-            this.craftedStats.push(text, element.id)
-          })
-          result[7].entries.forEach((element, index) => { // 隱匿屬性
-            let text = element.text
-            if (text === '隱匿之') text = '隱匿後綴'
-            else if (text === '隱匿的') text = '隱匿前綴'
-            this.explicitStats.push(text, element.id)
-          })
-        // })
-        // .catch(function (error) {
-        //   vm.isApiError = true
-        //   vm.apiErrorStr = error
-        //   vm.startCountdown(10)
-        //   vm.resetSearchData()
-        //   vm.$message({
-        //     type: 'error',
-        //     message: `error: ${error}`
-        //   });
-        //   console.log(error);
-        // })
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.enchantStats.push(text, element.id)
+      })
+      result[5].entries.forEach((element, index) => { // 災魘詞綴
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.scourgeStats.push(text, element.id)
+      })
+      result[6].entries.forEach((element, index) => { // 已工藝
+        let text = element.text
+        if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
+          text = text.substring(0, text.indexOf(' (部分)'))
+        }
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.craftedStats.push(text, element.id)
+      })
+      result[7].entries.forEach((element, index) => { // 隱匿屬性
+        let text = element.text
+        if (text === '隱匿之') text = '隱匿後綴'
+        else if (text === '隱匿的') text = '隱匿前綴'
+        this.explicitStats.push(text, element.id)
+      })
+      // })
+      // .catch(function (error) {
+      //   vm.isApiError = true
+      //   vm.apiErrorStr = error
+      //   vm.startCountdown(10)
+      //   vm.resetSearchData()
+      //   vm.$message({
+      //     type: 'error',
+      //     message: `error: ${error}`
+      //   });
+      //   console.log(error);
+      // })
     },
     itemsAPI() { // 物品 API
       let vm = this
@@ -1188,246 +1191,246 @@ export default {
       // this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
       //   .then((response) => {
       //     let result = response.data.result
-          let result = this.allItems.result
-          result[result.findIndex(e => e.id === "accessories")].entries.forEach((element, index) => { // "id": "accessories", "label": "飾品"
-            const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
-            // _.isUndefined(element.flags) == true 表示非傳奇物品
-            if (_.isUndefined(element.flags)) {
-              accessoryIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (accessoryIndex) {
-              case 1: // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
-                element.name = "項鍊"
-                element.option = "accessory.amulet"
-                this.equipItems.push(element)
-                break;
-              case 2: // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
-                element.name = "腰帶"
-                element.option = "accessory.belt"
-                this.equipItems.push(element)
-                break;
-              case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }  
-                element.name = "戒指"
-                element.option = "accessory.ring"
-                this.equipItems.push(element)
-                break;
-              case 4: // 飾品起始點 { "type": "盜賊飾品", "text": "盜賊飾品" }  
-                element.name = "飾品"
-                element.option = "accessory.trinket"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[result.findIndex(e => e.id === "armour")].entries.forEach((element, index) => { // "id": "armour", "label": "護甲"
-            const basetype = ["黃金戰甲", "異色鞋", "擒拿手套", "喚骨頭盔", "黃金聖炎", "火靈箭袋"]
-            if (_.isUndefined(element.flags)) {
-              armourIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (armourIndex) {
-              case 1: // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
-                element.name = "胸甲"
-                element.option = "armour.chest"
-                this.equipItems.push(element)
-                break;
-              case 2: // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
-                element.name = "鞋子"
-                element.option = "armour.boots"
-                this.equipItems.push(element)
-                break;
-              case 3: // 手套起始點 { "type": "擒拿手套", "text": "擒拿手套" }
-                element.name = "手套"
-                element.option = "armour.gloves"
-                this.equipItems.push(element)
-                break;
-              case 4: // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
-                element.name = "頭部"
-                element.option = "armour.helmet"
-                this.equipItems.push(element)
-                break;
-              case 5: // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
-                element.name = "盾"
-                element.option = "armour.shield"
-                this.equipItems.push(element)
-                break;
-              case 6: // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
-                element.name = "箭袋"
-                element.option = "armour.quiver"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[result.findIndex(e => e.id === "flasks")].entries.forEach((element, index) => { // "id": "flasks", "label": "藥劑"
-            const basetype = ["小型複合藥劑"]
-            if (_.isUndefined(element.flags)) {
-              flasksIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (flasksIndex) {
-              case 1: // 藥劑起始點 { "type": "小型複合藥劑", "text": "小型複合藥劑" }
-                element.name = "藥劑"
-                element.option = "flask"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[result.findIndex(e => e.id === "jewels")].entries.forEach((element, index) => { // "id": "jewels", "label": "珠寶"
-            const basetype = ["催眠之眼珠寶"]
-            if (_.isUndefined(element.flags)) {
-              jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (jewelIndex) {
-              case 1: // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
-                element.name = "珠寶"
-                element.option = "jewel"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[result.findIndex(e => e.id === "weapons")].entries.forEach((element, index) => { // "id": "weapons", "label": "武器"
-            const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
-            if (_.isUndefined(element.flags)) {
-              weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (weaponIndex) {
-              case 1: // 爪起始點 { "type": "拳釘", "text": "拳釘" }
-                element.name = "爪"
-                element.option = "weapon.claw"
-                element.weapon = "weapon.one" // "weapon.one" 單手武器
-                this.equipItems.push(element)
-                break;
-              case 2: // 匕首起始點 { "type": "玻璃利片", "text": "玻璃利片" }
-                element.name = "匕首"
-                element.option = "weapon.dagger"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 3: // 單手斧起始點 { "type": "鏽斧", "text": "鏽斧" }
-                element.name = "單手斧"
-                element.option = "weapon.oneaxe"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 4: // 單手錘起始點 { "type": "朽木之棒", "text": "朽木之棒" }
-                element.name = "單手錘"
-                element.option = "weapon.onemace"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 5: // 單手劍起始點 { "type": "鏽劍", "text": "鏽劍" }
-                element.name = "單手劍"
-                element.option = "weapon.onesword"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 6: // 法杖起始點 { "type": "朽木法杖", "text": "朽木法杖" }
-                element.name = "法杖"
-                element.option = "weapon.wand"
-                element.weapon = "weapon.one"
-                this.equipItems.push(element)
-                break;
-              case 7: // { "type": "魚竿", "text": "魚竿" }
-                element.name = "釣竿"
-                element.option = "weapon.rod"
-                this.equipItems.push(element)
-                break;
-              case 8: // 弓起始點 { "type": "粗製弓", "text": "粗製弓" }
-                element.name = "弓"
-                element.option = "weapon.bow"
-                this.equipItems.push(element)
-                break;
-              case 9: // 長杖起始點 { "type": "朽木之幹", "text": "朽木之幹" }
-                element.name = "長杖"
-                element.option = "weapon.staff"
-                element.weapon = "weapon.twomelee"
-                this.equipItems.push(element)
-                break;
-              case 10: // 雙手斧起始點 { "type": "石斧", "text": "石斧" }
-                element.name = "雙手斧"
-                element.option = "weapon.twoaxe"
-                element.weapon = "weapon.twomelee"
-                this.equipItems.push(element)
-                break;
-              case 11: // 雙手錘起始點 { "type": "朽木巨錘", "text": "朽木巨錘" }
-                element.name = "雙手錘"
-                element.option = "weapon.twomace"
-                element.weapon = "weapon.twomelee"
-                this.equipItems.push(element)
-                break;
-              case 12: // 雙手劍起始點 { "type": "鏽斑巨劍", "text": "鏽斑巨劍" }
-                element.name = "雙手劍"
-                element.option = "weapon.twosword"
-                element.weapon = "weapon.twomelee"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[result.findIndex(e => e.id === "heistequipment")].entries.forEach((element, index) => { // "id": "heistequipment"
-            const basetype = ["鰻皮鞋底"]
-            if (_.isUndefined(element.flags)) {
-              heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-            }
-            switch (heistIndex) {
-              case 1: // 劫盜裝備起始點 { "type": "鰻皮鞋底", "text": "鰻皮鞋底" }
-                element.name = "劫盜裝備"
-                element.option = "heistequipment"
-                this.equipItems.push(element)
-                break;
-              default:
-                break;
-            }
-          });
-          result[result.findIndex(e => e.id === "maps")].entries.forEach((element, index) => { // "id": "maps", "label": "地圖" 
-            const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
-            if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
-              this.mapBasic.option.push(element.text)
-            } else if (element.text.indexOf('釋界之邀：') > -1) { // 3.13 釋界之邀
-              this.mapBasic.option.push(element.text)
-            }
-          });
-          result[result.findIndex(e => e.id === "heistmission")].entries.forEach((element, index) => { // "id": "heistmission"
-            if (_.isUndefined(element.flags)) {
-              this.mapBasic.option.push(element.text)
-            }
-          });
-          result[result.findIndex(e => e.id === "gems")].entries.forEach((element, index) => { // "id": "gems", "label": "技能寶石"
-            this.gemBasic.option.push(element.text)
-          });
-          result[result.findIndex(e => e.id === "monsters")].entries.forEach((element, index) => { // "id": "monsters", "label": "物品化怪物"
-            this.monstersItems.push(element)
-          });
-          result[result.findIndex(e => e.id === "logbook")].entries.forEach((element, index) => { // "id": "logbook"
-            element.name = "探險日誌"
-            element.option = "logbook"
+      let result = this.allItems.result
+      result[result.findIndex(e => e.id === "accessories")].entries.forEach((element, index) => { // "id": "accessories", "label": "飾品"
+        const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
+        // _.isUndefined(element.flags) == true 表示非傳奇物品
+        if (_.isUndefined(element.flags)) {
+          accessoryIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (accessoryIndex) {
+          case 1: // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
+            element.name = "項鍊"
+            element.option = "accessory.amulet"
             this.equipItems.push(element)
-          });
-          result[result.findIndex(e => e.id === "sentinel")].entries.forEach((element, index) => { // "id": "sentinel"
-            if (_.isUndefined(element.flags)) {
-              element.name = "守望號令"
-              element.option = "sentinel"
-              this.equipItems.push(element)
-            }
-          });
-        // })
-        // .catch(function (error) {
-        //   vm.isApiError = true
-        //   vm.apiErrorStr = error
-        //   vm.startCountdown(10)
-        //   vm.resetSearchData()
-        //   vm.$message({
-        //     type: 'error',
-        //     message: `error: ${error}`
-        //   });
-        //   console.log(error);
-        // })
+            break;
+          case 2: // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
+            element.name = "腰帶"
+            element.option = "accessory.belt"
+            this.equipItems.push(element)
+            break;
+          case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }  
+            element.name = "戒指"
+            element.option = "accessory.ring"
+            this.equipItems.push(element)
+            break;
+          case 4: // 飾品起始點 { "type": "盜賊飾品", "text": "盜賊飾品" }  
+            element.name = "飾品"
+            element.option = "accessory.trinket"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[result.findIndex(e => e.id === "armour")].entries.forEach((element, index) => { // "id": "armour", "label": "護甲"
+        const basetype = ["黃金戰甲", "異色鞋", "擒拿手套", "喚骨頭盔", "黃金聖炎", "火靈箭袋"]
+        if (_.isUndefined(element.flags)) {
+          armourIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (armourIndex) {
+          case 1: // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
+            element.name = "胸甲"
+            element.option = "armour.chest"
+            this.equipItems.push(element)
+            break;
+          case 2: // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
+            element.name = "鞋子"
+            element.option = "armour.boots"
+            this.equipItems.push(element)
+            break;
+          case 3: // 手套起始點 { "type": "擒拿手套", "text": "擒拿手套" }
+            element.name = "手套"
+            element.option = "armour.gloves"
+            this.equipItems.push(element)
+            break;
+          case 4: // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
+            element.name = "頭部"
+            element.option = "armour.helmet"
+            this.equipItems.push(element)
+            break;
+          case 5: // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
+            element.name = "盾"
+            element.option = "armour.shield"
+            this.equipItems.push(element)
+            break;
+          case 6: // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
+            element.name = "箭袋"
+            element.option = "armour.quiver"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[result.findIndex(e => e.id === "flasks")].entries.forEach((element, index) => { // "id": "flasks", "label": "藥劑"
+        const basetype = ["小型複合藥劑"]
+        if (_.isUndefined(element.flags)) {
+          flasksIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (flasksIndex) {
+          case 1: // 藥劑起始點 { "type": "小型複合藥劑", "text": "小型複合藥劑" }
+            element.name = "藥劑"
+            element.option = "flask"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[result.findIndex(e => e.id === "jewels")].entries.forEach((element, index) => { // "id": "jewels", "label": "珠寶"
+        const basetype = ["催眠之眼珠寶"]
+        if (_.isUndefined(element.flags)) {
+          jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (jewelIndex) {
+          case 1: // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
+            element.name = "珠寶"
+            element.option = "jewel"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[result.findIndex(e => e.id === "weapons")].entries.forEach((element, index) => { // "id": "weapons", "label": "武器"
+        const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
+        if (_.isUndefined(element.flags)) {
+          weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (weaponIndex) {
+          case 1: // 爪起始點 { "type": "拳釘", "text": "拳釘" }
+            element.name = "爪"
+            element.option = "weapon.claw"
+            element.weapon = "weapon.one" // "weapon.one" 單手武器
+            this.equipItems.push(element)
+            break;
+          case 2: // 匕首起始點 { "type": "玻璃利片", "text": "玻璃利片" }
+            element.name = "匕首"
+            element.option = "weapon.dagger"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 3: // 單手斧起始點 { "type": "鏽斧", "text": "鏽斧" }
+            element.name = "單手斧"
+            element.option = "weapon.oneaxe"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 4: // 單手錘起始點 { "type": "朽木之棒", "text": "朽木之棒" }
+            element.name = "單手錘"
+            element.option = "weapon.onemace"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 5: // 單手劍起始點 { "type": "鏽劍", "text": "鏽劍" }
+            element.name = "單手劍"
+            element.option = "weapon.onesword"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 6: // 法杖起始點 { "type": "朽木法杖", "text": "朽木法杖" }
+            element.name = "法杖"
+            element.option = "weapon.wand"
+            element.weapon = "weapon.one"
+            this.equipItems.push(element)
+            break;
+          case 7: // { "type": "魚竿", "text": "魚竿" }
+            element.name = "釣竿"
+            element.option = "weapon.rod"
+            this.equipItems.push(element)
+            break;
+          case 8: // 弓起始點 { "type": "粗製弓", "text": "粗製弓" }
+            element.name = "弓"
+            element.option = "weapon.bow"
+            this.equipItems.push(element)
+            break;
+          case 9: // 長杖起始點 { "type": "朽木之幹", "text": "朽木之幹" }
+            element.name = "長杖"
+            element.option = "weapon.staff"
+            element.weapon = "weapon.twomelee"
+            this.equipItems.push(element)
+            break;
+          case 10: // 雙手斧起始點 { "type": "石斧", "text": "石斧" }
+            element.name = "雙手斧"
+            element.option = "weapon.twoaxe"
+            element.weapon = "weapon.twomelee"
+            this.equipItems.push(element)
+            break;
+          case 11: // 雙手錘起始點 { "type": "朽木巨錘", "text": "朽木巨錘" }
+            element.name = "雙手錘"
+            element.option = "weapon.twomace"
+            element.weapon = "weapon.twomelee"
+            this.equipItems.push(element)
+            break;
+          case 12: // 雙手劍起始點 { "type": "鏽斑巨劍", "text": "鏽斑巨劍" }
+            element.name = "雙手劍"
+            element.option = "weapon.twosword"
+            element.weapon = "weapon.twomelee"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[result.findIndex(e => e.id === "heistequipment")].entries.forEach((element, index) => { // "id": "heistequipment"
+        const basetype = ["鰻皮鞋底"]
+        if (_.isUndefined(element.flags)) {
+          heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (heistIndex) {
+          case 1: // 劫盜裝備起始點 { "type": "鰻皮鞋底", "text": "鰻皮鞋底" }
+            element.name = "劫盜裝備"
+            element.option = "heistequipment"
+            this.equipItems.push(element)
+            break;
+          default:
+            break;
+        }
+      });
+      result[result.findIndex(e => e.id === "maps")].entries.forEach((element, index) => { // "id": "maps", "label": "地圖" 
+        const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
+        if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
+          this.mapBasic.option.push(element.text)
+        } else if (element.text.indexOf('釋界之邀：') > -1) { // 3.13 釋界之邀
+          this.mapBasic.option.push(element.text)
+        }
+      });
+      result[result.findIndex(e => e.id === "heistmission")].entries.forEach((element, index) => { // "id": "heistmission"
+        if (_.isUndefined(element.flags)) {
+          this.mapBasic.option.push(element.text)
+        }
+      });
+      result[result.findIndex(e => e.id === "gems")].entries.forEach((element, index) => { // "id": "gems", "label": "技能寶石"
+        this.gemBasic.option.push(element.text)
+      });
+      result[result.findIndex(e => e.id === "monsters")].entries.forEach((element, index) => { // "id": "monsters", "label": "物品化怪物"
+        this.monstersItems.push(element)
+      });
+      result[result.findIndex(e => e.id === "logbook")].entries.forEach((element, index) => { // "id": "logbook"
+        element.name = "探險日誌"
+        element.option = "logbook"
+        this.equipItems.push(element)
+      });
+      result[result.findIndex(e => e.id === "sentinel")].entries.forEach((element, index) => { // "id": "sentinel"
+        if (_.isUndefined(element.flags)) {
+          element.name = "守望號令"
+          element.option = "sentinel"
+          this.equipItems.push(element)
+        }
+      });
+      // })
+      // .catch(function (error) {
+      //   vm.isApiError = true
+      //   vm.apiErrorStr = error
+      //   vm.startCountdown(10)
+      //   vm.resetSearchData()
+      //   vm.$message({
+      //     type: 'error',
+      //     message: `error: ${error}`
+      //   });
+      //   console.log(error);
+      // })
     },
     leaguesAPI() { // 聯盟 API
       let vm = this
@@ -1903,12 +1906,15 @@ export default {
               break;
             case this.itemLevel.min >= 75:
               this.itemLevel.min = 75
+              this.itemLevel.max = 83
               break;
             case this.itemLevel.min >= 68:
               this.itemLevel.min = 68
+              this.itemLevel.max = 74
               break;
             case this.itemLevel.min >= 50:
               this.itemLevel.min = 50
+              this.itemLevel.max = 67
               break;
             case this.itemLevel.min < 50:
               this.itemLevel.min = ''
