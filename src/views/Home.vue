@@ -1627,8 +1627,8 @@ export default {
             default:
               break;
           }
-        } else if (element.indexOf("只影響") > -1 && element.indexOf("範圍天賦") > -1) { // 希望之絃 Thread of Hope 特殊判斷
-          let areaStat = itemArray[index].substr(3, 1)
+        } else if (element.indexOf("只會影響") > -1 && element.indexOf("範圍內的天賦") > -1) { // 希望之絃 Thread of Hope 特殊判斷
+          let areaStat = itemArray[index].substr(4, 1)
           itemArray[index] = `Only affects Passives in # Ring,${areaStat}`
         } else if (element.indexOf("卓烙總督物品") > -1 || element.indexOf("吞噬天地物品") > -1 || element.indexOf("Searing Exarch Item") > -1 || element.indexOf("Eater of Worlds Item") > -1) {
           spliceWrapStats(2, index + 1) // 忽略 3.17 新勢力詞綴
@@ -1845,10 +1845,14 @@ export default {
               optionValue = '4'
               areaStat = '非常大'
               break;
+            case '極':
+              optionValue = '5'
+              areaStat = '極大'
+              break;
             default:
               break;
           }
-          apiStatText = `只影響『${areaStat}』範圍天賦`
+          apiStatText = `只會影響『${areaStat}』範圍內的天賦`
         } else {
           for (let index = 0; index < itemStatArray.length; index++) { // 比較由空格拆掉後的詞綴陣列元素
             if (randomMinValue && itemStatArray[index] !== matchStatArray[index]) { // 物品詞綴最大值
@@ -1875,7 +1879,7 @@ export default {
           apiStatText = apiStatText.replace('增加', '減少')
           isNegativeStat = true
         }
-        if (itemStatText.includes('區域含有') && statID === "implicit.stat_1671749203" && this.itemCategory.chosenObj.prop === 'logbook') { // 探險日誌探險頭目相關處理
+        if (this.itemCategory.chosenObj.prop === 'logbook' && itemStatText.includes('區域含有') && (itemStatText.includes('梅德偉') || itemStatText.includes('沃拉娜') || itemStatText.includes('烏特雷') || itemStatText.includes('奧爾羅斯'))) { // 探險日誌探險頭目相關處理
           isStatSearch = true
           statID = "implicit.stat_3159649981"
           apiStatText = itemStatText.replace('(implicit)', '')
