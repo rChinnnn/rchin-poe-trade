@@ -2024,6 +2024,7 @@ export default {
     },
     compassStatsAnalysis(itemArray) {
       let tempStat = []
+      let itemDisplayStats = []
       let optionValue = 0 // 大師 / 裂痕 / 豐收選項
       let itemStatStart = 5 // 羅盤詞綴起始點
       let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。") - 2 //  羅盤詞綴結束點
@@ -2045,6 +2046,8 @@ export default {
           itemArray[index] = `傳奇頭目伴隨著護衛`
         } else if (element.indexOf("地圖頭目掉落 1 個額外傳奇物品") > -1) { // enchant.stat_3760667977: 遊戲內敘述 "地圖頭目掉落 1 個額外傳奇物品"、詞綴 API 敘述 "傳奇頭目掉落額外 # 件傳奇物品"
           itemArray[index] = `傳奇頭目掉落額外 # 件傳奇物品`
+        } else if (element.indexOf("你的地圖包含祭祀神壇") > -1) { // enchant.stat_1671749203: 遊戲內敘述 "你的地圖包含祭祀神壇"、詞綴 API 敘述 "區域含有祭祀神壇"
+          itemArray[index] = `區域含有祭祀神壇`
         } else if (element.indexOf("你的地圖含有埃哈") > -1) { // enchant.stat_3187151138: 遊戲內敘述 "你的地圖含有埃哈"、詞綴 API 敘述 "區域含有 # (大師)"，需輸入 option
           itemArray[index] = `區域含有 # (大師)`
           optionValue = 2
@@ -2081,6 +2084,7 @@ export default {
       });
 
       for (let index = itemStatStart; index <= itemStatEnd; index++) {
+        itemDisplayStats.push(itemArray[index])
         tempStat.push(this.findBestStat(itemArray[index], this.enchantStats))
         tempStat[tempStat.length - 1].type = "附魔"
       }
@@ -2088,6 +2092,7 @@ export default {
       tempStat.forEach((element, idx) => {
         let statID = element.ratings[element.bestMatchIndex + 1].target // 詞綴ID
         let apiStatText = element.bestMatch.target // API 抓回來的詞綴字串
+        let itemStatText = itemDisplayStats[idx] // 物品上的詞綴字串
         if (statID == 'enchant.stat_2180286756') { // 處理在 UI 上顯示的"你的地圖能包含裂痕"詞綴，與遊戲內一致
           apiStatText = '你的地圖能包含裂痕'
         } else if (statID == 'enchant.stat_3240183538') { // 處理在 UI 上顯示的"你的地圖含有額外 2 個保險箱"詞綴，與遊戲內一致
@@ -2104,6 +2109,8 @@ export default {
           apiStatText = '地圖頭目身旁有保鑣'
         } else if (statID == 'enchant.stat_3760667977') { // 處理在 UI 上顯示的"地圖頭目掉落 1 個額外傳奇物品"詞綴，與遊戲內一致
           apiStatText = '地圖頭目掉落 1 個額外傳奇物品'
+        } else if (statID == 'enchant.stat_1671749203') { // 處理在 UI 上顯示的"你的地圖包含祭祀神壇"詞綴，與遊戲內一致
+          apiStatText = '你的地圖包含祭祀神壇'
         } else if (statID == 'enchant.stat_3187151138') { // 處理在 UI 上顯示的"區域含有大師"詞綴，與遊戲內一致
           switch (optionValue) {
             case 2:
@@ -2155,7 +2162,7 @@ export default {
           "id": statID,
           "text": apiStatText,
           "option": optionValue ? optionValue : '',
-          "min": '',
+          "min": statID == 'enchant.stat_290368246' ? itemStatText.match(/\d/g)[0] : '',
           "max": '',
           "isValue": statID == 'enchant.stat_290368246' ? true : false,
           "isNegative": false,
