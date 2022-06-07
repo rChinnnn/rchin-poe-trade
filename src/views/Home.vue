@@ -53,21 +53,17 @@
                 <b-input-group size="sm">
                   <b-form-input v-model="handlePOESESSID" disabled></b-form-input>
                   <b-input-group-append>
-                    <b-button @click="$store.commit('setPOESESSID', '')" :disabled="wantedAddedText.length > 0">刪除</b-button>
+                    <b-button @click="$store.commit('setPOESESSID', '')" :disabled="true">刪除</b-button>
                   </b-input-group-append>
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col sm="5"></b-col>
-            <b-col sm="7" class="my-1">
-              <b-form-group label="" label-cols-sm="0" label-align-sm="right" label-size="sm" class="mb-0">
-                <b-input-group size="sm">
-                  <b-form-input v-model="wantedAddedText" type="search" id="filterInput" placeholder="請輸入欲在複製字串後增加的文字"></b-form-input>
-                  <b-input-group-append>
-                    <b-button :disabled="!wantedAddedText" @click="addAfterCopyText">增加</b-button>
-                  </b-input-group-append>
-                </b-input-group>
-              </b-form-group>
+            <b-col sm="8" style="margin-left: 15px; padding-top: 5px;">
+              <multiselect v-model="searchedText" :options="poedbTW.data" :custom-label="nameWithLang" :optionsLimit="10" :preserveSearch="true" :clearOnSelect="false" track-by="us" placeholder="請輸入欲搜尋的物品中/英文字" selectLabel='' deselectLabel='' selectedLabel=''></multiselect>
+            </b-col>
+            <b-col sm="3" style="padding-top: 8px;">
+              <el-button size="small" round @click="searchedCopyText(searchedText.lang)" :disabled="!searchedText">中文</el-button>
+              <el-button size="small" round @click="searchedCopyText(searchedText.us)" :disabled="!searchedText">英文</el-button>
             </b-col>
             <b-col sm="12" v-if="handlePOESESSID">
               <ChaosRecipe></ChaosRecipe>
@@ -451,7 +447,7 @@ export default {
       searchTotal: 0,
       status: '',
       copyText: '',
-      wantedAddedText: '',
+      searchedText: '',
       testResponse: '',
       countTime: 0,
       baseUrl: 'https://web.poe.garena.tw',
@@ -1034,7 +1030,7 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.issueText = `Version: v1.318.3, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.318.4, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1525,14 +1521,6 @@ export default {
         duration: 1200,
         type: 'success',
         message: `有狀況的物品字串已複製!`
-      });
-    },
-    addAfterCopyText() {
-      clipboard.writeText(`${clipboard.readText()} ${this.wantedAddedText}`)
-      this.$message({
-        duration: 2000,
-        type: 'success',
-        message: `已複製字串：${clipboard.readText().substring(0, 10)} ... ${this.wantedAddedText}`
       });
     },
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
@@ -2722,6 +2710,17 @@ export default {
       //   this.itemsAPI();
       // }
     },
+    nameWithLang ({ lang, us }) {
+      return `${lang} — ${us}`
+    },
+    searchedCopyText(text) {
+      clipboard.writeText(text)
+      this.$message({
+        duration: 2000,
+        type: 'success',
+        message: `已複製文字：${clipboard.readText()}`
+      });
+    },
   },
   watch: {
     copyText: function () {
@@ -2884,7 +2883,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.318.3\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.318.4\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return

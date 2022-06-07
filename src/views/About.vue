@@ -2,7 +2,7 @@
 <div class="about" style="padding-top: 5px;">
   <div style="padding:5px 30px;">
     <b-card-group deck>
-      <b-card border-variant="primary" header="POE 查價工具 v1.318.3" header-bg-variant="primary" header-text-variant="white" align="center">
+      <b-card border-variant="primary" header="POE 查價工具 v1.318.4" header-bg-variant="primary" header-text-variant="white" align="center">
         <b-card-text>作者：rChinnnn</b-card-text>
         <b-card-text>
           <b-button @click="openLink(`https://github.com/rChinnnn/rchin-poe-trade/releases`)" size="sm" variant="outline-primary" class="mb-2">
@@ -46,7 +46,7 @@
   <div style="padding:5px 30px;">
     <b-card-group deck>
       <b-card border-variant="dark" header="使用說明" header-bg-variant="dark" header-text-variant="white" align="center">
-        <b-card-text>1. 點此頁上方的 Home 頁籤</b-card-text>
+        <b-card-text>1. 點此頁上方的 Home 頁籤，於搜尋設定下方選擇遊玩的伺服器</b-card-text>
         <b-card-text>2. 切換視窗回遊戲中</b-card-text>
         <b-card-text>3. 將滑鼠停在物品上，按下 Ctrl+C </b-card-text>
         <b-card-text>4. 程式將自動判斷此次搜尋物品 </b-card-text>

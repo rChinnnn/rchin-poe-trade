@@ -1,12 +1,12 @@
 # Readme.md
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/rChinnnn/rchin-poe-trade?style=social)
-![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-Setup-1.318.3.exe?label=Downloads&style=social)
-![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-1.318.3.exe?label=Downloads&style=social)
+![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-Setup-1.318.4.exe?label=Downloads&style=social)
+![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-1.318.4.exe?label=Downloads&style=social)
 
 # rChin POE Trade
-POE 查價工具 (Built with Electron and Vue.)
-> 絕大部分的物品皆可搜尋 - 支援台服、國際服（中文化 by poedb）
+POE 查價工具 (Built with Electron and Vue2)
+> 絕大部分的物品皆可搜尋 - 支援台服、國際服（繁體中文）
 
 ### 贊助連結 
 * 此工具為開源程式，歡迎分享給親朋好友使用，也歡迎贊助一杯咖啡
@@ -15,8 +15,8 @@ POE 查價工具 (Built with Electron and Vue.)
 
 ### 安裝版本說明
 * 點選 [Releases頁面](https://github.com/rChinnnn/rchin-poe-trade/releases)，有兩種版本可以下載
-    * `rchin-poe-trade-Setup-1.318.3.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
-    * `rchin-poe-trade-1.318.3.exe` 可攜版，無法支援自動更新
+    * `rchin-poe-trade-Setup-1.318.4.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
+    * `rchin-poe-trade-1.318.4.exe` 可攜版，無法支援自動更新
 
 ## 【免責聲明】
 * **使用此程式者請自行承擔所有可能後果和風險**
@@ -37,7 +37,7 @@ POE 查價工具 (Built with Electron and Vue.)
 
 ## 使用說明
 1. 將程式開啟
-2. 點回 Home 頁籤
+2. 點回 Home 頁籤，於搜尋設定下方選擇遊玩的伺服器
 3. 切換視窗回遊戲中
 4. 將滑鼠停在物品上，按下 Ctrl+C 
 5. 程式將自動判斷此次搜尋物品
