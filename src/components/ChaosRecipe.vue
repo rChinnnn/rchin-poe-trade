@@ -11,8 +11,9 @@
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
+        <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
       </b-col>
-      <b-col sm="12" style="margin-left: 20px;">
+      <b-col v-if="!isLoading" sm="12" style="margin-left: 20px;">
         <el-badge :value="helmetCount" :max="18" class="badgeItem" :type="`${helmetCount < 18 ? 'warning' : 'primary'}`">
           <el-button size="small" round @click="stringCopy('頭部|項鍊')">頭</el-button>
         </el-badge>
@@ -45,8 +46,12 @@
 const {
   clipboard,
 } = require('electron')
+import VueLoading from 'vue-loading-overlay'
 
 export default {
+  components: {
+    loading: VueLoading,
+  },
   data() {
     return {
       recipeItems: [],
@@ -57,6 +62,7 @@ export default {
       weaponCount: 0,
       bodyCount: 0,
       veiledCount: 0,
+      isLoading: false,
     }
   },
   created() {},
@@ -75,6 +81,7 @@ export default {
       this.weaponCount = 0
       this.bodyCount = 0
       this.veiledCount = 0
+      this.isLoading = true
 
       this.axios.post(`http://localhost:3031/get_stash`, {
           url: url,
@@ -172,9 +179,11 @@ export default {
                       }
                     })
                   });
+                  this.isLoading = false
                 }))
                 .catch(function (error) {
                   console.log(error);
+                  vm.isLoading = false
                   vm.$message({
                     type: 'error',
                     message: `get stash error! ${error}`,
