@@ -1090,6 +1090,8 @@ export default {
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
+        } else if (text.indexOf(' (護盾)') > -1) { // stat_4253454700 刪除(護盾)字串
+          text = text.substring(0, text.indexOf(' (護盾)'))
         }
         if (element.id === "explicit.stat_2460506030") { // 禁忌烈焰/血肉配置詞綴
           element.option.options.forEach((element, index) => {
@@ -1105,6 +1107,8 @@ export default {
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
+        } else if (text.indexOf(' (護盾)') > -1) { // 刪除(護盾)字串
+          text = text.substring(0, text.indexOf(' (護盾)'))
         }
         if (text.includes('\n')) { // 處理折行詞綴
           this.wrapStats.push(text)
@@ -1115,6 +1119,8 @@ export default {
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
+        } else if (text.indexOf(' (護盾)') > -1) { // 刪除(護盾)字串
+          text = text.substring(0, text.indexOf(' (護盾)'))
         }
         this.fracturedStats.push(text, element.id)
       })
@@ -1151,6 +1157,8 @@ export default {
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
+        } else if (text.indexOf(' (護盾)') > -1) { // 刪除(護盾)字串
+          text = text.substring(0, text.indexOf(' (護盾)'))
         }
         if (text.includes('\n')) { // 處理折行詞綴
           this.wrapStats.push(text)
