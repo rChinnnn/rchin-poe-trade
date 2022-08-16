@@ -71,7 +71,7 @@ export default {
     getStashTab() {
       let vm = this
       let baseUrl = `https://www.pathofexile.com/character-window/get-stash-items?league=Sentinel`
-      let url = `${baseUrl}&accountName=${this.$store.state.accountName}&tabs=1`
+      let url = `${baseUrl}&accountName=${this.$store.state.accountName}&tabs=1&tabIndex=`
       let cookie = `POESESSID=${this.$store.state.POESESSID};`
       let tabsIndex = []
       this.helmetCount = 0
@@ -135,7 +135,7 @@ export default {
             if (tabsIndex.length > 0) {
               this.axios.all(tabsIndex.map(element => {
                   return this.axios.post(`http://localhost:3031/get_stash`, {
-                    url: `${url}&tabIndex=${element}`,
+                    url: `${url}${element}`,
                     cookie: cookie,
                   })
                 }))
