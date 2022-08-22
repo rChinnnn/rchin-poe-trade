@@ -426,6 +426,7 @@ import GoTop from '@inotom/vue-go-top';
 
 import itemsData from "../assets/poe/items.json";
 import statsData from "../assets/poe/stats.json";
+import usStatsData from "../assets/poe/stats_us.json";
 import poedbTW from "../assets/poe/poedb-tw.json";
 
 const _ = require('lodash');
@@ -487,6 +488,7 @@ export default {
       fetchQueryID: '',
       allItems: itemsData, // 物品 API 資料
       allStats: statsData, // 詞綴 API 資料
+      usStats: usStatsData, // 英文詞綴 API 資料
       poedbTW: poedbTW, // 編年史翻譯表
       equipItems: [], // 可裝備的物品資料
       monstersItems: [], // 物品化怪物資料
@@ -859,6 +861,16 @@ export default {
       this.equipItems.forEach(element => {
         console.log(element.text, element.name, element.option)
       });
+      // let usResult = this.usStats.result
+      // let result = this.allStats.result
+      // console.log(this.getArrayDifference(usResult[0].entries, result[0].entries));
+    },
+    getArrayDifference(array1, array2) {
+      return array1.filter(object1 => {
+        return !array2.some(object2 => {
+          return object1.id === object2.id;
+        });
+      });
     },
     replaceString(string) {
       // const regMatchBrackets = /\((.+?)\)/g // 取出括號內文字
@@ -1030,7 +1042,7 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.issueText = `Version: v1.318.4, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.319.1, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1420,6 +1432,13 @@ export default {
         if (_.isUndefined(element.flags)) {
           element.name = "守望號令"
           element.option = "sentinel"
+          this.equipItems.push(element)
+        }
+      });
+      result[result.findIndex(e => e.id === "memoryline")].entries.forEach((element, index) => { // "id": "memoryline", "label": "Memory Lines"
+        if (_.isUndefined(element.flags)) {
+          element.name = "記憶"
+          element.option = "memoryline"
           this.equipItems.push(element)
         }
       });
@@ -2032,7 +2051,7 @@ export default {
       itemArray.forEach((element, index) => { // 處理遊戲內述敘與 API 敘述不一致之詞綴
         if (element.indexOf("你的地圖能包含裂痕") > -1) { // enchant.stat_2180286756: 遊戲內敘述 "你的地圖能包含裂痕"、詞綴 API 敘述 "此區域可能含有裂痕"
           itemArray[index] = `此區域可能含有裂痕`
-        } else if (element.indexOf("你的地圖含有額外 2 個保險箱") > -1) { // enchant.stat_3240183538: 遊戲內敘述 "你的地圖含有額外 2 個保險箱"、詞綴 API 敘述 "地圖裡有 1 個額外的保險箱"
+        } else if (element.indexOf("你的地圖含有額外一個保險箱") > -1) { // enchant.stat_3240183538: 遊戲內敘述 "你的地圖含有額外一個保險箱"、詞綴 API 敘述 "地圖裡有 1 個額外的保險箱"
           itemArray[index] = `地圖裡有 1 個額外的保險箱`
         } else if (element.indexOf("區域內的保險箱已汙染") > -1) { // enchant.stat_2681419531: 遊戲內敘述 "區域內的保險箱已汙染"、詞綴 API 敘述 "區域內的保險箱已被腐化"
           itemArray[index] = `區域內的保險箱已被腐化`
@@ -2048,6 +2067,8 @@ export default {
           itemArray[index] = `傳奇頭目掉落額外 # 件傳奇物品`
         } else if (element.indexOf("你的地圖包含祭祀神壇") > -1) { // enchant.stat_1671749203: 遊戲內敘述 "你的地圖包含祭祀神壇"、詞綴 API 敘述 "區域含有祭祀神壇"
           itemArray[index] = `區域含有祭祀神壇`
+        } else if (element.indexOf("你的地圖含有許多背叛者") > -1) { // enchant.stat_3747734818: 遊戲內敘述 "你的地圖含有許多背叛者"、詞綴 API 敘述 "區域包含許多背叛者"
+          itemArray[index] = `區域包含許多背叛者`
         } else if (element.indexOf("你的地圖含有埃哈") > -1) { // enchant.stat_3187151138: 遊戲內敘述 "你的地圖含有埃哈"、詞綴 API 敘述 "區域含有 # (大師)"，需輸入 option
           itemArray[index] = `區域含有 # (大師)`
           optionValue = 2
@@ -2095,8 +2116,8 @@ export default {
         let itemStatText = itemDisplayStats[idx] // 物品上的詞綴字串
         if (statID == 'enchant.stat_2180286756') { // 處理在 UI 上顯示的"你的地圖能包含裂痕"詞綴，與遊戲內一致
           apiStatText = '你的地圖能包含裂痕'
-        } else if (statID == 'enchant.stat_3240183538') { // 處理在 UI 上顯示的"你的地圖含有額外 2 個保險箱"詞綴，與遊戲內一致
-          apiStatText = '你的地圖含有額外 2 個保險箱'
+        } else if (statID == 'enchant.stat_3240183538') { // 處理在 UI 上顯示的"你的地圖含有額外一個保險箱"詞綴，與遊戲內一致
+          apiStatText = '你的地圖含有額外一個保險箱'
         } else if (statID == 'enchant.stat_2681419531') { // 處理在 UI 上顯示的"區域內的保險箱已汙染"詞綴，與遊戲內一致
           apiStatText = '區域內的保險箱已汙染'
         } else if (statID == 'enchant.stat_3522828354') { // 處理在 UI 上顯示的"你的地圖內的保險箱最低稀有度為稀有等級"詞綴，與遊戲內一致
@@ -2111,6 +2132,8 @@ export default {
           apiStatText = '地圖頭目掉落 1 個額外傳奇物品'
         } else if (statID == 'enchant.stat_1671749203') { // 處理在 UI 上顯示的"你的地圖包含祭祀神壇"詞綴，與遊戲內一致
           apiStatText = '你的地圖包含祭祀神壇'
+        } else if (statID == 'enchant.stat_3747734818') { // 處理在 UI 上顯示的"你的地圖含有許多背叛者"詞綴，與遊戲內一致
+          apiStatText = '你的地圖含有許多背叛者'
         } else if (statID == 'enchant.stat_3187151138') { // 處理在 UI 上顯示的"區域含有大師"詞綴，與遊戲內一致
           switch (optionValue) {
             case 2:
@@ -2883,7 +2906,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.318.4\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.319.1\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return

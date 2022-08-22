@@ -62,7 +62,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'OAuth rChinPoeTrade/1.318.4 (contact: b10121035@yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.319.1 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -84,7 +84,7 @@
         headers: {
           'accept': '*/*',
           'Cookie': req.body.cookie,
-          'User-Agent': 'OAuth rChinPoeTrade/1.318.4 (contact: b10121035@yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.319.1 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -111,7 +111,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'OAuth rChinPoeTrade/1.318.4 (contact: b10121035@yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.319.1 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
