@@ -1423,6 +1423,13 @@ export default {
           this.equipItems.push(element)
         }
       });
+      result[result.findIndex(e => e.id === "memoryline")].entries.forEach((element, index) => { // "id": "memoryline", "label": "Memory Lines"
+        if (_.isUndefined(element.flags)) {
+          element.name = "記憶"
+          element.option = "memoryline"
+          this.equipItems.push(element)
+        }
+      });
       // })
       // .catch(function (error) {
       //   vm.isApiError = true
