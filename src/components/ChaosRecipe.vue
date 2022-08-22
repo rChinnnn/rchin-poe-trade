@@ -70,7 +70,7 @@ export default {
   methods: {
     getStashTab() {
       let vm = this
-      let baseUrl = `https://www.pathofexile.com/character-window/get-stash-items?league=Sentinel`
+      let baseUrl = `https://www.pathofexile.com/character-window/get-stash-items?league=Kalandra`
       let url = `${baseUrl}&accountName=${this.$store.state.accountName}&tabs=1&tabIndex=`
       let cookie = `POESESSID=${this.$store.state.POESESSID};`
       let tabsIndex = []

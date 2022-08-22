@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 4295,
+    "size": 4372,
     "data": [
         {
             "type": "BaseType",
@@ -1592,6 +1592,16 @@
             "type": "BaseType",
             "us": "Accumulator Wand",
             "lang": "蓄能法杖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Calling Wand",
+            "lang": "呼喚法杖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Convening Wand",
+            "lang": "召集法杖"
         },
         {
             "type": "BaseType",
@@ -3320,6 +3330,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Bone Ring",
+            "lang": "骸骨之戒"
+        },
+        {
+            "type": "BaseType",
             "us": "Cogwork Ring",
             "lang": "齒輪戒指"
         },
@@ -3327,6 +3342,31 @@
             "type": "BaseType",
             "us": "Geodesic Ring",
             "lang": "大地戒指"
+        },
+        {
+            "type": "BaseType",
+            "us": "Dusk Ring",
+            "lang": "幽暗戒指"
+        },
+        {
+            "type": "BaseType",
+            "us": "Penumbra Ring",
+            "lang": "半影戒指"
+        },
+        {
+            "type": "BaseType",
+            "us": "Gloam Ring",
+            "lang": "黃昏戒指"
+        },
+        {
+            "type": "BaseType",
+            "us": "Tenebrous Ring",
+            "lang": "黑暗戒指"
+        },
+        {
+            "type": "BaseType",
+            "us": "Shadowed Ring",
+            "lang": "暗影戒指"
         },
         {
             "type": "BaseType",
@@ -3357,6 +3397,11 @@
             "type": "BaseType",
             "us": "Iolite Ring",
             "lang": "混青石戒指"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ring",
+            "lang": "戒指"
         },
         {
             "type": "BaseType",
@@ -4796,7 +4841,7 @@
         {
             "type": "BaseType",
             "us": "Scale Vest",
-            "lang": "細鱗背心 "
+            "lang": "細鱗背心"
         },
         {
             "type": "BaseType",
@@ -4806,12 +4851,12 @@
         {
             "type": "BaseType",
             "us": "Scale Doublet",
-            "lang": "合身鱗甲 "
+            "lang": "合身鱗甲"
         },
         {
             "type": "BaseType",
             "us": "Infantry Brigandine",
-            "lang": "步兵鎖甲 "
+            "lang": "步兵鎖甲"
         },
         {
             "type": "BaseType",
@@ -4836,7 +4881,7 @@
         {
             "type": "BaseType",
             "us": "Hussar Brigandine",
-            "lang": "輕騎鎖甲 "
+            "lang": "輕騎鎖甲"
         },
         {
             "type": "BaseType",
@@ -4851,12 +4896,12 @@
         {
             "type": "BaseType",
             "us": "Battle Lamellar",
-            "lang": "爭戰鱗甲 "
+            "lang": "爭戰鱗甲"
         },
         {
             "type": "BaseType",
             "us": "Dragonscale Doublet",
-            "lang": "龍鱗護甲 "
+            "lang": "龍鱗護甲"
         },
         {
             "type": "BaseType",
@@ -5291,7 +5336,7 @@
         {
             "type": "BaseType",
             "us": "Chain Boots",
-            "lang": "鏈甲長靴 "
+            "lang": "鏈甲長靴"
         },
         {
             "type": "BaseType",
@@ -5306,7 +5351,7 @@
         {
             "type": "BaseType",
             "us": "Riveted Boots",
-            "lang": "儀式短靴 "
+            "lang": "儀式短靴"
         },
         {
             "type": "BaseType",
@@ -5326,12 +5371,12 @@
         {
             "type": "BaseType",
             "us": "Crusader Boots",
-            "lang": "聖戰長靴 "
+            "lang": "聖戰長靴"
         },
         {
             "type": "BaseType",
             "us": "Wrapped Boots",
-            "lang": "裹趾涼鞋 "
+            "lang": "裹趾涼鞋"
         },
         {
             "type": "BaseType",
@@ -5891,7 +5936,7 @@
         {
             "type": "BaseType",
             "us": "Sacred Hybrid Flask",
-            "lang": "聖語複合藥劑 "
+            "lang": "聖語複合藥劑"
         },
         {
             "type": "BaseType",
@@ -6021,7 +6066,7 @@
         {
             "type": "BaseType",
             "us": "Blunt Arrow Quiver",
-            "lang": "鈍矢箭袋 "
+            "lang": "鈍矢箭袋"
         },
         {
             "type": "BaseType",
@@ -8795,6 +8840,26 @@
         },
         {
             "type": "BaseType",
+            "us": "Overcharge Support",
+            "lang": "超負荷輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lightning Conduit",
+            "lang": "導雷"
+        },
+        {
+            "type": "BaseType",
+            "us": "Galvanic Field",
+            "lang": "電光領域"
+        },
+        {
+            "type": "BaseType",
+            "us": "Alchemist's Mark",
+            "lang": "煉金術士印記"
+        },
+        {
+            "type": "BaseType",
             "us": "Crimson Jewel",
             "lang": "赤紅珠寶"
         },
@@ -9620,18 +9685,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Harbinger Map",
-            "lang": "神諭之殿．神臨"
-        },
-        {
-            "type": "BaseType",
-            "us": "Harbinger Map",
-            "lang": "神諭之殿．歸徒"
-        },
-        {
-            "type": "BaseType",
-            "us": "Harbinger Map",
-            "lang": "神諭之殿．降師"
+            "us": "Engraved Ultimatum",
+            "lang": "刻劃最後通牒"
         },
         {
             "type": "BaseType",
@@ -10027,6 +10082,41 @@
             "type": "BaseType",
             "us": "Vaal Reliquary Key",
             "lang": "瓦爾遺鑰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Forgotten Reliquary Key",
+            "lang": "遺忘遺鑰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Visceral Reliquary Key",
+            "lang": "吞噬遺鑰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Shiny Reliquary Key",
+            "lang": "閃耀遺鑰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Archive Reliquary Key",
+            "lang": "文書遺鑰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Oubliette Reliquary Key",
+            "lang": "地窖遺鑰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Cosmic Reliquary Key",
+            "lang": "宇宙遺鑰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Decaying Reliquary Key",
+            "lang": "腐化遺鑰"
         },
         {
             "type": "BaseType",
@@ -12080,6 +12170,81 @@
         },
         {
             "type": "BaseType",
+            "us": "Broken Truce",
+            "lang": "打破休戰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Doryani's Epiphany",
+            "lang": "多里亞尼的頓悟"
+        },
+        {
+            "type": "BaseType",
+            "us": "Endless Night",
+            "lang": "無盡的夜晚"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Shieldbearer",
+            "lang": "持盾者"
+        },
+        {
+            "type": "BaseType",
+            "us": "Choking Guilt",
+            "lang": "窒息內疚"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Enforcer",
+            "lang": "執行者"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Shepherd's Sandals",
+            "lang": "牧羊人的草鞋"
+        },
+        {
+            "type": "BaseType",
+            "us": "Azure Rage",
+            "lang": "碧藍之怒"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Leviathan",
+            "lang": "龐然大物"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Price of Devotion",
+            "lang": "奉獻的代價"
+        },
+        {
+            "type": "BaseType",
+            "us": "Astral Protection",
+            "lang": "星際保護"
+        },
+        {
+            "type": "BaseType",
+            "us": "Gemcutter's Mercy",
+            "lang": "寶石匠的憐憫"
+        },
+        {
+            "type": "BaseType",
+            "us": "Checkmate",
+            "lang": "將軍"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lethean Temptation",
+            "lang": "絕境誘惑"
+        },
+        {
+            "type": "BaseType",
+            "us": "Something Dark",
+            "lang": "黑暗物質"
+        },
+        {
+            "type": "BaseType",
             "us": "Mystery Leaguestone",
             "lang": "神秘聯盟石"
         },
@@ -12231,7 +12396,7 @@
         {
             "type": "BaseType",
             "us": "Maddening Incubator",
-            "lang": "瘋狂的培育器 "
+            "lang": "瘋狂的培育器"
         },
         {
             "type": "BaseType",
@@ -12240,18 +12405,18 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Puruna, the Challenger",
-            "lang": "奪取之魂：挑戰者普魯那"
+            "us": "Captured Soul of Ara, Sister of Light",
+            "lang": "奪取之魂：光之姊妹．艾拉"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Captain Tanner Lightfoot",
-            "lang": "奪取之魂：隊長坦納萊富特"
+            "us": "Captured Soul of Merveil, the Returned",
+            "lang": "奪取之魂：復生者莫薇兒"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Arachnoxia",
-            "lang": "奪取之魂：黑寡婦"
+            "us": "Captured Soul of The Primal One",
+            "lang": "奪取之魂：史源者"
         },
         {
             "type": "BaseType",
@@ -12260,23 +12425,23 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Armala, the Widow",
-            "lang": "奪取之魂：寡婦阿摩拉"
+            "us": "Captured Soul of Void Anomaly",
+            "lang": "奪取之魂：虛空之異"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Forest of Flames",
-            "lang": "奪取之魂：烈焰之森"
+            "us": "Captured Soul of Megaera",
+            "lang": "奪取之魂：炎靈密卡拉"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Vision of Justice",
-            "lang": "奪取之魂：正義之眼"
+            "us": "Captured Soul of Fire and Fury",
+            "lang": "奪取之魂：熾怒之靈"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of The Infernal King",
-            "lang": "奪取之魂：獄炎之王"
+            "us": "Captured Soul of Kitava, The Destroyer",
+            "lang": "奪取之魂：毀滅者奇塔弗"
         },
         {
             "type": "BaseType",
@@ -12285,13 +12450,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Varhesh, Shimmering Aberration",
-            "lang": "奪取之魂：微光之屍弗賽斯"
+            "us": "Captured Soul of Burtok, Conjurer of Bones",
+            "lang": "奪取之魂：波塔克喚骨"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Shock and Horror",
-            "lang": "奪取之魂：恐懼之雷"
+            "us": "Captured Soul of Titan of the Grove",
+            "lang": "奪取之魂：叢林巨石"
         },
         {
             "type": "BaseType",
@@ -12320,13 +12485,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of The Hallowed Husk",
-            "lang": "奪取之魂：超靈之體"
+            "us": "Captured Soul of The Sanguine Siren",
+            "lang": "奪取之魂：血腥女妖"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Drek, Apex Hunter",
-            "lang": "奪取之魂：獵者之巔德雷克"
+            "us": "Captured Soul of Visceris",
+            "lang": "奪取之魂：伊瑟斯"
         },
         {
             "type": "BaseType",
@@ -12362,6 +12527,11 @@
             "type": "BaseType",
             "us": "Callous Mask Piece",
             "lang": "無情之面碎片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ultimatum Aspect",
+            "lang": "最後通牒祝福"
         },
         {
             "type": "BaseType",
@@ -12707,6 +12877,11 @@
             "type": "BaseType",
             "us": "Tainted Oil",
             "lang": "汙染油瓶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Reflective Oil",
+            "lang": "映像油瓶"
         },
         {
             "type": "BaseType",
@@ -14112,6 +14287,51 @@
             "type": "BaseType",
             "us": "Jewellery Recombinator",
             "lang": "飾品重組裝置"
+        },
+        {
+            "type": "BaseType",
+            "us": "Mirrored Tablet",
+            "lang": "鏡像碑牌"
+        },
+        {
+            "type": "BaseType",
+            "us": "Kirac's Memory",
+            "lang": "基拉克的記憶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Alva's Memory",
+            "lang": "艾瓦的記憶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Niko's Memory",
+            "lang": "尼科的記憶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Einhar's Memory",
+            "lang": "埃哈的記憶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Wild Crystallised Lifeforce",
+            "lang": "野性結晶生靈之力"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vivid Crystallised Lifeforce",
+            "lang": "靈現結晶生靈之力"
+        },
+        {
+            "type": "BaseType",
+            "us": "Primal Crystallised Lifeforce",
+            "lang": "原始結晶生靈之力"
+        },
+        {
+            "type": "BaseType",
+            "us": "Sacred Crystallised Lifeforce",
+            "lang": "神聖結晶生靈之力"
         },
         {
             "type": "Unique",
@@ -18425,6 +18645,41 @@
         },
         {
             "type": "Unique",
+            "us": "Forgotten Guilt",
+            "lang": "被遺忘的罪惡"
+        },
+        {
+            "type": "Unique",
+            "us": "Visceral Remnant",
+            "lang": "臟器殘骸"
+        },
+        {
+            "type": "Unique",
+            "us": "Shiny Toy Box",
+            "lang": "閃亮的玩具盒"
+        },
+        {
+            "type": "Unique",
+            "us": "Archive Cache",
+            "lang": "暫存文案"
+        },
+        {
+            "type": "Unique",
+            "us": "What Little Remains",
+            "lang": "剩無"
+        },
+        {
+            "type": "Unique",
+            "us": "A Father's Love",
+            "lang": "父愛"
+        },
+        {
+            "type": "Unique",
+            "us": "Silent Legacy",
+            "lang": "沉默不朽"
+        },
+        {
+            "type": "Unique",
             "us": "Ryslatha's Coil",
             "lang": "瑞斯拉薩之纏"
         },
@@ -20880,8 +21135,73 @@
         },
         {
             "type": "Unique",
-            "us": " The Torturer",
+            "us": "The Torturer",
             "lang": " 折磨者"
+        },
+        {
+            "type": "Unique",
+            "us": "Kaom's Spirit",
+            "lang": "岡姆之魂"
+        },
+        {
+            "type": "Unique",
+            "us": "The Tower of Ordeals",
+            "lang": "磨難之塔"
+        },
+        {
+            "type": "Unique",
+            "us": "Soul Ascension",
+            "lang": "靈魂昇華"
+        },
+        {
+            "type": "Unique",
+            "us": "Victorious Fate",
+            "lang": "勝利之運"
+        },
+        {
+            "type": "Unique",
+            "us": "Deadly End",
+            "lang": "死局"
+        },
+        {
+            "type": "Unique",
+            "us": "Will of Chaos",
+            "lang": "混沌意志"
+        },
+        {
+            "type": "Unique",
+            "us": "Ignominious Fate",
+            "lang": "可恥之運"
+        },
+        {
+            "type": "Unique",
+            "us": "Ghostwrithe",
+            "lang": "鬧鬼"
+        },
+        {
+            "type": "Unique",
+            "us": "Thrillsteel",
+            "lang": "顫慄之鋼"
+        },
+        {
+            "type": "Unique",
+            "us": "Elevore",
+            "lang": "愛勒弗"
+        },
+        {
+            "type": "Unique",
+            "us": "Annihilation's Approach",
+            "lang": "殲滅的方法"
+        },
+        {
+            "type": "Unique",
+            "us": "The Poised Prism",
+            "lang": "優雅迷鏡"
+        },
+        {
+            "type": "Unique",
+            "us": "Kalandra's Touch",
+            "lang": "卡蘭德之觸"
         },
         {
             "type": "Monster",
@@ -21182,6 +21502,51 @@
             "type": "Monster",
             "us": "Craiceann, First of the Deep",
             "lang": "初始之潭奎爾珊"
+        },
+        {
+            "type": "Monster",
+            "us": "Wild Bristle Matron",
+            "lang": "野性之毛刺看守獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Wild Hellion Alpha",
+            "lang": "野性之地獄犬幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Wild Brambleback",
+            "lang": "野性之叢林巨獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Vivid Watcher",
+            "lang": "靈現之看守者"
+        },
+        {
+            "type": "Monster",
+            "us": "Vivid Vulture",
+            "lang": "靈現之禿鷹"
+        },
+        {
+            "type": "Monster",
+            "us": "Vivid Abberarach",
+            "lang": "靈現之艾伯拉赫"
+        },
+        {
+            "type": "Monster",
+            "us": "Primal Rhex Matriarch",
+            "lang": "原始之野雛女酋"
+        },
+        {
+            "type": "Monster",
+            "us": "Primal Crushclaw",
+            "lang": "原始之粉碎之爪"
+        },
+        {
+            "type": "Monster",
+            "us": "Primal Cystcaller",
+            "lang": "原始之羊人"
         }
     ]
 }
