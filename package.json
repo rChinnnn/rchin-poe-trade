@@ -33,7 +33,7 @@
     "element-ui": "^2.13.2",
     "hotkeys-js": "^3.8.1",
     "lodash": "^4.17.21",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "path": "^0.12.7",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
