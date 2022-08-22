@@ -27304,6 +27304,666 @@
                     "id": "explicit.stat_1636220212",
                     "text": "插槽中寶石被等級 # 的極速苦痛輔助",
                     "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3091578504",
+                    "text": "Minions have #% increased Attack and Cast Speed",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_935592011",
+                    "text": "Minions deal no Non-Cold Damage",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1021552211",
+                    "text": "Summoned Skeleton Warriors are Permanent and Follow you",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3086896309",
+                    "text": "Gain #% of Cold Damage as Extra Fire Damage per 1% Chill Effect on Enemy",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3031766225",
+                    "text": "Players take # Chaos Damage per second",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3998967779",
+                    "text": "Minions have #% chance to cause Bleeding with Attacks",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1959271744",
+                    "text": "Area is a Maze",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1012100113",
+                    "text": "Area is #% larger",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1837040413",
+                    "text": "Slaying Enemies close together can attract monsters from Beyond this realm",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2569472704",
+                    "text": "+#% to all Elemental Resistances per 15 Omniscience",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2629058372",
+                    "text": "#% increased raising of Alert Level from Killing Monsters",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_491450213",
+                    "text": "Minions have #% increased Critical Strike Chance",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1432361650",
+                    "text": "#% chance on killing an Enemy to not generate Alert Level",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1327804524",
+                    "text": "#% increased Alert Level from killing Guards",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2276643899",
+                    "text": "# to Minimum Endurance Charges per Grand Spectrum",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_643741006",
+                    "text": "Area is inhabited by Bandits",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_10224385",
+                    "text": "Minions have #% to all maximum Elemental Resistances",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2042972420",
+                    "text": "#% increased Alert Level from killing Patrol Packs",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2868692131",
+                    "text": "Gain Elusive on reaching Low Life",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_23466649",
+                    "text": "You have Phasing while on Low Life",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1535006826",
+                    "text": "Guards add additional Alert Level on Death",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_611279043",
+                    "text": "#% chance to Avoid Elemental Ailments per Grand Spectrum",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3947672598",
+                    "text": "Life Recovery from Regeneration is not applied",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4103111421",
+                    "text": "Regenerate 1 Rage per second for every # Life Recovery per second from Regeneration",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_324460247",
+                    "text": "#% chance to Cover Enemies in Ash on Hit",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1405089557",
+                    "text": "All Damage Taken from Hits can Ignite you",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_264042266",
+                    "text": "Minions convert #% of Physical Damage to Cold Damage",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_699756626",
+                    "text": "Quicksilver Flasks you Use also apply to nearby Allies",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_482240997",
+                    "text": "Minions have #% to Critical Strike Multiplier per Grand Spectrum",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_596758264",
+                    "text": "# to Minimum Frenzy Charges per Grand Spectrum",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4197792189",
+                    "text": "You can be Touched by Tormented Spirits",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2093523445",
+                    "text": "Adds # to # Physical Damage to Attacks against you",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_308799121",
+                    "text": "# to Minimum Power Charges per Grand Spectrum",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_407390981",
+                    "text": "#% of Physical Attack Damage Leeched by Enemy as Mana",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_617462123",
+                    "text": "Adds # to # Cold Damage to Attacks against you",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2453321622",
+                    "text": "Monsters are Unaffected by Shock",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2491363440",
+                    "text": "Adds # to # Lightning Damage to Attacks against you",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4021476585",
+                    "text": "Socketed Gems are Supported by Level # Swift Assembly",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_771127912",
+                    "text": "Lose # Life per second",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1331907976",
+                    "text": "Lose an Eaten Soul every second while no Unique Enemy is in your Presence",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1383929411",
+                    "text": "Gain #% of Cold Damage as Extra Fire Damage against Frozen Enemies",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2161482953",
+                    "text": "Regenerate # Life per Second while on Low Life",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1365328494",
+                    "text": "Socketed Gems are Supported by Level # Charged Mines",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2538411280",
+                    "text": "Skills which Exert an Attack have #% chance to not count that Attack",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_689720069",
+                    "text": "Socketed Gems are supported by Level # Stun",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_332217711",
+                    "text": "#% increased Maximum Life per Grand Spectrum",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4080206249",
+                    "text": "Gain up to maximum Endurance Charges when you take a Critical Strike",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_598215770",
+                    "text": "Your nearby party members maximum Endurance Charges is equal to yours",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2168861013",
+                    "text": "#% chance to Freeze Enemies for 1 second when they Hit you",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2116100988",
+                    "text": "Socketed Gems are Supported by Level # High-Impact Mine",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2574694107",
+                    "text": "# to Level of Socketed Non-Vaal Gems",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_147155654",
+                    "text": "#% chance to deal Triple Damage while you have at least 400 Strength",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_402499111",
+                    "text": "Socketed Gems are Supported by Level # Second Wind",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2727188901",
+                    "text": "Traps from Skills are thrown randomly around targeted location",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1535606605",
+                    "text": "#% chance to deal Double Damage while you have at least 200 Strength",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1861759600",
+                    "text": "Traps cannot be triggered by Enemies",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1807705940",
+                    "text": "Recover # Life when you Suppress Spell Damage",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4217693429",
+                    "text": "Bow Attacks have Culling Strike",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_238314698",
+                    "text": "Cannot roll Modifiers with Required Level above #",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2693705594",
+                    "text": "#% of Physical Attack Damage Leeched by Enemy as Life",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.indexable_support_144",
+                    "text": "Socketed Gems are Supported by Level # Overcharge",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4294344579",
+                    "text": "Adds # to # Chaos Damage for each Curse on the Enemy",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2805586447",
+                    "text": "Socketed Gems are Supported by Level # Minefield",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2757041809",
+                    "text": "Penetrate #% Elemental Resistances per 15 Omniscience",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_248646071",
+                    "text": "Socketed Gems are Supported by Level # Item Quantity",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4139137767",
+                    "text": "Areas contain additional Essences\nEssences contain Rogue Exiles",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3754129682",
+                    "text": "Socketed Gems are Supported by Level # Point Blank",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_645735818",
+                    "text": "Areas contain additional Strongboxes\nStrongboxes are found in Sequences\nStrongboxes in a Sequence open when the previous Strongbox in the Sequence has unlocked",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3675300253",
+                    "text": "Melee Strike Skills deal Splash Damage to surrounding targets",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_746505085",
+                    "text": "Reflects your other Ring",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4069440714",
+                    "text": "#% of Damage Leeched as Life",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_565784293",
+                    "text": "#% increased Knockback Distance",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_495299940",
+                    "text": "Areas contain additional Harbinger Portals\nHarbinger Portals drop additional Currency Shards when destroyed",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2518308945",
+                    "text": "Areas contain many additional Breaches\nBreaches open and close faster",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1619454789",
+                    "text": "Onslaught",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3945908658",
+                    "text": "Minions have #% chance to Ignite",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2142803347",
+                    "text": "#% chance to lose a Frenzy Charge on Kill",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3111091501",
+                    "text": "Socketed Gems are Supported by Level # Trinity",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3410776118",
+                    "text": "Minimum Endurance Charges equal to Maximum while stationary\nMinimum Frenzy Charges equal to Maximum while stationary\nMinimum Power Charges equal to Maximum while stationary",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_838272676",
+                    "text": "Lose # Mana per second",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1803865171",
+                    "text": "Socketed Gems are Supported by Level # Awakened Fork",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3422644692",
+                    "text": "Areas contain The Sacred Grove\nCrops are larger in size\nCrops contain higher tier seeds",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1882929618",
+                    "text": "Socketed Gems are Supported by Level # Awakened Void Manipulation",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2133566731",
+                    "text": "Socketed Gems are Supported by Level # Awakened Enhance",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2222752567",
+                    "text": "Socketed Gems are Supported by Level # Awakened Spell Cascade",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2052458107",
+                    "text": "Summoned Arbalists have #% chance to Freeze",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3640956958",
+                    "text": "Projectiles Pierce 2 additional Targets",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_627015097",
+                    "text": "#% chance to lose an Endurance Charge on Kill",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_407482587",
+                    "text": "Non-Channelling Skills Cost # Mana",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_773846741",
+                    "text": "Inflict Decay on Enemies you Curse with Hex Skills, dealing # Chaos Damage per Second for 8 Seconds",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1263962567",
+                    "text": "Areas are Breached\nAreas contain additional Large Breach Hands\nBreach Bosses have a chance to drop a Breachstone",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2116002108",
+                    "text": "Socketed Gems are Supported by Level # Awakened Unbound Ailments",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3582614035",
+                    "text": "Areas contain additional Temporal Incursions\nTemporal Incursion Portals have their direction reversed",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1737583880",
+                    "text": "Melee Hits with Strike Skills always Knockback",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3423006863",
+                    "text": "Arrows Pierce an additional Target",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3304203764",
+                    "text": "#% Chance to Block Attack Damage from Cursed Enemies",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_504462346",
+                    "text": "For each nearby corpse, #% increased Movement Speed",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3153125103",
+                    "text": "Maximum # Eaten Soul",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2939195168",
+                    "text": "#% chance to lose a Power Charge on Kill",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2836980154",
+                    "text": "You cannot have Non-Spectre Minions",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2478268100",
+                    "text": "#% chance to gain a Frenzy Charge on Hit while Blinded",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2467500499",
+                    "text": "Players in Areas take on the form of Harbingers\nItems found in Areas are replaced by stacks of Currency Shards",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2168365746",
+                    "text": "Rare and Unique Monsters found in Areas are Possessed and their Minions are Touched",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1019145105",
+                    "text": "Socketed Gems are Supported by Level # Behead",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2362265695",
+                    "text": "#% chance to Avoid being Knocked Back",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1417394145",
+                    "text": "Golems have # to # Added Attack Physical Damage",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2127433866",
+                    "text": "Adds # to # Fire Damage to Attacks against you",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2144847042",
+                    "text": "Summoned Arbalists have #% chance to Shock",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2103621252",
+                    "text": "Eat a Soul when you Hit a Unique Enemy, no more than once every second",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3605834869",
+                    "text": "Skills gain a Base Life Cost equal to #% of Base Mana Cost",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1046449631",
+                    "text": "Socketed Gems are Supported by Level # Awakened Blasphemy",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2500585555",
+                    "text": "For each nearby corpse, Regenerate # Life per second",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2789750513",
+                    "text": "Areas contain additional Abysses\nAbysses have already fully opened\nAbysses contain monsters from Beyond this realm",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_831284309",
+                    "text": "Summoned Arbalists have #% chance to Ignite",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3119612865",
+                    "text": "Minions have #% additional Physical Damage Reduction",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3062849155",
+                    "text": "Socketed Gems are Supported by Level # Eternal Blessing",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3739157305",
+                    "text": "Socketed Gems are Supported by Level # Awakened Empower",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4145689649",
+                    "text": "Gain Adrenaline for # second on kill",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_973269941",
+                    "text": "Attacks with this Weapon have Added Maximum Lightning Damage equal to #% of your Maximum Energy Shield",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_170274897",
+                    "text": "Socketed Gems are Supported by Level # Awakened Fire Penetration",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_271119551",
+                    "text": "Socketed Gems are Supported by Level # Awakened Controlled Destruction",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2249251344",
+                    "text": "Socketed Gems are Supported by Level # Awakened Chain",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1344789934",
+                    "text": "Socketed Gems are Supported by Level # Shockwave",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1609369521",
+                    "text": "Socketed Gems are Supported by Level # Pinpoint",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_940684417",
+                    "text": "Socketed Gems are Supported by Level # Earthbreaker",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1485525812",
+                    "text": "Socketed Gems are Supported by Level # Urgent Orders",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_1007586373",
+                    "text": "Socketed Gems are Supported by Level # Awakened Generosity",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2127532091",
+                    "text": "Socketed Gems are Supported by Level # Swiftbrand",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_3227145554",
+                    "text": "Socketed Gems are Supported by Level # Impending Doom",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2861649515",
+                    "text": "Socketed Gems are Supported by Level # Nightblade",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_2722592119",
+                    "text": "Socketed Gems are Supported by Level # Awakened Added Chaos Damage",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.stat_4089933397",
+                    "text": "Socketed Gems are Supported by Level # Awakened Swift Affliction",
+                    "type": "explicit"
                 }
             ]
         },
@@ -33866,6 +34526,91 @@
                     "id": "implicit.stat_3042217102",
                     "text": "在巔峰頭目面前時，減少 #% 你被點燃的持續時間",
                     "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_496053892",
+                    "text": "Left ring slot: #% increased Effect of Curses on you",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_2478238773",
+                    "text": "Right ring slot: #% of Fire Damage from Hits taken as Cold Damage",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_3557750122",
+                    "text": "Area contains an Expedition Encounter",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_2351239732",
+                    "text": "Arctic Armour has #% increased Mana Reservation Efficiency",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_4279053153",
+                    "text": "Right ring slot: #% increased Effect of Curses on you",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_221309863",
+                    "text": "Left ring slot: #% increased Duration of Ailments on You",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_2457848738",
+                    "text": "Right ring slot: #% increased Duration of Ailments on You",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_450178102",
+                    "text": "Left ring slot: #% of Lightning Damage from Hits taken as Cold Damage",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_1905512385",
+                    "text": "Right ring slot: #% of Lightning Damage from Hits taken as Fire Damage",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_744858137",
+                    "text": "Right ring slot: #% of Cold Damage from Hits taken as Lightning Damage",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_3399320226",
+                    "text": "Flask effect is removed when Hit by a Player",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_1069618951",
+                    "text": "Right ring slot: Minions take #% increased Damage",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_1916904011",
+                    "text": "Left ring slot: Minions take #% increased Damage",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_17730902",
+                    "text": "Left ring slot: #% of Fire Damage from Hits taken as Lightning Damage",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_3320868777",
+                    "text": "Left ring slot: #% increased Skill Effect Duration",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_1323927995",
+                    "text": "Left ring slot: #% of Cold Damage from Hits taken as Fire Damage",
+                    "type": "implicit"
+                },
+                {
+                    "id": "implicit.stat_2239667237",
+                    "text": "Right ring slot: #% increased Skill Effect Duration",
+                    "type": "implicit"
                 }
             ]
         },
@@ -37285,6 +38030,901 @@
                 {
                     "id": "fractured.stat_2008219439",
                     "text": "斧類武器增加 #% 物理傷害",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_884586851",
+                    "text": "#% increased Quantity of Items found",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_335507772",
+                    "text": "# to maximum Fortification",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_144665660",
+                    "text": "Monsters have a #% chance to avoid Poison, Impale, and Bleeding",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1837040413",
+                    "text": "Slaying Enemies close together can attract monsters from Beyond this realm",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_286947568",
+                    "text": "Players Prevent #% of Suppressed Spell Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1681904129",
+                    "text": "Socketed Gems have #% Critical Strike Chance",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3945908658",
+                    "text": "Minions have #% chance to Ignite",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2896346114",
+                    "text": "Point Blank",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3914021960",
+                    "text": "Nearby Enemies have #% to Fire Resistance",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1826802197",
+                    "text": "#% chance to gain a Frenzy Charge on Kill",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2161689853",
+                    "text": "#% increased Rarity of Items Dropped by Slain Rare or Unique Enemies",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2556436882",
+                    "text": "Socketed Gems are Supported by Level # Enhance",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3826977109",
+                    "text": "Socketed Gems are Supported by Level # Maim",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2264586521",
+                    "text": "Socketed Attacks have # to Total Mana Cost",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3595254837",
+                    "text": "Drops Burning Ground while moving, dealing # Fire Damage per second for # second",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3729445224",
+                    "text": "Auras from your Skills grant #% increased Damage to you and Allies",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2062792091",
+                    "text": "#% chance to Trigger Socketed Spells when you Focus, with a 0.25 second Cooldown",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1140978125",
+                    "text": "Cannot Leech from Monsters",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_170497091",
+                    "text": "#% increased Fishing Range",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4092697134",
+                    "text": "Iron Will",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2450628570",
+                    "text": "Players have #% increased effect of Non-Curse Auras from Skills",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2523146878",
+                    "text": "#% chance for Poisons inflicted with this Weapon to deal 100% more Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3360430812",
+                    "text": "Rhoa Feather Lure",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3032585258",
+                    "text": "#% chance to gain a Frenzy Charge on Critical Strike",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3015437071",
+                    "text": "#% increased Effect of Arcane Surge on you",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3702411606",
+                    "text": "Patrol Packs take #% increased damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2633745731",
+                    "text": "#% increased total Recovery per second from Life Leech",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4050593908",
+                    "text": "Skills used by Traps have #% increased Area of Effect",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_308309328",
+                    "text": "#% chance to Recover 10% of Mana when you use a Skill",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3374165039",
+                    "text": "#% increased Totem Placement speed",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2764164760",
+                    "text": "You gain Onslaught for # seconds when Hit",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1560880986",
+                    "text": "#% chance for Bleeding inflicted with this Weapon to deal 100% more Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_415837237",
+                    "text": "Nearby Enemies take #% increased Physical Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1843941387",
+                    "text": "Reinforcements have #% increased Cast Speed",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_690707482",
+                    "text": "#% increased Damage with Ailments",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2904116257",
+                    "text": "#% increased Travel Fee",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2287264161",
+                    "text": "Socketed Gems are Supported by Level # Arcane Surge",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_668504404",
+                    "text": "Heist Chests have a #% chance to Duplicate contained Breach Splinters",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1766730250",
+                    "text": "You are Immune to Ailments while Focused",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1342271987",
+                    "text": "Reinforcements have #% increased Movement Speed",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3610263531",
+                    "text": "Focus has #% increased Cooldown Recovery Rate",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4216809421",
+                    "text": "Heist Chests have a #% chance to Duplicate contained Scarabs",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_680068163",
+                    "text": "#% increased Stun Threshold",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_839556554",
+                    "text": "Reward Room Monsters take #% increased Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1054322244",
+                    "text": "#% chance to gain an Endurance Charge on Kill",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_873692616",
+                    "text": "Guards take #% increased Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2076519255",
+                    "text": "#% increased Mana Regeneration Rate while Shocked",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3569230441",
+                    "text": "#% increased Job Experience gain",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1217583941",
+                    "text": "Buffs on Players expire #% faster",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2787931289",
+                    "text": "Players have #% more Armour per 25% Alert Level",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1339532482",
+                    "text": "Reinforcements have #% increased Attack Speed",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_491450213",
+                    "text": "Minions have #% increased Critical Strike Chance",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3175722882",
+                    "text": "#% of Life Regenerated per second per Fragile Regrowth",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2618549697",
+                    "text": "Added Small Passive Skills have #% increased Effect",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3091578504",
+                    "text": "Minions have #% increased Attack and Cast Speed",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3178542354",
+                    "text": "#% increased Movement Speed if you've Hit an Enemy Recently",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2253286128",
+                    "text": "#% Chance to Block Spell Damage while on Low Life",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3577248251",
+                    "text": "You and your Minions take #% reduced Reflected Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_178394804",
+                    "text": "Grants Level # Hatred Skill",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1390113017",
+                    "text": "Reward Room Monsters deal #% increased Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3839688967",
+                    "text": "#% Player Lightning Resistance per 25% Alert Level",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_845306697",
+                    "text": "1 Added Passive Skill is Readiness",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4223377453",
+                    "text": "#% increased Brand Attachment range",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_593845252",
+                    "text": "Versatile Combatant",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1235873320",
+                    "text": "Socketed Gems deal #% more Damage while on Low Life",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2138205941",
+                    "text": "Monsters have #% chance to Suppress Spell Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3623716321",
+                    "text": "Adds # to # Fire Damage if you've Blocked Recently",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2709692542",
+                    "text": "Added Small Passive Skills also grant: #% to Cold Resistance",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3222482040",
+                    "text": "Monsters have #% chance to steal Power, Frenzy and Endurance charges on Hit",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2946222246",
+                    "text": "No Travel Cost",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1982436039",
+                    "text": "Patrol Packs have #% increased chance to be replaced by an Elite Patrol Pack",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_42242677",
+                    "text": "#% chance to Avoid Fire Damage from Hits",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_289714529",
+                    "text": "1 Added Passive Skill is Elegant Form",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3708045494",
+                    "text": "#% increased Damage with Hits against Enemies on Full Life",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2121053002",
+                    "text": "Heist Chests have a #% chance to Duplicate contained Blighted Maps and Catalysts",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2523334466",
+                    "text": "Adds # to # Chaos Damage if you've dealt a Critical Strike Recently",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3138486617",
+                    "text": "Alert Level increases by #% per second",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4126210832",
+                    "text": "Hits can't be Evaded",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_90649542",
+                    "text": "Hexes you inflict have # to maximum Doom",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1172162241",
+                    "text": "# to Character Level",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3107439245",
+                    "text": "#% chance on completing a Heist to generate an additional Reveal with Whakano",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_380759151",
+                    "text": "Your Lightning Damage can Freeze",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3998967779",
+                    "text": "Minions have #% chance to cause Bleeding with Attacks",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1859937391",
+                    "text": "Socketed Gems gain #% of Physical Damage as extra Lightning Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2435922859",
+                    "text": "#% increased time before Lockdown",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_941368244",
+                    "text": "Players have #% more Cooldown Recovery Rate",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1521863824",
+                    "text": "#% increased Movement speed while on Burning, Chilled or Shocked ground",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_301625329",
+                    "text": "#% increased Rarity of Items found during any Flask Effect",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_327253797",
+                    "text": "#% chance to Defend with 200% of Armour",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1263158408",
+                    "text": "Elemental Equilibrium",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_553402472",
+                    "text": "#% increased Total Heist Fee",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2889664727",
+                    "text": "#% chance to Avoid Lightning Damage from Hits",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1468606528",
+                    "text": "Trigger Level 10 Summon Spectral Wolf on Kill",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2588474575",
+                    "text": "Unique Bosses are Possessed",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_245401622",
+                    "text": "#% increased Agility Experience gained",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2477381238",
+                    "text": "#% reduced Enemy Block Chance",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_10224385",
+                    "text": "Minions have #% to all maximum Elemental Resistances",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1888494262",
+                    "text": "Your Cold Damage can Ignite",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2228892313",
+                    "text": "#% chance to Crush on Hit",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1629869774",
+                    "text": "Monsters have #% chance to Blind on Hit",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2569717992",
+                    "text": "Guards deal #% increased Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4080245957",
+                    "text": "Runebinder",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_816079058",
+                    "text": "Players gain #% increased Flask Charges per 25% Alert Level",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1840751341",
+                    "text": "#% increased Duration of Ailments you inflict while Focused",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3743375737",
+                    "text": "#% chance to Avoid Cold Damage from Hits",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_301104070",
+                    "text": "#% chance for Flasks to gain a Charge when you take a Critical Strike",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4164174520",
+                    "text": "Monsters have #% chance to Maim on Hit with Attacks",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1466172118",
+                    "text": "Players have #% more Life Recovery Rate per 25% Alert Level",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3943945975",
+                    "text": "Resolute Technique",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_962720646",
+                    "text": "Monsters have #% chance to Hinder on Hit with Spells",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2887760183",
+                    "text": "Monsters gain #% of Maximum Life as Extra Maximum Energy Shield",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3667574329",
+                    "text": "Players have #% more Accuracy Rating",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1948962470",
+                    "text": "Area has patches of Consecrated Ground",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3119612865",
+                    "text": "Minions have #% additional Physical Damage Reduction",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_346029096",
+                    "text": "Avatar of Fire",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2978905446",
+                    "text": "#% increased Job speed",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_751773204",
+                    "text": "Players have #% more Energy Shield Recovery Rate per 25% Alert Level",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2564857472",
+                    "text": "Magic Utility Flasks applied to you have #% increased Effect",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3738331820",
+                    "text": "With at least 40 Strength in Radius, #% of Glacial\nHammer Physical Damage Converted to Cold Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_849152640",
+                    "text": "Non-Aura Skills Cost no Mana or Life while Focused",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2412100590",
+                    "text": "With at least 40 Dexterity in Radius, Melee Damage\ndealt by Frost Blades Penetrates #% Cold Resistance",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2048995720",
+                    "text": "Divine Shield",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1678358883",
+                    "text": "Lethe Shade",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3441651621",
+                    "text": "# Physical Damage taken from Attack Hits",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_98977150",
+                    "text": "Pain Attunement",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3610197448",
+                    "text": "Enemies Taunted by your Warcries take #% increased Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2316658489",
+                    "text": "# to Armour and Evasion Rating",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1541224187",
+                    "text": "Monsters have #% chance to Impale with Attacks",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2916448124",
+                    "text": "#% Player Cold Resistance per 25% Alert Level",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1173537953",
+                    "text": "Maximum # Fragile Regrowth",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_886366428",
+                    "text": "#% increased Damage for each Magic Item Equipped",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3839620417",
+                    "text": "#% increased Evasion Rating while Focused",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1316278494",
+                    "text": "#% increased Warcry Speed",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3592330380",
+                    "text": "Cannot be Shocked or Ignited while moving",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1541516339",
+                    "text": "#% increased Movement Speed per Frenzy Charge",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2047819517",
+                    "text": "#% increased Attack Speed while Ignited",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3841984913",
+                    "text": "Gain # Fragile Regrowth each second",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_679194784",
+                    "text": "1% increased Damage per # Strength when in Main Hand",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3565558422",
+                    "text": "With at least 40 Strength in Radius, Glacial Hammer deals\nCold-only Splash Damage to surrounding targets",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_576760472",
+                    "text": "Passive Skills in Radius also grant: Traps and Mines deal # to # added Physical Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3574189159",
+                    "text": "Elemental Overload",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3964634628",
+                    "text": "Adds # to # Fire Damage to Spells and Attacks",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2092708508",
+                    "text": "With at least 40 Dexterity in Radius, Frost Blades has #% increased Projectile Speed",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2074744008",
+                    "text": "With at least 40 Intelligence in Radius, #% increased Freezing Pulse Damage if\nyou've Shattered an Enemy Recently",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1328548975",
+                    "text": "#% to Quality of Socketed Support Gems",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_953449033",
+                    "text": "Players have #% more Mana Recovery Rate per 25% Alert Level",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2098320128",
+                    "text": "With at least 40 Intelligence in Radius, Freezing Pulse fires an additional Projectile",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1589090910",
+                    "text": "Summon an additional Skeleton Warrior with Summon Skeleton",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2731249891",
+                    "text": "#% of Fire Damage Converted to Chaos Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4031081471",
+                    "text": "You take # Chaos Damage per second for # seconds on Kill",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1248507170",
+                    "text": "With at least 40 Strength in Radius, Hits with Cleave Fortify",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1539696482",
+                    "text": "With at least 40 Strength in Radius, Cleave has +1 to Radius per Nearby\nEnemy, up to +10",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4180925106",
+                    "text": "Magebane",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2224292784",
+                    "text": "Can have up to # additional Trap placed at a time",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1306791873",
+                    "text": "Lose all Fragile Regrowth when Hit",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1870262721",
+                    "text": "Heist Chests have a #% chance to Duplicate contained Delirium Orbs and Splinters",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2605119037",
+                    "text": "Increases and Reductions to Energy Shield in Radius are Transformed to apply to Armour at 200% of their value",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4157767905",
+                    "text": "#% increased Projectile Attack Damage per 200 Accuracy Rating",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3442130499",
+                    "text": "With at least 40 Dexterity in Radius, Ice Shot has #% increased Area of Effect",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2155513095",
+                    "text": "Critical Strike Chance is increased by Lightning Resistance",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1962922582",
+                    "text": "#% chance to gain an additional Vaal Soul on Kill",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3103494675",
+                    "text": "With at least 40 Dexterity in Radius, Ice Shot Pierces an additional Target",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1352418057",
+                    "text": "#% chance to Curse Enemies with Socketed Hex Curse Gem on Hit",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_99927264",
+                    "text": "#% reduced Shock Duration on you",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2022851697",
+                    "text": "You have Vaal Pact while Focused",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2237528173",
+                    "text": "Strength from Passives in Radius is Transformed to Dexterity",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3324747104",
+                    "text": "#% of Damage Leeched as Life while Focused",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_616993076",
+                    "text": "The Ring takes no Cut",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_156016608",
+                    "text": "With at least 40 Strength in Radius, Ground Slam\nhas a #% increased angle",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3144910208",
+                    "text": "Patrolling Monsters deal #% increased Damage",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3790108551",
+                    "text": "With at least 40 Intelligence in Radius, Frostbolt fires an additional Projectile",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2727977666",
+                    "text": "With at least 40 Intelligence in Radius, Frostbolt Projectiles gain #% increased Projectile Speed per second",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3049760680",
+                    "text": "#% chance to gain Onslaught for 3 seconds when Hit",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_4056408881",
+                    "text": "Reward Rooms have #% increased Monsters",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3581578643",
+                    "text": "Socketed Gems are Supported by Level # Empower",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_1483753325",
+                    "text": "#% increased Attack and Cast Speed if you've Hit an Enemy Recently",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_2264655303",
+                    "text": "#% of Life Recovery from Flasks is applied to nearby Allies instead of You",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_583277599",
+                    "text": "Chill Nearby Enemies when you Block",
+                    "type": "fractured"
+                },
+                {
+                    "id": "fractured.stat_3515686789",
+                    "text": "#% increased Damage per Endurance Charge",
                     "type": "fractured"
                 }
             ]
@@ -50224,6 +51864,71 @@
                     "id": "enchant.stat_210067635",
                     "text": "增加 #% 攻擊速度 (部分)",
                     "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_3821213705",
+                    "text": "Galvanic Field deals #% increased Damage",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_1837040413",
+                    "text": "Slaying Enemies close together can attract monsters from Beyond this realm",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_3362917830",
+                    "text": "#% increased Beyond Demon Pack Size in your Maps",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_3583185303",
+                    "text": "#% increased Alchemist's Mark Curse Effect",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_3250634678",
+                    "text": "Lifeforce dropped by Harvest Monsters is Duplicated",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_1793005352",
+                    "text": "Spirit Offering grants #% to Critical Strike Multiplier",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_2437571727",
+                    "text": "Lightning Conduit has #% increased Cast Speed",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_3171507121",
+                    "text": "#% increased Ancestral Blademaster Totem Area of Effect",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_4166834934",
+                    "text": "#% increased Ancestral Blademaster Totem Damage",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_2252888886",
+                    "text": "Lightning Conduit has #% increased Area of Effect",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_3893203185",
+                    "text": "Galvanic Field Chains an additional time",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_2511245659",
+                    "text": "Lightning Conduit deals #% increased Damage",
+                    "type": "enchant"
+                },
+                {
+                    "id": "enchant.stat_2364563825",
+                    "text": "Galvanic Field has #% increased Cast Speed",
+                    "type": "enchant"
                 }
             ]
         },
@@ -53598,6 +55303,36 @@
                 {
                     "id": "crafted.stat_1086147743",
                     "text": "增加 #% 敵人點燃持續時間",
+                    "type": "crafted"
+                },
+                {
+                    "id": "crafted.stat_407482587",
+                    "text": "Non-Channelling Skills Cost # Mana",
+                    "type": "crafted"
+                },
+                {
+                    "id": "crafted.stat_771127912",
+                    "text": "Lose # Life per second",
+                    "type": "crafted"
+                },
+                {
+                    "id": "crafted.stat_238314698",
+                    "text": "Cannot roll Modifiers with Required Level above #",
+                    "type": "crafted"
+                },
+                {
+                    "id": "crafted.stat_425242359",
+                    "text": "#% of Physical Damage from Hits taken as Lightning Damage",
+                    "type": "crafted"
+                },
+                {
+                    "id": "crafted.stat_2491363440",
+                    "text": "Adds # to # Lightning Damage to Attacks against you",
+                    "type": "crafted"
+                },
+                {
+                    "id": "crafted.stat_838272676",
+                    "text": "Lose # Mana per second",
                     "type": "crafted"
                 }
             ]

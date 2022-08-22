@@ -426,6 +426,7 @@ import GoTop from '@inotom/vue-go-top';
 
 import itemsData from "../assets/poe/items.json";
 import statsData from "../assets/poe/stats.json";
+import usStatsData from "../assets/poe/stats_us.json";
 import poedbTW from "../assets/poe/poedb-tw.json";
 
 const _ = require('lodash');
@@ -487,6 +488,7 @@ export default {
       fetchQueryID: '',
       allItems: itemsData, // 物品 API 資料
       allStats: statsData, // 詞綴 API 資料
+      usStats: usStatsData, // 英文詞綴 API 資料
       poedbTW: poedbTW, // 編年史翻譯表
       equipItems: [], // 可裝備的物品資料
       monstersItems: [], // 物品化怪物資料
@@ -858,6 +860,16 @@ export default {
     checkAPI() {
       this.equipItems.forEach(element => {
         console.log(element.text, element.name, element.option)
+      });
+      // let usResult = this.usStats.result
+      // let result = this.allStats.result
+      // console.log(this.getArrayDifference(usResult[0].entries, result[0].entries));
+    },
+    getArrayDifference(array1, array2) {
+      return array1.filter(object1 => {
+        return !array2.some(object2 => {
+          return object1.id === object2.id;
+        });
       });
     },
     replaceString(string) {
