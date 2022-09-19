@@ -2041,6 +2041,39 @@ export default {
         }
       })
     },
+    mirroredStatsAnalysis(itemArray) {
+      let tempStat = []
+      let itemDisplayStats = []
+      let itemStatStart = 5
+      let itemStatEnd = itemArray.findIndex(e => e.indexOf('在你的地圖裝置使用此物品來開啟前往卡蘭德迷湖的傳送門。') > -1) - 2 // 鏡像碑牌詞綴結束點
+
+      for (let index = itemStatStart; index <= itemStatEnd; index++) {
+        itemDisplayStats.push(itemArray[index])
+        tempStat.push(this.findBestStat(itemArray[index], this.pseudoStats))
+        tempStat[tempStat.length - 1].type = "偽屬性"
+      }
+
+      tempStat.forEach((element, idx) => {
+        let statID = element.ratings[element.bestMatchIndex + 1].target
+        let apiStatText = element.bestMatch.target
+        let difficultyLevel = parseInt(itemDisplayStats[idx].match(/\d+/g)[0], 10) // 映像難度
+
+        // console.log(itemDisplayStats[idx], itemDisplayStats[idx].match(/\d+/g)[0])
+        if (difficultyLevel > 10) { // 只保留階級十以上映像
+          this.searchStats.push({
+            "id": statID,
+            "text": apiStatText,
+            "option": '',
+            "min": difficultyLevel,
+            "max": '',
+            "isValue": true,
+            "isNegative": false,
+            "isSearch": false,
+            "type": element.type
+          })
+        }
+      })
+    },
     compassStatsAnalysis(itemArray) {
       let tempStat = []
       let itemDisplayStats = []
@@ -2840,7 +2873,11 @@ export default {
           this.templeStatsAnalysis(itemArray)
           this.isStatsCollapse = true
           return
-        }
+        } else if (item.indexOf('在你的地圖裝置使用此物品來開啟前往卡蘭德迷湖的傳送門。') > -1) { // 鏡像碑牌判斷
+          this.mirroredStatsAnalysis(itemArray)
+          this.isStatsCollapse = true
+          return
+        } 
       } else if (Rarity === "寶石") {
         this.isGem = true
         this.gemQualitySet.isSearch = false
