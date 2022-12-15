@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 4372,
+    "size": 4468,
     "data": [
         {
             "type": "BaseType",
@@ -1025,6 +1025,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Fracturing Orb",
+            "lang": "破裂石"
+        },
+        {
+            "type": "BaseType",
             "us": "Annulment Shard",
             "lang": "無效石碎片"
         },
@@ -1072,6 +1077,11 @@
             "type": "BaseType",
             "us": "Regal Shard",
             "lang": "富豪石碎片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Fracturing Shard",
+            "lang": "破裂石碎片"
         },
         {
             "type": "BaseType",
@@ -1477,6 +1487,11 @@
             "type": "BaseType",
             "us": "Orb of Conflict",
             "lang": "衝突寶珠"
+        },
+        {
+            "type": "BaseType",
+            "us": "Uncarved Gemstone",
+            "lang": "未雕刻寶石"
         },
         {
             "type": "BaseType",
@@ -8845,6 +8860,16 @@
         },
         {
             "type": "BaseType",
+            "us": "Cursed Ground Support",
+            "lang": "詛咒地面輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Hex Bloom Support",
+            "lang": "咒術綻放輔助"
+        },
+        {
+            "type": "BaseType",
             "us": "Lightning Conduit",
             "lang": "導雷"
         },
@@ -8857,6 +8882,56 @@
             "type": "BaseType",
             "us": "Alchemist's Mark",
             "lang": "煉金術士印記"
+        },
+        {
+            "type": "BaseType",
+            "us": "Volcanic Fissure",
+            "lang": "炎火脈動"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Flicker Strike",
+            "lang": "瓦爾．閃現打擊"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Molten Strike",
+            "lang": "瓦爾．熔岩之擊"
+        },
+        {
+            "type": "BaseType",
+            "us": "Frozen Legion",
+            "lang": "戰亂．凍結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Cleave",
+            "lang": "瓦爾．劈砍"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Volcanic Fissure",
+            "lang": "瓦爾．炎火脈動"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Caustic Arrow",
+            "lang": "瓦爾．腐蝕箭矢"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Venom Gyre",
+            "lang": "瓦爾．猛毒迴旋"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Smite",
+            "lang": "瓦爾．雷鳴重擊"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Blade Flurry",
+            "lang": "瓦爾．刀鋒亂舞"
         },
         {
             "type": "BaseType",
@@ -12245,6 +12320,56 @@
         },
         {
             "type": "BaseType",
+            "us": "Man With Bear",
+            "lang": "熊男"
+        },
+        {
+            "type": "BaseType",
+            "us": "Alivia's Grace",
+            "lang": "奧薇莉亞的恩典"
+        },
+        {
+            "type": "BaseType",
+            "us": "Auspicious Ambitions",
+            "lang": "吉祥之志"
+        },
+        {
+            "type": "BaseType",
+            "us": "Divine Beauty",
+            "lang": "神聖之美"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Wedding Gift",
+            "lang": "結婚禮物"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Insane Cat",
+            "lang": "瘋貓"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ever-Changing",
+            "lang": "千變萬化"
+        },
+        {
+            "type": "BaseType",
+            "us": "A Dusty Memory",
+            "lang": "塵封記憶"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Return of the Rat",
+            "lang": "鼠歸"
+        },
+        {
+            "type": "BaseType",
+            "us": "The Finishing Touch",
+            "lang": "點睛之筆"
+        },
+        {
+            "type": "BaseType",
             "us": "Mystery Leaguestone",
             "lang": "神秘聯盟石"
         },
@@ -12400,13 +12525,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Captain Clayborne, The Accursed",
-            "lang": "奪取之魂：被詛咒的．隊長克雷波恩"
+            "us": "Captured Soul of Captain Tanner Lightfoot",
+            "lang": "奪取之魂：隊長坦納萊富特"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Ara, Sister of Light",
-            "lang": "奪取之魂：光之姊妹．艾拉"
+            "us": "Captured Soul of Captain Clayborne, The Accursed",
+            "lang": "奪取之魂：被詛咒的．隊長克雷波恩"
         },
         {
             "type": "BaseType",
@@ -12420,28 +12545,28 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Queen of the Great Tangle",
-            "lang": "奪取之魂：紛爭女王"
+            "us": "Captured Soul of Maligaro the Mutilator",
+            "lang": "奪取之魂：毀壞者馬雷葛蘿"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Void Anomaly",
-            "lang": "奪取之魂：虛空之異"
+            "us": "Captured Soul of Armala, the Widow",
+            "lang": "奪取之魂：寡婦阿摩拉"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Megaera",
-            "lang": "奪取之魂：炎靈密卡拉"
+            "us": "Captured Soul of Jorus, Sky's Edge",
+            "lang": "奪取之魂：天際朱力斯"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Fire and Fury",
-            "lang": "奪取之魂：熾怒之靈"
+            "us": "Captured Soul of Forest of Flames",
+            "lang": "奪取之魂：烈焰之森"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Kitava, The Destroyer",
-            "lang": "奪取之魂：毀滅者奇塔弗"
+            "us": "Captured Soul of Lord of the Ashen Arrow",
+            "lang": "奪取之魂：魂靈之冥箭"
         },
         {
             "type": "BaseType",
@@ -12450,18 +12575,18 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Burtok, Conjurer of Bones",
-            "lang": "奪取之魂：波塔克喚骨"
+            "us": "Captured Soul of Corruptor Eedaiak",
+            "lang": "奪取之魂：腐化埃代亞克"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Titan of the Grove",
-            "lang": "奪取之魂：叢林巨石"
+            "us": "Captured Soul of Khor, Sister of Shadows",
+            "lang": "奪取之魂：暗影姊妹．霍爾"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Mephod, the Earth Scorcher",
-            "lang": "奪取之魂：旱地者密法德"
+            "us": "Captured Soul of Megaera",
+            "lang": "奪取之魂：炎靈密卡拉"
         },
         {
             "type": "BaseType",
@@ -12470,8 +12595,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Pagan Bishop of Agony",
-            "lang": "奪取之魂：苦痛主教"
+            "us": "Captured Soul of Varhesh, Shimmering Aberration",
+            "lang": "奪取之魂：微光之屍弗賽斯"
         },
         {
             "type": "BaseType",
@@ -12490,13 +12615,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Visceris",
-            "lang": "奪取之魂：伊瑟斯"
+            "us": "Captured Soul of Pesquin, the Mad Baron",
+            "lang": "奪取之魂：瘋狂男爵帕根斯"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Lycius, Midnight's Howl",
-            "lang": "奪取之魂：利希斯嘯夜"
+            "us": "Captured Soul of Gorulis, Will-Thief",
+            "lang": "奪取之魂：意念竊取者葛羅斯"
         },
         {
             "type": "BaseType",
@@ -14287,6 +14412,46 @@
             "type": "BaseType",
             "us": "Jewellery Recombinator",
             "lang": "飾品重組裝置"
+        },
+        {
+            "type": "BaseType",
+            "us": "Censer Relic",
+            "lang": "香爐聖物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Processional Relic",
+            "lang": "詩歌聖物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Candlestick Relic",
+            "lang": "燭台聖物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Urn Relic",
+            "lang": "古甕聖物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Coffer Relic",
+            "lang": "寶箱聖物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Tome Relic",
+            "lang": "卷冊聖物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Papyrus Relic",
+            "lang": "草紙聖物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Sanctified Relic",
+            "lang": "神化聖物"
         },
         {
             "type": "BaseType",
@@ -21155,6 +21320,11 @@
         },
         {
             "type": "Unique",
+            "us": "Dawnstrider",
+            "lang": "晨行者"
+        },
+        {
+            "type": "Unique",
             "us": "Victorious Fate",
             "lang": "勝利之運"
         },
@@ -21204,6 +21374,96 @@
             "lang": "卡蘭德之觸"
         },
         {
+            "type": "Unique",
+            "us": "Progenesis",
+            "lang": "生育"
+        },
+        {
+            "type": "Unique",
+            "us": "Rational Doctrine",
+            "lang": "理性主義"
+        },
+        {
+            "type": "Unique",
+            "us": "Nimis",
+            "lang": "尼米斯"
+        },
+        {
+            "type": "Unique",
+            "us": "Entropic Devastation",
+            "lang": "熵毀滅"
+        },
+        {
+            "type": "Unique",
+            "us": "Oriath's End",
+            "lang": "奧瑞亞之終"
+        },
+        {
+            "type": "Unique",
+            "us": "Eternal Damnation",
+            "lang": "永恆的詛咒"
+        },
+        {
+            "type": "Unique",
+            "us": "Wilma's Requital",
+            "lang": "威爾瑪的報復"
+        },
+        {
+            "type": "Unique",
+            "us": "Firesong",
+            "lang": "炔頌"
+        },
+        {
+            "type": "Unique",
+            "us": "Stormshroud",
+            "lang": "風暴籠罩"
+        },
+        {
+            "type": "Unique",
+            "us": "Immutable Force",
+            "lang": "不變之力"
+        },
+        {
+            "type": "Unique",
+            "us": "The Winds of Fate",
+            "lang": "命定之風"
+        },
+        {
+            "type": "Unique",
+            "us": "Anathema",
+            "lang": "咒詛"
+        },
+        {
+            "type": "Unique",
+            "us": "Doedre's Tongue",
+            "lang": "德瑞的毒舌"
+        },
+        {
+            "type": "Unique",
+            "us": "Witchbane",
+            "lang": "禍星女巫"
+        },
+        {
+            "type": "Unique",
+            "us": "Echoforge",
+            "lang": "核聲"
+        },
+        {
+            "type": "Unique",
+            "us": "The Balance of Terror",
+            "lang": "恐怖平衡"
+        },
+        {
+            "type": "Unique",
+            "us": "Sandstorm Visage",
+            "lang": "沙瀑面紗"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Rhoa",
+            "lang": "斯卡沃恐喙鳥"
+        },
+        {
             "type": "Monster",
             "us": "Saqawine Rhoa",
             "lang": "斯卡沃恐喙鳥"
@@ -21212,6 +21472,16 @@
             "type": "Monster",
             "us": "Farric Tiger Alpha",
             "lang": "費爾羅猛虎幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Tiger Alpha",
+            "lang": "費爾羅猛虎幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Flame Hellion Alpha",
+            "lang": "費爾羅烈焰犬幻獸"
         },
         {
             "type": "Monster",
@@ -21230,8 +21500,23 @@
         },
         {
             "type": "Monster",
+            "us": "Farric Frost Hellion Alpha",
+            "lang": "費爾羅冰霜犬幻獸"
+        },
+        {
+            "type": "Monster",
             "us": "Farric Lynx Alpha",
             "lang": "費爾羅山貓幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Lynx Alpha",
+            "lang": "費爾羅山貓幻獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Chieftain",
+            "lang": "費爾羅酋長"
         },
         {
             "type": "Monster",
@@ -21245,6 +21530,16 @@
         },
         {
             "type": "Monster",
+            "us": "Farric Ape",
+            "lang": "費爾羅狂猿"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Goatman",
+            "lang": "費爾羅羊人"
+        },
+        {
+            "type": "Monster",
             "us": "Farric Goatman",
             "lang": "費爾羅羊人"
         },
@@ -21255,8 +21550,23 @@
         },
         {
             "type": "Monster",
+            "us": "Farric Wolf Alpha",
+            "lang": "費爾羅惡狼幻獸"
+        },
+        {
+            "type": "Monster",
             "us": "Farric Magma Hound",
             "lang": "費爾羅岩漿獵犬"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Magma Hound",
+            "lang": "費爾羅岩漿獵犬"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Pit Hound",
+            "lang": "費爾羅坑穴獵犬"
         },
         {
             "type": "Monster",
@@ -21275,8 +21585,23 @@
         },
         {
             "type": "Monster",
+            "us": "Farric Gargantuan",
+            "lang": "費爾羅巨人"
+        },
+        {
+            "type": "Monster",
             "us": "Farric Ursa",
             "lang": "費爾羅暴熊"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Ursa",
+            "lang": "費爾羅暴熊"
+        },
+        {
+            "type": "Monster",
+            "us": "Farric Taurus",
+            "lang": "費爾羅金牛人"
         },
         {
             "type": "Monster",
@@ -21295,6 +21620,16 @@
         },
         {
             "type": "Monster",
+            "us": "Farric Goliath",
+            "lang": "費爾羅巨獸"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Retch",
+            "lang": "斯卡沃反芻鳥"
+        },
+        {
+            "type": "Monster",
             "us": "Saqawine Retch",
             "lang": "斯卡沃反芻鳥"
         },
@@ -21302,6 +21637,16 @@
             "type": "Monster",
             "us": "Saqawine Vulture",
             "lang": "斯卡沃禿鷹"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Vulture",
+            "lang": "斯卡沃禿鷹"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Rhex",
+            "lang": "斯卡沃雛鳥"
         },
         {
             "type": "Monster",
@@ -21320,6 +21665,11 @@
         },
         {
             "type": "Monster",
+            "us": "Saqawine Cobra",
+            "lang": "斯卡沃眼鏡蛇"
+        },
+        {
+            "type": "Monster",
             "us": "Saqawine Blood Viper",
             "lang": "斯卡沃噬血毒蛇"
         },
@@ -21327,6 +21677,16 @@
             "type": "Monster",
             "us": "Saqawine Blood Viper",
             "lang": "斯卡沃噬血毒蛇"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Blood Viper",
+            "lang": "斯卡沃噬血毒蛇"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawine Chimeral",
+            "lang": "斯卡沃龍蜥"
         },
         {
             "type": "Monster",
@@ -21345,6 +21705,11 @@
         },
         {
             "type": "Monster",
+            "us": "Fenumal Queen",
+            "lang": "菲恩絲女皇"
+        },
+        {
+            "type": "Monster",
             "us": "Fenumal Scrabbler",
             "lang": "菲恩絲搗亂者"
         },
@@ -21352,6 +21717,16 @@
             "type": "Monster",
             "us": "Fenumal Scrabbler",
             "lang": "菲恩絲搗亂者"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Scrabbler",
+            "lang": "菲恩絲搗亂者"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Devourer",
+            "lang": "菲恩絲吞噬獸"
         },
         {
             "type": "Monster",
@@ -21370,8 +21745,23 @@
         },
         {
             "type": "Monster",
+            "us": "Fenumal Plagued Arachnid",
+            "lang": "菲恩絲疫病蜘蛛"
+        },
+        {
+            "type": "Monster",
             "us": "Fenumal Hybrid Arachnid",
             "lang": "菲恩絲混血蜘蛛"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Hybrid Arachnid",
+            "lang": "菲恩絲混血蜘蛛"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Widow",
+            "lang": "菲恩絲黑寡婦"
         },
         {
             "type": "Monster",
@@ -21390,6 +21780,16 @@
         },
         {
             "type": "Monster",
+            "us": "Fenumal Scorpion",
+            "lang": "菲恩絲毒蠍"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumal Scorpion",
+            "lang": "菲恩絲毒蠍"
+        },
+        {
+            "type": "Monster",
             "us": "Craicic Vassal",
             "lang": "奎爾珊之奴"
         },
@@ -21397,6 +21797,21 @@
             "type": "Monster",
             "us": "Craicic Vassal",
             "lang": "奎爾珊之奴"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Vassal",
+            "lang": "奎爾珊之奴"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Vassal",
+            "lang": "奎爾珊之奴"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Squid",
+            "lang": "奎爾珊烏賊"
         },
         {
             "type": "Monster",
@@ -21415,6 +21830,16 @@
         },
         {
             "type": "Monster",
+            "us": "Craicic Watcher",
+            "lang": "奎爾珊看守者"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Sand Spitter",
+            "lang": "奎爾珊噴砂爪蟹"
+        },
+        {
+            "type": "Monster",
             "us": "Craicic Sand Spitter",
             "lang": "奎爾珊噴砂爪蟹"
         },
@@ -21435,6 +21860,11 @@
         },
         {
             "type": "Monster",
+            "us": "Craicic Shield Crab",
+            "lang": "奎爾珊重盾巨蟹"
+        },
+        {
+            "type": "Monster",
             "us": "Craicic Savage Crab",
             "lang": "奎爾珊殘暴的蟹"
         },
@@ -21442,6 +21872,16 @@
             "type": "Monster",
             "us": "Craicic Savage Crab",
             "lang": "奎爾珊殘暴的蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Savage Crab",
+            "lang": "奎爾珊殘暴的蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Spider Crab",
+            "lang": "奎爾珊蛛蛛蟹"
         },
         {
             "type": "Monster",
@@ -21480,8 +21920,23 @@
         },
         {
             "type": "Monster",
+            "us": "Craicic Maw",
+            "lang": "奎爾珊裂齒獸"
+        },
+        {
+            "type": "Monster",
             "us": "Craicic Chimeral",
             "lang": "奎爾珊龍蜥"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Chimeral",
+            "lang": "奎爾珊龍蜥"
+        },
+        {
+            "type": "Monster",
+            "us": "Farrul, First of the Plains",
+            "lang": "初始之地費爾羅"
         },
         {
             "type": "Monster",
@@ -21495,8 +21950,23 @@
         },
         {
             "type": "Monster",
+            "us": "Saqawal, First of the Sky",
+            "lang": "初始之天斯卡沃"
+        },
+        {
+            "type": "Monster",
             "us": "Fenumus, First of the Night",
             "lang": "初始之夜菲恩絲"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumus, First of the Night",
+            "lang": "初始之夜菲恩絲"
+        },
+        {
+            "type": "Monster",
+            "us": "Craiceann, First of the Deep",
+            "lang": "初始之潭奎爾珊"
         },
         {
             "type": "Monster",
