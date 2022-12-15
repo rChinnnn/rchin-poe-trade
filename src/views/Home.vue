@@ -1460,7 +1460,7 @@ export default {
       this.axios.get(`${this.baseUrl}/api/trade/data/leagues`, )
         .then((response) => {
           const getID = _.property('id')
-          this.leagues.option = _.map(response.data.result, 'id')
+          this.leagues.option = _.map(response.data.result.filter(data => data.realm == 'pc'), 'id')
           // `_.property` 迭代縮寫 _.map(response.data.result, 'id') = _.map(response.data.result, getID) 
           this.leagues.chosenL = this.leagues.option[0]
         })
