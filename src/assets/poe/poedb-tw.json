@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 4468,
+    "size": 4518,
     "data": [
         {
             "type": "BaseType",
@@ -10195,6 +10195,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Voidborn Reliquary Key",
+            "lang": "虛誕遺鑰"
+        },
+        {
+            "type": "BaseType",
             "us": "Blood-filled Vessel",
             "lang": "浸血碑器"
         },
@@ -14497,6 +14502,211 @@
             "type": "BaseType",
             "us": "Sacred Crystallised Lifeforce",
             "lang": "神聖結晶生靈之力"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Minion Instability",
+            "lang": "利希亞祈禱之復仇之靈"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Resolute Technique",
+            "lang": "利希亞祈禱之堅毅之心"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Blood Magic",
+            "lang": "利希亞祈禱之祭血術"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Pain Attunement",
+            "lang": "利希亞祈禱之苦痛靈曲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Elemental Equilibrium",
+            "lang": "利希亞祈禱之元素之相"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Iron Grip",
+            "lang": "利希亞祈禱之堅鐵之力"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Point Blank",
+            "lang": "利希亞祈禱之零點射擊"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Acrobatics",
+            "lang": "利希亞祈禱之移形換影"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Ghost Reaver",
+            "lang": "利希亞祈禱之靈能護體"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Vaal Pact",
+            "lang": "利希亞祈禱之瓦爾冥約"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Elemental Overload",
+            "lang": "利希亞祈禱之元素超載"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Avatar of Fire",
+            "lang": "利希亞祈禱之火之化身"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Eldritch Battery",
+            "lang": "利希亞祈禱之異能魔力"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Ancestral Bond",
+            "lang": "利希亞祈禱之先祖魂約"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Crimson Dance",
+            "lang": "利希亞祈禱之緋紅舞蹈"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Perfect Agony",
+            "lang": "利希亞祈禱之絕對受難"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Runebinder",
+            "lang": "利希亞祈禱之束縛印"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Glancing Blows",
+            "lang": "利希亞祈禱之側身之擊"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Call to Arms",
+            "lang": "利希亞祈禱之武裝召喚"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of the Agnostic",
+            "lang": "利希亞祈禱之不可知論"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Supreme Ego",
+            "lang": "利希亞祈禱之至高．自我"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of the Impaler",
+            "lang": "利希亞祈禱之穿刺者"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Hex Master",
+            "lang": "利希亞祈禱之咒術大師"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Lethe Shade",
+            "lang": "利希亞祈禱之忘卻陰影"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Ghost Dance",
+            "lang": "利希亞祈禱之鬼舞"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Versatile Combatant",
+            "lang": "利希亞祈禱之多重戰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Magebane",
+            "lang": "利希亞祈禱之咒術災厄"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Solipsism",
+            "lang": "利希亞祈禱之唯我論"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Divine Shield",
+            "lang": "利希亞祈禱之聖盾"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Iron Will",
+            "lang": "利希亞祈禱之鋼鐵意志"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Wicked Ward",
+            "lang": "利希亞祈禱之惡毒牢房"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Wind Dancer",
+            "lang": "利希亞祈禱之風魔舞者"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Conduit",
+            "lang": "利希亞祈禱之能量連結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Arrow Dancing",
+            "lang": "利希亞祈禱之箭矢閃躍"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Precise Technique",
+            "lang": "利希亞祈禱之精準科技"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Iron Reflexes",
+            "lang": "利希亞祈禱之霸體"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Unwavering Stance",
+            "lang": "利希亞祈禱之烈士意志"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Imbalanced Guard",
+            "lang": "利希亞祈禱之不平衡守衛"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Eternal Youth",
+            "lang": "利希亞祈禱之青春永駐"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Mind over Matter",
+            "lang": "利希亞祈禱之心靈昇華"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lycia's Invocation of Zealot's Oath",
+            "lang": "利希亞祈禱之狂熱誓言"
         },
         {
             "type": "Unique",
@@ -21457,6 +21667,46 @@
             "type": "Unique",
             "us": "Sandstorm Visage",
             "lang": "沙瀑面紗"
+        },
+        {
+            "type": "Unique",
+            "us": "The Hour of Divinity",
+            "lang": "神聖時刻"
+        },
+        {
+            "type": "Unique",
+            "us": "The Gilded Chalice",
+            "lang": "鍍金聖杯"
+        },
+        {
+            "type": "Unique",
+            "us": "The Second Sacrament",
+            "lang": "第二聖事"
+        },
+        {
+            "type": "Unique",
+            "us": "The Night Lamp",
+            "lang": "夜燈"
+        },
+        {
+            "type": "Unique",
+            "us": "The First Crest",
+            "lang": "第一頂峰"
+        },
+        {
+            "type": "Unique",
+            "us": "The Broken Censer",
+            "lang": "破香爐"
+        },
+        {
+            "type": "Unique",
+            "us": "The Original Scripture",
+            "lang": "初始經文"
+        },
+        {
+            "type": "Unique",
+            "us": "Original Sin",
+            "lang": "原罪"
         },
         {
             "type": "Monster",
