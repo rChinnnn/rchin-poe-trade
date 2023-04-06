@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 4518,
+    "size": 4536,
     "data": [
         {
             "type": "BaseType",
@@ -1435,6 +1435,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Magmatic Ore",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
             "us": "Ritual Splinter",
             "lang": "祭祀裂片"
         },
@@ -1550,8 +1555,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Serpent Wand",
-            "lang": "蛇眼法杖"
+            "us": "Coiled Wand",
+            "lang": "纏繞法杖"
         },
         {
             "type": "BaseType",
@@ -6855,6 +6860,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Vaal Arctic Armour",
+            "lang": "瓦爾．極地裝甲"
+        },
+        {
+            "type": "BaseType",
             "us": "Holy Flame Totem",
             "lang": "神聖火舌圖騰"
         },
@@ -7785,7 +7795,7 @@
         },
         {
             "type": "BaseType",
-            "us": "Onslaught Support",
+            "us": "Momentum Support",
             "lang": "猛攻輔助"
         },
         {
@@ -8935,6 +8945,51 @@
         },
         {
             "type": "BaseType",
+            "us": "Vaal Reap",
+            "lang": "瓦爾．收割"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Animate Weapon",
+            "lang": "瓦爾．幻化武器"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Lightning Arrow",
+            "lang": "瓦爾．閃電箭矢"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Absolution",
+            "lang": "瓦爾．赦免"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Domination",
+            "lang": "瓦爾．霸氣"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Ice Shot",
+            "lang": "瓦爾．冰霜射擊"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Firestorm",
+            "lang": "瓦爾．烈炎風暴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Rejuvenation Totem",
+            "lang": "瓦爾．回春圖騰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vaal Split Arrow",
+            "lang": "瓦爾．分裂箭矢"
+        },
+        {
+            "type": "BaseType",
             "us": "Crimson Jewel",
             "lang": "赤紅珠寶"
         },
@@ -9765,6 +9820,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Primeval Remnant",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
             "us": "Sacrifice at Midnight",
             "lang": "午夜的奉獻"
         },
@@ -9967,81 +10027,6 @@
             "type": "BaseType",
             "us": "Chayula's Breachstone",
             "lang": "夏烏拉裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Xoph's Charged Breachstone",
-            "lang": "索伏充能裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Tul's Charged Breachstone",
-            "lang": "托沃充能裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Esh's Charged Breachstone",
-            "lang": "艾許充能裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Uul-Netol's Charged Breachstone",
-            "lang": "烏爾尼多充能裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Chayula's Charged Breachstone",
-            "lang": "夏烏拉充能裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Xoph's Enriched Breachstone",
-            "lang": "索伏富裕裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Tul's Enriched Breachstone",
-            "lang": "托沃富裕裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Esh's Enriched Breachstone",
-            "lang": "艾許富裕裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Uul-Netol's Enriched Breachstone",
-            "lang": "烏爾尼多富裕裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Chayula's Enriched Breachstone",
-            "lang": "夏烏拉富裕裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Xoph's Pure Breachstone",
-            "lang": "索伏純淨裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Tul's Pure Breachstone",
-            "lang": "托沃純淨裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Esh's Pure Breachstone",
-            "lang": "艾許純淨裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Uul-Netol's Pure Breachstone",
-            "lang": "烏爾尼多純淨裂痕石"
-        },
-        {
-            "type": "BaseType",
-            "us": "Chayula's Pure Breachstone",
-            "lang": "夏烏拉純淨裂痕石"
         },
         {
             "type": "BaseType",
@@ -11175,8 +11160,8 @@
         },
         {
             "type": "BaseType",
-            "us": "The Iron Bard",
-            "lang": "吟遊鐵人"
+            "us": "The Rusted Bard",
+            "lang": "吟遊鏽才"
         },
         {
             "type": "BaseType",
@@ -12530,23 +12515,18 @@
         },
         {
             "type": "BaseType",
+            "us": "Captured Soul of Puruna, the Challenger",
+            "lang": "奪取之魂：挑戰者普魯那"
+        },
+        {
+            "type": "BaseType",
             "us": "Captured Soul of Captain Tanner Lightfoot",
             "lang": "奪取之魂：隊長坦納萊富特"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Captain Clayborne, The Accursed",
-            "lang": "奪取之魂：被詛咒的．隊長克雷波恩"
-        },
-        {
-            "type": "BaseType",
-            "us": "Captured Soul of Merveil, the Returned",
-            "lang": "奪取之魂：復生者莫薇兒"
-        },
-        {
-            "type": "BaseType",
-            "us": "Captured Soul of The Primal One",
-            "lang": "奪取之魂：史源者"
+            "us": "Captured Soul of Pirate Treasure",
+            "lang": "奪取之魂：海盜的寶藏"
         },
         {
             "type": "BaseType",
@@ -12555,8 +12535,23 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Armala, the Widow",
-            "lang": "奪取之魂：寡婦阿摩拉"
+            "us": "Captured Soul of Hybrid Widow",
+            "lang": "奪取之魂：混種黑寡婦"
+        },
+        {
+            "type": "BaseType",
+            "us": "Captured Soul of Queen of the Great Tangle",
+            "lang": "奪取之魂：紛爭女王"
+        },
+        {
+            "type": "BaseType",
+            "us": "Captured Soul of Bin'aia, Crimson Rain",
+            "lang": "奪取之魂：緋紅之雨賓妮雅"
+        },
+        {
+            "type": "BaseType",
+            "us": "Captured Soul of The Infernal King",
+            "lang": "奪取之魂：獄炎之王"
         },
         {
             "type": "BaseType",
@@ -12565,28 +12560,18 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Forest of Flames",
-            "lang": "奪取之魂：烈焰之森"
-        },
-        {
-            "type": "BaseType",
-            "us": "Captured Soul of Lord of the Ashen Arrow",
-            "lang": "奪取之魂：魂靈之冥箭"
-        },
-        {
-            "type": "BaseType",
             "us": "Captured Soul of Sebbert, Crescent's Point",
             "lang": "奪取之魂：弦月之靈賽伯特"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Corruptor Eedaiak",
-            "lang": "奪取之魂：腐化埃代亞克"
+            "us": "Captured Soul of Khor, Sister of Shadows",
+            "lang": "奪取之魂：暗影姊妹．霍爾"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Khor, Sister of Shadows",
-            "lang": "奪取之魂：暗影姊妹．霍爾"
+            "us": "Captured Soul of Captain Clayborne, The Accursed",
+            "lang": "奪取之魂：被詛咒的．隊長克雷波恩"
         },
         {
             "type": "BaseType",
@@ -12605,23 +12590,23 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of The Restless Shade",
-            "lang": "奪取之魂：不安陰影"
+            "us": "Captured Soul of Terror of the Infinite Drifts",
+            "lang": "奪取之魂：無盡漂泊之懼"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of The Cursed King",
-            "lang": "奪取之魂：詛咒之王"
+            "us": "Captured Soul of Tahsin, Warmaker",
+            "lang": "奪取之魂：起亂者達斯"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of The Sanguine Siren",
-            "lang": "奪取之魂：血腥女妖"
+            "us": "Captured Soul of Drek, Apex Hunter",
+            "lang": "奪取之魂：獵者之巔德雷克"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Pesquin, the Mad Baron",
-            "lang": "奪取之魂：瘋狂男爵帕根斯"
+            "us": "Captured Soul of Stalker of the Endless Dunes",
+            "lang": "奪取之魂：無邊沙丘潛行者"
         },
         {
             "type": "BaseType",
@@ -14707,6 +14692,46 @@
             "type": "BaseType",
             "us": "Lycia's Invocation of Zealot's Oath",
             "lang": "利希亞祈禱之狂熱誓言"
+        },
+        {
+            "type": "BaseType",
+            "us": "Gold",
+            "lang": "黃金"
+        },
+        {
+            "type": "BaseType",
+            "us": "Igneous Geode",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "Crystalline Geode",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "Brother's Gift",
+            "lang": "兄弟之贈"
+        },
+        {
+            "type": "BaseType",
+            "us": "Soul Quenched",
+            "lang": "靈魂安息"
+        },
+        {
+            "type": "BaseType",
+            "us": "Poisoned Faith",
+            "lang": "有毒信仰"
+        },
+        {
+            "type": "BaseType",
+            "us": "A Chilling Wind",
+            "lang": "凜冽之風"
+        },
+        {
+            "type": "BaseType",
+            "us": "Matryoshka",
+            "lang": "俄羅斯娃娃"
         },
         {
             "type": "Unique",
@@ -19055,6 +19080,11 @@
         },
         {
             "type": "Unique",
+            "us": "Voidborn Chest",
+            "lang": "虛誕保險箱"
+        },
+        {
+            "type": "Unique",
             "us": "Ryslatha's Coil",
             "lang": "瑞斯拉薩之纏"
         },
@@ -21707,6 +21737,61 @@
             "type": "Unique",
             "us": "Original Sin",
             "lang": "原罪"
+        },
+        {
+            "type": "Unique",
+            "us": "Blood Price",
+            "lang": "血償"
+        },
+        {
+            "type": "Unique",
+            "us": "Tainted Pact",
+            "lang": "汙穢契約"
+        },
+        {
+            "type": "Unique",
+            "us": "Ancestral Vision",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "Stormseeker",
+            "lang": "風暴千尋"
+        },
+        {
+            "type": "Unique",
+            "us": "Widowhail",
+            "lang": "喪夫冰封"
+        },
+        {
+            "type": "Unique",
+            "us": "Chain of Endurance",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "Orbala's Stand",
+            "lang": "崎嶇之步"
+        },
+        {
+            "type": "Unique",
+            "us": "Cleric's Sanctuary",
+            "lang": "牧師的庇護"
+        },
+        {
+            "type": "Unique",
+            "us": "Bloodsoaked Medallion",
+            "lang": "血染勳章"
+        },
+        {
+            "type": "Unique",
+            "us": "Ceinture of Benevolence",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "El'Abin's Visage",
+            "lang": null
         },
         {
             "type": "Monster",
