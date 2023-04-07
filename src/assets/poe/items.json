@@ -9779,6 +9779,10 @@
                     "text": "預感之譫妄玉"
                 },
                 {
+                    "type": "譫妄玉",
+                    "text": "譫妄玉"
+                },
+                {
                     "type": "永恆之譫妄玉",
                     "text": "永恆之譫妄玉"
                 },
@@ -11005,6 +11009,10 @@
                 {
                     "type": "磨刀石",
                     "text": "磨刀石"
+                },
+                {
+                    "type": "黃金",
+                    "text": "黃金"
                 },
                 {
                     "type": "原始結晶生靈之力",
@@ -19196,6 +19204,10 @@
                     "text": "瓦爾遺鑰"
                 },
                 {
+                    "type": "虛誕遺鑰",
+                    "text": "虛誕遺鑰"
+                },
+                {
                     "type": "聖甲蟲：鏽蝕深淵",
                     "text": "聖甲蟲：鏽蝕深淵"
                 },
@@ -24618,7 +24630,7 @@
                     "text": "饞癆寄生蟲"
                 },
                 {
-                    "type": "The Encephelophage",
+                    "type": "The Encephalophage",
                     "text": "茵賽羅吉"
                 },
                 {
@@ -25264,6 +25276,10 @@
                 {
                     "type": "Maze Hatchling",
                     "text": "迷宮孵卵者"
+                },
+                {
+                    "type": "Corrupted Spitter",
+                    "text": "腐化魔蛛"
                 },
                 {
                     "type": "Corrupted Arach",
