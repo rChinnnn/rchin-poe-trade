@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 4536,
+    "size": 4547,
     "data": [
         {
             "type": "BaseType",
@@ -1436,7 +1436,7 @@
         {
             "type": "BaseType",
             "us": "Magmatic Ore",
-            "lang": null
+            "lang": "岩礦"
         },
         {
             "type": "BaseType",
@@ -1497,6 +1497,11 @@
             "type": "BaseType",
             "us": "Uncarved Gemstone",
             "lang": "未雕刻寶石"
+        },
+        {
+            "type": "BaseType",
+            "us": "Wrapped Gift",
+            "lang": null
         },
         {
             "type": "BaseType",
@@ -7796,7 +7801,7 @@
         {
             "type": "BaseType",
             "us": "Momentum Support",
-            "lang": "猛攻輔助"
+            "lang": "氣勢輔助"
         },
         {
             "type": "BaseType",
@@ -8990,6 +8995,16 @@
         },
         {
             "type": "BaseType",
+            "us": "Manaforged Arrows Support",
+            "lang": "魔改箭矢輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Prismatic Burst Support",
+            "lang": "三相爆發輔助"
+        },
+        {
+            "type": "BaseType",
             "us": "Crimson Jewel",
             "lang": "赤紅珠寶"
         },
@@ -9821,7 +9836,12 @@
         {
             "type": "BaseType",
             "us": "Primeval Remnant",
-            "lang": null
+            "lang": "史前遺跡"
+        },
+        {
+            "type": "BaseType",
+            "us": "Primordial Remnant",
+            "lang": "史前遺跡"
         },
         {
             "type": "BaseType",
@@ -14701,12 +14721,12 @@
         {
             "type": "BaseType",
             "us": "Igneous Geode",
-            "lang": null
+            "lang": "火炎精晶"
         },
         {
             "type": "BaseType",
             "us": "Crystalline Geode",
-            "lang": null
+            "lang": "水晶精晶"
         },
         {
             "type": "BaseType",
@@ -14732,6 +14752,11 @@
             "type": "BaseType",
             "us": "Matryoshka",
             "lang": "俄羅斯娃娃"
+        },
+        {
+            "type": "BaseType",
+            "us": "Quickstep",
+            "lang": null
         },
         {
             "type": "Unique",
@@ -21751,7 +21776,7 @@
         {
             "type": "Unique",
             "us": "Ancestral Vision",
-            "lang": null
+            "lang": "先祖預視"
         },
         {
             "type": "Unique",
@@ -21761,22 +21786,37 @@
         {
             "type": "Unique",
             "us": "Widowhail",
-            "lang": "喪夫冰封"
+            "lang": "鰥寡之托"
         },
         {
             "type": "Unique",
             "us": "Chain of Endurance",
-            "lang": null
+            "lang": "堅決鎖鏈"
+        },
+        {
+            "type": "Unique",
+            "us": "Tanu Ahi",
+            "lang": "埋火"
         },
         {
             "type": "Unique",
             "us": "Orbala's Stand",
-            "lang": "崎嶇之步"
+            "lang": "奧爾巴拉的姿態"
         },
         {
             "type": "Unique",
-            "us": "Cleric's Sanctuary",
+            "us": "Bloodnotch",
+            "lang": "缺血症"
+        },
+        {
+            "type": "Unique",
+            "us": "The Fourth Vow",
             "lang": "牧師的庇護"
+        },
+        {
+            "type": "Unique",
+            "us": "Soulbound",
+            "lang": "靈魂之絆"
         },
         {
             "type": "Unique",
@@ -21786,11 +21826,21 @@
         {
             "type": "Unique",
             "us": "Ceinture of Benevolence",
-            "lang": null
+            "lang": "仁愛之心"
         },
         {
             "type": "Unique",
             "us": "El'Abin's Visage",
+            "lang": "伊蘭雅本的面紗"
+        },
+        {
+            "type": "Unique",
+            "us": "The Geomantic Gyre",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "The Redblade",
             "lang": null
         },
         {
