@@ -14,8 +14,8 @@
       <template slot-scope="props">
         <b-button v-if="isCounting" :disabled="isCounting" size="sm" variant="outline-danger">請等待 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒後重試</b-button>
         <div v-else>
-          <b-button @click="getAllAPI(true)" :disabled="isCounting" size="sm" variant="outline-danger">國際服玩家點我重試一次</b-button> /
-          <b-button @click="getAllAPI(false)" :disabled="isCounting" size="sm" variant="outline-danger">台服玩家點我重試一次</b-button>
+          <b-button @click="serverChange('國際服')" :disabled="isCounting" size="sm" variant="outline-danger">國際服玩家點我重試一次</b-button> /
+          <b-button @click="serverChange('台服')" :disabled="isCounting" size="sm" variant="outline-danger">台服玩家點我重試一次</b-button>
         </div>
       </template>
     </countdown>
@@ -2753,8 +2753,12 @@ export default {
         }
       }
     },
-    serverChange() {
+    serverChange(server) {
       // console.log(this.storeServerString)
+      if (server) {
+        this.isApiError = false
+        this.$store.commit('setServerString', server);
+      }
       this.isGarenaSvr = this.storeServerString === '台服' ? true : false
       this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
       this.leaguesAPI();
