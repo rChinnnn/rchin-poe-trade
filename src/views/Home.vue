@@ -14,8 +14,8 @@
       <template slot-scope="props">
         <b-button v-if="isCounting" :disabled="isCounting" size="sm" variant="outline-danger">請等待 {{ props.seconds }}.{{ Math.floor(props.milliseconds / 100) }} 秒後重試</b-button>
         <div v-else>
-          <b-button @click="getAllAPI(true)" :disabled="isCounting" size="sm" variant="outline-danger">國際服玩家點我重試一次</b-button> /
-          <b-button @click="getAllAPI(false)" :disabled="isCounting" size="sm" variant="outline-danger">台服玩家點我重試一次</b-button>
+          <b-button @click="serverChange('國際服')" :disabled="isCounting" size="sm" variant="outline-danger">國際服玩家點我重試一次</b-button> /
+          <b-button @click="serverChange('台服')" :disabled="isCounting" size="sm" variant="outline-danger">台服玩家點我重試一次</b-button>
         </div>
       </template>
     </countdown>
@@ -477,6 +477,7 @@ export default {
       enchantStats: [], // 附魔
       scourgeStats: [], // 災魘詞綴
       craftedStats: [], // 已工藝
+      crucibleStats: [], // 熔火冥獄
       clusterJewelStats: [], // 星團珠寶附魔詞綴
       allocatesStats: [], // 項鍊塗油配置附魔詞綴
       forbiddenZoneStats: [], // 禁忌烈焰/血肉配置詞綴
@@ -1042,7 +1043,7 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.issueText = `Version: v1.321.1, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.321.2, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1173,7 +1174,14 @@ export default {
         }
         this.craftedStats.push(text, element.id)
       })
-      result[7].entries.forEach((element, index) => { // 隱匿屬性
+      result[7].entries.forEach((element, index) => { // 熔火冥獄
+        let text = element.text
+        if (text.includes('\n')) { // 處理折行詞綴
+          this.wrapStats.push(text)
+        }
+        this.crucibleStats.push(text, element.id)
+      })
+      result[8].entries.forEach((element, index) => { // 隱匿屬性
         let text = element.text
         if (text === '隱匿之') text = '隱匿後綴'
         else if (text === '隱匿的') text = '隱匿前綴'
@@ -1677,6 +1685,10 @@ export default {
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(this.findBestStat(text, this.craftedStats))
             tempStat[tempStat.length - 1].type = "工藝"
+          } else if (itemArray[index].indexOf('(crucible)') > -1) { // 熔火冥獄
+            text = text.substring(0, text.indexOf('(crucible)'))
+            tempStat.push(this.findBestStat(text, this.crucibleStats))
+            tempStat[tempStat.length - 1].type = "熔火"
           } else if (itemArray[index].indexOf('(enchant)') > -1) {
             text = text.substring(0, text.indexOf('(enchant)'))
             if (text.indexOf('附加的小型天賦給予：') > -1) {
@@ -2753,8 +2765,12 @@ export default {
         }
       }
     },
-    serverChange() {
+    serverChange(server) {
       // console.log(this.storeServerString)
+      if (server) {
+        this.isApiError = false
+        this.$store.commit('setServerString', server);
+      }
       this.isGarenaSvr = this.storeServerString === '台服' ? true : false
       this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
       this.leaguesAPI();
@@ -2943,7 +2959,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.321.1\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.321.2\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
@@ -3134,37 +3150,34 @@ export default {
             return {
               'color': '#5555ff'
             }
-            break;
           case '附魔':
             return {
               'color': '#8181ff'
             }
-            break;
           case '破裂':
             return {
               'color': '#a29162'
             }
-            break;
           case '災魘':
             return {
               'color': '#ff6e25'
             }
-            break;
           case '工藝':
             return {
               'color': '#8181ff'
             }
-            break;
+          case '熔火':
+            return {
+              'color': '#a83632'
+            }
           case '傳奇':
             return {
               'color': '#af6025'
             }
-            break;
           case '偽屬性':
             return {
               'color': '#96bf47'
             }
-            break;
           default:
             break;
         }
