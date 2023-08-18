@@ -3283,6 +3283,14 @@
                     }
                 },
                 {
+                    "name": "艾許之鏡",
+                    "type": "瓦爾魔盾",
+                    "text": "艾許之鏡 瓦爾魔盾",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
                     "name": "艾許之面",
                     "type": "瓦爾魔盾",
                     "text": "艾許之面 瓦爾魔盾",
@@ -5412,6 +5420,14 @@
                 },
                 {
                     "name": "無形火炬",
+                    "type": "皇室堅盔",
+                    "text": "無形火炬 皇室堅盔",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "無形火炬",
                     "type": "破城之盔",
                     "text": "無形火炬 破城之盔",
                     "flags": {
@@ -5470,6 +5486,14 @@
                     "name": "無盡之距",
                     "type": "巨靈脛甲",
                     "text": "無盡之距 巨靈脛甲",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "無盡之距",
+                    "type": "巨人脛甲",
+                    "text": "無盡之距 巨人脛甲",
                     "flags": {
                         "unique": true
                     }
@@ -5598,6 +5622,14 @@
                     "name": "雪盲恩惠",
                     "type": "光耀皮甲",
                     "text": "雪盲恩惠 光耀皮甲",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "雪盲恩惠",
+                    "type": "星辰皮甲",
+                    "text": "雪盲恩惠 星辰皮甲",
                     "flags": {
                         "unique": true
                     }
@@ -7833,6 +7865,10 @@
                     "text": "適者生存"
                 },
                 {
+                    "type": "凜冽之風",
+                    "text": "凜冽之風"
+                },
+                {
                     "type": "代伯之墨",
                     "text": "代伯之墨"
                 },
@@ -7979,6 +8015,10 @@
                 {
                     "type": "流亡兄弟會",
                     "text": "流亡兄弟會"
+                },
+                {
+                    "type": "兄弟之贈",
+                    "text": "兄弟之贈"
                 },
                 {
                     "type": "伯仲財庫",
@@ -8341,6 +8381,10 @@
                     "text": "熊男"
                 },
                 {
+                    "type": "俄羅斯娃娃",
+                    "text": "俄羅斯娃娃"
+                },
+                {
                     "type": "茂爾．佈雷德",
                     "text": "茂爾．佈雷德"
                 },
@@ -8387,6 +8431,10 @@
                 {
                     "type": "完美無瑕",
                     "text": "完美無瑕"
+                },
+                {
+                    "type": "有毒信仰",
+                    "text": "有毒信仰"
                 },
                 {
                     "type": "偏見",
@@ -8467,6 +8515,10 @@
                 {
                     "type": "黑暗物質",
                     "text": "黑暗物質"
+                },
+                {
+                    "type": "靈魂安息",
+                    "text": "靈魂安息"
                 },
                 {
                     "type": "失落的繁華",
@@ -9789,6 +9841,14 @@
                 {
                     "type": "堅固鋼鐵捕獸網",
                     "text": "堅固鋼鐵捕獸網"
+                },
+                {
+                    "type": "火炎精晶",
+                    "text": "火炎精晶"
+                },
+                {
+                    "type": "水晶精晶",
+                    "text": "水晶精晶"
                 },
                 {
                     "type": "製圖六分儀．簡易",
@@ -14764,6 +14824,11 @@
                     "text": "幻影的 瓦爾．先祖戰士長"
                 },
                 {
+                    "type": "瓦爾．幻化武器",
+                    "disc": "phantasmal",
+                    "text": "幻影的 瓦爾．幻化武器"
+                },
+                {
                     "type": "瓦爾．電弧",
                     "disc": "phantasmal",
                     "text": "幻影的 瓦爾．電弧"
@@ -14782,6 +14847,11 @@
                     "type": "瓦爾．旋風斬",
                     "disc": "phantasmal",
                     "text": "幻影的 瓦爾．旋風斬"
+                },
+                {
+                    "type": "瓦爾．霸氣",
+                    "disc": "phantasmal",
+                    "text": "幻影的 瓦爾．霸氣"
                 },
                 {
                     "type": "瓦爾．震地",
@@ -14807,6 +14877,11 @@
                     "type": "瓦爾．冰霜新星",
                     "disc": "phantasmal",
                     "text": "幻影的 瓦爾．冰霜新星"
+                },
+                {
+                    "type": "瓦爾．閃電箭矢",
+                    "disc": "phantasmal",
+                    "text": "幻影的 瓦爾．閃電箭矢"
                 },
                 {
                     "type": "瓦爾．閃電打擊",
@@ -14882,6 +14957,11 @@
                     "type": "強化輔助",
                     "disc": "phantasmal",
                     "text": "幻影的 強化輔助"
+                },
+                {
+                    "type": "三相爆發輔助",
+                    "disc": "phantasmal",
+                    "text": "幻影的 三相爆發輔助"
                 },
                 {
                     "type": "砲塔圖騰輔助",
@@ -15077,6 +15157,11 @@
                     "type": "奪魂勾索",
                     "disc": "divergent",
                     "text": "相異的 奪魂勾索"
+                },
+                {
+                    "type": "狙擊",
+                    "disc": "divergent",
+                    "text": "相異的 狙擊"
                 },
                 {
                     "type": "刀鋒亂舞",
@@ -16139,14 +16224,29 @@
                     "text": "相異的 腐蝕毒雨"
                 },
                 {
+                    "type": "瓦爾．赦免",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．赦免"
+                },
+                {
                     "type": "瓦爾．先祖戰士長",
                     "disc": "divergent",
                     "text": "相異的 瓦爾．先祖戰士長"
                 },
                 {
+                    "type": "瓦爾．幻化武器",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．幻化武器"
+                },
+                {
                     "type": "瓦爾．電弧",
                     "disc": "divergent",
                     "text": "相異的 瓦爾．電弧"
+                },
+                {
+                    "type": "瓦爾．極地裝甲",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．極地裝甲"
                 },
                 {
                     "type": "瓦爾．飛刃風暴",
@@ -16214,6 +16314,11 @@
                     "text": "相異的 瓦爾．雙重打擊"
                 },
                 {
+                    "type": "瓦爾．震地",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．震地"
+                },
+                {
                     "type": "瓦爾．火球",
                     "disc": "divergent",
                     "text": "相異的 瓦爾．火球"
@@ -16224,6 +16329,11 @@
                     "text": "相異的 瓦爾．不淨之火"
                 },
                 {
+                    "type": "瓦爾．烈炎風暴",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．烈炎風暴"
+                },
+                {
                     "type": "瓦爾．烈焰爆破",
                     "disc": "divergent",
                     "text": "相異的 瓦爾．烈焰爆破"
@@ -16232,6 +16342,11 @@
                     "type": "瓦爾．閃現打擊",
                     "disc": "divergent",
                     "text": "相異的 瓦爾．閃現打擊"
+                },
+                {
+                    "type": "瓦爾．冰霜之錘",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．冰霜之錘"
                 },
                 {
                     "type": "瓦爾．優雅",
@@ -16254,6 +16369,16 @@
                     "text": "相異的 瓦爾．冰霜新星"
                 },
                 {
+                    "type": "瓦爾．冰霜射擊",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．冰霜射擊"
+                },
+                {
+                    "type": "瓦爾．閃電箭矢",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．閃電箭矢"
+                },
+                {
                     "type": "瓦爾．不淨之雷",
                     "disc": "divergent",
                     "text": "相異的 瓦爾．不淨之雷"
@@ -16274,6 +16399,11 @@
                     "text": "相異的 瓦爾．熔岩護盾"
                 },
                 {
+                    "type": "瓦爾．熔岩之擊",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．熔岩之擊"
+                },
+                {
                     "type": "瓦爾．力量抽取",
                     "disc": "divergent",
                     "text": "相異的 瓦爾．力量抽取"
@@ -16284,9 +16414,19 @@
                     "text": "相異的 瓦爾．箭雨"
                 },
                 {
+                    "type": "瓦爾．收割",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．收割"
+                },
+                {
                     "type": "瓦爾．衝擊波",
                     "disc": "divergent",
                     "text": "相異的 瓦爾．衝擊波"
+                },
+                {
+                    "type": "瓦爾．回春圖騰",
+                    "disc": "divergent",
+                    "text": "相異的 瓦爾．回春圖騰"
                 },
                 {
                     "type": "瓦爾．正義之火",
@@ -16859,6 +16999,11 @@
                     "text": "相異的 癱瘓輔助"
                 },
                 {
+                    "type": "魔改箭矢輔助",
+                    "disc": "divergent",
+                    "text": "相異的 魔改箭矢輔助"
+                },
+                {
                     "type": "魔力偷取輔助",
                     "disc": "divergent",
                     "text": "相異的 魔力偷取輔助"
@@ -16992,6 +17137,11 @@
                     "type": "暴擊獲得暴擊球輔助",
                     "disc": "divergent",
                     "text": "相異的 暴擊獲得暴擊球輔助"
+                },
+                {
+                    "type": "三相爆發輔助",
+                    "disc": "divergent",
+                    "text": "相異的 三相爆發輔助"
                 },
                 {
                     "type": "磨鍊輔助",
@@ -17327,6 +17477,11 @@
                     "type": "奪魂勾索",
                     "disc": "anomalous",
                     "text": "異常的 奪魂勾索"
+                },
+                {
+                    "type": "狙擊",
+                    "disc": "anomalous",
+                    "text": "異常的 狙擊"
                 },
                 {
                     "type": "刀鋒亂舞",
@@ -18409,9 +18564,19 @@
                     "text": "異常的 瓦爾．先祖戰士長"
                 },
                 {
+                    "type": "瓦爾．幻化武器",
+                    "disc": "anomalous",
+                    "text": "異常的 瓦爾．幻化武器"
+                },
+                {
                     "type": "瓦爾．電弧",
                     "disc": "anomalous",
                     "text": "異常的 瓦爾．電弧"
+                },
+                {
+                    "type": "瓦爾．極地裝甲",
+                    "disc": "anomalous",
+                    "text": "異常的 瓦爾．極地裝甲"
                 },
                 {
                     "type": "瓦爾．飛刃風暴",
@@ -18489,6 +18654,11 @@
                     "text": "異常的 瓦爾．不淨之火"
                 },
                 {
+                    "type": "瓦爾．烈炎風暴",
+                    "disc": "anomalous",
+                    "text": "異常的 瓦爾．烈炎風暴"
+                },
+                {
                     "type": "瓦爾．烈焰爆破",
                     "disc": "anomalous",
                     "text": "異常的 瓦爾．烈焰爆破"
@@ -18524,6 +18694,16 @@
                     "text": "異常的 瓦爾．冰霜新星"
                 },
                 {
+                    "type": "瓦爾．冰霜射擊",
+                    "disc": "anomalous",
+                    "text": "異常的 瓦爾．冰霜射擊"
+                },
+                {
+                    "type": "瓦爾．閃電箭矢",
+                    "disc": "anomalous",
+                    "text": "異常的 瓦爾．閃電箭矢"
+                },
+                {
                     "type": "瓦爾．不淨之雷",
                     "disc": "anomalous",
                     "text": "異常的 瓦爾．不淨之雷"
@@ -18557,6 +18737,11 @@
                     "type": "瓦爾．箭雨",
                     "disc": "anomalous",
                     "text": "異常的 瓦爾．箭雨"
+                },
+                {
+                    "type": "瓦爾．收割",
+                    "disc": "anomalous",
+                    "text": "異常的 瓦爾．收割"
                 },
                 {
                     "type": "瓦爾．衝擊波",
@@ -19179,6 +19364,11 @@
                     "text": "異常的 癱瘓輔助"
                 },
                 {
+                    "type": "魔改箭矢輔助",
+                    "disc": "anomalous",
+                    "text": "異常的 魔改箭矢輔助"
+                },
+                {
                     "type": "魔力偷取輔助",
                     "disc": "anomalous",
                     "text": "異常的 魔力偷取輔助"
@@ -19312,6 +19502,11 @@
                     "type": "暴擊獲得暴擊球輔助",
                     "disc": "anomalous",
                     "text": "異常的 暴擊獲得暴擊球輔助"
+                },
+                {
+                    "type": "三相爆發輔助",
+                    "disc": "anomalous",
+                    "text": "異常的 三相爆發輔助"
                 },
                 {
                     "type": "磨鍊輔助",
@@ -20965,6 +21160,10 @@
                 {
                     "type": "古典遺鑰",
                     "text": "古典遺鑰"
+                },
+                {
+                    "type": "史前遺跡",
+                    "text": "史前遺跡"
                 },
                 {
                     "type": "幻像異界",
@@ -24800,6 +24999,1376 @@
                     "type": "神主居所",
                     "disc": "original",
                     "text": "神主居所 (不朽聯盟)"
+                },
+                {
+                    "type": "惡靈學院",
+                    "disc": "blighted",
+                    "text": "凋落 惡靈學院"
+                },
+                {
+                    "type": "酸岩酸嶼",
+                    "disc": "blighted",
+                    "text": "凋落 酸岩酸嶼"
+                },
+                {
+                    "type": "酸岩酸嶼",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 酸岩酸嶼"
+                },
+                {
+                    "type": "危城巷弄",
+                    "disc": "blighted",
+                    "text": "凋落 危城巷弄"
+                },
+                {
+                    "type": "危城巷弄",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 危城巷弄"
+                },
+                {
+                    "type": "遠古危城",
+                    "disc": "blighted",
+                    "text": "凋落 遠古危城"
+                },
+                {
+                    "type": "遠古危城",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 遠古危城"
+                },
+                {
+                    "type": "異蛛巢穴",
+                    "disc": "blighted",
+                    "text": "凋落 異蛛巢穴"
+                },
+                {
+                    "type": "異蛛巢穴",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 異蛛巢穴"
+                },
+                {
+                    "type": "異蛛墓塚",
+                    "disc": "blighted",
+                    "text": "凋落 異蛛墓塚"
+                },
+                {
+                    "type": "崩壞長廊",
+                    "disc": "blighted",
+                    "text": "凋落 崩壞長廊"
+                },
+                {
+                    "type": "崩壞長廊",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 崩壞長廊"
+                },
+                {
+                    "type": "競技場",
+                    "disc": "blighted",
+                    "text": "凋落 競技場"
+                },
+                {
+                    "type": "乾枯湖岸",
+                    "disc": "blighted",
+                    "text": "凋落 乾枯湖岸"
+                },
+                {
+                    "type": "乾枯湖岸",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 乾枯湖岸"
+                },
+                {
+                    "type": "軍械庫",
+                    "disc": "blighted",
+                    "text": "凋落 軍械庫"
+                },
+                {
+                    "type": "軍械庫",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 軍械庫"
+                },
+                {
+                    "type": "古兵工廠",
+                    "disc": "blighted",
+                    "text": "凋落 古兵工廠"
+                },
+                {
+                    "type": "古兵工廠",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 古兵工廠"
+                },
+                {
+                    "type": "旱木林地",
+                    "disc": "blighted",
+                    "text": "凋落 旱木林地"
+                },
+                {
+                    "type": "旱木林地",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 旱木林地"
+                },
+                {
+                    "type": "濱海山丘",
+                    "disc": "blighted",
+                    "text": "凋落 濱海山丘"
+                },
+                {
+                    "type": "濱海山丘",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 濱海山丘"
+                },
+                {
+                    "type": "熱林塚墓",
+                    "disc": "blighted",
+                    "text": "凋落 熱林塚墓"
+                },
+                {
+                    "type": "熱林塚墓",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 熱林塚墓"
+                },
+                {
+                    "type": "聖殿",
+                    "disc": "blighted",
+                    "text": "凋落 聖殿"
+                },
+                {
+                    "type": "聖殿",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 聖殿"
+                },
+                {
+                    "type": "遠古市集",
+                    "disc": "blighted",
+                    "text": "凋落 遠古市集"
+                },
+                {
+                    "type": "遠古市集",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 遠古市集"
+                },
+                {
+                    "type": "白沙灘頭",
+                    "disc": "blighted",
+                    "text": "凋落 白沙灘頭"
+                },
+                {
+                    "type": "白沙灘頭",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 白沙灘頭"
+                },
+                {
+                    "type": "雲頂鐘樓",
+                    "disc": "blighted",
+                    "text": "凋落 雲頂鐘樓"
+                },
+                {
+                    "type": "雲頂鐘樓",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 雲頂鐘樓"
+                },
+                {
+                    "type": "瘴氣泥沼",
+                    "disc": "blighted",
+                    "text": "凋落 瘴氣泥沼"
+                },
+                {
+                    "type": "瘴氣泥沼",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 瘴氣泥沼"
+                },
+                {
+                    "type": "骨跡陵墓",
+                    "disc": "blighted",
+                    "text": "凋落 骨跡陵墓"
+                },
+                {
+                    "type": "骨跡陵墓",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 骨跡陵墓"
+                },
+                {
+                    "type": "荊棘谷",
+                    "disc": "blighted",
+                    "text": "凋落 荊棘谷"
+                },
+                {
+                    "type": "荊棘谷",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 荊棘谷"
+                },
+                {
+                    "type": "旱地墓室",
+                    "disc": "blighted",
+                    "text": "凋落 旱地墓室"
+                },
+                {
+                    "type": "旱地墓室",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 旱地墓室"
+                },
+                {
+                    "type": "羈破牢籠",
+                    "disc": "blighted",
+                    "text": "凋落 羈破牢籠"
+                },
+                {
+                    "type": "羈破牢籠",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 羈破牢籠"
+                },
+                {
+                    "type": "火山炎口",
+                    "disc": "blighted",
+                    "text": "凋落 火山炎口"
+                },
+                {
+                    "type": "火山炎口",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 火山炎口"
+                },
+                {
+                    "type": "炙陽峽谷",
+                    "disc": "blighted",
+                    "text": "凋落 炙陽峽谷"
+                },
+                {
+                    "type": "炙陽峽谷",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 炙陽峽谷"
+                },
+                {
+                    "type": "惡臭屍域",
+                    "disc": "blighted",
+                    "text": "凋落 惡臭屍域"
+                },
+                {
+                    "type": "惡臭屍域",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 惡臭屍域"
+                },
+                {
+                    "type": "遺跡廢墟",
+                    "disc": "blighted",
+                    "text": "凋落 遺跡廢墟"
+                },
+                {
+                    "type": "遺跡廢墟",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 遺跡廢墟"
+                },
+                {
+                    "type": "幽魂監牢",
+                    "disc": "blighted",
+                    "text": "凋落 幽魂監牢"
+                },
+                {
+                    "type": "幽魂監牢",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 幽魂監牢"
+                },
+                {
+                    "type": "晨曦墓地",
+                    "disc": "blighted",
+                    "text": "凋落 晨曦墓地"
+                },
+                {
+                    "type": "晨曦墓地",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 晨曦墓地"
+                },
+                {
+                    "type": "秘密通道",
+                    "disc": "blighted",
+                    "text": "凋落 秘密通道"
+                },
+                {
+                    "type": "秘密通道",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 秘密通道"
+                },
+                {
+                    "type": "古堡",
+                    "disc": "blighted",
+                    "text": "凋落 古堡"
+                },
+                {
+                    "type": "古堡",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 古堡"
+                },
+                {
+                    "type": "危城廣場",
+                    "disc": "blighted",
+                    "text": "凋落 危城廣場"
+                },
+                {
+                    "type": "危城廣場",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 危城廣場"
+                },
+                {
+                    "type": "寒河",
+                    "disc": "blighted",
+                    "text": "凋落 寒河"
+                },
+                {
+                    "type": "寒河",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 寒河"
+                },
+                {
+                    "type": "激戰柱廊",
+                    "disc": "blighted",
+                    "text": "凋落 激戰柱廊"
+                },
+                {
+                    "type": "激戰柱廊",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 激戰柱廊"
+                },
+                {
+                    "type": "大決鬥場",
+                    "disc": "blighted",
+                    "text": "凋落 大決鬥場"
+                },
+                {
+                    "type": "大決鬥場",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 大決鬥場"
+                },
+                {
+                    "type": "寧逸溫房",
+                    "disc": "blighted",
+                    "text": "凋落 寧逸溫房"
+                },
+                {
+                    "type": "寧逸溫房",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 寧逸溫房"
+                },
+                {
+                    "type": "破碎堡礁",
+                    "disc": "blighted",
+                    "text": "凋落 破碎堡礁"
+                },
+                {
+                    "type": "破碎堡礁",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 破碎堡礁"
+                },
+                {
+                    "type": "核心",
+                    "disc": "blighted",
+                    "text": "凋落 核心"
+                },
+                {
+                    "type": "核心",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 核心"
+                },
+                {
+                    "type": "失序教院",
+                    "disc": "blighted",
+                    "text": "凋落 失序教院"
+                },
+                {
+                    "type": "奇術之庭",
+                    "disc": "blighted",
+                    "text": "凋落 奇術之庭"
+                },
+                {
+                    "type": "奇術之庭",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 奇術之庭"
+                },
+                {
+                    "type": "疾風峽灣",
+                    "disc": "blighted",
+                    "text": "凋落 疾風峽灣"
+                },
+                {
+                    "type": "疾風峽灣",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 疾風峽灣"
+                },
+                {
+                    "type": "緋紅神殿",
+                    "disc": "blighted",
+                    "text": "凋落 緋紅神殿"
+                },
+                {
+                    "type": "緋紅神殿",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 緋紅神殿"
+                },
+                {
+                    "type": "緋紅之鎮",
+                    "disc": "blighted",
+                    "text": "凋落 緋紅之鎮"
+                },
+                {
+                    "type": "緋紅之鎮",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 緋紅之鎮"
+                },
+                {
+                    "type": "紫晶礦山",
+                    "disc": "blighted",
+                    "text": "凋落 紫晶礦山"
+                },
+                {
+                    "type": "惡咒陵墓",
+                    "disc": "blighted",
+                    "text": "凋落 惡咒陵墓"
+                },
+                {
+                    "type": "惡咒陵墓",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 惡咒陵墓"
+                },
+                {
+                    "type": "夜語幽林",
+                    "disc": "blighted",
+                    "text": "凋落 夜語幽林"
+                },
+                {
+                    "type": "夜語幽林",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 夜語幽林"
+                },
+                {
+                    "type": "不潔教堂",
+                    "disc": "blighted",
+                    "text": "凋落 不潔教堂"
+                },
+                {
+                    "type": "不潔教堂",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 不潔教堂"
+                },
+                {
+                    "type": "貧瘠之地",
+                    "disc": "blighted",
+                    "text": "凋落 貧瘠之地"
+                },
+                {
+                    "type": "貧瘠之地",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 貧瘠之地"
+                },
+                {
+                    "type": "硫磺荒漠",
+                    "disc": "blighted",
+                    "text": "凋落 硫磺荒漠"
+                },
+                {
+                    "type": "硫磺荒漠",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 硫磺荒漠"
+                },
+                {
+                    "type": "違禁掘坑",
+                    "disc": "blighted",
+                    "text": "凋落 違禁掘坑"
+                },
+                {
+                    "type": "違禁掘坑",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 違禁掘坑"
+                },
+                {
+                    "type": "乾海",
+                    "disc": "blighted",
+                    "text": "凋落 乾海"
+                },
+                {
+                    "type": "乾海",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 乾海"
+                },
+                {
+                    "type": "暮色沙丘",
+                    "disc": "blighted",
+                    "text": "凋落 暮色沙丘"
+                },
+                {
+                    "type": "暮色沙丘",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 暮色沙丘"
+                },
+                {
+                    "type": "禁魂炎獄",
+                    "disc": "blighted",
+                    "text": "凋落 禁魂炎獄"
+                },
+                {
+                    "type": "禁魂炎獄",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 禁魂炎獄"
+                },
+                {
+                    "type": "熔火岩灘",
+                    "disc": "blighted",
+                    "text": "凋落 熔火岩灘"
+                },
+                {
+                    "type": "熔火岩灘",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 熔火岩灘"
+                },
+                {
+                    "type": "挖掘場",
+                    "disc": "blighted",
+                    "text": "凋落 挖掘場"
+                },
+                {
+                    "type": "鐵鏽工廠",
+                    "disc": "blighted",
+                    "text": "凋落 鐵鏽工廠"
+                },
+                {
+                    "type": "無疆田野",
+                    "disc": "blighted",
+                    "text": "凋落 無疆田野"
+                },
+                {
+                    "type": "無疆田野",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 無疆田野"
+                },
+                {
+                    "type": "洪災礦坑",
+                    "disc": "blighted",
+                    "text": "凋落 洪災礦坑"
+                },
+                {
+                    "type": "洪災礦坑",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 洪災礦坑"
+                },
+                {
+                    "type": "禁忌之森",
+                    "disc": "blighted",
+                    "text": "凋落 禁忌之森"
+                },
+                {
+                    "type": "禁忌之森",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 禁忌之森"
+                },
+                {
+                    "type": "岔河",
+                    "disc": "blighted",
+                    "text": "凋落 岔河"
+                },
+                {
+                    "type": "岔河",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 岔河"
+                },
+                {
+                    "type": "鍊金房",
+                    "disc": "blighted",
+                    "text": "凋落 鍊金房"
+                },
+                {
+                    "type": "鍊金房",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 鍊金房"
+                },
+                {
+                    "type": "凍原小屋",
+                    "disc": "blighted",
+                    "text": "凋落 凍原小屋"
+                },
+                {
+                    "type": "迷宮花園",
+                    "disc": "blighted",
+                    "text": "凋落 迷宮花園"
+                },
+                {
+                    "type": "迷宮花園",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 迷宮花園"
+                },
+                {
+                    "type": "詭譎晶洞",
+                    "disc": "blighted",
+                    "text": "凋落 詭譎晶洞"
+                },
+                {
+                    "type": "詭譎晶洞",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 詭譎晶洞"
+                },
+                {
+                    "type": "赤貧居所",
+                    "disc": "blighted",
+                    "text": "凋落 赤貧居所"
+                },
+                {
+                    "type": "赤貧居所",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 赤貧居所"
+                },
+                {
+                    "type": "冰川山丘",
+                    "disc": "blighted",
+                    "text": "凋落 冰川山丘"
+                },
+                {
+                    "type": "冰川山丘",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 冰川山丘"
+                },
+                {
+                    "type": "墓地谷",
+                    "disc": "blighted",
+                    "text": "凋落 墓地谷"
+                },
+                {
+                    "type": "墓地谷",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 墓地谷"
+                },
+                {
+                    "type": "墮影墓場",
+                    "disc": "blighted",
+                    "text": "凋落 墮影墓場"
+                },
+                {
+                    "type": "墮影墓場",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 墮影墓場"
+                },
+                {
+                    "type": "幽暗地穴",
+                    "disc": "blighted",
+                    "text": "凋落 幽暗地穴"
+                },
+                {
+                    "type": "幽暗地穴",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 幽暗地穴"
+                },
+                {
+                    "type": "幽魂宅邸",
+                    "disc": "blighted",
+                    "text": "凋落 幽魂宅邸"
+                },
+                {
+                    "type": "幽魂宅邸",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 幽魂宅邸"
+                },
+                {
+                    "type": "極原冰帽",
+                    "disc": "blighted",
+                    "text": "凋落 極原冰帽"
+                },
+                {
+                    "type": "極原冰帽",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 極原冰帽"
+                },
+                {
+                    "type": "病疫林谷",
+                    "disc": "blighted",
+                    "text": "凋落 病疫林谷"
+                },
+                {
+                    "type": "病疫林谷",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 病疫林谷"
+                },
+                {
+                    "type": "象牙神殿",
+                    "disc": "blighted",
+                    "text": "凋落 象牙神殿"
+                },
+                {
+                    "type": "象牙神殿",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 象牙神殿"
+                },
+                {
+                    "type": "劇毒林谷",
+                    "disc": "blighted",
+                    "text": "凋落 劇毒林谷"
+                },
+                {
+                    "type": "劇毒林谷",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 劇毒林谷"
+                },
+                {
+                    "type": "實驗居所",
+                    "disc": "blighted",
+                    "text": "凋落 實驗居所"
+                },
+                {
+                    "type": "實驗居所",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 實驗居所"
+                },
+                {
+                    "type": "餓獸巢穴",
+                    "disc": "blighted",
+                    "text": "凋落 餓獸巢穴"
+                },
+                {
+                    "type": "餓獸巢穴",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 餓獸巢穴"
+                },
+                {
+                    "type": "熔岩之室",
+                    "disc": "blighted",
+                    "text": "凋落 熔岩之室"
+                },
+                {
+                    "type": "熔岩之室",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 熔岩之室"
+                },
+                {
+                    "type": "岩漿熔湖",
+                    "disc": "blighted",
+                    "text": "凋落 岩漿熔湖"
+                },
+                {
+                    "type": "岩漿熔湖",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 岩漿熔湖"
+                },
+                {
+                    "type": "荒涼牧野",
+                    "disc": "blighted",
+                    "text": "凋落 荒涼牧野"
+                },
+                {
+                    "type": "荒涼牧野",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 荒涼牧野"
+                },
+                {
+                    "type": "絕望燈塔",
+                    "disc": "blighted",
+                    "text": "凋落 絕望燈塔"
+                },
+                {
+                    "type": "絕望燈塔",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 絕望燈塔"
+                },
+                {
+                    "type": "如履危牆",
+                    "disc": "blighted",
+                    "text": "凋落 如履危牆"
+                },
+                {
+                    "type": "如履危牆",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 如履危牆"
+                },
+                {
+                    "type": "畸形亡域",
+                    "disc": "blighted",
+                    "text": "凋落 畸形亡域"
+                },
+                {
+                    "type": "畸形亡域",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 畸形亡域"
+                },
+                {
+                    "type": "惡臭沼地",
+                    "disc": "blighted",
+                    "text": "凋落 惡臭沼地"
+                },
+                {
+                    "type": "惡臭沼地",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 惡臭沼地"
+                },
+                {
+                    "type": "靜縊陵墓",
+                    "disc": "blighted",
+                    "text": "凋落 靜縊陵墓"
+                },
+                {
+                    "type": "靜縊陵墓",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 靜縊陵墓"
+                },
+                {
+                    "type": "冥神之域",
+                    "disc": "blighted",
+                    "text": "凋落 冥神之域"
+                },
+                {
+                    "type": "冥神之域",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 冥神之域"
+                },
+                {
+                    "type": "平頂荒漠",
+                    "disc": "blighted",
+                    "text": "凋落 平頂荒漠"
+                },
+                {
+                    "type": "平頂荒漠",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 平頂荒漠"
+                },
+                {
+                    "type": "濕地礦山",
+                    "disc": "blighted",
+                    "text": "凋落 濕地礦山"
+                },
+                {
+                    "type": "濕地礦山",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 濕地礦山"
+                },
+                {
+                    "type": "嬋娟神殿",
+                    "disc": "blighted",
+                    "text": "凋落 嬋娟神殿"
+                },
+                {
+                    "type": "嬋娟神殿",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 嬋娟神殿"
+                },
+                {
+                    "type": "陰晦泥灘",
+                    "disc": "blighted",
+                    "text": "凋落 陰晦泥灘"
+                },
+                {
+                    "type": "陰晦泥灘",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 陰晦泥灘"
+                },
+                {
+                    "type": "古博物館",
+                    "disc": "blighted",
+                    "text": "凋落 古博物館"
+                },
+                {
+                    "type": "古博物館",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 古博物館"
+                },
+                {
+                    "type": "魔影墓場",
+                    "disc": "blighted",
+                    "text": "凋落 魔影墓場"
+                },
+                {
+                    "type": "魔影墓場",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 魔影墓場"
+                },
+                {
+                    "type": "密林果園",
+                    "disc": "blighted",
+                    "text": "凋落 密林果園"
+                },
+                {
+                    "type": "密林果園",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 密林果園"
+                },
+                {
+                    "type": "長草遺跡",
+                    "disc": "blighted",
+                    "text": "凋落 長草遺跡"
+                },
+                {
+                    "type": "密草神殿",
+                    "disc": "blighted",
+                    "text": "凋落 密草神殿"
+                },
+                {
+                    "type": "密草神殿",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 密草神殿"
+                },
+                {
+                    "type": "神域之殿",
+                    "disc": "blighted",
+                    "text": "凋落 神域之殿"
+                },
+                {
+                    "type": "神域之殿",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 神域之殿"
+                },
+                {
+                    "type": "園林苑",
+                    "disc": "blighted",
+                    "text": "凋落 園林苑"
+                },
+                {
+                    "type": "園林苑",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 園林苑"
+                },
+                {
+                    "type": "穢陰獄牢",
+                    "disc": "blighted",
+                    "text": "凋落 穢陰獄牢"
+                },
+                {
+                    "type": "穢陰獄牢",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 穢陰獄牢"
+                },
+                {
+                    "type": "乾潮林地",
+                    "disc": "blighted",
+                    "text": "凋落 乾潮林地"
+                },
+                {
+                    "type": "乾潮林地",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 乾潮林地"
+                },
+                {
+                    "type": "魔靈幻獄",
+                    "disc": "blighted",
+                    "text": "凋落 魔靈幻獄"
+                },
+                {
+                    "type": "怒浪之港",
+                    "disc": "blighted",
+                    "text": "凋落 怒浪之港"
+                },
+                {
+                    "type": "巨坑",
+                    "disc": "blighted",
+                    "text": "凋落 巨坑"
+                },
+                {
+                    "type": "巨坑",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 巨坑"
+                },
+                {
+                    "type": "海風高原",
+                    "disc": "blighted",
+                    "text": "凋落 海風高原"
+                },
+                {
+                    "type": "海風高原",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 海風高原"
+                },
+                {
+                    "type": "廣場",
+                    "disc": "blighted",
+                    "text": "凋落 廣場"
+                },
+                {
+                    "type": "廣場",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 廣場"
+                },
+                {
+                    "type": "失落城塢",
+                    "disc": "blighted",
+                    "text": "凋落 失落城塢"
+                },
+                {
+                    "type": "失落城塢",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 失落城塢"
+                },
+                {
+                    "type": "苦行之域",
+                    "disc": "blighted",
+                    "text": "凋落 苦行之域"
+                },
+                {
+                    "type": "苦行之域",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 苦行之域"
+                },
+                {
+                    "type": "血腥沼澤",
+                    "disc": "blighted",
+                    "text": "凋落 血腥沼澤"
+                },
+                {
+                    "type": "血腥沼澤",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 血腥沼澤"
+                },
+                {
+                    "type": "月色迴廊",
+                    "disc": "blighted",
+                    "text": "凋落 月色迴廊"
+                },
+                {
+                    "type": "月色迴廊",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 月色迴廊"
+                },
+                {
+                    "type": "古競速場",
+                    "disc": "blighted",
+                    "text": "凋落 古競速場"
+                },
+                {
+                    "type": "古競速場",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 古競速場"
+                },
+                {
+                    "type": "濱海堡壘",
+                    "disc": "blighted",
+                    "text": "凋落 濱海堡壘"
+                },
+                {
+                    "type": "濱海堡壘",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 濱海堡壘"
+                },
+                {
+                    "type": "危機海礁",
+                    "disc": "blighted",
+                    "text": "凋落 危機海礁"
+                },
+                {
+                    "type": "危機海礁",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 危機海礁"
+                },
+                {
+                    "type": "古典密室",
+                    "disc": "blighted",
+                    "text": "凋落 古典密室"
+                },
+                {
+                    "type": "古典密室",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 古典密室"
+                },
+                {
+                    "type": "神主居所",
+                    "disc": "blighted",
+                    "text": "凋落 神主居所"
+                },
+                {
+                    "type": "神主居所",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 神主居所"
+                },
+                {
+                    "type": "墓影書坊",
+                    "disc": "blighted",
+                    "text": "凋落 墓影書坊"
+                },
+                {
+                    "type": "陰暗墓塚",
+                    "disc": "blighted",
+                    "text": "凋落 陰暗墓塚"
+                },
+                {
+                    "type": "陰暗墓塚",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 陰暗墓塚"
+                },
+                {
+                    "type": "熾炎船塢",
+                    "disc": "blighted",
+                    "text": "凋落 熾炎船塢"
+                },
+                {
+                    "type": "熾炎船塢",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 熾炎船塢"
+                },
+                {
+                    "type": "暮光海灘",
+                    "disc": "blighted",
+                    "text": "凋落 暮光海灘"
+                },
+                {
+                    "type": "暮光海灘",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 暮光海灘"
+                },
+                {
+                    "type": "奇術秘殿",
+                    "disc": "blighted",
+                    "text": "凋落 奇術秘殿"
+                },
+                {
+                    "type": "奇術秘殿",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 奇術秘殿"
+                },
+                {
+                    "type": "禁斷圍城",
+                    "disc": "blighted",
+                    "text": "凋落 禁斷圍城"
+                },
+                {
+                    "type": "禁斷圍城",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 禁斷圍城"
+                },
+                {
+                    "type": "儲物倉",
+                    "disc": "blighted",
+                    "text": "凋落 儲物倉"
+                },
+                {
+                    "type": "儲物倉",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 儲物倉"
+                },
+                {
+                    "type": "巨蛛之林",
+                    "disc": "blighted",
+                    "text": "凋落 巨蛛之林"
+                },
+                {
+                    "type": "巨蛛之林",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 巨蛛之林"
+                },
+                {
+                    "type": "巨蛛巢穴",
+                    "disc": "blighted",
+                    "text": "凋落 巨蛛巢穴"
+                },
+                {
+                    "type": "巨蛛巢穴",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 巨蛛巢穴"
+                },
+                {
+                    "type": "毒菌魔域",
+                    "disc": "blighted",
+                    "text": "凋落 毒菌魔域"
+                },
+                {
+                    "type": "淤塞水道",
+                    "disc": "blighted",
+                    "text": "凋落 淤塞水道"
+                },
+                {
+                    "type": "淤塞水道",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 淤塞水道"
+                },
+                {
+                    "type": "致命岩灘",
+                    "disc": "blighted",
+                    "text": "凋落 致命岩灘"
+                },
+                {
+                    "type": "致命岩灘",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 致命岩灘"
+                },
+                {
+                    "type": "硫磺蝕岸",
+                    "disc": "blighted",
+                    "text": "凋落 硫磺蝕岸"
+                },
+                {
+                    "type": "硫磺蝕岸",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 硫磺蝕岸"
+                },
+                {
+                    "type": "寒頂之巔",
+                    "disc": "blighted",
+                    "text": "凋落 寒頂之巔"
+                },
+                {
+                    "type": "寒頂之巔",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 寒頂之巔"
+                },
+                {
+                    "type": "亞特蘭提斯",
+                    "disc": "blighted",
+                    "text": "凋落 亞特蘭提斯"
+                },
+                {
+                    "type": "亞特蘭提斯",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 亞特蘭提斯"
+                },
+                {
+                    "type": "奪魂之殿",
+                    "disc": "blighted",
+                    "text": "凋落 奪魂之殿"
+                },
+                {
+                    "type": "奪魂之殿",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 奪魂之殿"
+                },
+                {
+                    "type": "露台花園",
+                    "disc": "blighted",
+                    "text": "凋落 露台花園"
+                },
+                {
+                    "type": "露台花園",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 露台花園"
+                },
+                {
+                    "type": "驚懼樹叢",
+                    "disc": "blighted",
+                    "text": "凋落 驚懼樹叢"
+                },
+                {
+                    "type": "驚懼樹叢",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 驚懼樹叢"
+                },
+                {
+                    "type": "血腥陣地",
+                    "disc": "blighted",
+                    "text": "凋落 血腥陣地"
+                },
+                {
+                    "type": "血腥陣地",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 血腥陣地"
+                },
+                {
+                    "type": "闇獄尖塔",
+                    "disc": "blighted",
+                    "text": "凋落 闇獄尖塔"
+                },
+                {
+                    "type": "闇獄尖塔",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 闇獄尖塔"
+                },
+                {
+                    "type": "腐敗下水道",
+                    "disc": "blighted",
+                    "text": "凋落 腐敗下水道"
+                },
+                {
+                    "type": "腐敗下水道",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 腐敗下水道"
+                },
+                {
+                    "type": "殘破殞坑",
+                    "disc": "blighted",
+                    "text": "凋落 殘破殞坑"
+                },
+                {
+                    "type": "晴空幽島",
+                    "disc": "blighted",
+                    "text": "凋落 晴空幽島"
+                },
+                {
+                    "type": "晴空幽島",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 晴空幽島"
+                },
+                {
+                    "type": "地底之河",
+                    "disc": "blighted",
+                    "text": "凋落 地底之河"
+                },
+                {
+                    "type": "地底之河",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 地底之河"
+                },
+                {
+                    "type": "濱海幽穴",
+                    "disc": "blighted",
+                    "text": "凋落 濱海幽穴"
+                },
+                {
+                    "type": "濱海幽穴",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 濱海幽穴"
+                },
+                {
+                    "type": "瓦爾金字塔",
+                    "disc": "blighted",
+                    "text": "凋落 瓦爾金字塔"
+                },
+                {
+                    "type": "魔金寶庫",
+                    "disc": "blighted",
+                    "text": "凋落 魔金寶庫"
+                },
+                {
+                    "type": "魔金寶庫",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 魔金寶庫"
+                },
+                {
+                    "type": "魅影別墅",
+                    "disc": "blighted",
+                    "text": "凋落 魅影別墅"
+                },
+                {
+                    "type": "魅影別墅",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 魅影別墅"
+                },
+                {
+                    "type": "火山炎域",
+                    "disc": "blighted",
+                    "text": "凋落 火山炎域"
+                },
+                {
+                    "type": "火山炎域",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 火山炎域"
+                },
+                {
+                    "type": "荒地",
+                    "disc": "blighted",
+                    "text": "凋落 荒地"
+                },
+                {
+                    "type": "荒地",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 荒地"
+                },
+                {
+                    "type": "死寂泥溝",
+                    "disc": "blighted",
+                    "text": "凋落 死寂泥溝"
+                },
+                {
+                    "type": "死寂泥溝",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 死寂泥溝"
+                },
+                {
+                    "type": "危機水道",
+                    "disc": "blighted",
+                    "text": "凋落 危機水道"
+                },
+                {
+                    "type": "毒牙海港",
+                    "disc": "blighted",
+                    "text": "凋落 毒牙海港"
+                },
+                {
+                    "type": "毒牙海港",
+                    "disc": "uberblighted",
+                    "text": "凋落蔓延 毒牙海港"
                 }
             ]
         },
@@ -25569,6 +27138,14 @@
                 },
                 {
                     "name": "思動之手",
+                    "type": "帝國戰爪",
+                    "text": "思動之手 帝國戰爪",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "思動之手",
                     "type": "襲眼鉤",
                     "text": "思動之手 襲眼鉤",
                     "flags": {
@@ -26168,6 +27745,14 @@
                     }
                 },
                 {
+                    "name": "古典冥約",
+                    "type": "賢者法杖",
+                    "text": "古典冥約 賢者法杖",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
                     "name": "贗品．超越壁壘",
                     "type": "裂臟鉤",
                     "text": "贗品．超越壁壘 裂臟鉤",
@@ -26371,6 +27956,14 @@
                     "name": "贗品．裂顱",
                     "type": "剛猛巨錘",
                     "text": "贗品．裂顱 剛猛巨錘",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "贗品．托沃臥",
+                    "type": "靈石法杖",
+                    "text": "贗品．托沃臥 靈石法杖",
                     "flags": {
                         "unique": true
                     }
@@ -26888,6 +28481,14 @@
                     }
                 },
                 {
+                    "name": "紅刃",
+                    "type": "鬥士長劍",
+                    "text": "紅刃 鬥士長劍",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
                     "name": "漣漪冥想",
                     "type": "軍團長劍",
                     "text": "漣漪冥想 軍團長劍",
@@ -27057,6 +28658,14 @@
                 },
                 {
                     "name": "托沃崩",
+                    "type": "靈石法杖",
+                    "text": "托沃崩 靈石法杖",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "托沃崩",
                     "type": "螺紋法杖",
                     "text": "托沃崩 螺紋法杖",
                     "flags": {
@@ -27115,6 +28724,14 @@
                     "name": "烏爾尼多之吻",
                     "type": "雙影巨斧",
                     "text": "烏爾尼多之吻 雙影巨斧",
+                    "flags": {
+                        "unique": true
+                    }
+                },
+                {
+                    "name": "烏爾尼多之吻",
+                    "type": "瓦爾巨斧",
+                    "text": "烏爾尼多之吻 瓦爾巨斧",
                     "flags": {
                         "unique": true
                     }
