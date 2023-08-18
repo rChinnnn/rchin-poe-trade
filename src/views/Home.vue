@@ -47,8 +47,17 @@
       </b-row>
       <b-collapse id="collapse-2" class="mt-2">
         <b-card>
-          <b-row class="lesspadding" style="padding-left: 2px;">
-            <b-col sm="12" v-if="handlePOESESSID">
+          <b-row>
+            <b-col sm="8">
+              <multiselect v-model="searchedText" :options="poedbTW.data" :custom-label="nameWithLang" :optionsLimit="10" :preserveSearch="true" :clearOnSelect="false" track-by="us" placeholder="請輸入欲搜尋的物品中/英文字" selectLabel='' deselectLabel='' selectedLabel=''></multiselect>
+            </b-col>
+            <b-col sm="4" style="padding-top: 5px; text-align: left; padding-left: 0px !important;">
+              <el-button size="small" round @click="searchedCopyText(searchedText.lang)" :disabled="!searchedText">中文</el-button>
+              <el-button size="small" round @click="searchedCopyText(searchedText.us)" :disabled="!searchedText">英文</el-button>
+            </b-col>
+          </b-row>
+          <b-row v-if="handlePOESESSID" class="lesspadding" style="padding-left: 2px;">
+            <b-col sm="12" style="padding-top: 10px;">
               <b-form-group label="POESESSID" label-cols-sm="5" label-align-sm="right" label-size="sm" class="mb-0">
                 <b-input-group size="sm">
                   <b-form-input v-model="handlePOESESSID" disabled></b-form-input>
@@ -58,14 +67,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col sm="8" style="margin-left: 15px; padding-top: 5px;">
-              <multiselect v-model="searchedText" :options="poedbTW.data" :custom-label="nameWithLang" :optionsLimit="10" :preserveSearch="true" :clearOnSelect="false" track-by="us" placeholder="請輸入欲搜尋的物品中/英文字" selectLabel='' deselectLabel='' selectedLabel=''></multiselect>
-            </b-col>
-            <b-col sm="3" style="padding-top: 8px;">
-              <el-button size="small" round @click="searchedCopyText(searchedText.lang)" :disabled="!searchedText">中文</el-button>
-              <el-button size="small" round @click="searchedCopyText(searchedText.us)" :disabled="!searchedText">英文</el-button>
-            </b-col>
-            <b-col sm="12" v-if="handlePOESESSID">
+            <b-col sm="12" style="padding-top: 8px;">
               <ChaosRecipe></ChaosRecipe>
             </b-col>
           </b-row>
@@ -77,10 +79,10 @@
             <!-- <b-col sm="5" class="lesspadding">
               <v-select :options="leagues.option" v-model="leagues.chosenL" :searchable="false" :clearable="false" :filterable="false"></v-select>
             </b-col> -->
-            <b-col sm="3" class="">
+            <b-col sm="3">
               <multiselect :options="serverOptions" v-model="storeServerString" @input="serverChange" :showLabels="false" :searchable="false" :allow-empty="false"></multiselect>
             </b-col>
-            <b-col sm="5" class="">
+            <b-col sm="5">
               <multiselect :options="leagues.option" v-model="leagues.chosenL" :showLabels="false" :searchable="false" :allow-empty="false"></multiselect>
             </b-col>
           </b-row>
@@ -481,6 +483,7 @@ export default {
       clusterJewelStats: [], // 星團珠寶附魔詞綴
       allocatesStats: [], // 項鍊塗油配置附魔詞綴
       forbiddenZoneStats: [], // 禁忌烈焰/血肉配置詞綴
+      impossibleEscapeStats: [], // 逃脫不能配置詞綴
       wrapStats: [],
       fetchID: [], // 預計要搜尋物品細項的 ID, 10 個 ID 為一陣列
       isPriceCollapse: true, // 透過帳號摺疊名單 (Collapse Listings by Account) 預設為 true
@@ -512,7 +515,7 @@ export default {
           prop: ''
         }
       },
-      leagues: { // 搜尋聯盟 
+      leagues: { // 搜尋聯盟
         option: [],
         chosenL: ""
       },
@@ -1107,6 +1110,11 @@ export default {
             this.forbiddenZoneStats.push(element.text, (element.id).toString())
           })
         }
+        if (element.id === "explicit.stat_2422708892") { // 逃脫不能配置詞綴
+          element.option.options.forEach((element, index) => {
+            this.impossibleEscapeStats.push(element.text, (element.id).toString())
+          })
+        }
         if (text.includes('\n')) { // 處理折行詞綴
           this.wrapStats.push(text)
         }
@@ -1233,12 +1241,12 @@ export default {
             element.option = "accessory.belt"
             this.equipItems.push(element)
             break;
-          case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }  
+          case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }
             element.name = "戒指"
             element.option = "accessory.ring"
             this.equipItems.push(element)
             break;
-          case 4: // 飾品起始點 { "type": "盜賊飾品", "text": "盜賊飾品" }  
+          case 4: // 飾品起始點 { "type": "盜賊飾品", "text": "盜賊飾品" }
             element.name = "飾品"
             element.option = "accessory.trinket"
             this.equipItems.push(element)
@@ -1412,7 +1420,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "maps")].entries.forEach((element, index) => { // "id": "maps", "label": "地圖" 
+      result[result.findIndex(e => e.id === "maps")].entries.forEach((element, index) => { // "id": "maps", "label": "地圖"
         const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
         if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
           this.mapBasic.option.push(element.text)
@@ -1469,7 +1477,7 @@ export default {
         .then((response) => {
           const getID = _.property('id')
           this.leagues.option = _.map(response.data.result.filter(data => data.realm == 'pc'), 'id')
-          // `_.property` 迭代縮寫 _.map(response.data.result, 'id') = _.map(response.data.result, getID) 
+          // `_.property` 迭代縮寫 _.map(response.data.result, 'id') = _.map(response.data.result, getID)
           this.leagues.chosenL = this.leagues.option[0]
         })
         .catch(function (error) {
@@ -1493,21 +1501,6 @@ export default {
           tempMapBasic.push(element)
         }
       });
-      // this.axios.get(`https://www.pathofexile.com/api/trade/data/leagues`, )
-      //   .then((response) => {
-      //     this.gggLeagues = _.map(response.data.result, 'id')
-      //   })
-      //   .catch(function (error) {
-      //     vm.isApiError = true
-      //     vm.apiErrorStr = error
-      //     vm.startCountdown(10)
-      //     vm.resetSearchData()
-      //     vm.$message({
-      //       type: 'error',
-      //       message: `error: ${error}`
-      //     });
-      //     console.log(error);
-      //   })
       this.axios.get(`https://www.pathofexile.com/api/trade/data/items`, )
         .then((response) => {
           let result = response.data.result
@@ -1752,14 +1745,14 @@ export default {
               statID = `${statID.split('.')[0]}.stat_2387423236`
             }
             break;
-          case statID.indexOf('stat_681332047') > -1 || statID.indexOf('stat_210067635') > -1: // 攻擊速度 (部分) 
+          case statID.indexOf('stat_681332047') > -1 || statID.indexOf('stat_210067635') > -1: // 攻擊速度 (部分)
             if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
               statID = `${statID.split('.')[0]}.stat_210067635`
             } else {
               statID = `${statID.split('.')[0]}.stat_681332047`
             }
             break;
-          case statID.indexOf('stat_681332047') > -1 || statID.indexOf('stat_210067635') > -1: // 攻擊速度 (部分) 
+          case statID.indexOf('stat_681332047') > -1 || statID.indexOf('stat_210067635') > -1: // 攻擊速度 (部分)
             if (this.itemCategory.chosenObj.prop.indexOf('weapon') > -1) {
               statID = `${statID.split('.')[0]}.stat_210067635`
             } else {
@@ -1854,6 +1847,12 @@ export default {
           let obj = stringSimilarity.findBestMatch(itemStatText, this.forbiddenZoneStats)
           optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
           apiStatText = `若禁忌${statID === "explicit.stat_2460506030" ? '烈焰' : '血肉'}上有符合的詞綴，\n配置：${obj.ratings[obj.bestMatchIndex].target}`
+        } else if (statID === "explicit.stat_2422708892") {
+          isStatSearch = true
+          this.isStatsCollapse = true
+          let obj = stringSimilarity.findBestMatch(itemStatText, this.impossibleEscapeStats)
+          optionValue = parseInt(obj.ratings[obj.bestMatchIndex + 1].target, 10)
+          apiStatText = `範圍 ${obj.ratings[obj.bestMatchIndex].target} 內的天賦可以在沒有連結你的天賦樹下被配置`
         } else if (statID === "explicit.stat_3642528642") {
           isStatSearch = true
           this.isStatsCollapse = true
@@ -1931,7 +1930,7 @@ export default {
               randomMaxValue = tempValue
               break;
           }
-          switch (true) { // 物品等級區分判斷 
+          switch (true) { // 物品等級區分判斷
             case this.itemLevel.min >= 84:
               this.itemLevel.min = 84
               break;
@@ -2114,17 +2113,17 @@ export default {
           itemArray[index] = `區域含有祭祀神壇`
         } else if (element.indexOf("你的地圖含有許多背叛者") > -1) { // enchant.stat_3747734818: 遊戲內敘述 "你的地圖含有許多背叛者"、詞綴 API 敘述 "區域包含許多背叛者"
           itemArray[index] = `區域包含許多背叛者`
-        } else if (element.indexOf("你的地圖含有埃哈") > -1) { // enchant.stat_3187151138: 遊戲內敘述 "你的地圖含有埃哈"、詞綴 API 敘述 "區域含有 # (大師)"，需輸入 option
-          itemArray[index] = `區域含有 # (大師)`
+        } else if (element.indexOf("你的地圖含有埃哈") > -1) { // enchant.stat_3187151138: 遊戲內敘述 "你的地圖含有埃哈"、詞綴 API 敘述 "你的地圖包含# (大師)"，需輸入 option
+          itemArray[index] = `你的地圖包含# (大師)`
           optionValue = 2
         } else if (element.indexOf("你的地圖含有艾瓦") > -1) {
-          itemArray[index] = `區域含有 # (大師)`
+          itemArray[index] = `你的地圖包含# (大師)`
           optionValue = 3
         } else if (element.indexOf("你的地圖含有尼科") > -1) {
-          itemArray[index] = `區域含有 # (大師)`
+          itemArray[index] = `你的地圖包含# (大師)`
           optionValue = 5
         } else if (element.indexOf("你的地圖含有瓊恩") > -1) {
-          itemArray[index] = `區域含有 # (大師)`
+          itemArray[index] = `你的地圖包含# (大師)`
           optionValue = 6
         } else if (element.indexOf("你地圖中的裂痕為烏爾尼多") > -1) { // enchant.stat_1542416476: 遊戲內敘述 "你地圖中的裂痕為烏爾尼多"、詞綴 API 敘述 "區域中裂痕屬於 #"，需輸入 option
           itemArray[index] = `區域中裂痕屬於 #`
@@ -2179,7 +2178,7 @@ export default {
           apiStatText = '你的地圖包含祭祀神壇'
         } else if (statID == 'enchant.stat_3747734818') { // 處理在 UI 上顯示的"你的地圖含有許多背叛者"詞綴，與遊戲內一致
           apiStatText = '你的地圖含有許多背叛者'
-        } else if (statID == 'enchant.stat_3187151138') { // 處理在 UI 上顯示的"區域含有大師"詞綴，與遊戲內一致
+        } else if (statID == 'enchant.stat_3187151138') { // 處理在 UI 上顯示的"你的地圖包含大師"詞綴，與遊戲內一致
           switch (optionValue) {
             case 2:
               apiStatText = '你的地圖含有埃哈'
@@ -2463,7 +2462,7 @@ export default {
       }
       this.corruptedInput()
     },
-    gemQualityTypeInput() { // 寶石替代品質設定 
+    gemQualityTypeInput() { // 寶石替代品質設定
       if (!this.gemQualitySet.isSearch && this.gemQualitySet.chosenObj.prop && this.isSearchJson) {
         delete this.searchJson.query.filters.misc_filters.filters.gem_alternate_quality // 刪除寶石替代品質 filter
       } else if (this.gemQualitySet.isSearch && this.gemQualitySet.chosenObj.prop && this.isSearchJson) {
@@ -2893,7 +2892,7 @@ export default {
           this.mirroredStatsAnalysis(itemArray)
           this.isStatsCollapse = true
           return
-        } 
+        }
       } else if (Rarity === "寶石") {
         this.isGem = true
         this.gemQualitySet.isSearch = false
