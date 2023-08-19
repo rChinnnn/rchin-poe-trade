@@ -2,10 +2,10 @@
 <div>
   <b-container>
     <b-row>
-      <b-col sm="12" class="my-1">
-        <b-form-group label="帳號" label-cols-sm="7" label-align-sm="right" label-size="sm" class="mb-0">
+      <b-col sm="12" style="margin-left: 5px;">
+        <b-form-group label="帳號" label-cols-sm="8" label-align-sm="right" label-size="sm" class="mb-0">
           <b-input-group size="sm">
-            <b-form-input v-model="handleAccountName" type="search" id="filterInput" placeholder="請輸入帳號"></b-form-input>
+            <b-form-input v-model="handleAccountName" placeholder="請輸入帳號"></b-form-input>
             <b-input-group-append>
               <b-button :disabled="!$store.state.POESESSID || !$store.state.accountName" @click="getStashTab()">查詢倉庫</b-button>
             </b-input-group-append>
@@ -13,23 +13,23 @@
         </b-form-group>
         <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
       </b-col>
-      <b-col v-if="!isLoading" sm="12" style="margin-left: 20px;">
-        <el-badge :value="helmetCount" :max="18" class="badgeItem" :type="`${helmetCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('頭部|項鍊')">頭</el-button>
+      <b-col v-if="!isLoading" sm="12" style="margin-left: 20px; padding-top: 5px;">
+        <el-badge :value="haCountString" class="badgeItem" :type="`${helmetCount < 18 || amuletCount < 18 ? 'warning' : 'primary'}`">
+          <el-button size="small" round @click="stringCopy('頭部|項鍊')">頭/鍊</el-button>
         </el-badge>
-        <el-badge :value="glovesCount" :max="18" class="badgeItem" :type="`${glovesCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('手套|戒指')">手</el-button>
+        <el-badge :value="grCountString" class="badgeItem" :type="`${glovesCount < 18 || ringCount < 18 ? 'warning' : 'primary'}`">
+          <el-button size="small" round @click="stringCopy('手套|戒指')">手/戒</el-button>
         </el-badge>
-        <el-badge :value="bootsCount" :max="18" class="badgeItem" :type="`${bootsCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('鞋子|腰帶')">鞋</el-button>
+        <el-badge :value="bbCountString" class="badgeItem" :type="`${bootsCount < 18 || beltCount < 18 ? 'warning' : 'primary'}`">
+          <el-button size="small" round @click="stringCopy('鞋子|腰帶')">鞋/腰</el-button>
         </el-badge>
-        <el-badge :value="beltCount" :max="18" class="badgeItem" :type="`${beltCount < 18 ? 'warning' : 'primary'}`">
+        <!-- <el-badge :value="beltCount" :max="18" class="badgeItem" :type="`${beltCount < 18 ? 'warning' : 'primary'}`">
           <el-button size="small" round @click="stringCopy('腰帶')">腰</el-button>
-        </el-badge>
+        </el-badge> -->
         <el-badge :value="weaponCount" :max="18" class="badgeItem" :type="`${weaponCount < 18 ? 'warning' : 'primary'}`">
           <el-button size="small" round @click="stringCopy('單手|匕首|法杖|弓')">武器</el-button>
         </el-badge>
-        <el-badge :value="bodyCount" :max="36" class="badgeItem" :type="`${bodyCount < 18 ? 'warning' : 'primary'}`">
+        <el-badge :value="bodyCount" :max="18" class="badgeItem" :type="`${bodyCount < 18 ? 'warning' : 'primary'}`">
           <el-button size="small" round @click="stringCopy('胸甲')">胸甲</el-button>
         </el-badge>
         <el-badge :value="veiledCount" class="badgeItem" type="success">
@@ -38,7 +38,6 @@
       </b-col>
     </b-row>
   </b-container>
-
 </div>
 </template>
 
@@ -56,7 +55,9 @@ export default {
     return {
       recipeItems: [],
       helmetCount: 0,
+      amuletCount: 0,
       glovesCount: 0,
+      ringCount: 0,
       bootsCount: 0,
       beltCount: 0,
       weaponCount: 0,
@@ -70,12 +71,14 @@ export default {
   methods: {
     getStashTab() {
       let vm = this
-      let baseUrl = `https://www.pathofexile.com/character-window/get-stash-items?league=Kalandra`
+      let baseUrl = `https://www.pathofexile.com/character-window/get-stash-items?league=Ancestor&realm=pc`
       let url = `${baseUrl}&accountName=${this.$store.state.accountName}&tabs=1&tabIndex=`
       let cookie = `POESESSID=${this.$store.state.POESESSID};`
       let tabsIndex = []
       this.helmetCount = 0
+      this.amuletCount = 0
       this.glovesCount = 0
+      this.ringCount = 0
       this.bootsCount = 0
       this.beltCount = 0
       this.weaponCount = 0
@@ -102,6 +105,7 @@ export default {
                 errorMessage = `發生錯誤！${response.data.error.message}`
                 break;
             }
+            vm.isLoading = false
             vm.$message({
               type: 'error',
               message: `${errorMessage}`
@@ -147,8 +151,17 @@ export default {
                           case item.icon.indexOf("/Helmet") > -1:
                             this.helmetCount += 1
                             break;
+                          case item.icon.indexOf("Amulet") > -1:
+                            this.amuletCount += 1
+                            break;
                           case item.icon.indexOf("/Gloves") > -1:
                             this.glovesCount += 1
+                            break;
+                          case item.icon.indexOf("Ring") > -1:
+                          case item.icon.indexOf("TopazRuby") > -1:
+                          case item.icon.indexOf("TopazSapphire") > -1:
+                          case item.icon.indexOf("SapphireRuby") > -1:
+                            this.ringCount += 1
                             break;
                           case item.icon.indexOf("/Boots") > -1:
                             this.bootsCount += 1
@@ -160,11 +173,7 @@ export default {
                             this.weaponCount += 1
                             break;
                           case item.icon.indexOf("/Wand") > -1:
-                            this.weaponCount += 0.5
-                            break;
                           case item.icon.indexOf("/Dagger") > -1:
-                            this.weaponCount += 0.5
-                            break;
                           case item.icon.indexOf("/OneHand") > -1:
                             this.weaponCount += 0.5
                             break;
@@ -219,6 +228,15 @@ export default {
         this.$store.commit('setAccountName', newAccountName);
       }
     },
+    haCountString() {
+      return `${this.helmetCount > 18 ? '18+' : this.helmetCount }/${this.amuletCount > 18 ? '18+' : this.amuletCount }`
+    },
+    grCountString() {
+      return `${this.glovesCount > 18 ? '18+' : this.glovesCount }/${this.ringCount > 18 ? '18+' : this.ringCount }`
+    },
+    bbCountString() {
+      return `${this.bootsCount > 18 ? '18+' : this.bootsCount }/${this.beltCount > 18 ? '18+' : this.beltCount }`
+    }
   },
 }
 </script>
@@ -227,5 +245,10 @@ export default {
 .badgeItem {
   margin-top: 8px;
   margin-right: 20px;
+}
+
+.el-badge__content.is-fixed {
+  z-index: 10;
+  right: 25px;
 }
 </style>
