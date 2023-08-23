@@ -4,6 +4,346 @@
     "size": 4708,
     "data": [
         {
+            "type": "Class",
+            "us": "Life Flasks",
+            "lang": "生命藥劑"
+        },
+        {
+            "type": "Class",
+            "us": "Mana Flasks",
+            "lang": "魔力藥劑"
+        },
+        {
+            "type": "Class",
+            "us": "Hybrid Flasks",
+            "lang": "複合藥劑"
+        },
+        {
+            "type": "Class",
+            "us": "Currency",
+            "lang": "通貨"
+        },
+        {
+            "type": "Class",
+            "us": "Amulets",
+            "lang": "項鍊"
+        },
+        {
+            "type": "Class",
+            "us": "Rings",
+            "lang": "戒指"
+        },
+        {
+            "type": "Class",
+            "us": "Claws",
+            "lang": "爪"
+        },
+        {
+            "type": "Class",
+            "us": "Daggers",
+            "lang": "匕首"
+        },
+        {
+            "type": "Class",
+            "us": "Wands",
+            "lang": "法杖"
+        },
+        {
+            "type": "Class",
+            "us": "One Hand Swords",
+            "lang": "單手劍"
+        },
+        {
+            "type": "Class",
+            "us": "Thrusting One Hand Swords",
+            "lang": "細劍"
+        },
+        {
+            "type": "Class",
+            "us": "One Hand Axes",
+            "lang": "單手斧"
+        },
+        {
+            "type": "Class",
+            "us": "One Hand Maces",
+            "lang": "單手錘"
+        },
+        {
+            "type": "Class",
+            "us": "Bows",
+            "lang": "弓"
+        },
+        {
+            "type": "Class",
+            "us": "Staves",
+            "lang": "長杖"
+        },
+        {
+            "type": "Class",
+            "us": "Two Hand Swords",
+            "lang": "雙手劍"
+        },
+        {
+            "type": "Class",
+            "us": "Two Hand Axes",
+            "lang": "雙手斧"
+        },
+        {
+            "type": "Class",
+            "us": "Two Hand Maces",
+            "lang": "雙手錘"
+        },
+        {
+            "type": "Class",
+            "us": "Skill Gems",
+            "lang": "技能寶石"
+        },
+        {
+            "type": "Class",
+            "us": "Support Gems",
+            "lang": "輔助寶石"
+        },
+        {
+            "type": "Class",
+            "us": "Quivers",
+            "lang": "箭袋"
+        },
+        {
+            "type": "Class",
+            "us": "Belts",
+            "lang": "腰帶"
+        },
+        {
+            "type": "Class",
+            "us": "Gloves",
+            "lang": "手套"
+        },
+        {
+            "type": "Class",
+            "us": "Boots",
+            "lang": "鞋子"
+        },
+        {
+            "type": "Class",
+            "us": "Body Armours",
+            "lang": "胸甲"
+        },
+        {
+            "type": "Class",
+            "us": "Helmets",
+            "lang": "頭部"
+        },
+        {
+            "type": "Class",
+            "us": "Shields",
+            "lang": "盾"
+        },
+        {
+            "type": "Class",
+            "us": "Stackable Currency",
+            "lang": "可堆疊通貨"
+        },
+        {
+            "type": "Class",
+            "us": "Sceptres",
+            "lang": "權杖"
+        },
+        {
+            "type": "Class",
+            "us": "Utility Flasks",
+            "lang": "功能藥劑"
+        },
+        {
+            "type": "Class",
+            "us": "Critical Utility Flasks",
+            "lang": "暴擊藥劑"
+        },
+        {
+            "type": "Class",
+            "us": "Maps",
+            "lang": "異界地圖"
+        },
+        {
+            "type": "Class",
+            "us": "Fishing Rods",
+            "lang": "魚竿"
+        },
+        {
+            "type": "Class",
+            "us": "Map Fragments",
+            "lang": "地圖碎片"
+        },
+        {
+            "type": "Class",
+            "us": "Jewels",
+            "lang": "珠寶"
+        },
+        {
+            "type": "Class",
+            "us": "Divination Cards",
+            "lang": "命運卡"
+        },
+        {
+            "type": "Class",
+            "us": "Misc Map Items",
+            "lang": "其它"
+        },
+        {
+            "type": "Class",
+            "us": "Pantheon Souls",
+            "lang": "眾神之魂"
+        },
+        {
+            "type": "Class",
+            "us": "Pieces",
+            "lang": "碎片"
+        },
+        {
+            "type": "Class",
+            "us": "Abyss Jewels",
+            "lang": "深淵珠寶"
+        },
+        {
+            "type": "Class",
+            "us": "Incursion Items",
+            "lang": "穿越物品"
+        },
+        {
+            "type": "Class",
+            "us": "Delve Socketable Currency",
+            "lang": "掘獄插槽通貨"
+        },
+        {
+            "type": "Class",
+            "us": "Incubators",
+            "lang": "培育器"
+        },
+        {
+            "type": "Class",
+            "us": "Shards",
+            "lang": "碎片"
+        },
+        {
+            "type": "Class",
+            "us": "Shard Hearts",
+            "lang": "碎片之心"
+        },
+        {
+            "type": "Class",
+            "us": "Rune Daggers",
+            "lang": "符紋匕首"
+        },
+        {
+            "type": "Class",
+            "us": "Warstaves",
+            "lang": "征戰長杖"
+        },
+        {
+            "type": "Class",
+            "us": "Delve Stackable Socketable Currency",
+            "lang": "掘獄可堆疊有插槽通貨"
+        },
+        {
+            "type": "Class",
+            "us": "Atlas Upgrade Items",
+            "lang": "輿圖升級道具"
+        },
+        {
+            "type": "Class",
+            "us": "Metamorph Samples",
+            "lang": "鍊魔樣本"
+        },
+        {
+            "type": "Class",
+            "us": "Contracts",
+            "lang": "契約書"
+        },
+        {
+            "type": "Class",
+            "us": "Heist Gear",
+            "lang": "劫盜裝備"
+        },
+        {
+            "type": "Class",
+            "us": "Heist Tools",
+            "lang": "劫盜工具"
+        },
+        {
+            "type": "Class",
+            "us": "Heist Cloaks",
+            "lang": "劫盜披風"
+        },
+        {
+            "type": "Class",
+            "us": "Heist Brooches",
+            "lang": "劫盜胸針"
+        },
+        {
+            "type": "Class",
+            "us": "Blueprints",
+            "lang": "藍圖"
+        },
+        {
+            "type": "Class",
+            "us": "Trinkets",
+            "lang": "飾品"
+        },
+        {
+            "type": "Class",
+            "us": "Heist Targets",
+            "lang": "劫盜目標"
+        },
+        {
+            "type": "Class",
+            "us": "Expedition Logbooks",
+            "lang": "探險日誌"
+        },
+        {
+            "type": "Class",
+            "us": "Archnemesis Mods",
+            "lang": "宿敵詞綴"
+        },
+        {
+            "type": "Class",
+            "us": "Instance Local Items",
+            "lang": "地區物品"
+        },
+        {
+            "type": "Class",
+            "us": "Sentinels",
+            "lang": "守望號令"
+        },
+        {
+            "type": "Class",
+            "us": "Memories",
+            "lang": "記憶"
+        },
+        {
+            "type": "Class",
+            "us": "Relics",
+            "lang": "聖物"
+        },
+        {
+            "type": "Class",
+            "us": "Sanctified Relics",
+            "lang": "神化聖物"
+        },
+        {
+            "type": "Class",
+            "us": "Breachstones",
+            "lang": "裂痕石"
+        },
+        {
+            "type": "Class",
+            "us": "Vault Keys",
+            "lang": "遺鑰"
+        },
+        {
+            "type": "Class",
+            "us": "Sanctum Research",
+            "lang": "聖域研究"
+        },
+        {
             "type": "BaseType",
             "us": "Blacksmith's Whetstone",
             "lang": "磨刀石"
@@ -14500,41 +14840,6 @@
         },
         {
             "type": "BaseType",
-            "us": "[DO NOT USE] Censer Relic",
-            "lang": "香爐聖物"
-        },
-        {
-            "type": "BaseType",
-            "us": "[DO NOT USE] Processional Relic",
-            "lang": "詩歌聖物"
-        },
-        {
-            "type": "BaseType",
-            "us": "[DO NOT USE] Candlestick Relic",
-            "lang": "燭台聖物"
-        },
-        {
-            "type": "BaseType",
-            "us": "[DO NOT USE] Urn Relic",
-            "lang": "古甕聖物"
-        },
-        {
-            "type": "BaseType",
-            "us": "[DO NOT USE] Coffer Relic",
-            "lang": "寶箱聖物"
-        },
-        {
-            "type": "BaseType",
-            "us": "[DO NOT USE] Tome Relic",
-            "lang": "卷冊聖物"
-        },
-        {
-            "type": "BaseType",
-            "us": "[DO NOT USE] Papyrus Relic",
-            "lang": "草紙聖物"
-        },
-        {
-            "type": "BaseType",
             "us": "Censer Relic",
             "lang": "香爐聖物"
         },
@@ -14941,47 +15246,47 @@
         {
             "type": "BaseType",
             "us": "Omen of the Jeweller",
-            "lang": null
+            "lang": "工匠之預兆"
         },
         {
             "type": "BaseType",
             "us": "Omen of Connections",
-            "lang": null
+            "lang": "連結之預兆"
         },
         {
             "type": "BaseType",
             "us": "Omen of Blanching",
-            "lang": null
+            "lang": "白化之預兆"
         },
         {
             "type": "BaseType",
             "us": "Omen of Revenge",
-            "lang": null
+            "lang": "復仇之預兆"
         },
         {
             "type": "BaseType",
             "us": "Omen of Bequeathal",
-            "lang": null
+            "lang": "傳承之預兆"
         },
         {
             "type": "BaseType",
             "us": "Omen of Resurgence",
-            "lang": null
+            "lang": "復甦之預兆"
         },
         {
             "type": "BaseType",
             "us": "Omen of Adrenaline",
-            "lang": null
+            "lang": "腎上腺素之預兆"
         },
         {
             "type": "BaseType",
             "us": "Omen of Death's Door",
-            "lang": null
+            "lang": "死者大門之預兆"
         },
         {
             "type": "BaseType",
             "us": "Omen of Brilliance",
-            "lang": null
+            "lang": "光輝之預兆"
         },
         {
             "type": "BaseType",
@@ -14991,22 +15296,22 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Ngamahu Shaman",
-            "lang": null
+            "lang": "努葛瑪呼薩滿的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Ngamahu Warrior",
-            "lang": null
+            "lang": "努葛瑪呼戰士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Ngamahu Warmonger",
-            "lang": null
+            "lang": "努葛瑪呼戰鬥王的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Ngamahu Woodcarver",
-            "lang": null
+            "lang": "努葛瑪呼木工的紋身"
         },
         {
             "type": "BaseType",
@@ -15016,32 +15321,32 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Ngamahu Makanga",
-            "lang": null
+            "lang": "努葛瑪呼馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Kitava Blood Drinker",
-            "lang": null
+            "lang": "奇塔弗飲血者的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Kitava Rebel",
-            "lang": null
+            "lang": "奇塔弗叛亂的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Kitava Warrior",
-            "lang": null
+            "lang": "奇塔弗戰士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Kitava Heart Eater",
-            "lang": null
+            "lang": "奇塔弗嗜心者的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Kitava Shaman",
-            "lang": null
+            "lang": "奇塔弗薩滿的紋身"
         },
         {
             "type": "BaseType",
@@ -15051,32 +15356,32 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Kitava Makanga",
-            "lang": null
+            "lang": "奇塔弗馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tukohama Shaman",
-            "lang": null
+            "lang": "圖克哈瑪薩滿的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tukohama Warrior",
-            "lang": null
+            "lang": "圖克哈瑪戰士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tukohama Brawler",
-            "lang": null
+            "lang": "圖克哈瑪鬥士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tukohama Warmonger",
-            "lang": null
+            "lang": "圖克哈瑪戰鬥王的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tukohama Warcaller",
-            "lang": null
+            "lang": "圖克哈瑪戰爭喚者的紋身"
         },
         {
             "type": "BaseType",
@@ -15086,32 +15391,32 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Tukohama Makanga",
-            "lang": null
+            "lang": "圖克哈瑪馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Rongokurai Warrior",
-            "lang": null
+            "lang": "隆格庫萊戰士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Rongokurai Brute",
-            "lang": null
+            "lang": "隆格庫萊暴徒的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Rongokurai Goliath",
-            "lang": null
+            "lang": "隆格庫萊巨獸的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Rongokurai Turtle",
-            "lang": null
+            "lang": "隆格庫萊巨龜的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Rongokurai Guard",
-            "lang": null
+            "lang": "隆格庫萊守衛的紋身"
         },
         {
             "type": "BaseType",
@@ -15121,32 +15426,32 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Rongokurai Makanga",
-            "lang": null
+            "lang": "隆格庫萊馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tasalio Bladedancer",
-            "lang": null
+            "lang": "塔薩里奧舞劍者的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tasalio Tideshifter",
-            "lang": null
+            "lang": "塔薩里奧潮汐變幻者的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tasalio Shaman",
-            "lang": null
+            "lang": "塔薩里奧薩滿的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tasalio Warrior",
-            "lang": null
+            "lang": "塔薩里奧戰士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tasalio Scout",
-            "lang": null
+            "lang": "塔薩里奧哨兵的紋身"
         },
         {
             "type": "BaseType",
@@ -15156,32 +15461,32 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Tasalio Makanga",
-            "lang": null
+            "lang": "塔薩里奧馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Arohongui Moonwarden",
-            "lang": null
+            "lang": "艾蘿紅薇月護衛的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Arohongui Scout",
-            "lang": null
+            "lang": "艾蘿紅薇哨兵的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Arohongui Warrior",
-            "lang": null
+            "lang": "艾蘿紅薇戰士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Arohongui Warmonger",
-            "lang": null
+            "lang": "艾蘿紅薇戰鬥王的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Arohongui Shaman",
-            "lang": null
+            "lang": "艾蘿紅薇薩滿的紋身"
         },
         {
             "type": "BaseType",
@@ -15191,32 +15496,32 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Arohongui Makanga",
-            "lang": null
+            "lang": "艾蘿紅薇馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Ramako Scout",
-            "lang": null
+            "lang": "雷默科哨兵的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Ramako Archer",
-            "lang": null
+            "lang": "雷默科射手的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Ramako Sniper",
-            "lang": null
+            "lang": "雷默科狙擊手的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Ramako Fleetfoot",
-            "lang": "雷默科偵查兵的紋身"
+            "lang": "雷默科偵瞬步的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Ramako Shaman",
-            "lang": null
+            "lang": "雷默科薩滿的紋身"
         },
         {
             "type": "BaseType",
@@ -15226,32 +15531,32 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Ramako Makanga",
-            "lang": null
+            "lang": "雷默科馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Hinekora Warrior",
-            "lang": null
+            "lang": "悉妮蔻拉戰士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Hinekora Deathwarden",
-            "lang": null
+            "lang": "悉妮蔻拉死護衛的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Hinekora Shaman",
-            "lang": null
+            "lang": "悉妮蔻拉薩滿的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Hinekora Storyteller",
-            "lang": null
+            "lang": "悉妮蔻拉說書人的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Hinekora Warmonger",
-            "lang": null
+            "lang": "悉妮蔻拉戰鬥王的紋身"
         },
         {
             "type": "BaseType",
@@ -15261,27 +15566,27 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Hinekora Makanga",
-            "lang": null
+            "lang": "悉妮蔻拉馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tawhoa Naturalist",
-            "lang": null
+            "lang": "塔赫亞自然的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tawhoa Scout",
-            "lang": null
+            "lang": "塔赫亞哨兵的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tawhoa Warrior",
-            "lang": null
+            "lang": "塔赫亞戰士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Tawhoa Herbalist",
-            "lang": null
+            "lang": "塔赫亞藥草師的紋身"
         },
         {
             "type": "BaseType",
@@ -15296,32 +15601,32 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Tawhoa Makanga",
-            "lang": null
+            "lang": "塔赫亞馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Valako Stormrider",
-            "lang": null
+            "lang": "瓦拉庫風暴馭者的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Valako Scout",
-            "lang": null
+            "lang": "瓦拉庫哨兵的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Valako Warrior",
-            "lang": "瓦拉庫風暴導管的紋身"
+            "lang": "瓦拉庫戰士的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Valako Shieldbearer",
-            "lang": null
+            "lang": "瓦拉庫護盾大師的紋身"
         },
         {
             "type": "BaseType",
             "us": "Tattoo of the Valako Shaman",
-            "lang": null
+            "lang": "瓦拉庫薩滿的紋身"
         },
         {
             "type": "BaseType",
@@ -15331,37 +15636,37 @@
         {
             "type": "BaseType",
             "us": "Tattoo of the Valako Makanga",
-            "lang": null
+            "lang": "瓦拉庫馬坎加的紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Dove",
-            "lang": null
+            "lang": "鴿子的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Sky",
-            "lang": null
+            "lang": "天際的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Tuatara",
-            "lang": null
+            "lang": "蜥蜴人的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Pillager",
-            "lang": null
+            "lang": "劫掠者的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Turtle",
-            "lang": null
+            "lang": "巨龜的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Oak",
-            "lang": null
+            "lang": "歐克的尊榮紋身"
         },
         {
             "type": "BaseType",
@@ -15371,37 +15676,37 @@
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Flock",
-            "lang": null
+            "lang": "群的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Warlord",
-            "lang": null
+            "lang": "戰爭君王的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Mountain",
-            "lang": null
+            "lang": "山巒的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Pa",
-            "lang": null
+            "lang": "帕的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Hunter",
-            "lang": null
+            "lang": "獵人的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Barbarian",
-            "lang": null
+            "lang": "野蠻人的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Berserker",
-            "lang": null
+            "lang": "暴徒的尊榮紋身"
         },
         {
             "type": "BaseType",
@@ -15411,37 +15716,37 @@
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Storm",
-            "lang": null
+            "lang": "風暴的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Honoured Tattoo of the Flood",
-            "lang": null
+            "lang": "水難的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Journey Tattoo of the Remora",
-            "lang": null
+            "lang": "雷默拉的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Journey Tattoo of the Shark",
-            "lang": null
+            "lang": "鯊魚的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Journey Tattoo of the Mastodon",
-            "lang": null
+            "lang": "巨象的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Journey Tattoo of the Rhoa",
-            "lang": null
+            "lang": "恐喙鳥的尊榮紋身"
         },
         {
             "type": "BaseType",
             "us": "Journey Tattoo of the Shadow",
-            "lang": null
+            "lang": "暗影刺客的尊榮紋身"
         },
         {
             "type": "BaseType",
@@ -22561,52 +22866,52 @@
         {
             "type": "Unique",
             "us": "Kahuturoa's Certainty",
-            "lang": null
+            "lang": "卡胡圖羅亞的確信"
         },
         {
             "type": "Unique",
             "us": "Kaom's Binding",
-            "lang": null
+            "lang": "岡姆的束縛"
         },
         {
             "type": "Unique",
             "us": "Akoya's Gaze",
-            "lang": null
+            "lang": "艾古亞的凝視"
         },
         {
             "type": "Unique",
             "us": "Rakiata's Dance",
-            "lang": null
+            "lang": "萊基亞塔的舞步"
         },
         {
             "type": "Unique",
             "us": "Ahuana's Bite",
-            "lang": null
+            "lang": "阿呼阿娜的咬痕"
         },
         {
             "type": "Unique",
             "us": "Kiloava's Bluster",
-            "lang": null
+            "lang": "基洛阿瓦的咆嘯"
         },
         {
             "type": "Unique",
             "us": "Tawhanuku's Timing",
-            "lang": null
+            "lang": "塔瓦努庫的時機"
         },
         {
             "type": "Unique",
             "us": "Ikiaho's Promise",
-            "lang": "亞歐紅古的照拂"
+            "lang": "伊基亞呼的承諾"
         },
         {
             "type": "Unique",
             "us": "Maata's Teaching",
-            "lang": null
+            "lang": "瑪塔的教導"
         },
         {
             "type": "Unique",
             "us": "Utula's Hunger",
-            "lang": "奇塔弗的飢餓"
+            "lang": "烏圖拉的飢餓"
         },
         {
             "type": "Unique",
@@ -22616,17 +22921,17 @@
         {
             "type": "Unique",
             "us": "Defiance of Destiny",
-            "lang": null
+            "lang": "拒絕命運"
         },
         {
             "type": "Unique",
             "us": "Honoured Alliance",
-            "lang": null
+            "lang": "榮耀同盟"
         },
         {
             "type": "Unique",
             "us": "Warrior's Tale",
-            "lang": null
+            "lang": "戰士的故事"
         },
         {
             "type": "Unique",
