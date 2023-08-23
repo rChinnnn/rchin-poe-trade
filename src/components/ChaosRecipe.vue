@@ -161,7 +161,7 @@ export default {
                           case item.icon.indexOf("TopazRuby") > -1:
                           case item.icon.indexOf("TopazSapphire") > -1:
                           case item.icon.indexOf("SapphireRuby") > -1:
-                            this.ringCount += 1
+                            this.ringCount += 0.5
                             break;
                           case item.icon.indexOf("/Boots") > -1:
                             this.bootsCount += 1

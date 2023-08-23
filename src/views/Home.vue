@@ -49,11 +49,12 @@
         <b-card>
           <b-row>
             <b-col sm="8">
-              <multiselect v-model="searchedText" :options="poedbTW.data" :custom-label="nameWithLang" :optionsLimit="10" :preserveSearch="true" :clearOnSelect="false" track-by="us" placeholder="請輸入欲搜尋的物品中/英文字" selectLabel='' deselectLabel='' selectedLabel=''></multiselect>
+              <multiselect v-model="searchedText" :options="poedbTWItems" :custom-label="nameWithLang" :optionsLimit="10" :preserveSearch="true" :clearOnSelect="false" track-by="us" placeholder="請輸入欲搜尋的物品中/英文字" selectLabel='' deselectLabel='' selectedLabel=''></multiselect>
             </b-col>
             <b-col sm="4" style="padding-top: 5px; text-align: left; padding-left: 0px !important;">
-              <el-button size="small" round @click="searchedCopyText(searchedText.lang)" :disabled="!searchedText">中文</el-button>
-              <el-button size="small" round @click="searchedCopyText(searchedText.us)" :disabled="!searchedText">英文</el-button>
+              <el-button size="small" round @click="searchedCopyText(searchedText.lang)" v-b-tooltip.hover.v-secondary :title="`點選複製物品中文`" :disabled="!searchedText">中</el-button>
+              <el-button size="small" round @click="searchedCopyText(searchedText.us)" v-b-tooltip.hover.v-secondary :title="`點選複製物品英文`" :disabled="!searchedText">英</el-button>
+              <el-button size="small" round @click="popPoedbWebsite(searchedText.us)" v-b-tooltip.hover.v-secondary :title="`點選開啟編年史網站`" :disabled="!searchedText">編</el-button>
             </b-col>
           </b-row>
           <b-row v-if="handlePOESESSID" class="lesspadding" style="padding-left: 2px;">
@@ -428,8 +429,8 @@ import GoTop from '@inotom/vue-go-top';
 
 import itemsData from "../assets/poe/items.json";
 import statsData from "../assets/poe/stats.json";
-import usStatsData from "../assets/poe/stats_us.json";
-import poedbTW from "../assets/poe/poedb-tw.json";
+// import usStatsData from "../assets/poe/stats_us.json";
+import poedbTWJson from "../assets/poe/poedb-tw.json";
 
 const _ = require('lodash');
 const stringSimilarity = require('string-similarity');
@@ -492,9 +493,11 @@ export default {
       fetchQueryID: '',
       allItems: itemsData, // 物品 API 資料
       allStats: statsData, // 詞綴 API 資料
-      usStats: usStatsData, // 英文詞綴 API 資料
-      poedbTW: poedbTW, // 編年史翻譯表
-      equipItems: [], // 可裝備的物品資料
+      // usStats: usStatsData, // 英文詞綴 API 資料
+      poedbTWJson: poedbTWJson,
+      poedbTWItems: [], // 編年史翻譯表
+      // poedbTWClass: [], // 編年史物品種類
+      categorizedItems: [], // 有分類的物品資料
       monstersItems: [], // 物品化怪物資料
       priceSetting: { // 價格設定
         option: [{
@@ -844,6 +847,8 @@ export default {
     this.initLocalStorage()
     this.isGarenaSvr = this.storeServerString === '台服' ? true : false
     this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
+    this.poedbTWItems = this.poedbTWJson.data.filter(item => item.type !== "Class")
+    // this.poedbTWClass = this.poedbTWJson.data.filter(item => item.type === "Class")
   },
   mounted() {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
@@ -862,7 +867,7 @@ export default {
       }
     },
     checkAPI() {
-      this.equipItems.forEach(element => {
+      this.categorizedItems.forEach(element => {
         console.log(element.text, element.name, element.option)
       });
       // let usResult = this.usStats.result
@@ -884,11 +889,10 @@ export default {
         string = string.slice(4).trim()
       }
       // 3.17 中文化更動，改為判斷 poedb 提供之物品翻譯表
-      // console.log(string, this.poedbTW.data.find(data => data.lang === string))
       if (!this.isGarenaSvr) {
-        let baseTypeLang = this.poedbTW.data.find(data => data.lang === string)?.us
+        let baseTypeLang = this.poedbTWItems.find(data => data.lang === string)?.us
         if (this.isItem && this.raritySet.chosenObj.prop == 'unique') {
-          let uniqueLang = this.poedbTW.data.filter(data => data.type == 'Unique').find(data => data.lang === string)?.us
+          let uniqueLang = this.poedbTWItems.filter(data => data.type == 'Unique').find(data => data.lang === string)?.us
           string = uniqueLang ? uniqueLang : baseTypeLang
         } else {
           string = baseTypeLang ? baseTypeLang : string
@@ -1060,6 +1064,10 @@ export default {
     popOfficialWebsite() {
       shell.openExternal(`${this.baseUrl}/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
     },
+    popPoedbWebsite(itemUs) {
+      let itemWebSite = itemUs.replace(/ /g, "_")
+      shell.openExternal(`https://poedb.tw/tw/${itemWebSite}`)
+    },
     openLink(URL) {
       shell.openExternal(URL)
     },
@@ -1216,7 +1224,8 @@ export default {
       let jewelIndex = 0
       let weaponIndex = 0
       let heistIndex = 0
-      this.equipItems.length = 0
+      let sanctumIndex = 0
+      this.categorizedItems.length = 0
       this.monstersItems.length = 0
       this.mapBasic.option.length = 0
       this.gemBasic.option.length = 0
@@ -1234,22 +1243,22 @@ export default {
           case 1: // 項鍊起始點 { "type": "碧珠護身符", "text": "碧珠護身符" }
             element.name = "項鍊"
             element.option = "accessory.amulet"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 2: // 腰帶起始點 { "type": "素布腰帶", "text": "素布腰帶" }
             element.name = "腰帶"
             element.option = "accessory.belt"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 3: // 戒指起始點 { "type": "裂痕戒指", "text": "裂痕戒指" }
             element.name = "戒指"
             element.option = "accessory.ring"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 4: // 飾品起始點 { "type": "盜賊飾品", "text": "盜賊飾品" }
             element.name = "飾品"
             element.option = "accessory.trinket"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           default:
             break;
@@ -1264,32 +1273,32 @@ export default {
           case 1: // 胸甲起始點 { "type": "黃金戰甲", "text": "黃金戰甲" }
             element.name = "胸甲"
             element.option = "armour.chest"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 2: // 鞋子起始點 { "type": "異色鞋", "text": "異色鞋" }
             element.name = "鞋子"
             element.option = "armour.boots"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 3: // 手套起始點 { "type": "擒拿手套", "text": "擒拿手套" }
             element.name = "手套"
             element.option = "armour.gloves"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 4: // 頭部起始點 { "type": "喚骨頭盔", "text": "喚骨頭盔" }
             element.name = "頭部"
             element.option = "armour.helmet"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 5: // 盾牌起始點 { "type": "黃金聖炎", "text": "黃金聖炎" }
             element.name = "盾"
             element.option = "armour.shield"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 6: // 箭袋起始點 { "type": "火靈箭袋", "text": "火靈箭袋" }
             element.name = "箭袋"
             element.option = "armour.quiver"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           default:
             break;
@@ -1304,7 +1313,7 @@ export default {
           case 1: // 藥劑起始點 { "type": "小型複合藥劑", "text": "小型複合藥劑" }
             element.name = "藥劑"
             element.option = "flask"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           default:
             break;
@@ -1319,7 +1328,7 @@ export default {
           case 1: // 珠寶起始點 { "type": "催眠之眼珠寶", "text": "催眠之眼珠寶" }
             element.name = "珠寶"
             element.option = "jewel"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           default:
             break;
@@ -1335,71 +1344,71 @@ export default {
             element.name = "爪"
             element.option = "weapon.claw"
             element.weapon = "weapon.one" // "weapon.one" 單手武器
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 2: // 匕首起始點 { "type": "玻璃利片", "text": "玻璃利片" }
             element.name = "匕首"
             element.option = "weapon.dagger"
             element.weapon = "weapon.one"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 3: // 單手斧起始點 { "type": "鏽斧", "text": "鏽斧" }
             element.name = "單手斧"
             element.option = "weapon.oneaxe"
             element.weapon = "weapon.one"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 4: // 單手錘起始點 { "type": "朽木之棒", "text": "朽木之棒" }
             element.name = "單手錘"
             element.option = "weapon.onemace"
             element.weapon = "weapon.one"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 5: // 單手劍起始點 { "type": "鏽劍", "text": "鏽劍" }
             element.name = "單手劍"
             element.option = "weapon.onesword"
             element.weapon = "weapon.one"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 6: // 法杖起始點 { "type": "朽木法杖", "text": "朽木法杖" }
             element.name = "法杖"
             element.option = "weapon.wand"
             element.weapon = "weapon.one"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 7: // { "type": "魚竿", "text": "魚竿" }
             element.name = "釣竿"
             element.option = "weapon.rod"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 8: // 弓起始點 { "type": "粗製弓", "text": "粗製弓" }
             element.name = "弓"
             element.option = "weapon.bow"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 9: // 長杖起始點 { "type": "朽木之幹", "text": "朽木之幹" }
             element.name = "長杖"
             element.option = "weapon.staff"
             element.weapon = "weapon.twomelee"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 10: // 雙手斧起始點 { "type": "石斧", "text": "石斧" }
             element.name = "雙手斧"
             element.option = "weapon.twoaxe"
             element.weapon = "weapon.twomelee"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 11: // 雙手錘起始點 { "type": "朽木巨錘", "text": "朽木巨錘" }
             element.name = "雙手錘"
             element.option = "weapon.twomace"
             element.weapon = "weapon.twomelee"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           case 12: // 雙手劍起始點 { "type": "鏽斑巨劍", "text": "鏽斑巨劍" }
             element.name = "雙手劍"
             element.option = "weapon.twosword"
             element.weapon = "weapon.twomelee"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           default:
             break;
@@ -1414,7 +1423,7 @@ export default {
           case 1: // 劫盜裝備起始點 { "type": "鰻皮鞋底", "text": "鰻皮鞋底" }
             element.name = "劫盜裝備"
             element.option = "heistequipment"
-            this.equipItems.push(element)
+            this.categorizedItems.push(element)
             break;
           default:
             break;
@@ -1442,20 +1451,40 @@ export default {
       result[result.findIndex(e => e.id === "logbook")].entries.forEach((element, index) => { // "id": "logbook"
         element.name = "探險日誌"
         element.option = "logbook"
-        this.equipItems.push(element)
+        this.categorizedItems.push(element)
       });
       result[result.findIndex(e => e.id === "sentinel")].entries.forEach((element, index) => { // "id": "sentinel"
         if (_.isUndefined(element.flags)) {
           element.name = "守望號令"
           element.option = "sentinel"
-          this.equipItems.push(element)
+          this.categorizedItems.push(element)
         }
       });
       result[result.findIndex(e => e.id === "memoryline")].entries.forEach((element, index) => { // "id": "memoryline", "label": "Memory Lines"
         if (_.isUndefined(element.flags)) {
           element.name = "記憶"
           element.option = "memoryline"
-          this.equipItems.push(element)
+          this.categorizedItems.push(element)
+        }
+      });
+      result[result.findIndex(e => e.id === "sanctum")].entries.forEach((element, index) => { // "id": "sanctum"
+        const basetype = ["香爐聖物", "聖域寶庫研究"]
+        if (_.isUndefined(element.flags)) {
+          sanctumIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (sanctumIndex) {
+          case 1: // 聖物起始點 { "type": "香爐聖物", "text": "香爐聖物" }
+            element.name = "聖物"
+            element.option = "sanctum.relic"
+            this.categorizedItems.push(element)
+            break;
+          case 2: // 聖域研究起始點 { "type": "聖域寶庫研究", "text": "聖域寶庫研究" }
+            element.name = "聖域研究"
+            element.option = "sanctum.research"
+            this.categorizedItems.push(element)
+            break;
+          default:
+            break;
         }
       });
       // })
@@ -2796,6 +2825,14 @@ export default {
   watch: {
     copyText: function () {
       let item = this.copyText;
+      if (item.indexOf('物品类别: ') > -1 || item.indexOf('稀 有 度: ') > -1 || item.indexOf('Item Class: ') > -1 || item.indexOf('Rarity: ') > -1) { // 繁體中文語系確認
+        this.$message({
+          duration: 2000,
+          type: 'warning',
+          message: `偵測到遊戲語言並非『繁體中文』，無法順利查價`
+        });
+        return
+      }
       if (item.indexOf('稀有度: ') === -1 || !this.copyText || this.isApiError) { // POE 內的文字必定有稀有度
         return
       }
@@ -2828,7 +2865,7 @@ export default {
       let itemNameString = itemArray[2] === "--------" ? itemArray[1] : `${itemArray[1]} ${itemArray[2]}`
       let itemBasicCount = 0
 
-      this.equipItems.some(element => {
+      this.categorizedItems.some(element => {
         let itemNameStringIndex = itemNameString.indexOf(element.text)
         // console.log(itemNameString, itemNameStringIndex)
         if (itemNameStringIndex > -1 && !itemBasicCount && (itemNameString.indexOf('碎片') === -1 || Rarity !== '傳奇')) {
