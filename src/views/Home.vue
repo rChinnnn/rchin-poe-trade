@@ -478,7 +478,6 @@ export default {
       enchantStats: [], // 附魔
       scourgeStats: [], // 災魘詞綴
       craftedStats: [], // 已工藝
-      crucibleStats: [], // 熔火冥獄
       clusterJewelStats: [], // 星團珠寶附魔詞綴
       allocatesStats: [], // 項鍊塗油配置附魔詞綴
       forbiddenZoneStats: [], // 禁忌烈焰/血肉配置詞綴
@@ -1094,7 +1093,7 @@ export default {
       //   .then((response) => {
       //     let result = response.data.result
       let result = this.allStats.result
-      result[0].entries.forEach((element, index) => { // 偽屬性
+      result[result.findIndex(e => e.id === "pseudo")].entries.forEach((element, index) => { // 偽屬性
         let text = element.text
         if (text.indexOf('有房間：') > -1) { // 刪除 "有房間：" 字串
           text = text.substring(4, 20)
@@ -1104,7 +1103,7 @@ export default {
           this.explicitStats.push(text, element.id)
         }
       })
-      result[1].entries.forEach((element, index) => { // 隨機屬性
+      result[result.findIndex(e => e.id === "explicit")].entries.forEach((element, index) => { // 隨機屬性
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
@@ -1126,7 +1125,7 @@ export default {
         }
         this.explicitStats.push(text, element.id)
       })
-      result[2].entries.forEach((element, index) => { // 固定屬性
+      result[result.findIndex(e => e.id === "implicit")].entries.forEach((element, index) => { // 固定屬性
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
@@ -1138,7 +1137,7 @@ export default {
         }
         this.implicitStats.push(text, element.id)
       })
-      result[3].entries.forEach((element, index) => { // 破裂
+      result[result.findIndex(e => e.id === "fractured")].entries.forEach((element, index) => { // 破裂
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
@@ -1147,7 +1146,7 @@ export default {
         }
         this.fracturedStats.push(text, element.id)
       })
-      result[4].entries.forEach((element, index) => { // 附魔
+      result[result.findIndex(e => e.id === "enchant")].entries.forEach((element, index) => { // 附魔
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
@@ -1166,7 +1165,7 @@ export default {
         }
         this.enchantStats.push(text, element.id)
       })
-      result[5].entries.forEach((element, index) => { // 災魘詞綴
+      result[result.findIndex(e => e.id === "scourge")].entries.forEach((element, index) => { // 災魘詞綴
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
@@ -1176,7 +1175,7 @@ export default {
         }
         this.scourgeStats.push(text, element.id)
       })
-      result[6].entries.forEach((element, index) => { // 已工藝
+      result[result.findIndex(e => e.id === "crafted")].entries.forEach((element, index) => { // 已工藝
         let text = element.text
         if (text.indexOf(' (部分)') > -1) { // 刪除(部分)字串
           text = text.substring(0, text.indexOf(' (部分)'))
@@ -1188,18 +1187,14 @@ export default {
         }
         this.craftedStats.push(text, element.id)
       })
-      result[7].entries.forEach((element, index) => { // 熔火冥獄
-        let text = element.text
-        if (text.includes('\n')) { // 處理折行詞綴
-          this.wrapStats.push(text)
-        }
-        this.crucibleStats.push(text, element.id)
-      })
-      result[8].entries.forEach((element, index) => { // 隱匿屬性
+      result[result.findIndex(e => e.id === "veiled")].entries.forEach((element, index) => { // 隱匿屬性
         let text = element.text
         if (text === '隱匿之') text = '隱匿後綴'
         else if (text === '隱匿的') text = '隱匿前綴'
         this.explicitStats.push(text, element.id)
+      })
+      result[result.findIndex(e => e.id === "sanctum")].entries.forEach((element, index) => { // 聖域
+        this.explicitStats.push(element.text, element.id)
       })
       // })
       // .catch(function (error) {
@@ -1709,10 +1704,6 @@ export default {
             text = text.substring(0, text.indexOf('(crafted)'))
             tempStat.push(this.findBestStat(text, this.craftedStats))
             tempStat[tempStat.length - 1].type = "工藝"
-          } else if (itemArray[index].indexOf('(crucible)') > -1) { // 熔火冥獄
-            text = text.substring(0, text.indexOf('(crucible)'))
-            tempStat.push(this.findBestStat(text, this.crucibleStats))
-            tempStat[tempStat.length - 1].type = "熔火"
           } else if (itemArray[index].indexOf('(enchant)') > -1) {
             text = text.substring(0, text.indexOf('(enchant)'))
             if (text.indexOf('附加的小型天賦給予：') > -1) {
