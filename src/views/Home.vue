@@ -1671,7 +1671,7 @@ export default {
           }
         } else if (element.indexOf("只會影響") > -1 && element.indexOf("範圍內的天賦") > -1) { // 希望之絃 Thread of Hope 特殊判斷
           let areaStat = itemArray[index].substr(4, 1)
-          itemArray[index] = `Only affects Passives in # Ring,${areaStat}`
+          itemArray[index] = `只能影響 # Ring 上的天賦,${areaStat}`
         } else if (element.indexOf("卓烙總督物品") > -1 || element.indexOf("吞噬天地物品") > -1 || element.indexOf("Searing Exarch Item") > -1 || element.indexOf("Eater of Worlds Item") > -1) {
           spliceWrapStats(2, index + 1) // 忽略 3.17 新勢力詞綴
         }
