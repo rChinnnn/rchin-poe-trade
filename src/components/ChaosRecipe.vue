@@ -1,44 +1,41 @@
 <template>
-<div>
-  <b-container>
-    <b-row>
-      <b-col sm="12" style="margin-left: 5px;">
-        <b-form-group label="帳號" label-cols-sm="8" label-align-sm="right" label-size="sm" class="mb-0">
-          <b-input-group size="sm">
-            <b-form-input v-model="handleAccountName" placeholder="請輸入帳號"></b-form-input>
-            <b-input-group-append>
-              <b-button :disabled="!$store.state.POESESSID || !$store.state.accountName" @click="getStashTab()">查詢倉庫</b-button>
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group>
-        <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
-      </b-col>
-      <b-col v-if="!isLoading" sm="12" style="margin-left: 20px; padding-top: 5px;">
-        <el-badge :value="haCountString" class="badgeItem" :type="`${helmetCount < 18 || amuletCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('頭部|項鍊')">頭/鍊</el-button>
-        </el-badge>
-        <el-badge :value="grCountString" class="badgeItem" :type="`${glovesCount < 18 || ringCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('手套|戒指')">手/戒</el-button>
-        </el-badge>
-        <el-badge :value="bbCountString" class="badgeItem" :type="`${bootsCount < 18 || beltCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('鞋子|腰帶')">鞋/腰</el-button>
-        </el-badge>
-        <!-- <el-badge :value="beltCount" :max="18" class="badgeItem" :type="`${beltCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('腰帶')">腰</el-button>
-        </el-badge> -->
-        <el-badge :value="weaponCount" :max="18" class="badgeItem" :type="`${weaponCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('單手|匕首|法杖|弓')">武器</el-button>
-        </el-badge>
-        <el-badge :value="bodyCount" :max="18" class="badgeItem" :type="`${bodyCount < 18 ? 'warning' : 'primary'}`">
-          <el-button size="small" round @click="stringCopy('胸甲')">胸甲</el-button>
-        </el-badge>
-        <el-badge :value="veiledCount" class="badgeItem" type="success">
-          <el-button size="small" round @click="stringCopy('隱匿')">隱</el-button>
-        </el-badge>
-      </b-col>
-    </b-row>
-  </b-container>
-</div>
+  <div>
+    <b-container>
+      <b-row>
+        <b-col sm="12" style="margin-left: 5px;">
+          <b-form-group label="帳號" label-cols-sm="8" label-align-sm="right" label-size="sm" class="mb-0">
+            <b-input-group size="sm">
+              <b-form-input v-model="handleAccountName" placeholder="請輸入帳號"></b-form-input>
+              <b-input-group-append>
+                <b-button :disabled="!$store.state.POESESSID || !$store.state.accountName" @click="getStashTab()">查詢倉庫</b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </b-form-group>
+          <loading loader="bars" :active.sync="isLoading" :is-full-page="false"></loading>
+        </b-col>
+        <b-col v-if="!isLoading" sm="12" style="margin-left: 20px; padding-top: 5px;">
+          <el-badge :value="haCountString" class="badgeItem" :type="`${helmetCount < 18 || amuletCount < 18 ? 'warning' : 'primary'}`">
+            <el-button size="small" round @click="stringCopy('頭部|項鍊')">頭/鍊</el-button>
+          </el-badge>
+          <el-badge :value="grCountString" class="badgeItem" :type="`${glovesCount < 18 || ringCount < 18 ? 'warning' : 'primary'}`">
+            <el-button size="small" round @click="stringCopy('手套|戒指')">手/戒</el-button>
+          </el-badge>
+          <el-badge :value="bbCountString" class="badgeItem" :type="`${bootsCount < 18 || beltCount < 18 ? 'warning' : 'primary'}`">
+            <el-button size="small" round @click="stringCopy('鞋子|腰帶')">鞋/腰</el-button>
+          </el-badge>
+          <el-badge :value="weaponCount" :max="18" class="badgeItem" :type="`${weaponCount < 18 ? 'warning' : 'primary'}`">
+            <el-button size="small" round @click="stringCopy('單手|匕首|法杖|弓')">武器</el-button>
+          </el-badge>
+          <el-badge :value="bodyCount" :max="18" class="badgeItem" :type="`${bodyCount < 18 ? 'warning' : 'primary'}`">
+            <el-button size="small" round @click="stringCopy('胸甲')">胸甲</el-button>
+          </el-badge>
+          <el-badge :value="veiledCount" class="badgeItem" type="success">
+            <el-button size="small" round @click="stringCopy('隱匿')">隱</el-button>
+          </el-badge>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 
 <script>
@@ -66,8 +63,8 @@ export default {
       isLoading: false,
     }
   },
-  created() {},
-  mounted() {},
+  created() { },
+  mounted() { },
   methods: {
     getStashTab() {
       let vm = this
@@ -87,9 +84,9 @@ export default {
       this.isLoading = true
 
       this.axios.post(`http://localhost:3031/get_stash`, {
-          url: url,
-          cookie: cookie,
-        })
+        url: url,
+        cookie: cookie,
+      })
         .then((response) => {
           // console.log(response.data)
           if (response.data.hasOwnProperty('error')) {
@@ -138,11 +135,11 @@ export default {
             });
             if (tabsIndex.length > 0) {
               this.axios.all(tabsIndex.map(element => {
-                  return this.axios.post(`http://localhost:3031/get_stash`, {
-                    url: `${url}${element}`,
-                    cookie: cookie,
-                  })
-                }))
+                return this.axios.post(`http://localhost:3031/get_stash`, {
+                  url: `${url}${element}`,
+                  cookie: cookie,
+                })
+              }))
                 .then(vm.axios.spread((...res) => {
                   res.forEach((element, index) => {
                     element.data.items.forEach(item => {
@@ -161,7 +158,7 @@ export default {
                           case item.icon.indexOf("TopazRuby") > -1:
                           case item.icon.indexOf("TopazSapphire") > -1:
                           case item.icon.indexOf("SapphireRuby") > -1:
-                            this.ringCount += 1
+                            this.ringCount += 0.5
                             break;
                           case item.icon.indexOf("/Boots") > -1:
                             this.bootsCount += 1
@@ -229,13 +226,13 @@ export default {
       }
     },
     haCountString() {
-      return `${this.helmetCount > 18 ? '18+' : this.helmetCount }/${this.amuletCount > 18 ? '18+' : this.amuletCount }`
+      return `${this.helmetCount > 18 ? '18+' : this.helmetCount}/${this.amuletCount > 18 ? '18+' : this.amuletCount}`
     },
     grCountString() {
-      return `${this.glovesCount > 18 ? '18+' : this.glovesCount }/${this.ringCount > 18 ? '18+' : this.ringCount }`
+      return `${this.glovesCount > 18 ? '18+' : this.glovesCount}/${this.ringCount > 18 ? '18+' : this.ringCount}`
     },
     bbCountString() {
-      return `${this.bootsCount > 18 ? '18+' : this.bootsCount }/${this.beltCount > 18 ? '18+' : this.beltCount }`
+      return `${this.bootsCount > 18 ? '18+' : this.bootsCount}/${this.beltCount > 18 ? '18+' : this.beltCount}`
     }
   },
 }
