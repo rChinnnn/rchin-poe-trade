@@ -1,15 +1,15 @@
 <template>
-<div id="app">
-  <div style="float: right;">
-    <input type="checkbox" id="theme-toggle" v-model="nightMode">
-    <label for="theme-toggle"><span></span></label>
+  <div id="app">
+    <div style="float: right;">
+      <input type="checkbox" id="theme-toggle" v-model="nightMode">
+      <label for="theme-toggle"><span></span></label>
+    </div>
+    <div id="nav" style="clear: both;">
+      <router-link to="/home">Home</router-link> |
+      <router-link to="/">About</router-link>
+    </div>
+    <router-view />
   </div>
-  <div id="nav" style="clear: both;">
-    <router-link to="/home">Home</router-link> |
-    <router-link to="/">About</router-link>
-  </div>
-  <router-view />
-</div>
 </template>
 
 <style lang="stylus">
@@ -24,9 +24,8 @@
 
 <script>
 import {
-    enable as enableDarkMode,
-    disable as disableDarkMode,
-    isEnabled as isDarkReaderEnabled
+  enable as enableDarkMode,
+  disable as disableDarkMode,
 } from 'darkreader';
 
 enableDarkMode({
@@ -56,7 +55,6 @@ export default {
         disableDarkMode();
       }
       localStorage.setItem("nightMode", JSON.stringify(this.nightMode));
-      // console.log('Night Mode: ' + JSON.stringify(this.nightMode), isDarkReaderEnabled())
     },
   },
 }
