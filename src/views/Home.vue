@@ -1059,7 +1059,11 @@ export default {
         })
     }, 300),
     popOfficialWebsite() {
-      shell.openExternal(`${this.baseUrl}/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
+      if (this.storeServerString === '台服') {
+        shell.openExternal(`${this.baseUrl}/trade/search?q=${JSON.stringify(this.searchJson)}`)
+      } else {
+        shell.openExternal(`${this.baseUrl}/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
+      }
     },
     popPoedbWebsite(itemUs) {
       let itemWebSite = itemUs.replace(/ /g, "_")
@@ -1935,6 +1939,10 @@ export default {
           else if (itemStatText.indexOf("沃拉娜") > -1) optionValue = 2
           else if (itemStatText.indexOf("烏特雷") > -1) optionValue = 3
           else if (itemStatText.indexOf("奧爾羅斯") > -1) optionValue = 4
+        }
+        if (statID.includes("explicit.indexable_")) { // 贗品．龍牙翱翔、禁忌軍帽詞綴自動打勾
+          isStatSearch = true
+          this.isStatsCollapse = true
         }
         if (statID === "enchant.stat_3086156145" || statID === "explicit.stat_1085446536") { // cluster jewel analysis
           isStatSearch = true

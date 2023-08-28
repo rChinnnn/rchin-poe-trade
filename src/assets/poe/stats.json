@@ -30084,6 +30084,31 @@
                     "type": "explicit"
                 },
                 {
+                    "id": "explicit.indexable_skill_11",
+                    "text": "全部 # 寶石等級 +不朽怒嚎",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.indexable_skill_13",
+                    "text": "全部 # 寶石等級 +迴旋之刃",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.indexable_skill_250",
+                    "text": "全部 # 寶石等級 +戰法戰吼",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.indexable_support_159",
+                    "text": "插槽中的寶石被等級 # 的 冰寒之繫 輔助",
+                    "type": "explicit"
+                },
+                {
+                    "id": "explicit.indexable_support_162",
+                    "text": "插槽中的寶石被等級 # 的 精準烈火 輔助",
+                    "type": "explicit"
+                },
+                {
                     "id": "explicit.stat_3819451758",
                     "text": "灰燼之捷增加 #% 魔力保留效用",
                     "type": "explicit"
