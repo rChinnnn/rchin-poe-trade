@@ -1047,7 +1047,7 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.issueText = `Version: v1.322.2, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.322.3, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1059,7 +1059,11 @@ export default {
         })
     }, 300),
     popOfficialWebsite() {
-      shell.openExternal(`${this.baseUrl}/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
+      if (this.storeServerString === '台服') {
+        shell.openExternal(`${this.baseUrl}/trade/search?q=${JSON.stringify(this.searchJson)}`)
+      } else {
+        shell.openExternal(`${this.baseUrl}/trade/search/${this.leagues.chosenL}/${this.fetchQueryID}`)
+      }
     },
     popPoedbWebsite(itemUs) {
       let itemWebSite = itemUs.replace(/ /g, "_")
@@ -1935,6 +1939,10 @@ export default {
           else if (itemStatText.indexOf("沃拉娜") > -1) optionValue = 2
           else if (itemStatText.indexOf("烏特雷") > -1) optionValue = 3
           else if (itemStatText.indexOf("奧爾羅斯") > -1) optionValue = 4
+        }
+        if (statID.includes("explicit.indexable_")) { // 贗品．龍牙翱翔、禁忌軍帽詞綴自動打勾
+          isStatSearch = true
+          this.isStatsCollapse = true
         }
         if (statID === "enchant.stat_3086156145" || statID === "explicit.stat_1085446536") { // cluster jewel analysis
           isStatSearch = true
@@ -2985,7 +2993,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.322.2\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.322.3\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
