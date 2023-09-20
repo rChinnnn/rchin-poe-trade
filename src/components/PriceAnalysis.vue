@@ -392,7 +392,13 @@ export default {
         return indexLength > 4 ? index >= 4 && index < 8 && item : index < indexLength
       })
       this.axios.all(newFilterResult.map((element, index) => {
-        return this.axios.get(`${this.baseUrl}/api/trade/fetch/${element}?query=${this.fetchQueryID}`)
+        let params = {
+          baseUrl: this.baseUrl,
+          element,
+          fetchQueryID: this.fetchQueryID
+        }
+        return this.axios.post(`http://localhost:3031/trade_fetch`, params)
+        // return this.axios.get(`${this.baseUrl}/api/trade/fetch/${element}?query=${this.fetchQueryID}`)
       }))
         .then(this.axios.spread((...res) => {
           let limitStringArray = []

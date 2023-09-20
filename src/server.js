@@ -170,6 +170,27 @@
       });
     });
 
+    app.post('/trade_fetch', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call trade_fetch API")
+      console.log(req.body)
+      const { baseUrl, element, fetchQueryID } = req.body
+      let options = {
+        url: `${baseUrl}/api/trade/fetch/${element}?query=${fetchQueryID}`,
+        method: 'get',
+        headers: {
+          'accept': '*/*',
+          'User-Agent': 'OAuth rChinPoeTrade/1.322.3 (contact: b10121035@yuntech.edu.tw)',
+        },
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
+      }
+      request(options, function (error, response, body) {
+        // console.log(response.statusCode, body)
+        res.send(body);
+      });
+    });
+
     let server = app.listen(3031, function () {
       console.log(moment().format('HH:mm:ss'), 'Express server listening on port ' + server.address().port);
     });
