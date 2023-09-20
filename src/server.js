@@ -4,8 +4,6 @@
     let express = require('express');
     let app = express();
     const request = require('request');
-    const rp = require('request-promise');
-    const cheerio = require('cheerio');
     const moment = require('moment');
     const bodyParser = require("body-parser");
 
@@ -84,6 +82,26 @@
         headers: {
           'accept': '*/*',
           'Cookie': req.body.cookie,
+          'User-Agent': 'OAuth rChinPoeTrade/1.322.3 (contact: b10121035@yuntech.edu.tw)',
+        },
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
+      }
+      request(options, function (error, response, body) {
+        // console.log(response.statusCode, body)
+        res.send(body);
+      });
+    });
+
+    app.post('/get_leagues', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call get_leagues API")
+      console.log(req.body)
+      let options = {
+        url: `${req.body.baseUrl}/api/trade/data/leagues`,
+        method: 'get',
+        headers: {
+          'accept': '*/*',
           'User-Agent': 'OAuth rChinPoeTrade/1.322.3 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,

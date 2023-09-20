@@ -507,8 +507,8 @@ export default {
           label: "混沌石",
           prop: 'chaos'
         }, {
-          label: "崇高石",
-          prop: 'exa'
+          label: "神聖石",
+          prop: 'divine'
         }],
         chosenObj: {
           label: "與混沌石等值",
@@ -1066,7 +1066,7 @@ export default {
       }
     },
     popPoedbWebsite(itemUs) {
-      let itemWebSite = itemUs.replace(/ /g, "_")
+      let itemWebSite = encodeURIComponent(itemUs.replace(/ /g, "_"))
       shell.openExternal(`https://poedb.tw/tw/${itemWebSite}`)
     },
     openLink(URL) {
@@ -1503,7 +1503,7 @@ export default {
     },
     leaguesAPI() { // 聯盟 API
       let vm = this
-      this.axios.get(`${this.baseUrl}/api/trade/data/leagues`,)
+      this.axios.post(`http://localhost:3031/get_leagues`, { baseUrl: this.baseUrl })
         .then((response) => {
           // const getID = _.property('id')
           // `_.property` 迭代縮寫 _.map(response.data.result, 'id') = _.map(response.data.result, getID)
