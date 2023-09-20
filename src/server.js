@@ -4,10 +4,9 @@
     let express = require('express');
     let app = express();
     const request = require('request');
-    const rp = require('request-promise');
-    const cheerio = require('cheerio');
     const moment = require('moment');
     const bodyParser = require("body-parser");
+    const localErrorMsg = '無法正確獲得官方 API 資源，請稍後再試'
 
     /*
       (async () => {
@@ -62,7 +61,7 @@
           'Sec-Fetch-Site': 'same-origin',
           'Sec-Fetch-Mode': 'cors',
           'Sec-Fetch-Dest': 'empty',
-          'User-Agent': 'OAuth rChinPoeTrade/1.322.3 (contact: b10121035@yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.322.4 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -84,7 +83,7 @@
         headers: {
           'accept': '*/*',
           'Cookie': req.body.cookie,
-          'User-Agent': 'OAuth rChinPoeTrade/1.322.3 (contact: b10121035@yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.322.4 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -96,11 +95,30 @@
       });
     });
 
+    app.post('/get_leagues', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call get_leagues API")
+      console.log(req.body)
+      let options = {
+        url: `${req.body.baseUrl}/api/trade/data/leagues`,
+        method: 'get',
+        headers: {
+          'accept': '*/*',
+          'User-Agent': 'OAuth rChinPoeTrade/1.322.4 (contact: b10121035@yuntech.edu.tw)',
+        },
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
+      }
+      request(options, function (error, response, body) {
+        // console.log(response.statusCode, body)
+        res.status(response ? response.statusCode : 500).send(body ? body : localErrorMsg);
+      });
+    });
+
     // post searchJson to garena POE trade API
     app.post('/trade', function (req, res) {
       console.log(moment().format('HH:mm:ss'), "Call trade(post) API", req.body.league)
       console.log(req.body.searchJson.query)
-      const localErrorMsg = '無法正確獲得官方 API 資源，請稍後再試'
       let league = encodeURI(req.body.league)
       let baseUrl = req.body.baseUrl
       let fetchID = [] // 儲存得到的 result ID, 10 個 ID 為一組陣列
@@ -111,7 +129,7 @@
         headers: {
           'accept': '*/*',
           'Content-Type': 'application/json',
-          'User-Agent': 'OAuth rChinPoeTrade/1.322.3 (contact: b10121035@yuntech.edu.tw)',
+          'User-Agent': 'OAuth rChinPoeTrade/1.322.4 (contact: b10121035@yuntech.edu.tw)',
         },
         rejectUnauthorized: false,
         requestCert: false,
@@ -149,6 +167,28 @@
           // console.log(body)
           res.status(response ? response.statusCode : 500).send(body ? body : localErrorMsg);
         }
+      });
+    });
+
+    app.post('/trade_fetch', function (req, res) {
+      console.log(moment().format('HH:mm:ss'), "call trade_fetch API")
+      console.log(req.body)
+      const { baseUrl, element, fetchQueryID } = req.body
+      let options = {
+        url: `${baseUrl}/api/trade/fetch/${element}?query=${fetchQueryID}`,
+        method: 'get',
+        headers: {
+          'accept': '*/*',
+          'User-Agent': 'OAuth rChinPoeTrade/1.322.4 (contact: b10121035@yuntech.edu.tw)',
+        },
+        rejectUnauthorized: false,
+        requestCert: false,
+        agent: false,
+      }
+      request(options, function (error, response, body) {
+        // console.log(response.headers["x-rate-limit-ip-state"])
+        res.set('x-rate-limit-ip-state', response.headers["x-rate-limit-ip-state"]);
+        res.status(response ? response.statusCode : 500).send(body ? body : localErrorMsg);
       });
     });
 

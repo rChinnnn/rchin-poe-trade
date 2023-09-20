@@ -507,8 +507,8 @@ export default {
           label: "混沌石",
           prop: 'chaos'
         }, {
-          label: "崇高石",
-          prop: 'exa'
+          label: "神聖石",
+          prop: 'divine'
         }],
         chosenObj: {
           label: "與混沌石等值",
@@ -1047,7 +1047,10 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
-          vm.issueText = `Version: v1.322.3, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          if (error.response.status === 429) {
+            errMsg += `\n被 Server 限制發送需求了，請等待後再重試`
+          }
+          vm.issueText = `Version: v1.322.4, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1066,7 +1069,7 @@ export default {
       }
     },
     popPoedbWebsite(itemUs) {
-      let itemWebSite = itemUs.replace(/ /g, "_")
+      let itemWebSite = encodeURIComponent(itemUs.replace(/ /g, "_"))
       shell.openExternal(`https://poedb.tw/tw/${itemWebSite}`)
     },
     openLink(URL) {
@@ -1503,7 +1506,7 @@ export default {
     },
     leaguesAPI() { // 聯盟 API
       let vm = this
-      this.axios.get(`${this.baseUrl}/api/trade/data/leagues`,)
+      this.axios.post(`http://localhost:3031/get_leagues`, { baseUrl: this.baseUrl })
         .then((response) => {
           // const getID = _.property('id')
           // `_.property` 迭代縮寫 _.map(response.data.result, 'id') = _.map(response.data.result, getID)
@@ -2993,7 +2996,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.322.3\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.322.4\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return

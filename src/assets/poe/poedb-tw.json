@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 4708,
+    "size": 4709,
     "data": [
         {
             "type": "Class",
@@ -15725,28 +15725,33 @@
         },
         {
             "type": "BaseType",
-            "us": "Journey Tattoo of the Remora",
-            "lang": "雷默拉的尊榮紋身"
+            "us": "Ancestral Tattoo of Bloodlines",
+            "lang": "血族的祖靈紋身"
         },
         {
             "type": "BaseType",
-            "us": "Journey Tattoo of the Shark",
-            "lang": "鯊魚的尊榮紋身"
+            "us": "Honoured Tattoo of the Makanga",
+            "lang": "馬坎加的尊榮紋身"
         },
         {
             "type": "BaseType",
-            "us": "Journey Tattoo of the Mastodon",
-            "lang": "巨象的尊榮紋身"
+            "us": "Journey Tattoo of the Body",
+            "lang": "軀體的歷練紋身"
         },
         {
             "type": "BaseType",
-            "us": "Journey Tattoo of the Rhoa",
-            "lang": "恐喙鳥的尊榮紋身"
+            "us": "Journey Tattoo of the Mind",
+            "lang": "心智的歷練紋身"
         },
         {
             "type": "BaseType",
-            "us": "Journey Tattoo of the Shadow",
-            "lang": "暗影刺客的尊榮紋身"
+            "us": "Journey Tattoo of the Soul",
+            "lang": "靈魂的歷練紋身"
+        },
+        {
+            "type": "BaseType",
+            "us": "Journey Tattoo of Makanui",
+            "lang": "馬卡努伊的歷練紋身"
         },
         {
             "type": "BaseType",
