@@ -1047,6 +1047,9 @@ export default {
         })
         .catch(function (error) {
           let errMsg = JSON.stringify(error.response.data)
+          if (error.response.status === 429) {
+            errMsg += `\n被 Server 限制發送需求了，請等待後再重試`
+          }
           vm.issueText = `Version: v1.322.3, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false

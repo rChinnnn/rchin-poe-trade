@@ -6,6 +6,7 @@
     const request = require('request');
     const moment = require('moment');
     const bodyParser = require("body-parser");
+    const localErrorMsg = '無法正確獲得官方 API 資源，請稍後再試'
 
     /*
       (async () => {
@@ -110,7 +111,7 @@
       }
       request(options, function (error, response, body) {
         // console.log(response.statusCode, body)
-        res.send(body);
+        res.status(response ? response.statusCode : 500).send(body ? body : localErrorMsg);
       });
     });
 
@@ -118,7 +119,6 @@
     app.post('/trade', function (req, res) {
       console.log(moment().format('HH:mm:ss'), "Call trade(post) API", req.body.league)
       console.log(req.body.searchJson.query)
-      const localErrorMsg = '無法正確獲得官方 API 資源，請稍後再試'
       let league = encodeURI(req.body.league)
       let baseUrl = req.body.baseUrl
       let fetchID = [] // 儲存得到的 result ID, 10 個 ID 為一組陣列
@@ -186,8 +186,9 @@
         agent: false,
       }
       request(options, function (error, response, body) {
-        // console.log(response.statusCode, body)
-        res.send(body);
+        // console.log(response.headers["x-rate-limit-ip-state"])
+        res.set('x-rate-limit-ip-state', response.headers["x-rate-limit-ip-state"]);
+        res.status(response ? response.statusCode : 500).send(body ? body : localErrorMsg);
       });
     });
 
