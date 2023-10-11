@@ -2119,11 +2119,22 @@ export default {
       })
     },
     compassStatsAnalysis(itemArray) {
+      this.isItem = true
+      this.isItemCollapse = false
       let tempStat = []
       let itemDisplayStats = []
       let optionValue = 0 // 大師 / 裂痕 / 豐收選項
       let itemStatStart = 5 // 羅盤詞綴起始點
-      let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。") - 2 //  羅盤詞綴結束點
+      let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。" || data === "區域中掉落的地圖有 25% 機率高 1 階") - 2 //  羅盤詞綴結束點
+
+      if (itemStatEnd < itemStatStart) {
+        this.cleanClipboard()
+        this.$message({
+          type: 'warning',
+          message: `無法查詢無詞綴的虛空石！`
+        });
+        return
+      }
 
       itemArray.forEach((element, index) => { // 處理遊戲內述敘與 API 敘述不一致之詞綴
         if (element.indexOf("你的地圖能包含裂痕") > -1) { // enchant.stat_2180286756: 遊戲內敘述 "你的地圖能包含裂痕"、詞綴 API 敘述 "此區域可能含有裂痕"
@@ -2146,6 +2157,8 @@ export default {
           itemArray[index] = `區域含有祭祀神壇`
         } else if (element.indexOf("你的地圖含有許多背叛者") > -1) { // enchant.stat_3747734818: 遊戲內敘述 "你的地圖含有許多背叛者"、詞綴 API 敘述 "區域包含許多背叛者"
           itemArray[index] = `區域包含許多背叛者`
+        } else if (element.indexOf("你的地圖含有 1 個額外深淵") > -1) { // enchant.stat_1070816711: 遊戲內敘述 "你的地圖含有 1 個額外深淵"、詞綴 API 敘述 "此區域含 1 個額外深淵"
+          itemArray[index] = `此區域含 1 個額外深淵`
         } else if (element.indexOf("你的地圖含有埃哈") > -1) { // enchant.stat_3187151138: 遊戲內敘述 "你的地圖含有埃哈"、詞綴 API 敘述 "你的地圖包含# (大師)"，需輸入 option
           itemArray[index] = `你的地圖包含# (大師)`
           optionValue = 2
@@ -2184,7 +2197,7 @@ export default {
       for (let index = itemStatStart; index <= itemStatEnd; index++) {
         itemDisplayStats.push(itemArray[index])
         tempStat.push(this.findBestStat(itemArray[index], this.enchantStats))
-        tempStat[tempStat.length - 1].type = "附魔"
+        tempStat[tempStat.length - 1].type = "羅盤"
       }
 
       tempStat.forEach((element, idx) => {
@@ -2211,6 +2224,8 @@ export default {
           apiStatText = '你的地圖包含祭祀神壇'
         } else if (statID == 'enchant.stat_3747734818') { // 處理在 UI 上顯示的"你的地圖含有許多背叛者"詞綴，與遊戲內一致
           apiStatText = '你的地圖含有許多背叛者'
+        } else if (statID == 'enchant.stat_1070816711') { // 處理在 UI 上顯示的"你的地圖含有 1 個額外深淵"詞綴，與遊戲內一致
+          apiStatText = '你的地圖含有 1 個額外深淵'
         } else if (statID == 'enchant.stat_3187151138') { // 處理在 UI 上顯示的"你的地圖包含大師"詞綴，與遊戲內一致
           switch (optionValue) {
             case 2:
@@ -2262,14 +2277,16 @@ export default {
           "id": statID,
           "text": apiStatText,
           "option": optionValue ? optionValue : '',
-          "min": statID == 'enchant.stat_290368246' ? itemStatText.match(/\d/g)[0] : '',
+          "min": statID == 'enchant.stat_290368246' ? parseFloat(itemStatText.match(/\d+/)[0]) : '',
           "max": '',
           "isValue": statID == 'enchant.stat_290368246' ? true : false,
           "isNegative": false,
-          "isSearch": false,
+          "isSearch": true,
           "type": element.type
         })
+        optionValue = 0
       })
+      this.searchTrade(this.searchJson)
     },
     findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用 '#' 取代的兩種字串皆判斷並取最符合那一筆
       let floatValue = []
@@ -2991,6 +3008,13 @@ export default {
           this.isStatsCollapse = true
           return
         }
+      } else if (Rarity === "任務" && !this.isItem) {
+        this.searchName = `物品名稱 <br>『充能的羅盤』`
+        if (item.indexOf('放置於此以提升你輿圖全部地圖的階級。') > -1) { // 任務虛空石
+          this.compassStatsAnalysis(itemArray)
+          this.isStatsCollapse = true
+          return
+        }
       } else if (this.isItem) {
         this.itemStatsAnalysis(itemArray, 0)
         return
@@ -3187,6 +3211,7 @@ export default {
             return {
               'color': '#5555ff'
             }
+          case '羅盤':
           case '附魔':
             return {
               'color': '#8181ff'
