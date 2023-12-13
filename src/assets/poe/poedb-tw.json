@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 4709,
+    "size": 4854,
     "data": [
         {
             "type": "Class",
@@ -342,6 +342,21 @@
             "type": "Class",
             "us": "Sanctum Research",
             "lang": "聖域研究"
+        },
+        {
+            "type": "Class",
+            "us": "Tinctures",
+            "lang": "萃取物"
+        },
+        {
+            "type": "Class",
+            "us": "Corpses",
+            "lang": "屍體"
+        },
+        {
+            "type": "Class",
+            "us": "Charms",
+            "lang": "咒語"
         },
         {
             "type": "BaseType",
@@ -685,8 +700,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Amorphous Delirium Orb",
-            "lang": "變態之譫妄玉"
+            "us": "Challenging Delirium Orb",
+            "lang": "挑戰之譫妄玉"
         },
         {
             "type": "BaseType",
@@ -1735,6 +1750,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Tainted Catalyst",
+            "lang": "玷汙催化劑"
+        },
+        {
+            "type": "BaseType",
             "us": "Time-light Scroll",
             "lang": "時光卷軸"
         },
@@ -1832,6 +1852,11 @@
             "type": "BaseType",
             "us": "Uncarved Gemstone",
             "lang": "未雕刻寶石"
+        },
+        {
+            "type": "BaseType",
+            "us": "Valdo's Puzzle Box",
+            "lang": "瓦爾多的謎盒"
         },
         {
             "type": "BaseType",
@@ -3705,6 +3730,26 @@
         },
         {
             "type": "BaseType",
+            "us": "Composite Ring",
+            "lang": "複合戒指"
+        },
+        {
+            "type": "BaseType",
+            "us": "Manifold Ring",
+            "lang": "孔洞戒指"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ratcheting Ring",
+            "lang": "荊棘戒指"
+        },
+        {
+            "type": "BaseType",
+            "us": "Helical Ring",
+            "lang": "螺旋戒指"
+        },
+        {
+            "type": "BaseType",
             "us": "Dusk Ring",
             "lang": "幽暗戒指"
         },
@@ -3837,6 +3882,11 @@
             "type": "BaseType",
             "us": "Simplex Amulet",
             "lang": "簡純護身符"
+        },
+        {
+            "type": "BaseType",
+            "us": "Focused Amulet",
+            "lang": "專注護身符"
         },
         {
             "type": "BaseType",
@@ -6605,11 +6655,6 @@
         },
         {
             "type": "BaseType",
-            "us": "Snipe",
-            "lang": "狙擊"
-        },
-        {
-            "type": "BaseType",
             "us": "Caustic Arrow",
             "lang": "腐蝕箭矢"
         },
@@ -7712,11 +7757,6 @@
             "type": "BaseType",
             "us": "Generosity Support",
             "lang": "和善輔助"
-        },
-        {
-            "type": "BaseType",
-            "us": "Herald of Blood",
-            "lang": "赤血之捷"
         },
         {
             "type": "BaseType",
@@ -9337,6 +9377,11 @@
             "type": "BaseType",
             "us": "Prismatic Burst Support",
             "lang": "三相爆發輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Snipe",
+            "lang": "狙擊"
         },
         {
             "type": "BaseType",
@@ -12940,8 +12985,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Morphing Incubator",
-            "lang": "變形的培育器"
+            "us": "Challenging Incubator",
+            "lang": "挑戰的培育器"
         },
         {
             "type": "BaseType",
@@ -12950,18 +12995,18 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Puruna, the Challenger",
-            "lang": "奪取之魂：挑戰者普魯那"
+            "us": "Captured Soul of Blood Progenitor",
+            "lang": "奪取之魂：巨猿血祖"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Fragment of Winter",
-            "lang": "奪取之魂：冬之碎片"
+            "us": "Captured Soul of Merveil, the Returned",
+            "lang": "奪取之魂：復生者莫薇兒"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Pirate Treasure",
-            "lang": "奪取之魂：海盜的寶藏"
+            "us": "Captured Soul of Nassar, Lion of the Seas",
+            "lang": "奪取之魂：海洋之獅納瑟爾"
         },
         {
             "type": "BaseType",
@@ -12970,23 +13015,23 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Hybrid Widow",
-            "lang": "奪取之魂：混種黑寡婦"
+            "us": "Captured Soul of Spinner of False Hope",
+            "lang": "奪取之魂：幻象恐蛛"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Armala, the Widow",
-            "lang": "奪取之魂：寡婦阿摩拉"
+            "us": "Captured Soul of Queen of the Great Tangle",
+            "lang": "奪取之魂：紛爭女王"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Forest of Flames",
-            "lang": "奪取之魂：烈焰之森"
+            "us": "Captured Soul of Lord of the Ashen Arrow",
+            "lang": "奪取之魂：魂靈之冥箭"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Fire and Fury",
-            "lang": "奪取之魂：熾怒之靈"
+            "us": "Captured Soul of Megaera",
+            "lang": "奪取之魂：炎靈密卡拉"
         },
         {
             "type": "BaseType",
@@ -12995,8 +13040,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Khor, Sister of Shadows",
-            "lang": "奪取之魂：暗影姊妹．霍爾"
+            "us": "Captured Soul of Sebbert, Crescent's Point",
+            "lang": "奪取之魂：弦月之靈賽伯特"
         },
         {
             "type": "BaseType",
@@ -13005,8 +13050,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of The Winged Death",
-            "lang": "奪取之魂：雙翼死神"
+            "us": "Captured Soul of It That Fell",
+            "lang": "奪取之魂：邪靈體"
         },
         {
             "type": "BaseType",
@@ -13020,13 +13065,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Varhesh, Shimmering Aberration",
-            "lang": "奪取之魂：微光之屍弗賽斯"
+            "us": "Captured Soul of Tunneltrap",
+            "lang": "奪取之魂：熾魂"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Avatar of Undoing",
-            "lang": "奪取之魂：毀滅之像"
+            "us": "Captured Soul of Preethi, Eye-Pecker",
+            "lang": "奪取之魂：啄眼者布里斯"
         },
         {
             "type": "BaseType",
@@ -13035,13 +13080,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of The Hollow Lady",
-            "lang": "奪取之魂：棄魂之女"
+            "us": "Captured Soul of Drek, Apex Hunter",
+            "lang": "奪取之魂：獵者之巔德雷克"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of The Blacksmith",
-            "lang": "奪取之魂：惡靈鐵匠"
+            "us": "Captured Soul of Stalker of the Endless Dunes",
+            "lang": "奪取之魂：無邊沙丘潛行者"
         },
         {
             "type": "BaseType",
@@ -13080,8 +13125,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Ultimatum Aspect",
-            "lang": "最後通牒祝福"
+            "us": "Vaal Aspect",
+            "lang": "瓦爾祝福"
         },
         {
             "type": "BaseType",
@@ -13365,23 +13410,23 @@
         },
         {
             "type": "BaseType",
-            "us": "Rusted Metamorph Scarab",
-            "lang": "聖甲蟲：鏽蝕鍊魔"
+            "us": "Rusted Ultimatum Scarab",
+            "lang": "聖甲蟲：鏽蝕通牒"
         },
         {
             "type": "BaseType",
-            "us": "Polished Metamorph Scarab",
-            "lang": "聖甲蟲：圓滑鍊魔"
+            "us": "Polished Ultimatum Scarab",
+            "lang": "聖甲蟲：圓滑通牒"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Metamorph Scarab",
-            "lang": "聖甲蟲：鍍金鍊魔"
+            "us": "Gilded Ultimatum Scarab",
+            "lang": "聖甲蟲：鍍金通牒"
         },
         {
             "type": "BaseType",
-            "us": "Winged Metamorph Scarab",
-            "lang": "聖甲蟲：展翅鍊魔"
+            "us": "Winged Ultimatum Scarab",
+            "lang": "聖甲蟲：展翅通牒"
         },
         {
             "type": "BaseType",
@@ -15767,6 +15812,626 @@
             "type": "BaseType",
             "us": "His Judgement",
             "lang": "他的判斷"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ironwood Tincture",
+            "lang": "鐵木林萃取物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ashbark Tincture",
+            "lang": "灰樹皮萃取物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Fulgurite Tincture",
+            "lang": "電熔岩萃取物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Poisonberry Tincture",
+            "lang": "毒莓果萃取物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Rosethorn Tincture",
+            "lang": "玫瑰刺萃取物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Oakbranch Tincture",
+            "lang": "橡木枝萃取物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Borealwood Tincture",
+            "lang": "針葉木萃取物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blood Sap Tincture",
+            "lang": "鮮血液萃取物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ursine Charm",
+            "lang": "熊族咒語"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lupine Charm",
+            "lang": "狼族咒語"
+        },
+        {
+            "type": "BaseType",
+            "us": "Corvine Charm",
+            "lang": "烏鴉咒語"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vivid Wisps",
+            "lang": "靈現妖精"
+        },
+        {
+            "type": "BaseType",
+            "us": "Wild Wisps",
+            "lang": "野性妖精"
+        },
+        {
+            "type": "BaseType",
+            "us": "Primal Wisps",
+            "lang": "原始妖精"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Hydra",
+            "lang": "不完美九頭蛇"
+        },
+        {
+            "type": "BaseType",
+            "us": "Hydra",
+            "lang": "九頭蛇"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Hydra",
+            "lang": "完美九頭蛇"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Frozen Cannibal",
+            "lang": "不完美冰凍食人族"
+        },
+        {
+            "type": "BaseType",
+            "us": "Frozen Cannibal",
+            "lang": "冰凍食人族"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Frozen Cannibal",
+            "lang": "完美冰凍食人族"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Fiery Cannibal",
+            "lang": "不完美烈焰食人族"
+        },
+        {
+            "type": "BaseType",
+            "us": "Fiery Cannibal",
+            "lang": "烈焰食人族"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Fiery Cannibal",
+            "lang": "完美烈焰食人族"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Dark Marionette",
+            "lang": "不完美黑暗木偶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Dark Marionette",
+            "lang": "黑暗木偶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Dark Marionette",
+            "lang": "完美黑暗木偶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Naval Officer",
+            "lang": "不完美海軍軍官"
+        },
+        {
+            "type": "BaseType",
+            "us": "Naval Officer",
+            "lang": "海軍軍官"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Naval Officer",
+            "lang": "完美海軍軍官"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Dancing Sword",
+            "lang": "不完美劍舞"
+        },
+        {
+            "type": "BaseType",
+            "us": "Dancing Sword",
+            "lang": "劍舞"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Dancing Sword",
+            "lang": "完美劍舞"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Needle Horror",
+            "lang": "不完美針恐怖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Needle Horror",
+            "lang": "針恐怖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Needle Horror",
+            "lang": "完美針恐怖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Serpent Warrior",
+            "lang": "不完美蛇靈戰士"
+        },
+        {
+            "type": "BaseType",
+            "us": "Serpent Warrior",
+            "lang": "蛇靈戰士"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Serpent Warrior",
+            "lang": "完美蛇靈戰士"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Pain Artist",
+            "lang": "不完美恐怖主義"
+        },
+        {
+            "type": "BaseType",
+            "us": "Pain Artist",
+            "lang": "恐怖主義"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Pain Artist",
+            "lang": "完美恐怖主義"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Sawblade Horror",
+            "lang": "不完美奪魂鋸"
+        },
+        {
+            "type": "BaseType",
+            "us": "Sawblade Horror",
+            "lang": "奪魂鋸"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Sawblade Horror",
+            "lang": "完美奪魂鋸"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Restless Knight",
+            "lang": "不完美焦躁騎士"
+        },
+        {
+            "type": "BaseType",
+            "us": "Restless Knight",
+            "lang": "焦躁騎士"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Restless Knight",
+            "lang": "完美焦躁騎士"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Blood Demon",
+            "lang": "不完美血腥惡魔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blood Demon",
+            "lang": "血腥惡魔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Blood Demon",
+            "lang": "完美血腥惡魔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Slashing Horror",
+            "lang": "不完美劈砍幽魂"
+        },
+        {
+            "type": "BaseType",
+            "us": "Slashing Horror",
+            "lang": "劈砍幽魂"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Slashing Horror",
+            "lang": "完美劈砍幽魂"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Riftcaster",
+            "lang": "不完美裂隙法師"
+        },
+        {
+            "type": "BaseType",
+            "us": "Riftcaster",
+            "lang": "裂隙法師"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Riftcaster",
+            "lang": "完美裂隙法師"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Druidic Alchemist",
+            "lang": "不完美德魯伊鍊金師"
+        },
+        {
+            "type": "BaseType",
+            "us": "Druidic Alchemist",
+            "lang": "德魯伊鍊金師"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Druidic Alchemist",
+            "lang": "完美德魯伊鍊金師"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Escaped Prototype",
+            "lang": "不完美脫逃原型"
+        },
+        {
+            "type": "BaseType",
+            "us": "Escaped Prototype",
+            "lang": "脫逃原型"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Escaped Prototype",
+            "lang": "完美脫逃原型"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Blasphemer",
+            "lang": "不完美褻瀆者"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blasphemer",
+            "lang": "褻瀆者"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Blasphemer",
+            "lang": "完美褻瀆者"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Judgemental Spirit",
+            "lang": "不完美審判之魂"
+        },
+        {
+            "type": "BaseType",
+            "us": "Judgemental Spirit",
+            "lang": "審判之魂"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Judgemental Spirit",
+            "lang": "完美審判之魂"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Primal Thunderbird",
+            "lang": "不完美原始雷鳥"
+        },
+        {
+            "type": "BaseType",
+            "us": "Primal Thunderbird",
+            "lang": "原始雷鳥"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Primal Thunderbird",
+            "lang": "完美原始雷鳥"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Spirit of Fortune",
+            "lang": "不完美財富之魂"
+        },
+        {
+            "type": "BaseType",
+            "us": "Spirit of Fortune",
+            "lang": "財富之魂"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Spirit of Fortune",
+            "lang": "完美財富之魂"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Primal Demiurge",
+            "lang": "不完美原始造物主"
+        },
+        {
+            "type": "BaseType",
+            "us": "Primal Demiurge",
+            "lang": "原始造物主"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Primal Demiurge",
+            "lang": "完美原始造物主"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Runic Skeleton",
+            "lang": "不完美符文骷髏"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runic Skeleton",
+            "lang": "符文骷髏"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Runic Skeleton",
+            "lang": "完美符文骷髏"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Warlord",
+            "lang": "不完美督軍"
+        },
+        {
+            "type": "BaseType",
+            "us": "Warlord",
+            "lang": "督軍"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Warlord",
+            "lang": "完美督軍"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Dark Reaper",
+            "lang": "不完美黑暗奪魂鐮"
+        },
+        {
+            "type": "BaseType",
+            "us": "Dark Reaper",
+            "lang": "黑暗奪魂鐮"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Dark Reaper",
+            "lang": "完美黑暗奪魂鐮"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Hulking Miscreation",
+            "lang": "不完美巨大畸形"
+        },
+        {
+            "type": "BaseType",
+            "us": "Hulking Miscreation",
+            "lang": "巨大畸形"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Hulking Miscreation",
+            "lang": "完美巨大畸形"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Sanguimancer Demon",
+            "lang": "不完美占血惡魔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Sanguimancer Demon",
+            "lang": "占血惡魔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Sanguimancer Demon",
+            "lang": "完美占血惡魔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Shadow Berserker",
+            "lang": "不完美影子暴徒"
+        },
+        {
+            "type": "BaseType",
+            "us": "Shadow Berserker",
+            "lang": "影子暴徒"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Shadow Berserker",
+            "lang": "完美影子暴徒"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Spider Matriarch",
+            "lang": "不完美蜘蛛女族長"
+        },
+        {
+            "type": "BaseType",
+            "us": "Spider Matriarch",
+            "lang": "蜘蛛女族長"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Spider Matriarch",
+            "lang": "完美蜘蛛女族長"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Half-remembered Goliath",
+            "lang": "不完美腦殘巨人"
+        },
+        {
+            "type": "BaseType",
+            "us": "Half-remembered Goliath",
+            "lang": "腦殘巨人"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Half-remembered Goliath",
+            "lang": "完美腦殘巨人"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Meatsack",
+            "lang": "不完美肉袋"
+        },
+        {
+            "type": "BaseType",
+            "us": "Meatsack",
+            "lang": "肉袋"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Meatsack",
+            "lang": "完美肉袋"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Eldritch Eye",
+            "lang": "不完美異能之眼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Eldritch Eye",
+            "lang": "異能之眼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Eldritch Eye",
+            "lang": "完美異能之眼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Forest Tiger",
+            "lang": "不完美森林猛虎"
+        },
+        {
+            "type": "BaseType",
+            "us": "Forest Tiger",
+            "lang": "森林猛虎"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Forest Tiger",
+            "lang": "完美森林猛虎"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Guardian Turtle",
+            "lang": "不完美守護野龜"
+        },
+        {
+            "type": "BaseType",
+            "us": "Guardian Turtle",
+            "lang": "守護野龜"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Guardian Turtle",
+            "lang": "完美守護野龜"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Shadow Construct",
+            "lang": "不完美影子生物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Shadow Construct",
+            "lang": "影子生物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Shadow Construct",
+            "lang": "完美影子生物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Imperfect Forest Warrior",
+            "lang": "不完美森林戰士"
+        },
+        {
+            "type": "BaseType",
+            "us": "Forest Warrior",
+            "lang": "森林戰士"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perfect Forest Warrior",
+            "lang": "完美森林戰士"
+        },
+        {
+            "type": "BaseType",
+            "us": "Who Asked",
+            "lang": "是誰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Eldritch Perfection",
+            "lang": "完美異能"
+        },
+        {
+            "type": "BaseType",
+            "us": "Assassin's Gift",
+            "lang": "刺客的餽贈"
+        },
+        {
+            "type": "BaseType",
+            "us": "I See Brothers",
+            "lang": "來了兄弟"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ethereal Bow",
+            "lang": "以太之弓"
         },
         {
             "type": "Unique",
@@ -22600,23 +23265,23 @@
         },
         {
             "type": "Unique",
-            "us": "Victorious Fate",
-            "lang": "勝利之運"
+            "us": "Beauty",
+            "lang": "美麗"
         },
         {
             "type": "Unique",
-            "us": "Deadly End",
-            "lang": "死局"
+            "us": "Curiosity",
+            "lang": "好奇"
         },
         {
             "type": "Unique",
-            "us": "Will of Chaos",
-            "lang": "混沌意志"
+            "us": "Ambition",
+            "lang": "野心"
         },
         {
             "type": "Unique",
-            "us": "Ignominious Fate",
-            "lang": "可恥之運"
+            "us": "Cooperation",
+            "lang": "協作"
         },
         {
             "type": "Unique",
@@ -22952,6 +23617,101 @@
             "type": "Unique",
             "us": "Bane of Chaos",
             "lang": "混沌災厄"
+        },
+        {
+            "type": "Unique",
+            "us": "The Adorned",
+            "lang": "假掰"
+        },
+        {
+            "type": "Unique",
+            "us": "The Untouched Soul",
+            "lang": "聖潔之魂"
+        },
+        {
+            "type": "Unique",
+            "us": "Pragmatism",
+            "lang": "實用主義"
+        },
+        {
+            "type": "Unique",
+            "us": "The Burden of Shadows",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "That Which Was Taken",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "The Trickster's Smile",
+            "lang": "戲法師的微笑"
+        },
+        {
+            "type": "Unique",
+            "us": "Nametaker",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "The Flawed Refuge",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "Ixchel's Temptation",
+            "lang": "薩雷許的誘惑"
+        },
+        {
+            "type": "Unique",
+            "us": "Gamblesprint",
+            "lang": "豪賭"
+        },
+        {
+            "type": "Unique",
+            "us": "Replica Covenant",
+            "lang": "贗品．血誓"
+        },
+        {
+            "type": "Unique",
+            "us": "Replica Badge of the Brotherhood",
+            "lang": "贗品．激情之章"
+        },
+        {
+            "type": "Unique",
+            "us": "Replica Witchfire Brew",
+            "lang": "贗品．巫火秘釀"
+        },
+        {
+            "type": "Unique",
+            "us": "Replica Hyrri's Ire",
+            "lang": "贗品．西里的戰衣"
+        },
+        {
+            "type": "Unique",
+            "us": "Replica Pacifism",
+            "lang": "贗品．和平主義"
+        },
+        {
+            "type": "Unique",
+            "us": "Replica Fragility",
+            "lang": "贗品．虛弱"
+        },
+        {
+            "type": "Unique",
+            "us": "Replica Powerlessness",
+            "lang": "贗品．無力"
+        },
+        {
+            "type": "Unique",
+            "us": "Replica Heatshiver",
+            "lang": "贗品．寒焰"
+        },
+        {
+            "type": "Unique",
+            "us": "Replica Hinekora's Sight",
+            "lang": "贗品．悉妮蔻拉之眼"
         },
         {
             "type": "Monster",
