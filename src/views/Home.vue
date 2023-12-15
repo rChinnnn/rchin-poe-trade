@@ -2990,6 +2990,13 @@ export default {
             "option": this.replaceString(isTransfigured.type),
             "discriminator": isTransfigured.disc
           }
+          if (item.indexOf('瓦爾．') > -1) { // 瓦爾 & 變異寶石
+            let vaalPos = item.substring(item.indexOf('瓦爾．'))
+            let vaalPosEnd = vaalPos.indexOf(NL)
+            let vaalGem = vaalPos.substring(0, vaalPosEnd)
+            this.searchName = `物品名稱『${vaalGem} (${searchName})』`
+            this.searchJson.query.type.option = this.replaceString(`瓦爾．${isTransfigured.type}`)
+          }
         } else {
           if (item.indexOf('瓦爾．') > -1) { // 瓦爾技能
             let vaalPos = item.substring(item.indexOf('瓦爾．'))
