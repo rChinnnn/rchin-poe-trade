@@ -1,8 +1,8 @@
 # Readme.md
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/rChinnnn/rchin-poe-trade?style=social)
-![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-Setup-1.322.4.exe?label=Downloads&style=social)
-![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-1.322.4.exe?label=Downloads&style=social)
+![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-Setup-1.323.1.exe?label=Downloads&style=social)
+![GitHub Downloads](https://img.shields.io/github/downloads/rChinnnn/rchin-poe-trade/latest/rchin-poe-trade-1.323.1.exe?label=Downloads&style=social)
 
 # rChin POE Trade
 POE 查價工具 (Built with Electron and Vue2)
@@ -15,8 +15,8 @@ POE 查價工具 (Built with Electron and Vue2)
 
 ### 安裝版本說明
 * 點選 [Releases頁面](https://github.com/rChinnnn/rchin-poe-trade/releases)，有兩種版本可以下載
-    * `rchin-poe-trade-Setup-1.322.4.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
-    * `rchin-poe-trade-1.322.4.exe` 可攜版，無法支援自動更新
+    * `rchin-poe-trade-Setup-1.323.1.exe` 安裝版，若程式偵測到有最新版，會在背景下載新版本並在重開程式時更新
+    * `rchin-poe-trade-1.323.1.exe` 可攜版，無法支援自動更新
 
 ## 【免責聲明】
 * **使用此程式者請自行承擔所有可能後果和風險**
@@ -51,7 +51,6 @@ POE 查價工具 (Built with Electron and Vue2)
         - [地圖](#地圖)
         - [技能](#技能)
         - [其餘項目](#其餘項目)
-    - [未支援項目](#未支援項目)
 
 ### 共通設定
 * 在數值輸入框中連點兩下左鍵，皆可快速清除已輸入數值
@@ -88,16 +87,11 @@ POE 查價工具 (Built with Electron and Vue2)
 * 污染為手動選擇項目
 
 #### 技能
-* 預設帶入技能品質
-* 預設帶入技能基底
-* 預設帶入品質類型
+* 若非變異寶石，預設帶入技能品質
 * 技能等級、污染為手動選擇項目
 
 #### 其餘項目
 * 通貨、卡片、精髓、聖甲蟲、裂片..等其餘物品皆會自動搜尋
-
-### 未支援項目
-* 鍊魔器官
 
 ## 遊戲內查價截圖
 ![](https://i.imgur.com/ftKM7G4.jpg)
