@@ -1971,6 +1971,11 @@ export default {
           isStatSearch = true
           this.isStatsCollapse = true
         }
+        const grandSpectrumStats = ["stat_3163738488", "stat_2948375275", "stat_242161915", "stat_611279043", "stat_482240997", "stat_308799121", "stat_2276643899", "stat_596758264", "stat_332217711"]
+        if (grandSpectrumStats.some(stat => statID.includes(stat))) { // 巨光譜詞綴自動打勾
+          isStatSearch = true
+          this.isStatsCollapse = true
+        }
         if (statID === "enchant.stat_3086156145" || statID === "explicit.stat_1085446536") { // cluster jewel analysis
           isStatSearch = true
           this.isStatsCollapse = true
