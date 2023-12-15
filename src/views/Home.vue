@@ -312,7 +312,7 @@
                 <b-form-input v-model.number="gemQuality.max" @dblclick="gemQuality.max = null" @update="isGemQualitySearch" :disabled="!gemQuality.isSearch" :style="gemQuality.max && (gemQuality.max < gemQuality.min) ? 'color: #fc3232; font-weight:bold;' : ''" size="sm" type="number"></b-form-input>
               </b-col>
             </b-row>
-            <b-row class="lesspadding" style="padding-top: 10px;">
+            <!-- <b-row class="lesspadding" style="padding-top: 10px;">
               <b-col sm="3" style="padding-top: 6px;">
                 <b-form-checkbox class="float-right" v-model="gemQualitySet.isSearch" @input="gemQualityTypeInput" switch>替代品質</b-form-checkbox>
               </b-col>
@@ -327,7 +327,7 @@
               <b-col :sm="isGarenaSvr ? 6 : 9">
                 <v-select :options="gemBasic.option" v-model="gemBasic.chosenG" @input="isGemBasicSearch" label="label" :disabled="!gemBasic.isSearch" :clearable="false" :filterable="true"></v-select>
               </b-col>
-            </b-row>
+            </b-row> -->
             <b-row>
               <b-col sm="10"></b-col>
               <b-col sm="2" style="padding-top: 5px;">
@@ -495,6 +495,7 @@ export default {
       poedbTWItems: [], // 編年史翻譯表
       // poedbTWClass: [], // 編年史物品種類
       categorizedItems: [], // 有分類的物品資料
+      transfiguredGems: [], // 3.23 變異寶石資料
       monstersItems: [], // 物品化怪物資料
       priceSetting: { // 價格設定
         option: [{
@@ -850,7 +851,7 @@ export default {
   mounted() {
     // hotkeys('ctrl+c, command+c', () => this.hotkeyPressed())
     this.scanCopy();
-    this.getAllAPI(true);
+    this.getAllAPI();
   },
   methods: {
     initLocalStorage() {
@@ -1050,7 +1051,7 @@ export default {
           if (error.response.status === 429) {
             errMsg += `\n被 Server 限制發送需求了，請等待後再重試`
           }
-          vm.issueText = `Version: v1.322.4, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.323.1, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1083,16 +1084,11 @@ export default {
       this.isCounting = false
       this.cleanClipboard()
     },
-    getAllAPI(boolean) {
+    getAllAPI() {
       this.isApiError = false
       this.statsAPI();
       this.itemsAPI();
       this.leaguesAPI();
-      // if (boolean) {
-      //   setTimeout(() => {
-      //     this.gggAPI();
-      //   }, 1000);
-      // }
     },
     statsAPI() { // 詞綴 API
       let vm = this
@@ -1225,6 +1221,7 @@ export default {
       let weaponIndex = 0
       let heistIndex = 0
       let sanctumIndex = 0
+      let azmeriIndex = 0
       this.categorizedItems.length = 0
       this.monstersItems.length = 0
       this.mapBasic.option.length = 0
@@ -1233,7 +1230,7 @@ export default {
       //   .then((response) => {
       //     let result = response.data.result
       let result = this.allItems.result
-      result[result.findIndex(e => e.id === "accessories")].entries.forEach((element, index) => { // "id": "accessories", "label": "飾品"
+      result[result.findIndex(e => e.id === "accessories")].entries.forEach(element => { // "id": "accessories", "label": "飾品"
         const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
         // _.isUndefined(element.flags) == true 表示非傳奇物品
         if (_.isUndefined(element.flags)) {
@@ -1264,7 +1261,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "armour")].entries.forEach((element, index) => { // "id": "armour", "label": "護甲"
+      result[result.findIndex(e => e.id === "armour")].entries.forEach(element => { // "id": "armour", "label": "護甲"
         const basetype = ["黃金戰甲", "異色鞋", "擒拿手套", "喚骨頭盔", "黃金聖炎", "火靈箭袋"]
         if (_.isUndefined(element.flags)) {
           armourIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1304,7 +1301,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "flasks")].entries.forEach((element, index) => { // "id": "flasks", "label": "藥劑"
+      result[result.findIndex(e => e.id === "flasks")].entries.forEach(element => { // "id": "flasks", "label": "藥劑"
         const basetype = ["小型複合藥劑"]
         if (_.isUndefined(element.flags)) {
           flasksIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1319,7 +1316,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "jewels")].entries.forEach((element, index) => { // "id": "jewels", "label": "珠寶"
+      result[result.findIndex(e => e.id === "jewels")].entries.forEach(element => { // "id": "jewels", "label": "珠寶"
         const basetype = ["催眠之眼珠寶"]
         if (_.isUndefined(element.flags)) {
           jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1334,7 +1331,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "weapons")].entries.forEach((element, index) => { // "id": "weapons", "label": "武器"
+      result[result.findIndex(e => e.id === "weapons")].entries.forEach(element => { // "id": "weapons", "label": "武器"
         const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
         if (_.isUndefined(element.flags)) {
           weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1414,7 +1411,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "heistequipment")].entries.forEach((element, index) => { // "id": "heistequipment"
+      result[result.findIndex(e => e.id === "heistequipment")].entries.forEach(element => { // "id": "heistequipment"
         const basetype = ["鰻皮鞋底"]
         if (_.isUndefined(element.flags)) {
           heistIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1429,7 +1426,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "maps")].entries.forEach((element, index) => { // "id": "maps", "label": "地圖"
+      result[result.findIndex(e => e.id === "maps")].entries.forEach(element => { // "id": "maps", "label": "地圖"
         const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
         if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
           this.mapBasic.option.push(element.text)
@@ -1437,41 +1434,43 @@ export default {
           this.mapBasic.option.push(element.text)
         }
       });
-      result[result.findIndex(e => e.id === "heistmission")].entries.forEach((element, index) => { // "id": "heistmission"
+      result[result.findIndex(e => e.id === "heistmission")].entries.forEach(element => { // "id": "heistmission"
         if (_.isUndefined(element.flags)) {
           this.mapBasic.option.push(element.text)
         }
       });
-      result[result.findIndex(e => e.id === "gems")].entries.forEach((element, index) => { // "id": "gems", "label": "技能寶石"
+      result[result.findIndex(e => e.id === "gems")].entries.forEach(element => { // "id": "gems", "label": "技能寶石"
         if (element.hasOwnProperty('disc')) {
-          // TODO: 直接點選"劫盜技能"就可查詢帶有品質類型的技能
+          if (element.disc === "alt_x" || element.disc === "alt_y") { // 抓出 3.23 變異寶石資料
+            this.transfiguredGems.push(element)
+          }
         } else {
           this.gemBasic.option.push(element.text)
         }
       });
-      result[result.findIndex(e => e.id === "monsters")].entries.forEach((element, index) => { // "id": "monsters", "label": "物品化怪物"
+      result[result.findIndex(e => e.id === "monsters")].entries.forEach(element => { // "id": "monsters", "label": "物品化怪物"
         this.monstersItems.push(element)
       });
-      result[result.findIndex(e => e.id === "logbook")].entries.forEach((element, index) => { // "id": "logbook"
+      result[result.findIndex(e => e.id === "logbook")].entries.forEach(element => { // "id": "logbook"
         element.name = "探險日誌"
         element.option = "logbook"
         this.categorizedItems.push(element)
       });
-      result[result.findIndex(e => e.id === "sentinel")].entries.forEach((element, index) => { // "id": "sentinel"
+      result[result.findIndex(e => e.id === "sentinel")].entries.forEach(element => { // "id": "sentinel"
         if (_.isUndefined(element.flags)) {
           element.name = "守望號令"
           element.option = "sentinel"
           this.categorizedItems.push(element)
         }
       });
-      result[result.findIndex(e => e.id === "memoryline")].entries.forEach((element, index) => { // "id": "memoryline", "label": "Memory Lines"
+      result[result.findIndex(e => e.id === "memoryline")].entries.forEach(element => { // "id": "memoryline", "label": "Memory Lines"
         if (_.isUndefined(element.flags)) {
           element.name = "記憶"
           element.option = "memoryline"
           this.categorizedItems.push(element)
         }
       });
-      result[result.findIndex(e => e.id === "sanctum")].entries.forEach((element, index) => { // "id": "sanctum"
+      result[result.findIndex(e => e.id === "sanctum")].entries.forEach(element => { // "id": "sanctum"
         const basetype = ["香爐聖物", "聖域寶庫研究"]
         if (_.isUndefined(element.flags)) {
           sanctumIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1486,6 +1485,31 @@ export default {
             element.name = "聖域研究"
             element.option = "sanctum.research"
             this.mapBasic.option.push(element.text)
+            break;
+          default:
+            break;
+        }
+      });
+      result[result.findIndex(e => e.id === "azmeri")].entries.forEach(element => { // "id": "azmeri"
+        const basetype = ["狼族咒語", "完美劍舞", "鮮血液萃取物"]
+        if (_.isUndefined(element.flags)) {
+          azmeriIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (azmeriIndex) {
+          case 1: // 咒語起始點 { "type": "狼族咒語", "text": "狼族咒語" }
+            element.name = "咒語"
+            element.option = "azmeri.charm"
+            this.categorizedItems.push(element)
+            break;
+          case 2: // 屍體起始點 { "type": "完美劍舞", "text": "完美劍舞" }
+            element.name = "屍體"
+            element.option = "azmeri.corpse"
+            this.categorizedItems.push(element)
+            break;
+          case 3: // 萃取物起始點 { "type": "鮮血液萃取物", "text": "鮮血液萃取物" }
+            element.name = "萃取物"
+            element.option = "azmeri.tincture"
+            this.categorizedItems.push(element)
             break;
           default:
             break;
@@ -1538,7 +1562,7 @@ export default {
         .then((response) => {
           let result = response.data.result
           let mapMatchIndex = 0
-          result[7].entries.forEach((element, index) => { // "label": "Maps"
+          result[7].entries.forEach(element => { // "label": "Maps"
             const basetype = ["Academy Map"] // 地圖起始點 { "type": "Academy Map", "text": "Academy Map" }
             if (stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1) {
               mapMatchIndex = index
@@ -1547,7 +1571,7 @@ export default {
               this.gggMapBasic.push(`${tempMapBasic[index - mapMatchIndex]} (${element.text})`)
             }
           });
-          result[5].entries.forEach((element, index) => { // "label": "Gems"
+          result[5].entries.forEach(element => { // "label": "Gems"
             this.gggGemBasic.push(`${this.gemBasic.option[index]} (${element.text})`)
           });
         })
@@ -1947,6 +1971,11 @@ export default {
           isStatSearch = true
           this.isStatsCollapse = true
         }
+        const grandSpectrumStats = ["stat_3163738488", "stat_2948375275", "stat_242161915", "stat_611279043", "stat_482240997", "stat_308799121", "stat_2276643899", "stat_596758264", "stat_332217711"]
+        if (grandSpectrumStats.some(stat => statID.includes(stat))) { // 巨光譜詞綴自動打勾
+          isStatSearch = true
+          this.isStatsCollapse = true
+        }
         if (statID === "enchant.stat_3086156145" || statID === "explicit.stat_1085446536") { // cluster jewel analysis
           isStatSearch = true
           this.isStatsCollapse = true
@@ -2119,11 +2148,22 @@ export default {
       })
     },
     compassStatsAnalysis(itemArray) {
+      this.isItem = true
+      this.isItemCollapse = false
       let tempStat = []
       let itemDisplayStats = []
       let optionValue = 0 // 大師 / 裂痕 / 豐收選項
       let itemStatStart = 5 // 羅盤詞綴起始點
-      let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。") - 2 //  羅盤詞綴結束點
+      let itemStatEnd = itemArray.findIndex(data => data === "右鍵點擊此物品再左鍵點擊虛空石，來套用物品化的六分儀詞綴至虛空石上。" || data === "區域中掉落的地圖有 25% 機率高 1 階") - 2 //  羅盤詞綴結束點
+
+      if (itemStatEnd < itemStatStart) {
+        this.cleanClipboard()
+        this.$message({
+          type: 'warning',
+          message: `無法查詢無詞綴的虛空石！`
+        });
+        return
+      }
 
       itemArray.forEach((element, index) => { // 處理遊戲內述敘與 API 敘述不一致之詞綴
         if (element.indexOf("你的地圖能包含裂痕") > -1) { // enchant.stat_2180286756: 遊戲內敘述 "你的地圖能包含裂痕"、詞綴 API 敘述 "此區域可能含有裂痕"
@@ -2146,6 +2186,8 @@ export default {
           itemArray[index] = `區域含有祭祀神壇`
         } else if (element.indexOf("你的地圖含有許多背叛者") > -1) { // enchant.stat_3747734818: 遊戲內敘述 "你的地圖含有許多背叛者"、詞綴 API 敘述 "區域包含許多背叛者"
           itemArray[index] = `區域包含許多背叛者`
+        } else if (element.indexOf("你的地圖含有 1 個額外深淵") > -1) { // enchant.stat_1070816711: 遊戲內敘述 "你的地圖含有 1 個額外深淵"、詞綴 API 敘述 "此區域含 1 個額外深淵"
+          itemArray[index] = `此區域含 1 個額外深淵`
         } else if (element.indexOf("你的地圖含有埃哈") > -1) { // enchant.stat_3187151138: 遊戲內敘述 "你的地圖含有埃哈"、詞綴 API 敘述 "你的地圖包含# (大師)"，需輸入 option
           itemArray[index] = `你的地圖包含# (大師)`
           optionValue = 2
@@ -2184,7 +2226,7 @@ export default {
       for (let index = itemStatStart; index <= itemStatEnd; index++) {
         itemDisplayStats.push(itemArray[index])
         tempStat.push(this.findBestStat(itemArray[index], this.enchantStats))
-        tempStat[tempStat.length - 1].type = "附魔"
+        tempStat[tempStat.length - 1].type = "羅盤"
       }
 
       tempStat.forEach((element, idx) => {
@@ -2211,6 +2253,8 @@ export default {
           apiStatText = '你的地圖包含祭祀神壇'
         } else if (statID == 'enchant.stat_3747734818') { // 處理在 UI 上顯示的"你的地圖含有許多背叛者"詞綴，與遊戲內一致
           apiStatText = '你的地圖含有許多背叛者'
+        } else if (statID == 'enchant.stat_1070816711') { // 處理在 UI 上顯示的"你的地圖含有 1 個額外深淵"詞綴，與遊戲內一致
+          apiStatText = '你的地圖含有 1 個額外深淵'
         } else if (statID == 'enchant.stat_3187151138') { // 處理在 UI 上顯示的"你的地圖包含大師"詞綴，與遊戲內一致
           switch (optionValue) {
             case 2:
@@ -2262,14 +2306,16 @@ export default {
           "id": statID,
           "text": apiStatText,
           "option": optionValue ? optionValue : '',
-          "min": statID == 'enchant.stat_290368246' ? itemStatText.match(/\d/g)[0] : '',
+          "min": statID == 'enchant.stat_290368246' ? parseFloat(itemStatText.match(/\d+/)[0]) : '',
           "max": '',
           "isValue": statID == 'enchant.stat_290368246' ? true : false,
           "isNegative": false,
-          "isSearch": false,
+          "isSearch": true,
           "type": element.type
         })
+        optionValue = 0
       })
+      this.searchTrade(this.searchJson)
     },
     findBestStat(text, stats) { // 物品上原先詞綴 與 原先詞綴數值用 '#' 取代的兩種字串皆判斷並取最符合那一筆
       let floatValue = []
@@ -2936,36 +2982,32 @@ export default {
         }
       } else if (Rarity === "寶石") {
         this.isGem = true
-        this.gemQualitySet.isSearch = false
         this.gemBasic.chosenG = searchName
-        this.gemQualitySet.chosenObj = {
-          label: "精良的（預設）",
-          prop: '0'
-        }
-        const qualityMap = {
-          '異常的': { prop: '1', label: '異常的' },
-          '相異的': { prop: '2', label: '相異的' },
-          '幻影的': { prop: '3', label: '幻影的' }
-        }
-        for (const quality in qualityMap) {
-          if (item.indexOf(quality) > -1) {
-            this.gemQualitySet.isSearch = true;
-            this.gemQualitySet.chosenObj = qualityMap[quality];
-            this.gemBasic.chosenG = searchName.split(' ')[1];
-            break;
-          }
-        }
-        this.gemQualityTypeInput()
 
-        if (item.indexOf('瓦爾．') > -1) { // 瓦爾技能
-          let vaalPos = item.substring(item.indexOf('瓦爾．'))
-          let vaalPosEnd = vaalPos.indexOf(NL)
-          let vaalGem = vaalPos.substring(0, vaalPosEnd)
-          this.searchName = `物品名稱『${vaalGem}』`
-          this.gemBasic.chosenG = vaalGem
+        const isTransfigured = this.transfiguredGems.find(gem => gem.text === searchName); // 比對是否為變異寶石
+        if (isTransfigured) {
+          this.searchJson.query.type = {
+            "option": this.replaceString(isTransfigured.type),
+            "discriminator": isTransfigured.disc
+          }
+          if (item.indexOf('瓦爾．') > -1) { // 瓦爾 & 變異寶石
+            let vaalPos = item.substring(item.indexOf('瓦爾．'))
+            let vaalPosEnd = vaalPos.indexOf(NL)
+            let vaalGem = vaalPos.substring(0, vaalPosEnd)
+            this.searchName = `物品名稱『${vaalGem} (${searchName})』`
+            this.searchJson.query.type.option = this.replaceString(`瓦爾．${isTransfigured.type}`)
+          }
+        } else {
+          if (item.indexOf('瓦爾．') > -1) { // 瓦爾技能
+            let vaalPos = item.substring(item.indexOf('瓦爾．'))
+            let vaalPosEnd = vaalPos.indexOf(NL)
+            let vaalGem = vaalPos.substring(0, vaalPosEnd)
+            this.searchName = `物品名稱『${vaalGem}』`
+            this.gemBasic.chosenG = vaalGem
+          }
+          this.gemBasic.isSearch = true
+          this.isGemBasicSearch()
         }
-        this.gemBasic.isSearch = true
-        this.isGemBasicSearch()
 
         let levelPos = item.substring(item.indexOf('等級: ') + 4)
         let levelPosEnd = levelPos.indexOf(NL)
@@ -2977,7 +3019,7 @@ export default {
           let quaPosEnd = quaPos.indexOf('% (augmented)') // 品質定位點
           minQuality = parseInt(quaPos.substring(0, quaPosEnd).trim(), 10)
         }
-        if (!this.gemQualitySet.isSearch) { // 若沒有替代品質，則搜尋技能品質
+        if (!isTransfigured) { // 若不是變異寶石，則搜尋技能品質
           this.gemQuality.isSearch = true
         }
         this.gemQuality.min = minQuality
@@ -2991,12 +3033,19 @@ export default {
           this.isStatsCollapse = true
           return
         }
+      } else if (Rarity === "任務" && !this.isItem) {
+        this.searchName = `物品名稱 <br>『充能的羅盤』`
+        if (item.indexOf('放置於此以提升你輿圖全部地圖的階級。') > -1) { // 任務虛空石
+          this.compassStatsAnalysis(itemArray)
+          this.isStatsCollapse = true
+          return
+        }
       } else if (this.isItem) {
         this.itemStatsAnalysis(itemArray, 0)
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.322.4\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.323.1\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
@@ -3187,6 +3236,7 @@ export default {
             return {
               'color': '#5555ff'
             }
+          case '羅盤':
           case '附魔':
             return {
               'color': '#8181ff'

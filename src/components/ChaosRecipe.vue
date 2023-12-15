@@ -141,64 +141,63 @@ export default {
                 })
               }))
                 .then(vm.axios.spread((...res) => {
+                  const ITEM_TYPES = {
+                    HELMET: "/Helmet",
+                    AMULET: "Amulet",
+                    GLOVES: "/Gloves",
+                    RING: ["Ring", "TopazRuby", "TopazSapphire", "SapphireRuby"],
+                    BOOTS: "/Boots",
+                    BELT: "/Belt",
+                    WEAPON: "/Bow",
+                    WEAPONS: ["/Wand", "/Dagger", "/OneHand"],
+                    BODY: "/Body"
+                  };
+
+                  const handleItemCount = (item) => {
+                    for (const type in ITEM_TYPES) {
+                      const itemKeywords = ITEM_TYPES[type];
+
+                      if (Array.isArray(itemKeywords)) {
+                        if (itemKeywords.some(keyword => item.icon.includes(keyword))) {
+                          if (type === "RING") {
+                            this.ringCount += 0.5;
+                          } else if (type === "WEAPONS") {
+                            this.weaponCount += 0.5;
+                          }
+                        }
+                      } else {
+                        if (item.icon.includes(itemKeywords)) {
+                          this[`${type.toLowerCase()}Count`] += 1;
+                        }
+                      }
+                    }
+                  };
+
                   res.forEach((element, index) => {
                     element.data.items.forEach(item => {
                       if (item.identified === false && item.ilvl >= 60) {
-                        switch (true) {
-                          case item.icon.indexOf("/Helmet") > -1:
-                            this.helmetCount += 1
-                            break;
-                          case item.icon.indexOf("Amulet") > -1:
-                            this.amuletCount += 1
-                            break;
-                          case item.icon.indexOf("/Gloves") > -1:
-                            this.glovesCount += 1
-                            break;
-                          case item.icon.indexOf("Ring") > -1:
-                          case item.icon.indexOf("TopazRuby") > -1:
-                          case item.icon.indexOf("TopazSapphire") > -1:
-                          case item.icon.indexOf("SapphireRuby") > -1:
-                            this.ringCount += 0.5
-                            break;
-                          case item.icon.indexOf("/Boots") > -1:
-                            this.bootsCount += 1
-                            break;
-                          case item.icon.indexOf("/Belt") > -1:
-                            this.beltCount += 1
-                            break;
-                          case item.icon.indexOf("/Bow") > -1:
-                            this.weaponCount += 1
-                            break;
-                          case item.icon.indexOf("/Wand") > -1:
-                          case item.icon.indexOf("/Dagger") > -1:
-                          case item.icon.indexOf("/OneHand") > -1:
-                            this.weaponCount += 0.5
-                            break;
-                          case item.icon.indexOf("/Body") > -1:
-                            this.bodyCount += 1
-                            break;
-                          default:
-                            break;
-                        }
+                        handleItemCount(item);
                       } else if (item.veiled === true) {
-                        this.veiledCount += 1
+                        this.veiledCount += 1;
                       }
-                    })
+                    });
                   });
-                  this.isLoading = false
                 }))
                 .catch(function (error) {
                   console.log(error);
-                  vm.isLoading = false
                   vm.$message({
                     type: 'error',
                     message: `get stash error! ${error}`,
                   });
                 })
+                .finally(() => {
+                  vm.isLoading = false
+                })
             }
           }
         })
         .catch(function (error) {
+          vm.isLoading = false
           vm.$message({
             type: 'error',
             message: `error: ${error}`
