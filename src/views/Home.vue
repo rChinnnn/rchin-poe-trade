@@ -427,6 +427,7 @@ import GoTop from '@inotom/vue-go-top';
 
 import itemsData from "../assets/poe/items.json";
 import statsData from "../assets/poe/stats.json";
+import duplicateStatsData from "../assets/poe/duplicateStats.json";
 // import usStatsData from "../assets/poe/stats_us.json";
 import poedbTWJson from "../assets/poe/poedb-tw.json";
 
@@ -490,6 +491,7 @@ export default {
       fetchQueryID: '',
       allItems: itemsData, // 物品 API 資料
       allStats: statsData, // 詞綴 API 資料
+      duplicateStats: duplicateStatsData, // 重複的詞綴 API 資料
       // usStats: usStatsData, // 英文詞綴 API 資料
       poedbTWJson: poedbTWJson,
       poedbTWItems: [], // 編年史翻譯表
@@ -1001,11 +1003,30 @@ export default {
           if (element.option) {
             value.option = element.option
           }
-          this.searchJson.query.stats[0].filters.push({
-            "id": element.id,
-            "disabled": element.isSearch ? false : true,
-            "value": value
-          })
+          // 比較 element.id 與 duplicateStats 內的 allIds 陣列，如果 element.id 有包含在內，則搜尋詞綴時就改為 type: "count"
+          let isCountType = this.duplicateStats.allIds.find(data => data.includes(element.id))
+
+          if (isCountType) {
+            let matchedItem = this.duplicateStats.result.find(item => item.ids.includes(isCountType));
+            let filters = matchedItem.ids.map(id => ({
+              id: id,
+              disabled: element.isSearch ? false : true,
+            }));
+
+            this.searchJson.query.stats.push({
+              "type": "count",
+              filters,
+              "value": {
+                "min": 1
+              }
+            });
+          } else {
+            this.searchJson.query.stats[0].filters.push({
+              "id": element.id,
+              "disabled": element.isSearch ? false : true,
+              "value": value
+            })
+          }
         })
       }
       this.fetchQueryID = ''
@@ -1602,7 +1623,7 @@ export default {
     },
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
-        this.searchJson.query.stats[0].filters.length = 0
+        this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
       }
       if (this.isMap && this.mapBasic.isSearch) {
         this.searchName = `物品名稱 <br>『${this.mapBasic.chosenM}』`
@@ -3092,7 +3113,7 @@ export default {
     'mapCategory.isShaper': { // TODO: 判斷塑者/尊師/壁壘/凋落圖方式需重構
       handler(newVal) {
         if (newVal) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3106,7 +3127,7 @@ export default {
             }
           }
         } else if (!newVal && !this.mapCategory.isElder && !this.mapCategory.isCitadel && !this.mapCategory.isBlighted) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3117,7 +3138,7 @@ export default {
     'mapCategory.isElder': {
       handler(newVal) {
         if (newVal) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3132,7 +3153,7 @@ export default {
           }
         } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isCitadel && !this.mapCategory.isBlighted) {
           this.mapElderGuard.isSearch = false
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3145,7 +3166,7 @@ export default {
     'mapCategory.isCitadel': {
       handler(newVal) {
         if (newVal) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3157,7 +3178,7 @@ export default {
           }
         } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isElder && !this.mapCategory.isBlighted) {
           this.mapCitadelGuard.isSearch = false
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3170,7 +3191,7 @@ export default {
     'mapCategory.isBlighted': {
       handler(newVal) {
         if (newVal) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.mapCategory.isShaper = false
           this.mapCategory.isElder = false
           this.mapCategory.isCitadel = false
@@ -3178,7 +3199,7 @@ export default {
             "option": "true"
           }
         } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isElder && !this.mapCategory.isCitadel) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
