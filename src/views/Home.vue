@@ -324,7 +324,7 @@
               <b-col sm="3" style="padding-top: 6px;">
                 <b-form-checkbox class="float-right" v-model="gemBasic.isSearch" @input="isGemBasicSearch" switch>技能基底</b-form-checkbox>
               </b-col>
-              <b-col :sm="isGarenaSvr ? 6 : 9">
+              <b-col :sm="isTwServer ? 6 : 9">
                 <v-select :options="gemBasic.option" v-model="gemBasic.chosenG" @input="isGemBasicSearch" label="label" :disabled="!gemBasic.isSearch" :clearable="false" :filterable="true"></v-select>
               </b-col>
             </b-row> -->
@@ -453,9 +453,9 @@ export default {
       searchedText: '',
       testResponse: '',
       countTime: 0,
-      baseUrl: 'https://web.poe.garena.tw',
+      baseUrl: 'https://pathofexile.tw',
       serverOptions: ['台服', '國際服'],
-      isGarenaSvr: true,
+      isTwServer: true,
       isApiError: false,
       apiErrorStr: '',
       isCounting: false,
@@ -845,8 +845,8 @@ export default {
       this.cleanClipboard()
     }
     this.initLocalStorage()
-    this.isGarenaSvr = this.storeServerString === '台服' ? true : false
-    this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
+    this.isTwServer = this.storeServerString === '台服' ? true : false
+    this.baseUrl = this.isTwServer ? 'https://pathofexile.tw' : 'https://www.pathofexile.com'
     this.poedbTWItems = this.poedbTWJson.data.filter(item => item.type !== "Class")
     // this.poedbTWClass = this.poedbTWJson.data.filter(item => item.type === "Class")
   },
@@ -889,7 +889,7 @@ export default {
         string = string.slice(4).trim()
       }
       // 3.17 中文化更動，改為判斷 poedb 提供之物品翻譯表
-      if (!this.isGarenaSvr) {
+      if (!this.isTwServer) {
         let baseTypeLang = this.poedbTWItems.find(data => data.lang === string)?.us
         if (this.isItem && this.raritySet.chosenObj.prop == 'unique') {
           let uniqueLang = this.poedbTWItems.filter(data => data.type == 'Unique').find(data => data.lang === string)?.us
@@ -1113,7 +1113,7 @@ export default {
     },
     statsAPI() { // 詞綴 API
       let vm = this
-      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
+      // this.axios.get(`https://pathofexile.tw/api/trade/data/stats`, )
       //   .then((response) => {
       //     let result = response.data.result
       let result = this.allStats.result
@@ -1247,7 +1247,7 @@ export default {
       this.monstersItems.length = 0
       this.mapBasic.option.length = 0
       this.gemBasic.option.length = 0
-      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
+      // this.axios.get(`https://pathofexile.tw/api/trade/data/items`, )
       //   .then((response) => {
       //     let result = response.data.result
       let result = this.allItems.result
@@ -2669,7 +2669,7 @@ export default {
         let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5|．|：]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
         if (itemNameStringIndex > -1 && !mapBasicCount) {
           mapBasicCount++
-          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5|．|：]/gi, "") : itemNameString.slice(itemNameStringIndex)
+          this.mapBasic.chosenM = this.isTwServer ? element.replace(/[^\u4e00-\u9fa5|．|：]/gi, "") : itemNameString.slice(itemNameStringIndex)
           return true
         }
       });
@@ -2870,11 +2870,11 @@ export default {
         this.isApiError = false
         this.$store.commit('setServerString', server);
       }
-      this.isGarenaSvr = this.storeServerString === '台服' ? true : false
-      this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
+      this.isTwServer = this.storeServerString === '台服' ? true : false
+      this.baseUrl = this.isTwServer ? 'https://pathofexile.tw' : 'https://www.pathofexile.com'
       this.leaguesAPI();
       this.resetSearchData();
-      // if (!this.isGarenaSvr) {
+      // if (!this.isTwServer) {
       //   this.mapBasic.option = Object.assign([], this.gggMapBasic);
       //   this.gemBasic.option = Object.assign([], this.gggGemBasic);
       // } else {
