@@ -1,0 +1,808 @@
+{
+  "result": [
+    {
+      "ids": [
+        "explicit.stat_818778753",
+        "explicit.stat_3301510262"
+      ],
+      "text": "傷害穿透 #% 閃電抗性",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2918708827",
+        "explicit.stat_3669845133"
+      ],
+      "text": "擊殺時有 #% 機率獲得 4 秒迷蹤效果",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3511523149",
+        "explicit.stat_91274577"
+      ],
+      "text": "#% 滿溢的傷害轉為生命偷取",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_923608573",
+        "explicit.stat_3481736410"
+      ],
+      "text": "若你近期有擊殺，增加 #% 範圍效果",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_1368271171",
+        "explicit.stat_782259898"
+      ],
+      "text": "每個被擊殺的敵人，獲得 # 魔力",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_1030153674",
+        "explicit.stat_1604736568"
+      ],
+      "text": "擊殺時恢復 #% 魔力",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3134632618",
+        "explicit.stat_3408601861"
+      ],
+      "text": "區域內有許多月影神信徒",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2457517302",
+        "explicit.stat_1934713036"
+      ],
+      "text": "區域內有許多日耀神信徒",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_1740200922",
+        "explicit.stat_3251705960"
+      ],
+      "text": "效果持續時間，增加 #% 掉落物品稀有度",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_1053326368",
+        "explicit.stat_1619168299"
+      ],
+      "text": "效果持續時間，#% 機率避免被冰緩",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3680664274",
+        "explicit.stat_492027537"
+      ],
+      "text": "+#% 壓抑法術傷害率",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2872815301",
+        "explicit.stat_475518267"
+      ],
+      "text": "效果持續時間，#% 機率避免被冰凍",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3739863694",
+        "explicit.stat_725880290"
+      ],
+      "text": "攻擊擊中時有 #% 機率穿刺敵人",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3924520095",
+        "explicit.stat_3382957283"
+      ],
+      "text": "當你擊中稀有或傳奇敵人且沒有印記時，觸發等級 # 的刺客印記",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_4291066912",
+        "explicit.stat_156080652"
+      ],
+      "text": "1 個附加的天賦為邪眼",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_4270096386",
+        "explicit.stat_165218607"
+      ],
+      "text": "對你的擊中增加 #% 暴擊率",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3430523735",
+        "explicit.stat_740728913"
+      ],
+      "text": "當放置恐懼之旗時，額外 +# 最大護體",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2140446632",
+        "explicit.stat_1661496782"
+      ],
+      "text": "當投射物撞擊地面時，有 #% 機率會連鎖",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_353652601",
+        "explicit.stat_2495041954"
+      ],
+      "text": "鎮壓 #% 物理傷害減免",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3904501306",
+        "explicit.stat_364728407"
+      ],
+      "text": "當你擊中稀有或傳奇敵人且沒有印記時，觸發等級 # 的盜獵者印記",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2561836520",
+        "explicit.stat_1330109706"
+      ],
+      "text": "每秒回復 # 能量護盾",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2049471530",
+        "explicit.stat_2021420128"
+      ],
+      "text": "當你擊中稀有或傳奇敵人且沒有印記時，觸發等級 # 的督軍印記",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_438778966",
+        "explicit.stat_913919528"
+      ],
+      "text": "插槽中寶石被等級 # 的施放迴響輔助",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_349586058",
+        "explicit.stat_389725673"
+      ],
+      "text": "地圖含有冰緩地面",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3433724931",
+        "explicit.stat_4139135963"
+      ],
+      "text": "擊中時使敵人受到時空鎖鏈詛咒",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_95249895",
+        "explicit.stat_2710898947"
+      ],
+      "text": "#% 更多怪物生命",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3205239847",
+        "explicit.stat_1029319062"
+      ],
+      "text": "承受 #% 的擊中火焰傷害視為物理傷害",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2480873346",
+        "explicit.stat_2159555743"
+      ],
+      "text": "附近敵人被冰緩",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2774670797",
+        "explicit.stat_981417307"
+      ],
+      "text": "你擊中造成的冰緩總是至少減少 #% 行動速度",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3265951306",
+        "explicit.stat_1979658770"
+      ],
+      "text": "插槽中寶石被等級 # 的火焰穿透輔助",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2089652545",
+        "explicit.stat_78985352"
+      ],
+      "text": "擊中時有 #% 機率威嚇敵人 4 秒",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_338121249",
+        "explicit.stat_654274615"
+      ],
+      "text": "擊中時使敵人受到易燃詛咒",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3735443206",
+        "explicit.stat_2355615476"
+      ],
+      "text": "對滿血的敵人增加 +#% 暴擊加成",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3904501306",
+        "explicit.stat_364728407",
+        "explicit.stat_2659463225"
+      ],
+      "text": "當你擊中稀有或傳奇敵人且沒有印記時，觸發等級 # 的盜獵者印記",
+      "count": 3
+    },
+    {
+      "ids": [
+        "explicit.stat_3039589351",
+        "explicit.stat_2355741828"
+      ],
+      "text": "每顆耐力球 +#% 攻擊傷害格擋率",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_624257168",
+        "explicit.stat_3790386828"
+      ],
+      "text": "擊殺時獲得 #% 更多藥劑充能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2731416566",
+        "explicit.stat_3848992177"
+      ],
+      "text": "被狂熱影響時，增加 #% 來自偷取每秒最大總能量護盾恢復",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_133340941",
+        "explicit.stat_3665534869"
+      ],
+      "text": "地圖含有燃燒地面",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_4118987751",
+        "explicit.stat_2916634441"
+      ],
+      "text": "增加 #% 來自偷取每秒最大總生命恢復",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2264295449",
+        "explicit.stat_3369332977"
+      ],
+      "text": "+# 米近戰打擊距離",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_749770518",
+        "explicit.stat_1866911844"
+      ],
+      "text": "插槽中寶石被等級 # 的啟發輔助",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_4265392510",
+        "explicit.stat_3231614028"
+      ],
+      "text": "獲得等級 # 的堅定技能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3463633447",
+        "explicit.stat_1416455556"
+      ],
+      "text": "玩家增加 #% 移動速度",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2341269061",
+        "explicit.stat_2578176147"
+      ],
+      "text": "獲得等級 # 的紀律技能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.indexable_support_117",
+        "explicit.indexable_support_135"
+      ],
+      "text": "插槽中的寶石被等級 # 的 嗜血 輔助",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_484879947",
+        "explicit.stat_449494711"
+      ],
+      "text": "獲得等級 # 的憤怒技能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3970432307",
+        "explicit.stat_3716281760"
+      ],
+      "text": "獲得等級 # 的火焰淨化技能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2429546158",
+        "explicit.stat_178394804"
+      ],
+      "text": "獲得等級 # 的憎恨技能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2265307453",
+        "explicit.stat_1568319697"
+      ],
+      "text": "獲得等級 # 的雷霆技能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_1188846263",
+        "explicit.stat_2923442950"
+      ],
+      "text": "獲得等級 # 的迅捷技能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3822878124",
+        "explicit.stat_1141249906"
+      ],
+      "text": "獲得等級 # 的閃電淨化技能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2867050084",
+        "explicit.stat_3914774028"
+      ],
+      "text": "獲得等級 # 的優雅技能",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2589042711",
+        "explicit.stat_838272676"
+      ],
+      "text": "每秒失去 # 魔力",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_4278270018",
+        "explicit.stat_3135669941"
+      ],
+      "text": "你擊中稀有或傳奇敵人時有 #% 機率製造奉獻地面，持續 8 秒",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_254728692",
+        "explicit.stat_2433615566"
+      ],
+      "text": "插槽中寶石被等級 # 的穿透輔助",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2653955271",
+        "explicit.stat_1123291426"
+      ],
+      "text": "傷害穿透 #% 火焰抗性",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3417711605",
+        "explicit.stat_1211769158"
+      ],
+      "text": "傷害穿透 #% 冰冷抗性",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2549369799",
+        "explicit.stat_2963485753"
+      ],
+      "text": "憤怒增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2189040439",
+        "explicit.stat_1542765265"
+      ],
+      "text": "純淨之捷增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_4237190083",
+        "explicit.stat_1269219558"
+      ],
+      "text": "增加 #% 技能的魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2081344089",
+        "explicit.stat_1692887998"
+      ],
+      "text": "紀律增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3003688066",
+        "explicit.stat_1135152940"
+      ],
+      "text": "火焰淨化增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_325889252",
+        "explicit.stat_2721871046"
+      ],
+      "text": "堅定增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_139925400",
+        "explicit.stat_2665518524"
+      ],
+      "text": "冰霜淨化增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2587176568",
+        "explicit.stat_4202507508"
+      ],
+      "text": "增加 #% 技能的保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2351239732",
+        "explicit.stat_2605040931"
+      ],
+      "text": "極地裝甲增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3817220109",
+        "explicit.stat_3959101898"
+      ],
+      "text": "閃電之捷增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_1133703802",
+        "explicit.stat_1284151528"
+      ],
+      "text": "苦痛之捷增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_900639351",
+        "explicit.stat_1803598623"
+      ],
+      "text": "優雅增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2156140483",
+        "explicit.stat_1920370417"
+      ],
+      "text": "憎恨增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3444518809",
+        "explicit.stat_1761642973"
+      ],
+      "text": "雷霆增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2435922859",
+        "explicit.stat_4004160031"
+      ],
+      "text": "增加 #% 封鎖前的時間",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3383226338",
+        "explicit.stat_3266567165"
+      ],
+      "text": "惡意增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3993865658",
+        "explicit.stat_3484910620"
+      ],
+      "text": "驕傲增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_2500442851",
+        "explicit.stat_3819451758"
+      ],
+      "text": "灰燼之捷增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_168308685",
+        "explicit.stat_4216444167"
+      ],
+      "text": "狂熱增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3411256933",
+        "explicit.stat_1450978702"
+      ],
+      "text": "閃電淨化增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_3395872960",
+        "explicit.stat_3059700363"
+      ],
+      "text": "冰霜之捷增加 #% 魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_443165947",
+        "explicit.stat_714566414"
+      ],
+      "text": "增加 #% 詛咒光環技能的魔力保留效用",
+      "count": 2
+    },
+    {
+      "ids": [
+        "explicit.stat_1212083058",
+        "explicit.stat_2676451350"
+      ],
+      "text": "每 250 點總能力值，增加 #% 技能的魔力保留效用",
+      "count": 2
+    }
+  ],
+  "allIds": [
+    "explicit.stat_818778753",
+    "explicit.stat_3301510262",
+    "explicit.stat_2918708827",
+    "explicit.stat_3669845133",
+    "explicit.stat_3511523149",
+    "explicit.stat_91274577",
+    "explicit.stat_923608573",
+    "explicit.stat_3481736410",
+    "explicit.stat_1368271171",
+    "explicit.stat_782259898",
+    "explicit.stat_1030153674",
+    "explicit.stat_1604736568",
+    "explicit.stat_3134632618",
+    "explicit.stat_3408601861",
+    "explicit.stat_2457517302",
+    "explicit.stat_1934713036",
+    "explicit.stat_1740200922",
+    "explicit.stat_3251705960",
+    "explicit.stat_1053326368",
+    "explicit.stat_1619168299",
+    "explicit.stat_3680664274",
+    "explicit.stat_492027537",
+    "explicit.stat_2872815301",
+    "explicit.stat_475518267",
+    "explicit.stat_3739863694",
+    "explicit.stat_725880290",
+    "explicit.stat_3924520095",
+    "explicit.stat_3382957283",
+    "explicit.stat_4291066912",
+    "explicit.stat_156080652",
+    "explicit.stat_4270096386",
+    "explicit.stat_165218607",
+    "explicit.stat_3430523735",
+    "explicit.stat_740728913",
+    "explicit.stat_2140446632",
+    "explicit.stat_1661496782",
+    "explicit.stat_353652601",
+    "explicit.stat_2495041954",
+    "explicit.stat_3904501306",
+    "explicit.stat_364728407",
+    "explicit.stat_2561836520",
+    "explicit.stat_1330109706",
+    "explicit.stat_2049471530",
+    "explicit.stat_2021420128",
+    "explicit.stat_438778966",
+    "explicit.stat_913919528",
+    "explicit.stat_349586058",
+    "explicit.stat_389725673",
+    "explicit.stat_3433724931",
+    "explicit.stat_4139135963",
+    "explicit.stat_95249895",
+    "explicit.stat_2710898947",
+    "explicit.stat_3205239847",
+    "explicit.stat_1029319062",
+    "explicit.stat_2480873346",
+    "explicit.stat_2159555743",
+    "explicit.stat_2774670797",
+    "explicit.stat_981417307",
+    "explicit.stat_3265951306",
+    "explicit.stat_1979658770",
+    "explicit.stat_2089652545",
+    "explicit.stat_78985352",
+    "explicit.stat_338121249",
+    "explicit.stat_654274615",
+    "explicit.stat_3735443206",
+    "explicit.stat_2355615476",
+    "explicit.stat_3904501306",
+    "explicit.stat_364728407",
+    "explicit.stat_2659463225",
+    "explicit.stat_3039589351",
+    "explicit.stat_2355741828",
+    "explicit.stat_624257168",
+    "explicit.stat_3790386828",
+    "explicit.stat_2731416566",
+    "explicit.stat_3848992177",
+    "explicit.stat_133340941",
+    "explicit.stat_3665534869",
+    "explicit.stat_4118987751",
+    "explicit.stat_2916634441",
+    "explicit.stat_2264295449",
+    "explicit.stat_3369332977",
+    "explicit.stat_749770518",
+    "explicit.stat_1866911844",
+    "explicit.stat_4265392510",
+    "explicit.stat_3231614028",
+    "explicit.stat_3463633447",
+    "explicit.stat_1416455556",
+    "explicit.stat_2341269061",
+    "explicit.stat_2578176147",
+    "explicit.indexable_support_117",
+    "explicit.indexable_support_135",
+    "explicit.stat_484879947",
+    "explicit.stat_449494711",
+    "explicit.stat_3970432307",
+    "explicit.stat_3716281760",
+    "explicit.stat_2429546158",
+    "explicit.stat_178394804",
+    "explicit.stat_2265307453",
+    "explicit.stat_1568319697",
+    "explicit.stat_1188846263",
+    "explicit.stat_2923442950",
+    "explicit.stat_3822878124",
+    "explicit.stat_1141249906",
+    "explicit.stat_2867050084",
+    "explicit.stat_3914774028",
+    "explicit.stat_2589042711",
+    "explicit.stat_838272676",
+    "explicit.stat_4278270018",
+    "explicit.stat_3135669941",
+    "explicit.stat_254728692",
+    "explicit.stat_2433615566",
+    "explicit.stat_2653955271",
+    "explicit.stat_1123291426",
+    "explicit.stat_3417711605",
+    "explicit.stat_1211769158",
+    "explicit.stat_2549369799",
+    "explicit.stat_2963485753",
+    "explicit.stat_2189040439",
+    "explicit.stat_1542765265",
+    "explicit.stat_4237190083",
+    "explicit.stat_1269219558",
+    "explicit.stat_2081344089",
+    "explicit.stat_1692887998",
+    "explicit.stat_3003688066",
+    "explicit.stat_1135152940",
+    "explicit.stat_325889252",
+    "explicit.stat_2721871046",
+    "explicit.stat_139925400",
+    "explicit.stat_2665518524",
+    "explicit.stat_2587176568",
+    "explicit.stat_4202507508",
+    "explicit.stat_2351239732",
+    "explicit.stat_2605040931",
+    "explicit.stat_3817220109",
+    "explicit.stat_3959101898",
+    "explicit.stat_1133703802",
+    "explicit.stat_1284151528",
+    "explicit.stat_900639351",
+    "explicit.stat_1803598623",
+    "explicit.stat_2156140483",
+    "explicit.stat_1920370417",
+    "explicit.stat_3444518809",
+    "explicit.stat_1761642973",
+    "explicit.stat_2435922859",
+    "explicit.stat_4004160031",
+    "explicit.stat_3383226338",
+    "explicit.stat_3266567165",
+    "explicit.stat_3993865658",
+    "explicit.stat_3484910620",
+    "explicit.stat_2500442851",
+    "explicit.stat_3819451758",
+    "explicit.stat_168308685",
+    "explicit.stat_4216444167",
+    "explicit.stat_3411256933",
+    "explicit.stat_1450978702",
+    "explicit.stat_3395872960",
+    "explicit.stat_3059700363",
+    "explicit.stat_443165947",
+    "explicit.stat_714566414",
+    "explicit.stat_1212083058",
+    "explicit.stat_2676451350"
+  ]
+}

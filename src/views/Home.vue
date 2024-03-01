@@ -324,7 +324,7 @@
               <b-col sm="3" style="padding-top: 6px;">
                 <b-form-checkbox class="float-right" v-model="gemBasic.isSearch" @input="isGemBasicSearch" switch>技能基底</b-form-checkbox>
               </b-col>
-              <b-col :sm="isGarenaSvr ? 6 : 9">
+              <b-col :sm="isTwServer ? 6 : 9">
                 <v-select :options="gemBasic.option" v-model="gemBasic.chosenG" @input="isGemBasicSearch" label="label" :disabled="!gemBasic.isSearch" :clearable="false" :filterable="true"></v-select>
               </b-col>
             </b-row> -->
@@ -427,6 +427,7 @@ import GoTop from '@inotom/vue-go-top';
 
 import itemsData from "../assets/poe/items.json";
 import statsData from "../assets/poe/stats.json";
+import duplicateStatsData from "../assets/poe/duplicateStats.json";
 // import usStatsData from "../assets/poe/stats_us.json";
 import poedbTWJson from "../assets/poe/poedb-tw.json";
 
@@ -452,9 +453,9 @@ export default {
       searchedText: '',
       testResponse: '',
       countTime: 0,
-      baseUrl: 'https://web.poe.garena.tw',
+      baseUrl: 'https://pathofexile.tw',
       serverOptions: ['台服', '國際服'],
-      isGarenaSvr: true,
+      isTwServer: true,
       isApiError: false,
       apiErrorStr: '',
       isCounting: false,
@@ -490,6 +491,7 @@ export default {
       fetchQueryID: '',
       allItems: itemsData, // 物品 API 資料
       allStats: statsData, // 詞綴 API 資料
+      duplicateStats: duplicateStatsData, // 重複的詞綴 API 資料
       // usStats: usStatsData, // 英文詞綴 API 資料
       poedbTWJson: poedbTWJson,
       poedbTWItems: [], // 編年史翻譯表
@@ -843,8 +845,8 @@ export default {
       this.cleanClipboard()
     }
     this.initLocalStorage()
-    this.isGarenaSvr = this.storeServerString === '台服' ? true : false
-    this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
+    this.isTwServer = this.storeServerString === '台服' ? true : false
+    this.baseUrl = this.isTwServer ? 'https://pathofexile.tw' : 'https://www.pathofexile.com'
     this.poedbTWItems = this.poedbTWJson.data.filter(item => item.type !== "Class")
     // this.poedbTWClass = this.poedbTWJson.data.filter(item => item.type === "Class")
   },
@@ -887,7 +889,7 @@ export default {
         string = string.slice(4).trim()
       }
       // 3.17 中文化更動，改為判斷 poedb 提供之物品翻譯表
-      if (!this.isGarenaSvr) {
+      if (!this.isTwServer) {
         let baseTypeLang = this.poedbTWItems.find(data => data.lang === string)?.us
         if (this.isItem && this.raritySet.chosenObj.prop == 'unique') {
           let uniqueLang = this.poedbTWItems.filter(data => data.type == 'Unique').find(data => data.lang === string)?.us
@@ -1001,11 +1003,30 @@ export default {
           if (element.option) {
             value.option = element.option
           }
-          this.searchJson.query.stats[0].filters.push({
-            "id": element.id,
-            "disabled": element.isSearch ? false : true,
-            "value": value
-          })
+          // 比較 element.id 與 duplicateStats 內的 allIds 陣列，如果 element.id 有包含在內，則搜尋詞綴時就改為 type: "count"
+          let isCountType = this.duplicateStats.allIds.find(data => data.includes(element.id))
+
+          if (isCountType) {
+            let matchedItem = this.duplicateStats.result.find(item => item.ids.includes(isCountType));
+            let filters = matchedItem.ids.map(id => ({
+              id: id,
+              disabled: element.isSearch ? false : true,
+            }));
+
+            this.searchJson.query.stats.push({
+              "type": "count",
+              filters,
+              "value": {
+                "min": 1
+              }
+            });
+          } else {
+            this.searchJson.query.stats[0].filters.push({
+              "id": element.id,
+              "disabled": element.isSearch ? false : true,
+              "value": value
+            })
+          }
         })
       }
       this.fetchQueryID = ''
@@ -1051,7 +1072,7 @@ export default {
           if (error.response.status === 429) {
             errMsg += `\n被 Server 限制發送需求了，請等待後再重試`
           }
-          vm.issueText = `Version: v1.323.1, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.323.2, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1092,7 +1113,7 @@ export default {
     },
     statsAPI() { // 詞綴 API
       let vm = this
-      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/stats`, )
+      // this.axios.get(`https://pathofexile.tw/api/trade/data/stats`, )
       //   .then((response) => {
       //     let result = response.data.result
       let result = this.allStats.result
@@ -1226,7 +1247,7 @@ export default {
       this.monstersItems.length = 0
       this.mapBasic.option.length = 0
       this.gemBasic.option.length = 0
-      // this.axios.get(`https://web.poe.garena.tw/api/trade/data/items`, )
+      // this.axios.get(`https://pathofexile.tw/api/trade/data/items`, )
       //   .then((response) => {
       //     let result = response.data.result
       let result = this.allItems.result
@@ -1501,7 +1522,7 @@ export default {
             element.option = "azmeri.charm"
             this.categorizedItems.push(element)
             break;
-          case 2: // 屍體起始點 { "type": "完美劍舞", "text": "完美劍舞" }
+          case 2: // 屍體起始點 { "type": "完美海軍軍官", "text": "完美海軍軍官" }
             element.name = "屍體"
             element.option = "azmeri.corpse"
             this.categorizedItems.push(element)
@@ -1602,7 +1623,7 @@ export default {
     },
     clickToSearch: _.debounce(function () { // TODO: 重構物品/地圖交替搜尋時邏輯 stats: [{type: "and", filters: [], disabled: true(?)}]
       if (this.isItem) {
-        this.searchJson.query.stats[0].filters.length = 0
+        this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
       }
       if (this.isMap && this.mapBasic.isSearch) {
         this.searchName = `物品名稱 <br>『${this.mapBasic.chosenM}』`
@@ -2648,7 +2669,7 @@ export default {
         let itemNameStringIndex = itemNameString.indexOf(element.replace(/[^\u4e00-\u9fa5|．|：]/gi, "")) // 比對 mapBasic.option 時只比對中文字串
         if (itemNameStringIndex > -1 && !mapBasicCount) {
           mapBasicCount++
-          this.mapBasic.chosenM = this.isGarenaSvr ? element.replace(/[^\u4e00-\u9fa5|．|：]/gi, "") : itemNameString.slice(itemNameStringIndex)
+          this.mapBasic.chosenM = this.isTwServer ? element.replace(/[^\u4e00-\u9fa5|．|：]/gi, "") : itemNameString.slice(itemNameStringIndex)
           return true
         }
       });
@@ -2849,11 +2870,11 @@ export default {
         this.isApiError = false
         this.$store.commit('setServerString', server);
       }
-      this.isGarenaSvr = this.storeServerString === '台服' ? true : false
-      this.baseUrl = this.isGarenaSvr ? 'https://web.poe.garena.tw' : 'https://www.pathofexile.com'
+      this.isTwServer = this.storeServerString === '台服' ? true : false
+      this.baseUrl = this.isTwServer ? 'https://pathofexile.tw' : 'https://www.pathofexile.com'
       this.leaguesAPI();
       this.resetSearchData();
-      // if (!this.isGarenaSvr) {
+      // if (!this.isTwServer) {
       //   this.mapBasic.option = Object.assign([], this.gggMapBasic);
       //   this.gemBasic.option = Object.assign([], this.gggGemBasic);
       // } else {
@@ -3045,7 +3066,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.323.1\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.323.2\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
@@ -3092,7 +3113,7 @@ export default {
     'mapCategory.isShaper': { // TODO: 判斷塑者/尊師/壁壘/凋落圖方式需重構
       handler(newVal) {
         if (newVal) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3106,7 +3127,7 @@ export default {
             }
           }
         } else if (!newVal && !this.mapCategory.isElder && !this.mapCategory.isCitadel && !this.mapCategory.isBlighted) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3117,7 +3138,7 @@ export default {
     'mapCategory.isElder': {
       handler(newVal) {
         if (newVal) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3132,7 +3153,7 @@ export default {
           }
         } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isCitadel && !this.mapCategory.isBlighted) {
           this.mapElderGuard.isSearch = false
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3145,7 +3166,7 @@ export default {
     'mapCategory.isCitadel': {
       handler(newVal) {
         if (newVal) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3157,7 +3178,7 @@ export default {
           }
         } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isElder && !this.mapCategory.isBlighted) {
           this.mapCitadelGuard.isSearch = false
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }
@@ -3170,7 +3191,7 @@ export default {
     'mapCategory.isBlighted': {
       handler(newVal) {
         if (newVal) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.mapCategory.isShaper = false
           this.mapCategory.isElder = false
           this.mapCategory.isCitadel = false
@@ -3178,7 +3199,7 @@ export default {
             "option": "true"
           }
         } else if (!newVal && !this.mapCategory.isShaper && !this.mapCategory.isElder && !this.mapCategory.isCitadel) {
-          this.searchJson.query.stats[0].filters.length = 0
+          this.searchJson.query.stats = [{ "type": "and", "filters": [] }]
           this.searchJson.query.filters.map_filters.filters.map_blighted = {
             "option": "false"
           }

@@ -1,26 +1,13 @@
 'use strict'
 
-import {
-  app,
-  protocol,
-  BrowserWindow,
-  globalShortcut
-} from 'electron'
-import {
-  createProtocol,
-} from 'vue-cli-plugin-electron-builder/lib'
-import {
-  autoUpdater
-} from 'electron-updater'
-import installExtension, {
-  VUEJS_DEVTOOLS
-} from 'electron-devtools-installer'
-import path from 'path'
-import hotkeys from "hotkeys-js";
-const server = require('./server');
+import { app, protocol, BrowserWindow } from 'electron'
+import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import { autoUpdater } from 'electron-updater'
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import { ipcMain } from 'electron'
+import localShortcut from 'electron-localshortcut'
 const isDevelopment = process.env.NODE_ENV !== 'production'
-const os = require('os')
-const localShortcut = require('electron-localshortcut');
+const server = require('./server')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -71,8 +58,16 @@ function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     mainWindow.loadURL('app://./index.html')
-    autoUpdater.checkForUpdatesAndNotify()
+    autoUpdater.checkForUpdates()
   }
+
+  autoUpdater.on('update-downloaded', () => {
+    mainWindow.webContents.send('update_downloaded')
+  })
+
+  ipcMain.on('restart_app', () => {
+    autoUpdater.quitAndInstall()
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -81,12 +76,12 @@ function createWindow() {
   localShortcut.register('F5', () => {
     console.log('F5 is pressed, setAlwaysOnTop(true)')
     mainWindow.setOpacity(mainWindow.getOpacity() === 1 ? 0.8 : mainWindow.getOpacity())
-    mainWindow.setAlwaysOnTop(true, 'normal');
+    mainWindow.setAlwaysOnTop(true, 'normal')
   })
   localShortcut.register('F6', () => {
     console.log('F6 is pressed, setAlwaysOnTop(false), setOpacity(1)')
     mainWindow.setOpacity(1)
-    mainWindow.setAlwaysOnTop(false);
+    mainWindow.setAlwaysOnTop(false)
   })
   localShortcut.register('PageUp', () => {
     console.log('PageUp is pressed, setOpacity(+ 0.05)')
@@ -110,19 +105,31 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
+// 啟動前確認是否有其他實例正在運行
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (_, __, ___) => { // (event, commandLine, workingDirectory)
+    // 當第二個實例啟動時，將焦點設定回主視窗
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
+  })
+
+  app.on('activate', () => {
+    if (mainWindow === null) {
+      createWindow()
+    }
+  })
+}
 
 app.whenReady().then(() => {
   installExtension(VUEJS_DEVTOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
-});
+    .catch((err) => console.log('An error occurred: ', err))
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

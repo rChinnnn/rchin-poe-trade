@@ -1,7 +1,7 @@
 <template>
 <div>
   <b-container>
-    <!-- 勢力基底測試區 
+    <!-- 勢力基底測試區
     <el-checkbox-group v-model="checkedItemExBasic" :min="0" :max="2">
       <el-checkbox v-for="item in itemExBasic" :label="item" :key="item" :style="`opacity: ${checkedItemExBasic.indexOf(item) > -1 ? '1' : '0.7'}`">{{item}}</el-checkbox>
     </el-checkbox-group> -->
@@ -181,7 +181,7 @@ export default {
     hortiAnalysis(itemArray) {
       let tempHortiStation = []
       let statStart = itemArray.indexOf("保存有限的收割工藝選項，於之後使用") + 1 // 工藝詞綴初始位置
-      let statEnd = itemArray.lastIndexOf("--------") // 工藝詞綴結束位置 
+      let statEnd = itemArray.lastIndexOf("--------") // 工藝詞綴結束位置
       // console.log(statStart, itemArray[statStart], statEnd, itemArray[statEnd])
       for (let index = statStart; index < statEnd; index++) {
         tempHortiStation.push(itemArray[index])
@@ -254,7 +254,7 @@ export default {
     },
     getStashTab() {
       let vm = this
-      let baseUrl = `https://web.poe.garena.tw/character-window/get-stash-items?league=%E8%B1%90%E6%94%B6%E8%81%AF%E7%9B%9F`
+      let baseUrl = `https://pathofexile.tw/character-window/get-stash-items?league=%E8%B1%90%E6%94%B6%E8%81%AF%E7%9B%9F`
       let url = `${baseUrl}&accountName=${this.$store.state.accountName}&tabs=1&tabIndex=${this.$store.state.selectedTab}`
       let cookie = `POESESSID=${this.$store.state.POESESSID};`
       this.hortiStation = []

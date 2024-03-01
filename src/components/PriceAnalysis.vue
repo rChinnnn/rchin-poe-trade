@@ -369,7 +369,7 @@ export default {
   },
   mounted() {
     // let vm = this
-    // this.axios.get(`https://web.poe.garena.tw/api/trade/data/static`, )
+    // this.axios.get(`https://pathofexile.tw/api/trade/data/static`, )
     //   .then((response) => { // 通貨 icon
     //     this.Currency = response.data.result[0].entries
     //   })

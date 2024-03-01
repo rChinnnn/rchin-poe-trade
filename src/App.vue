@@ -4,9 +4,16 @@
       <input type="checkbox" id="theme-toggle" v-model="nightMode">
       <label for="theme-toggle"><span></span></label>
     </div>
-    <div id="nav" style="clear: both;">
-      <router-link to="/home">Home</router-link> |
-      <router-link to="/">About</router-link>
+    <div id="nav" style="display: flex; justify-content: center; clear: both;">
+      <div style="flex: 1; text-align: center;">
+        <router-link to="/home">Home</router-link> |
+        <router-link to="/">About</router-link>
+      </div>
+      <div style="align-self: flex-end;">
+        <b-button v-if="isUpdateAvailable" size="sm" variant="outline-success" @click="restartApp">
+          更新
+        </b-button>
+      </div>
     </div>
     <router-view />
   </div>
@@ -28,6 +35,8 @@ import {
   disable as disableDarkMode,
 } from 'darkreader';
 
+const { ipcRenderer } = window.require('electron');
+
 enableDarkMode({
   brightness: 100,
   contrast: 95,
@@ -37,11 +46,21 @@ enableDarkMode({
 export default {
   data() {
     return {
-      nightMode: true
+      nightMode: true,
+      isUpdateAvailable: false
     }
   },
   created() {
     this.nightMode = localStorage.getItem('nightMode') ? JSON.parse(localStorage.getItem('nightMode')) : true
+
+    ipcRenderer.on('update_downloaded', () => {
+      ipcRenderer.removeAllListeners('update_downloaded');
+      this.isUpdateAvailable = true
+      this.$message({
+        type: 'success',
+        message: `新版已經下載完成，可以點選右上角按鈕作更新！`
+      })
+    });
   },
   watch: {
     nightMode: function () {
@@ -57,5 +76,10 @@ export default {
       localStorage.setItem("nightMode", JSON.stringify(this.nightMode));
     },
   },
+  methods: {
+    restartApp() {
+      ipcRenderer.send('restart_app');
+    }
+  }
 }
 </script>
