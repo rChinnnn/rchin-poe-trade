@@ -105,13 +105,25 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
+// 啟動前確認是否有其他實例正在運行
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (_, __, ___) => { // (event, commandLine, workingDirectory)
+    // 當第二個實例啟動時，將焦點設定回主視窗
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
+  })
+
+  app.on('activate', () => {
+    if (mainWindow === null) {
+      createWindow()
+    }
+  })
+}
 
 app.whenReady().then(() => {
   installExtension(VUEJS_DEVTOOLS)
