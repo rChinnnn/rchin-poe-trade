@@ -1072,7 +1072,7 @@ export default {
           if (error.response.status === 429) {
             errMsg += `\n被 Server 限制發送需求了，請等待後再重試`
           }
-          vm.issueText = `Version: v1.323.1, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.323.2, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1522,7 +1522,7 @@ export default {
             element.option = "azmeri.charm"
             this.categorizedItems.push(element)
             break;
-          case 2: // 屍體起始點 { "type": "完美劍舞", "text": "完美劍舞" }
+          case 2: // 屍體起始點 { "type": "完美海軍軍官", "text": "完美海軍軍官" }
             element.name = "屍體"
             element.option = "azmeri.corpse"
             this.categorizedItems.push(element)
@@ -3066,7 +3066,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.323.1\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.323.2\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
