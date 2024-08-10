@@ -30,18 +30,18 @@
 </style>
 
 <script>
-import {
-  enable as enableDarkMode,
-  disable as disableDarkMode,
-} from 'darkreader';
+// import {
+//   enable as enableDarkMode,
+//   disable as disableDarkMode,
+// } from 'darkreader';
 
 const { ipcRenderer } = window.require('electron');
 
-enableDarkMode({
-  brightness: 100,
-  contrast: 95,
-  sepia: 5
-});
+// enableDarkMode({
+//   brightness: 100,
+//   contrast: 95,
+//   sepia: 5
+// });
 
 export default {
   data() {
@@ -62,20 +62,20 @@ export default {
       })
     });
   },
-  watch: {
-    nightMode: function () {
-      if (this.nightMode) {
-        enableDarkMode({
-          brightness: 100,
-          contrast: 95,
-          sepia: 5
-        });
-      } else {
-        disableDarkMode();
-      }
-      localStorage.setItem("nightMode", JSON.stringify(this.nightMode));
-    },
-  },
+  // watch: {
+  //   nightMode: function () {
+  //     if (this.nightMode) {
+  //       enableDarkMode({
+  //         brightness: 100,
+  //         contrast: 95,
+  //         sepia: 5
+  //       });
+  //     } else {
+  //       disableDarkMode();
+  //     }
+  //     localStorage.setItem("nightMode", JSON.stringify(this.nightMode));
+  //   },
+  // },
   methods: {
     restartApp() {
       ipcRenderer.send('restart_app');
