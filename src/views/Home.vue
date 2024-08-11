@@ -1072,7 +1072,7 @@ export default {
           if (error.response.status === 429) {
             errMsg += `\n被 Server 限制發送需求了，請等待後再重試`
           }
-          vm.issueText = `Version: v1.323.2, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.325.0, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1491,13 +1491,13 @@ export default {
           this.categorizedItems.push(element)
         }
       });
-      result[result.findIndex(e => e.id === "sanctum")].entries.forEach(element => { // "id": "sanctum", "label": "聖域研究"
-        if (_.isUndefined(element.flags)) {
-          element.name = "聖域研究"
-          element.option = "sanctum"
-          this.categorizedItems.push(element)
-        }
-      });
+      // result[result.findIndex(e => e.id === "sanctum")].entries.forEach(element => { // "id": "sanctum", "label": "聖域研究"
+      //   if (_.isUndefined(element.flags)) {
+      //     element.name = "聖域研究"
+      //     element.option = "sanctum"
+      //     this.categorizedItems.push(element)
+      //   }
+      // });
       result[result.findIndex(e => e.id === "corpse")].entries.forEach(element => { // "id": "corpse", "label": "物品化屍體"
         if (_.isUndefined(element.flags)) {
           element.name = "屍體"
@@ -1512,26 +1512,26 @@ export default {
           this.categorizedItems.push(element)
         }
       });
-      // result[result.findIndex(e => e.id === "sanctum")].entries.forEach(element => { // "id": "sanctum"
-      //   const basetype = ["香爐聖物", "聖域寶庫研究"]
-      //   if (_.isUndefined(element.flags)) {
-      //     sanctumIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-      //   }
-      //   switch (sanctumIndex) {
-      //     case 1: // 聖物起始點 { "type": "香爐聖物", "text": "香爐聖物" }
-      //       element.name = "聖物"
-      //       element.option = "sanctum.relic"
-      //       this.categorizedItems.push(element)
-      //       break;
-      //     case 2: // 聖域研究起始點 { "type": "聖域寶庫研究", "text": "聖域寶庫研究" }
-      //       element.name = "聖域研究"
-      //       element.option = "sanctum.research"
-      //       this.mapBasic.option.push(element.text)
-      //       break;
-      //     default:
-      //       break;
-      //   }
-      // });
+      result[result.findIndex(e => e.id === "sanctum")].entries.forEach(element => { // "id": "sanctum"
+        const basetype = ["香爐聖物", "聖域寶庫研究"]
+        if (_.isUndefined(element.flags)) {
+          sanctumIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+        }
+        switch (sanctumIndex) {
+          case 1: // 聖物起始點 { "type": "香爐聖物", "text": "香爐聖物" }
+            element.name = "聖物"
+            element.option = "sanctum.relic"
+            this.categorizedItems.push(element)
+            break;
+          case 2: // 聖域研究起始點 { "type": "聖域寶庫研究", "text": "聖域寶庫研究" }
+            element.name = "聖域研究"
+            element.option = "sanctum.research"
+            this.mapBasic.option.push(element.type)
+            break;
+          default:
+            break;
+        }
+      });
       // result[result.findIndex(e => e.id === "azmeri")].entries.forEach(element => { // "id": "azmeri"
       //   const basetype = ["狼族咒語", "完美劍舞", "鮮血液萃取物"]
       //   if (_.isUndefined(element.flags)) {
@@ -3087,7 +3087,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.323.2\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.325.0\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
