@@ -1072,7 +1072,7 @@ export default {
           if (error.response.status === 429) {
             errMsg += `\n被 Server 限制發送需求了，請等待後再重試`
           }
-          vm.issueText = `Version: v1.323.2, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.325.0, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1251,7 +1251,7 @@ export default {
       //   .then((response) => {
       //     let result = response.data.result
       let result = this.allItems.result
-      result[result.findIndex(e => e.id === "accessories")].entries.forEach(element => { // "id": "accessories", "label": "飾品"
+      result[result.findIndex(e => e.id === "accessory")].entries.forEach(element => { // "id": "accessories", "label": "飾品"
         const basetype = ["碧珠護身符", "素布腰帶", "裂痕戒指", "盜賊飾品"]
         // _.isUndefined(element.flags) == true 表示非傳奇物品
         if (_.isUndefined(element.flags)) {
@@ -1322,7 +1322,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "flasks")].entries.forEach(element => { // "id": "flasks", "label": "藥劑"
+      result[result.findIndex(e => e.id === "flask")].entries.forEach(element => { // "id": "flasks", "label": "藥劑"
         const basetype = ["小型複合藥劑"]
         if (_.isUndefined(element.flags)) {
           flasksIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1337,7 +1337,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "jewels")].entries.forEach(element => { // "id": "jewels", "label": "珠寶"
+      result[result.findIndex(e => e.id === "jewel")].entries.forEach(element => { // "id": "jewels", "label": "珠寶"
         const basetype = ["催眠之眼珠寶"]
         if (_.isUndefined(element.flags)) {
           jewelIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1352,7 +1352,7 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "weapons")].entries.forEach(element => { // "id": "weapons", "label": "武器"
+      result[result.findIndex(e => e.id === "weapon")].entries.forEach(element => { // "id": "weapons", "label": "武器"
         const basetype = ["拳釘", "玻璃利片", "鏽斧", "朽木之棒", "鏽劍", "朽木法杖", "魚竿", "粗製弓", "朽木之幹", "石斧", "朽木巨錘", "鏽斑巨劍"]
         if (_.isUndefined(element.flags)) {
           weaponIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
@@ -1447,20 +1447,20 @@ export default {
             break;
         }
       });
-      result[result.findIndex(e => e.id === "maps")].entries.forEach(element => { // "id": "maps", "label": "地圖"
+      result[result.findIndex(e => e.id === "map")].entries.forEach(element => { // "id": "maps", "label": "地圖"
         const basetype = ["惡靈學院"] // 地圖起始點 { "type": "惡靈學院", "text": "惡靈學院" }
         if (_.isUndefined(element.flags) && element.disc === "warfortheatlas") { // 只抓 {"disc": "warfortheatlas"} 一般地圖基底
-          this.mapBasic.option.push(element.text)
-        } else if (element.text.indexOf('釋界之邀：') > -1) { // 3.13 釋界之邀
-          this.mapBasic.option.push(element.text)
+          this.mapBasic.option.push(element.type)
+        } else if (element.type.indexOf('釋界之邀：') > -1) { // 3.13 釋界之邀
+          this.mapBasic.option.push(element.type)
         }
       });
       result[result.findIndex(e => e.id === "heistmission")].entries.forEach(element => { // "id": "heistmission"
         if (_.isUndefined(element.flags)) {
-          this.mapBasic.option.push(element.text)
+          this.mapBasic.option.push(element.type)
         }
       });
-      result[result.findIndex(e => e.id === "gems")].entries.forEach(element => { // "id": "gems", "label": "技能寶石"
+      result[result.findIndex(e => e.id === "gem")].entries.forEach(element => { // "id": "gems", "label": "技能寶石"
         if (element.hasOwnProperty('disc')) {
           if (element.disc === "alt_x" || element.disc === "alt_y") { // 抓出 3.23 變異寶石資料
             this.transfiguredGems.push(element)
@@ -1469,7 +1469,7 @@ export default {
           this.gemBasic.option.push(element.text)
         }
       });
-      result[result.findIndex(e => e.id === "monsters")].entries.forEach(element => { // "id": "monsters", "label": "物品化怪物"
+      result[result.findIndex(e => e.id === "monster")].entries.forEach(element => { // "id": "monsters", "label": "物品化怪物"
         this.monstersItems.push(element)
       });
       result[result.findIndex(e => e.id === "logbook")].entries.forEach(element => { // "id": "logbook"
@@ -1491,6 +1491,27 @@ export default {
           this.categorizedItems.push(element)
         }
       });
+      // result[result.findIndex(e => e.id === "sanctum")].entries.forEach(element => { // "id": "sanctum", "label": "聖域研究"
+      //   if (_.isUndefined(element.flags)) {
+      //     element.name = "聖域研究"
+      //     element.option = "sanctum"
+      //     this.categorizedItems.push(element)
+      //   }
+      // });
+      result[result.findIndex(e => e.id === "corpse")].entries.forEach(element => { // "id": "corpse", "label": "物品化屍體"
+        if (_.isUndefined(element.flags)) {
+          element.name = "屍體"
+          element.option = "corpse"
+          this.categorizedItems.push(element)
+        }
+      });
+      result[result.findIndex(e => e.id === "tincture")].entries.forEach(element => { // "id": "tincture", "label": "萃取物"
+        if (_.isUndefined(element.flags)) {
+          element.name = "萃取物"
+          element.option = "tincture"
+          this.categorizedItems.push(element)
+        }
+      });
       result[result.findIndex(e => e.id === "sanctum")].entries.forEach(element => { // "id": "sanctum"
         const basetype = ["香爐聖物", "聖域寶庫研究"]
         if (_.isUndefined(element.flags)) {
@@ -1505,37 +1526,37 @@ export default {
           case 2: // 聖域研究起始點 { "type": "聖域寶庫研究", "text": "聖域寶庫研究" }
             element.name = "聖域研究"
             element.option = "sanctum.research"
-            this.mapBasic.option.push(element.text)
+            this.mapBasic.option.push(element.type)
             break;
           default:
             break;
         }
       });
-      result[result.findIndex(e => e.id === "azmeri")].entries.forEach(element => { // "id": "azmeri"
-        const basetype = ["狼族咒語", "完美劍舞", "鮮血液萃取物"]
-        if (_.isUndefined(element.flags)) {
-          azmeriIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
-        }
-        switch (azmeriIndex) {
-          case 1: // 咒語起始點 { "type": "狼族咒語", "text": "狼族咒語" }
-            element.name = "咒語"
-            element.option = "azmeri.charm"
-            this.categorizedItems.push(element)
-            break;
-          case 2: // 屍體起始點 { "type": "完美海軍軍官", "text": "完美海軍軍官" }
-            element.name = "屍體"
-            element.option = "azmeri.corpse"
-            this.categorizedItems.push(element)
-            break;
-          case 3: // 萃取物起始點 { "type": "鮮血液萃取物", "text": "鮮血液萃取物" }
-            element.name = "萃取物"
-            element.option = "azmeri.tincture"
-            this.categorizedItems.push(element)
-            break;
-          default:
-            break;
-        }
-      });
+      // result[result.findIndex(e => e.id === "azmeri")].entries.forEach(element => { // "id": "azmeri"
+      //   const basetype = ["狼族咒語", "完美劍舞", "鮮血液萃取物"]
+      //   if (_.isUndefined(element.flags)) {
+      //     azmeriIndex += stringSimilarity.findBestMatch(element.type, basetype).bestMatch.rating === 1 ? 1 : 0
+      //   }
+      //   switch (azmeriIndex) {
+      //     case 1: // 咒語起始點 { "type": "狼族咒語", "text": "狼族咒語" }
+      //       element.name = "咒語"
+      //       element.option = "azmeri.charm"
+      //       this.categorizedItems.push(element)
+      //       break;
+      //     case 2: // 屍體起始點 { "type": "完美海軍軍官", "text": "完美海軍軍官" }
+      //       element.name = "屍體"
+      //       element.option = "azmeri.corpse"
+      //       this.categorizedItems.push(element)
+      //       break;
+      //     case 3: // 萃取物起始點 { "type": "鮮血液萃取物", "text": "鮮血液萃取物" }
+      //       element.name = "萃取物"
+      //       element.option = "azmeri.tincture"
+      //       this.categorizedItems.push(element)
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // });
       // })
       // .catch(function (error) {
       //   vm.isApiError = true
@@ -2393,7 +2414,7 @@ export default {
       this.raritySet.isSearch = true
       this.isRaritySearch()
       // 判斷物品基底
-      this.itemBasic.text = this.replaceString(matchItem.text)
+      this.itemBasic.text = this.replaceString(matchItem.text || matchItem.type)
       // 判斷物品等級
       if (item.indexOf('物品等級: ') > -1) {
         let levelPos = item.substring(item.indexOf('物品等級: ') + 5)
@@ -2937,8 +2958,8 @@ export default {
       let itemBasicCount = 0
 
       this.categorizedItems.some(element => {
-        let itemNameStringIndex = itemNameString.indexOf(element.text)
-        // console.log(itemNameString, itemNameStringIndex)
+        let itemNameStringIndex = itemNameString.indexOf(element.text || element.type)
+        console.log(itemNameString, itemNameStringIndex)
         if (itemNameStringIndex > -1 && !itemBasicCount && (itemNameString.indexOf('碎片') === -1 || Rarity !== '傳奇')) {
           itemBasicCount++
           this.itemAnalysis(item, itemArray, element)
@@ -3066,7 +3087,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.323.2\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.325.0\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return

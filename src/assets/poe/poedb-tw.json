@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 4854,
+    "size": 5171,
     "data": [
         {
             "type": "Class",
@@ -359,6 +359,16 @@
             "lang": "咒語"
         },
         {
+            "type": "Class",
+            "us": "Embers of the Allflame",
+            "lang": "不滅之火餘燼"
+        },
+        {
+            "type": "Class",
+            "us": "Gold",
+            "lang": "金幣"
+        },
+        {
             "type": "BaseType",
             "us": "Blacksmith's Whetstone",
             "lang": "磨刀石"
@@ -375,8 +385,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Veiled Chaos Orb",
-            "lang": "隱匿混沌石"
+            "us": "Veiled Orb",
+            "lang": "隱匿石"
         },
         {
             "type": "BaseType",
@@ -490,6 +500,31 @@
         },
         {
             "type": "BaseType",
+            "us": "Maven's Chisel of Procurement",
+            "lang": "釋界之採購鑿"
+        },
+        {
+            "type": "BaseType",
+            "us": "Maven's Chisel of Proliferation",
+            "lang": "釋界之增值鑿"
+        },
+        {
+            "type": "BaseType",
+            "us": "Maven's Chisel of Divination",
+            "lang": "釋界之占卜鑿"
+        },
+        {
+            "type": "BaseType",
+            "us": "Maven's Chisel of Scarabs",
+            "lang": "釋界之聖甲蟲鑿"
+        },
+        {
+            "type": "BaseType",
+            "us": "Maven's Chisel of Avarice",
+            "lang": "釋界之貪婪鑿"
+        },
+        {
+            "type": "BaseType",
             "us": "Scroll Fragment",
             "lang": "卷軸碎片"
         },
@@ -565,13 +600,18 @@
         },
         {
             "type": "BaseType",
-            "us": "Surveyor's Compass",
-            "lang": "調查員的羅盤"
+            "us": "Empty Coffin",
+            "lang": "空靈柩"
         },
         {
             "type": "BaseType",
-            "us": "Charged Compass",
-            "lang": "充能的羅盤"
+            "us": "Filled Coffin",
+            "lang": "滿靈柩"
+        },
+        {
+            "type": "BaseType",
+            "us": "Surveyor's Compass",
+            "lang": "調查員的羅盤"
         },
         {
             "type": "BaseType",
@@ -1230,13 +1270,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Awakened Sextant",
-            "lang": "製圖六分儀．覺醒"
-        },
-        {
-            "type": "BaseType",
-            "us": "Elevated Sextant",
-            "lang": "製圖六分儀．高尚"
+            "us": "Veiled Scarab",
+            "lang": "隱匿聖甲蟲"
         },
         {
             "type": "BaseType",
@@ -1605,8 +1640,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Perfect Fossil",
-            "lang": "無瑕化石"
+            "us": "Opulent Fossil",
+            "lang": "華麗化石"
         },
         {
             "type": "BaseType",
@@ -3775,6 +3810,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Nameless Ring",
+            "lang": "無名戒指"
+        },
+        {
+            "type": "BaseType",
             "us": "Jet Ring",
             "lang": "傑特戒指"
         },
@@ -4087,6 +4127,11 @@
             "type": "BaseType",
             "us": "Mechalarm Belt",
             "lang": "機械腰帶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Mechanical Belt",
+            "lang": "腰帶外觀：機械龐克"
         },
         {
             "type": "BaseType",
@@ -4655,6 +4700,21 @@
         },
         {
             "type": "BaseType",
+            "us": "General's Helmet",
+            "lang": "將軍的頭盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Conqueror's Helmet",
+            "lang": "征服者的頭盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Giantslayer Helmet",
+            "lang": "巨人殺手頭盔"
+        },
+        {
+            "type": "BaseType",
             "us": "Leather Cap",
             "lang": "皮帽"
         },
@@ -4702,6 +4762,21 @@
             "type": "BaseType",
             "us": "Lion Pelt",
             "lang": "獅首皮盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Dire Pelt",
+            "lang": "恐懼皮盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Grizzly Pelt",
+            "lang": "灰熊皮盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Majestic Pelt",
+            "lang": "莊嚴皮盔"
         },
         {
             "type": "BaseType",
@@ -4760,6 +4835,21 @@
         },
         {
             "type": "BaseType",
+            "us": "Moonlit Circlet",
+            "lang": "月光之冠"
+        },
+        {
+            "type": "BaseType",
+            "us": "Sunfire Circlet",
+            "lang": "陽炎之冠"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lich's Circlet",
+            "lang": "巫妖之冠"
+        },
+        {
+            "type": "BaseType",
             "us": "Battered Helm",
             "lang": "殘破之盔"
         },
@@ -4807,6 +4897,21 @@
             "type": "BaseType",
             "us": "Nightmare Bascinet",
             "lang": "夢魘戰盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Knight Helm",
+            "lang": "騎士之盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Conquest Helmet",
+            "lang": "征戰頭盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Haunted Bascinet",
+            "lang": "鬧鬼戰盔"
         },
         {
             "type": "BaseType",
@@ -4872,6 +4977,21 @@
             "type": "BaseType",
             "us": "Praetor Crown",
             "lang": "領主戰冠"
+        },
+        {
+            "type": "BaseType",
+            "us": "Faithful Helmet",
+            "lang": "信仰頭盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Paladin Crown",
+            "lang": "聖騎士之冠"
+        },
+        {
+            "type": "BaseType",
+            "us": "Divine Crown",
+            "lang": "神聖之冠"
         },
         {
             "type": "BaseType",
@@ -4942,6 +5062,21 @@
             "type": "BaseType",
             "us": "Deicide Mask",
             "lang": "弒神之面"
+        },
+        {
+            "type": "BaseType",
+            "us": "Jester Mask",
+            "lang": "小丑面具"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ancient Mask",
+            "lang": "遠古面具"
+        },
+        {
+            "type": "BaseType",
+            "us": "Torturer's Mask",
+            "lang": "刑求面具"
         },
         {
             "type": "BaseType",
@@ -5075,6 +5210,21 @@
         },
         {
             "type": "BaseType",
+            "us": "Titan Plate",
+            "lang": "泰坦之鎧"
+        },
+        {
+            "type": "BaseType",
+            "us": "Legion Plate",
+            "lang": "戰亂之鎧"
+        },
+        {
+            "type": "BaseType",
+            "us": "Royal Plate",
+            "lang": "皇家之鎧"
+        },
+        {
+            "type": "BaseType",
             "us": "Kaom's Plate",
             "lang": "岡姆的重鎧"
         },
@@ -5165,6 +5315,21 @@
         },
         {
             "type": "BaseType",
+            "us": "Supreme Leather",
+            "lang": "至高皮甲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Astral Leather",
+            "lang": "星際皮甲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Syndicate's Garb",
+            "lang": "密教束衣"
+        },
+        {
+            "type": "BaseType",
             "us": "Simple Robe",
             "lang": "簡易之袍"
         },
@@ -5247,6 +5412,21 @@
             "type": "BaseType",
             "us": "Vaal Regalia",
             "lang": "瓦爾法衣"
+        },
+        {
+            "type": "BaseType",
+            "us": "Arcane Vestment",
+            "lang": "奧術長衣"
+        },
+        {
+            "type": "BaseType",
+            "us": "Nightweave Robe",
+            "lang": "夜織之袍"
+        },
+        {
+            "type": "BaseType",
+            "us": "Twilight Regalia",
+            "lang": "暮光法衣"
         },
         {
             "type": "BaseType",
@@ -5335,6 +5515,21 @@
         },
         {
             "type": "BaseType",
+            "us": "Full Wyvernscale",
+            "lang": "全套龍鱗甲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Marshall's Brigandine",
+            "lang": "元帥鎧甲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Conquest Lamellar",
+            "lang": "征戰薄甲"
+        },
+        {
+            "type": "BaseType",
             "us": "Chainmail Vest",
             "lang": "鎖鏈背心"
         },
@@ -5417,6 +5612,21 @@
             "type": "BaseType",
             "us": "Saintly Chainmail",
             "lang": "聖潔鎖甲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Grand Ringmail",
+            "lang": "宏偉環甲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Paladin's Hauberk",
+            "lang": "聖騎士長甲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Sacred Chainmail",
+            "lang": "神聖鎖甲"
         },
         {
             "type": "BaseType",
@@ -5505,6 +5715,21 @@
         },
         {
             "type": "BaseType",
+            "us": "Sanguine Raiment",
+            "lang": "樂觀之衣"
+        },
+        {
+            "type": "BaseType",
+            "us": "Torturer Garb",
+            "lang": "刑求束衣"
+        },
+        {
+            "type": "BaseType",
+            "us": "Necrotic Armour",
+            "lang": "亡者護甲"
+        },
+        {
+            "type": "BaseType",
             "us": "Sacrificial Garb",
             "lang": "祭禮束衣"
         },
@@ -5562,6 +5787,16 @@
             "type": "BaseType",
             "us": "Titan Greaves",
             "lang": "巨人脛甲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Precursor Greaves",
+            "lang": "先行者脛甲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Leviathan Greaves",
+            "lang": "海獸脛甲"
         },
         {
             "type": "BaseType",
@@ -5630,6 +5865,16 @@
         },
         {
             "type": "BaseType",
+            "us": "Harpyskin Boots",
+            "lang": "妖羽皮短靴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Velour Boots",
+            "lang": "絲絨長靴"
+        },
+        {
+            "type": "BaseType",
             "us": "Cloudwhisper Boots",
             "lang": "雲語短靴"
         },
@@ -5690,6 +5935,16 @@
         },
         {
             "type": "BaseType",
+            "us": "Sage Slippers",
+            "lang": "哲人便鞋"
+        },
+        {
+            "type": "BaseType",
+            "us": "Warlock Boots",
+            "lang": "術士長靴"
+        },
+        {
+            "type": "BaseType",
             "us": "Duskwalk Slippers",
             "lang": "暮色之行便鞋"
         },
@@ -5745,6 +6000,16 @@
         },
         {
             "type": "BaseType",
+            "us": "Chimerascale Boots",
+            "lang": "龍蜥鱗長靴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Wyvernscale Boots",
+            "lang": "飛龍鱗長靴"
+        },
+        {
+            "type": "BaseType",
             "us": "Chain Boots",
             "lang": "鏈甲長靴"
         },
@@ -5782,6 +6047,16 @@
             "type": "BaseType",
             "us": "Crusader Boots",
             "lang": "聖戰長靴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Martyr Boots",
+            "lang": "烈士長靴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Paladin Boots",
+            "lang": "聖騎士長靴"
         },
         {
             "type": "BaseType",
@@ -5827,6 +6102,16 @@
             "type": "BaseType",
             "us": "Murder Boots",
             "lang": "暗殺者長靴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Infiltrator Boots",
+            "lang": "滲透者長靴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Phantom Boots",
+            "lang": "魅影長靴"
         },
         {
             "type": "BaseType",
@@ -5910,18 +6195,28 @@
         },
         {
             "type": "BaseType",
-            "us": "Taxing Gauntlets",
-            "lang": "負重護手"
+            "us": "Precursor Gauntlets",
+            "lang": "先行者護手"
         },
         {
             "type": "BaseType",
-            "us": "Gruelling Gauntlets",
-            "lang": "疲乏護手"
+            "us": "Leviathan Gauntlets",
+            "lang": "海獸護手"
         },
         {
             "type": "BaseType",
-            "us": "Debilitation Gauntlets",
-            "lang": "衰弱護手"
+            "us": "Preserving Gauntlets",
+            "lang": "庇護手套"
+        },
+        {
+            "type": "BaseType",
+            "us": "Guarding Gauntlets",
+            "lang": "保衛手套"
+        },
+        {
+            "type": "BaseType",
+            "us": "Thwarting Gauntlets",
+            "lang": "阻擾手套"
         },
         {
             "type": "BaseType",
@@ -5970,18 +6265,28 @@
         },
         {
             "type": "BaseType",
-            "us": "Gauche Gloves",
-            "lang": "粗糙手套"
+            "us": "Harpyskin Gloves",
+            "lang": "妖羽皮手套"
         },
         {
             "type": "BaseType",
-            "us": "Southswing Gloves",
-            "lang": "南翼手套"
+            "us": "Velour Gloves",
+            "lang": "絲絨手套"
         },
         {
             "type": "BaseType",
-            "us": "Sinistral Gloves",
-            "lang": "左傾手套"
+            "us": "Tinker Gloves",
+            "lang": "修補匠手套"
+        },
+        {
+            "type": "BaseType",
+            "us": "Apprentice Gloves",
+            "lang": "學徒手套"
+        },
+        {
+            "type": "BaseType",
+            "us": "Trapsetter Gloves",
+            "lang": "設陷者手套"
         },
         {
             "type": "BaseType",
@@ -6026,6 +6331,16 @@
         {
             "type": "BaseType",
             "us": "Sorcerer Gloves",
+            "lang": "術士手套"
+        },
+        {
+            "type": "BaseType",
+            "us": "Sage Gloves",
+            "lang": "哲人手套"
+        },
+        {
+            "type": "BaseType",
+            "us": "Warlock Gloves",
             "lang": "術士手套"
         },
         {
@@ -6085,6 +6400,16 @@
         },
         {
             "type": "BaseType",
+            "us": "Chimerascale Gauntlets",
+            "lang": "龍蜥鱗護手"
+        },
+        {
+            "type": "BaseType",
+            "us": "Wyvernscale Gauntlets",
+            "lang": "飛龍鱗護手"
+        },
+        {
+            "type": "BaseType",
             "us": "Chain Gloves",
             "lang": "鏈甲手套"
         },
@@ -6125,6 +6450,16 @@
         },
         {
             "type": "BaseType",
+            "us": "Martyr Gloves",
+            "lang": "烈士手套"
+        },
+        {
+            "type": "BaseType",
+            "us": "Paladin Gloves",
+            "lang": "聖騎士手套"
+        },
+        {
+            "type": "BaseType",
             "us": "Wrapped Mitts",
             "lang": "裹趾護手"
         },
@@ -6162,6 +6497,16 @@
             "type": "BaseType",
             "us": "Murder Mitts",
             "lang": "暗殺者護手"
+        },
+        {
+            "type": "BaseType",
+            "us": "Infiltrator Mitts",
+            "lang": "滲透者護手"
+        },
+        {
+            "type": "BaseType",
+            "us": "Phantom Mitts",
+            "lang": "魅影護手"
         },
         {
             "type": "BaseType",
@@ -6970,18 +7315,33 @@
         },
         {
             "type": "BaseType",
-            "us": "Riposte",
-            "lang": "擊刃"
+            "us": "Glacial Shield Swipe",
+            "lang": "冰川盾擊"
         },
         {
             "type": "BaseType",
-            "us": "Vengeance",
-            "lang": "復仇"
+            "us": "Crushing Fist",
+            "lang": "粉碎之拳"
         },
         {
             "type": "BaseType",
-            "us": "Reckoning",
-            "lang": "清算"
+            "us": "Swordstorm",
+            "lang": "劍刃風暴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Eviscerate",
+            "lang": "剔骨"
+        },
+        {
+            "type": "BaseType",
+            "us": "Divine Retribution",
+            "lang": "神聖制裁"
+        },
+        {
+            "type": "BaseType",
+            "us": "Vengeful Cry",
+            "lang": "復仇之嚎"
         },
         {
             "type": "BaseType",
@@ -7010,7 +7370,7 @@
         },
         {
             "type": "BaseType",
-            "us": "Increased Duration Support",
+            "us": "More Duration Support",
             "lang": "持續時間延長輔助"
         },
         {
@@ -8061,7 +8421,7 @@
         {
             "type": "BaseType",
             "us": "Vortex",
-            "lang": "旋渦"
+            "lang": "漩渦"
         },
         {
             "type": "BaseType",
@@ -9450,6 +9810,36 @@
         },
         {
             "type": "BaseType",
+            "us": "Automation",
+            "lang": "自動化"
+        },
+        {
+            "type": "BaseType",
+            "us": "Autoexertion",
+            "lang": "自動竭盡"
+        },
+        {
+            "type": "BaseType",
+            "us": "Sacred Wisps Support",
+            "lang": "聖潔妖精輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Overexertion Support",
+            "lang": "竭盡全力輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Expert Retaliation Support",
+            "lang": "專家復仇輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Rupture Support",
+            "lang": "殘破輔助"
+        },
+        {
+            "type": "BaseType",
             "us": "Playtest Attack",
             "lang": "測試攻擊"
         },
@@ -10295,6 +10685,31 @@
         },
         {
             "type": "BaseType",
+            "us": "Sanctuary Map",
+            "lang": "聖所地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Citadel Map",
+            "lang": "壁壘地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Fortress Map",
+            "lang": "堡壘地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Abomination Map",
+            "lang": "憎惡地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ziggurat Map",
+            "lang": "高地神塔地圖"
+        },
+        {
+            "type": "BaseType",
             "us": "Primeval Remnant",
             "lang": "史前遺跡"
         },
@@ -10667,6 +11082,11 @@
             "type": "BaseType",
             "us": "Blood-filled Vessel",
             "lang": "浸血碑器"
+        },
+        {
+            "type": "BaseType",
+            "us": "Serpent Extract",
+            "lang": "巨蛇萃取物"
         },
         {
             "type": "BaseType",
@@ -12995,18 +13415,18 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Blood Progenitor",
-            "lang": "奪取之魂：巨猿血祖"
+            "us": "Captured Soul of Puruna, the Challenger",
+            "lang": "奪取之魂：挑戰者普魯那"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Merveil, the Returned",
-            "lang": "奪取之魂：復生者莫薇兒"
+            "us": "Captured Soul of Captain Tanner Lightfoot",
+            "lang": "奪取之魂：隊長坦納萊富特"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Nassar, Lion of the Seas",
-            "lang": "奪取之魂：海洋之獅納瑟爾"
+            "us": "Captured Soul of Glace",
+            "lang": "奪取之魂：凍靈"
         },
         {
             "type": "BaseType",
@@ -13015,23 +13435,23 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Spinner of False Hope",
-            "lang": "奪取之魂：幻象恐蛛"
+            "us": "Captured Soul of Hybrid Widow",
+            "lang": "奪取之魂：混種黑寡婦"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Queen of the Great Tangle",
-            "lang": "奪取之魂：紛爭女王"
+            "us": "Captured Soul of Shadow of the Vaal",
+            "lang": "奪取之魂：瓦爾之影"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Lord of the Ashen Arrow",
-            "lang": "奪取之魂：魂靈之冥箭"
+            "us": "Captured Soul of Kitava, The Destroyer",
+            "lang": "奪取之魂：毀滅者奇塔弗"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Megaera",
-            "lang": "奪取之魂：炎靈密卡拉"
+            "us": "Captured Soul of The Gorgon",
+            "lang": "奪取之魂：戈耳戈"
         },
         {
             "type": "BaseType",
@@ -13045,8 +13465,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Captain Clayborne, The Accursed",
-            "lang": "奪取之魂：被詛咒的．隊長克雷波恩"
+            "us": "Captured Soul of Khor, Sister of Shadows",
+            "lang": "奪取之魂：暗影姊妹．霍爾"
         },
         {
             "type": "BaseType",
@@ -13065,13 +13485,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Tunneltrap",
-            "lang": "奪取之魂：熾魂"
+            "us": "Captured Soul of Varhesh, Shimmering Aberration",
+            "lang": "奪取之魂：微光之屍弗賽斯"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Preethi, Eye-Pecker",
-            "lang": "奪取之魂：啄眼者布里斯"
+            "us": "Captured Soul of Terror of the Infinite Drifts",
+            "lang": "奪取之魂：無盡漂泊之懼"
         },
         {
             "type": "BaseType",
@@ -13130,83 +13550,78 @@
         },
         {
             "type": "BaseType",
-            "us": "Rusted Breach Scarab",
-            "lang": "聖甲蟲：鏽蝕裂痕"
+            "us": "Primordial Fragment",
+            "lang": "先祖碎片"
         },
         {
             "type": "BaseType",
-            "us": "Polished Breach Scarab",
-            "lang": "聖甲蟲：圓滑裂痕"
+            "us": "Breach Scarab",
+            "lang": "聖甲蟲·裂痕"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Breach Scarab",
-            "lang": "聖甲蟲：鍍金裂痕"
+            "us": "Breach Scarab of the Dreamer",
+            "lang": "聖甲蟲：築夢裂痕"
         },
         {
             "type": "BaseType",
-            "us": "Winged Breach Scarab",
-            "lang": "聖甲蟲：展翅裂痕"
+            "us": "Breach Scarab of Lordship",
+            "lang": "聖甲蟲：統領裂痕"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Cartography Scarab",
-            "lang": "聖甲蟲：鏽蝕製圖"
+            "us": "Breach Scarab of Splintering",
+            "lang": "聖甲蟲：破碎裂痕"
         },
         {
             "type": "BaseType",
-            "us": "Polished Cartography Scarab",
-            "lang": "聖甲蟲：圓滑製圖"
+            "us": "Breach Scarab of Snares",
+            "lang": "聖甲蟲：誘捕裂痕"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Cartography Scarab",
-            "lang": "聖甲蟲：鍍金製圖"
+            "us": "Breach Scarab of Resonant Cascade",
+            "lang": "聖甲蟲：共鳴浪湧裂痕"
         },
         {
             "type": "BaseType",
-            "us": "Winged Cartography Scarab",
-            "lang": "聖甲蟲：展翅製圖"
+            "us": "Cartography Scarab of Escalation",
+            "lang": "聖甲蟲：惡化製圖"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Reliquary Scarab",
-            "lang": "聖甲蟲：鏽蝕聖物"
+            "us": "Cartography Scarab of Risk",
+            "lang": "聖甲蟲：風險製圖"
         },
         {
             "type": "BaseType",
-            "us": "Polished Reliquary Scarab",
-            "lang": "聖甲蟲：圓滑聖物"
+            "us": "Cartography Scarab of Singularity",
+            "lang": "聖甲蟲：極寶製圖"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Reliquary Scarab",
-            "lang": "聖甲蟲：鍍金聖物"
+            "us": "Cartography Scarab of Corruption",
+            "lang": "聖甲蟲：腐化製圖"
         },
         {
             "type": "BaseType",
-            "us": "Winged Reliquary Scarab",
-            "lang": "聖甲蟲：展翅聖物"
+            "us": "Cartography Scarab of the Multitude",
+            "lang": "聖甲蟲：增生製圖"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Bestiary Scarab",
-            "lang": "聖甲蟲：鏽蝕獸獵"
+            "us": "Titanic Scarab",
+            "lang": "聖甲蟲．泰坦"
         },
         {
             "type": "BaseType",
-            "us": "Polished Bestiary Scarab",
-            "lang": "聖甲蟲：圓滑獸獵"
+            "us": "Titanic Scarab of Treasures",
+            "lang": "聖甲蟲：珍寶泰坦"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Bestiary Scarab",
-            "lang": "聖甲蟲：鍍金獸獵"
-        },
-        {
-            "type": "BaseType",
-            "us": "Winged Bestiary Scarab",
-            "lang": "聖甲蟲：展翅獸獵"
+            "us": "Titanic Scarab of Legend",
+            "lang": "聖甲蟲：傳說泰坦"
         },
         {
             "type": "BaseType",
@@ -13230,243 +13645,533 @@
         },
         {
             "type": "BaseType",
-            "us": "Rusted Shaper Scarab",
-            "lang": "聖甲蟲：鏽蝕塑者"
+            "us": "Bestiary Scarab",
+            "lang": "聖甲蟲·獸獵"
         },
         {
             "type": "BaseType",
-            "us": "Polished Shaper Scarab",
-            "lang": "聖甲蟲：圓滑塑者"
+            "us": "Bestiary Scarab of the Herd",
+            "lang": "聖甲蟲：牧群獸獵"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Shaper Scarab",
-            "lang": "聖甲蟲：鍍金塑者"
+            "us": "Bestiary Scarab of Duplicating",
+            "lang": "聖甲蟲：增生獸獵"
         },
         {
             "type": "BaseType",
-            "us": "Winged Shaper Scarab",
-            "lang": "聖甲蟲：展翅塑者"
+            "us": "Bestiary Scarab of the Shadowed Crow",
+            "lang": "聖甲蟲：暗影烏鴉獸獵"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Elder Scarab",
-            "lang": "聖甲蟲：鏽蝕尊師"
+            "us": "Influencing Scarab of the Shaper",
+            "lang": "聖甲蟲："
         },
         {
             "type": "BaseType",
-            "us": "Polished Elder Scarab",
-            "lang": "聖甲蟲：圓滑尊師"
+            "us": "Influencing Scarab of the Elder",
+            "lang": "聖甲蟲："
         },
         {
             "type": "BaseType",
-            "us": "Gilded Elder Scarab",
-            "lang": "聖甲蟲：鍍金尊師"
+            "us": "Influencing Scarab of Hordes",
+            "lang": "聖甲蟲："
         },
         {
             "type": "BaseType",
-            "us": "Winged Elder Scarab",
-            "lang": "聖甲蟲：展翅尊師"
+            "us": "Influencing Scarab of Conversion",
+            "lang": "聖甲蟲："
         },
         {
             "type": "BaseType",
-            "us": "Rusted Sulphite Scarab",
-            "lang": "聖甲蟲：鏽蝕硫酸"
+            "us": "Sulphite Scarab",
+            "lang": "聖甲蟲·硫酸"
         },
         {
             "type": "BaseType",
-            "us": "Polished Sulphite Scarab",
-            "lang": "聖甲蟲：圓滑硫酸"
+            "us": "Sulphite Scarab of Greed",
+            "lang": "聖甲蟲：貪婪硫酸"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Sulphite Scarab",
-            "lang": "聖甲蟲：鍍金硫酸"
+            "us": "Sulphite Scarab of Fumes",
+            "lang": "聖甲蟲：煙毒硫酸"
         },
         {
             "type": "BaseType",
-            "us": "Winged Sulphite Scarab",
-            "lang": "聖甲蟲：展翅硫酸"
+            "us": "Divination Scarab of The Cloister",
+            "lang": "神殿廟之命運聖甲蟲"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Divination Scarab",
-            "lang": "聖甲蟲：鏽蝕命運"
+            "us": "Divination Scarab of Plenty",
+            "lang": "豐富之命運聖甲蟲"
         },
         {
             "type": "BaseType",
-            "us": "Polished Divination Scarab",
-            "lang": "聖甲蟲：圓滑命運"
+            "us": "Divination Scarab of Pilfering",
+            "lang": "盜竊之命運聖甲蟲"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Divination Scarab",
-            "lang": "聖甲蟲：鍍金命運"
+            "us": "Torment Scarab",
+            "lang": "聖甲蟲·苦痛"
         },
         {
             "type": "BaseType",
-            "us": "Winged Divination Scarab",
-            "lang": "聖甲蟲：展翅命運"
+            "us": "Torment Scarab of Peculiarity",
+            "lang": "聖甲蟲：特異苦痛"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Torment Scarab",
-            "lang": "聖甲蟲：鏽蝕苦痛"
+            "us": "Torment Scarab of Release",
+            "lang": "聖甲蟲：釋放苦痛"
         },
         {
             "type": "BaseType",
-            "us": "Polished Torment Scarab",
-            "lang": "聖甲蟲：圓滑苦痛"
+            "us": "Torment Scarab of Possession",
+            "lang": "聖甲蟲：附身苦痛"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Torment Scarab",
-            "lang": "聖甲蟲：鍍金苦痛"
+            "us": "Ambush Scarab",
+            "lang": "聖甲蟲·伏擊"
         },
         {
             "type": "BaseType",
-            "us": "Winged Torment Scarab",
-            "lang": "聖甲蟲：展翅苦痛"
+            "us": "Ambush Scarab of Hidden Compartments",
+            "lang": "聖甲蟲：暗室伏擊"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Ambush Scarab",
-            "lang": "聖甲蟲：鏽蝕伏擊"
+            "us": "Ambush Scarab of Potency",
+            "lang": "聖甲蟲：爆發伏擊"
         },
         {
             "type": "BaseType",
-            "us": "Polished Ambush Scarab",
-            "lang": "聖甲蟲：圓滑伏擊"
+            "us": "Ambush Scarab of Containment",
+            "lang": "聖甲蟲：遏制伏擊"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Ambush Scarab",
-            "lang": "聖甲蟲：鍍金伏擊"
+            "us": "Ambush Scarab of Discernment",
+            "lang": "聖甲蟲：洞察伏擊"
         },
         {
             "type": "BaseType",
-            "us": "Winged Ambush Scarab",
-            "lang": "聖甲蟲：展翅伏擊"
+            "us": "Harbinger Scarab",
+            "lang": "聖甲蟲·神諭"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Harbinger Scarab",
-            "lang": "聖甲蟲：鏽蝕神諭"
+            "us": "Harbinger Scarab of Obelisks",
+            "lang": "聖甲蟲：石碑神諭"
         },
         {
             "type": "BaseType",
-            "us": "Polished Harbinger Scarab",
-            "lang": "聖甲蟲：圓滑神諭"
+            "us": "Harbinger Scarab of Regency",
+            "lang": "聖甲蟲：攝政神諭"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Harbinger Scarab",
-            "lang": "聖甲蟲：鍍金神諭"
+            "us": "Harbinger Scarab of Warhoards",
+            "lang": "聖甲蟲：戰儲神諭"
         },
         {
             "type": "BaseType",
-            "us": "Winged Harbinger Scarab",
-            "lang": "聖甲蟲：展翅神諭"
+            "us": "Expedition Scarab",
+            "lang": "探險聖甲蟲"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Expedition Scarab",
-            "lang": "聖甲蟲：鏽蝕探險"
+            "us": "Expedition Scarab of Runefinding",
+            "lang": "聖甲蟲：尋符探險"
         },
         {
             "type": "BaseType",
-            "us": "Polished Expedition Scarab",
-            "lang": "聖甲蟲：圓滑探險"
+            "us": "Expedition Scarab of Verisium Powder",
+            "lang": "聖甲蟲：維里西姆粉末探險"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Expedition Scarab",
-            "lang": "聖甲蟲：鍍金探險"
+            "us": "Expedition Scarab of the Skald",
+            "lang": "聖甲蟲：詩人探險"
         },
         {
             "type": "BaseType",
-            "us": "Winged Expedition Scarab",
-            "lang": "聖甲蟲：展翅探險"
+            "us": "Expedition Scarab of Archaeology",
+            "lang": "聖甲蟲：考古探險"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Legion Scarab",
-            "lang": "聖甲蟲：鏽蝕戰亂"
+            "us": "Legion Scarab",
+            "lang": "戰亂聖甲蟲"
         },
         {
             "type": "BaseType",
-            "us": "Polished Legion Scarab",
-            "lang": "聖甲蟲：圓滑戰亂"
+            "us": "Legion Scarab of Officers",
+            "lang": "聖甲蟲：幹部戰亂"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Legion Scarab",
-            "lang": "聖甲蟲：鍍金戰亂"
+            "us": "Legion Scarab of Command",
+            "lang": "聖甲蟲：命令戰亂"
         },
         {
             "type": "BaseType",
-            "us": "Winged Legion Scarab",
-            "lang": "聖甲蟲：展翅戰亂"
+            "us": "Legion Scarab of The Sekhema",
+            "lang": "聖甲蟲：絲克瑪戰亂"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Ultimatum Scarab",
-            "lang": "聖甲蟲：鏽蝕通牒"
+            "us": "Legion Scarab of Eternal Conflict",
+            "lang": "聖甲蟲：永恆鬥爭戰亂"
         },
         {
             "type": "BaseType",
-            "us": "Polished Ultimatum Scarab",
-            "lang": "聖甲蟲：圓滑通牒"
+            "us": "Abyss Scarab",
+            "lang": "深淵聖甲蟲"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Ultimatum Scarab",
-            "lang": "聖甲蟲：鍍金通牒"
+            "us": "Abyss Scarab of Multitudes",
+            "lang": "聖甲蟲：眾生深淵"
         },
         {
             "type": "BaseType",
-            "us": "Winged Ultimatum Scarab",
-            "lang": "聖甲蟲：展翅通牒"
+            "us": "Abyss Scarab of Edifice",
+            "lang": "聖甲蟲：宏偉深淵"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Blight Scarab",
-            "lang": "聖甲蟲：鏽蝕凋落"
+            "us": "Abyss Scarab of Emptiness",
+            "lang": "聖甲蟲：空虛深淵"
         },
         {
             "type": "BaseType",
-            "us": "Polished Blight Scarab",
-            "lang": "聖甲蟲：圓滑凋落"
+            "us": "Abyss Scarab of Profound Depth",
+            "lang": "聖甲蟲：深沉深淵"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Blight Scarab",
-            "lang": "聖甲蟲：鍍金凋落"
+            "us": "Anarchy Scarab",
+            "lang": "混亂聖甲蟲"
         },
         {
             "type": "BaseType",
-            "us": "Winged Blight Scarab",
-            "lang": "聖甲蟲：展翅凋落"
+            "us": "Anarchy Scarab of Gigantification",
+            "lang": "聖甲蟲：浩瀚混亂"
         },
         {
             "type": "BaseType",
-            "us": "Rusted Abyss Scarab",
-            "lang": "聖甲蟲：鏽蝕深淵"
+            "us": "Anarchy Scarab of Partnership",
+            "lang": "聖甲蟲：結夥混亂"
         },
         {
             "type": "BaseType",
-            "us": "Polished Abyss Scarab",
-            "lang": "聖甲蟲：圓滑深淵"
+            "us": "Essence Scarab",
+            "lang": "精髓聖甲蟲"
         },
         {
             "type": "BaseType",
-            "us": "Gilded Abyss Scarab",
-            "lang": "聖甲蟲：鍍金深淵"
+            "us": "Essence Scarab of Ascent",
+            "lang": "聖甲蟲：上升精髓"
         },
         {
             "type": "BaseType",
-            "us": "Winged Abyss Scarab",
-            "lang": "聖甲蟲：展翅深淵"
+            "us": "Essence Scarab of Stability",
+            "lang": "聖甲蟲：穩定精髓"
+        },
+        {
+            "type": "BaseType",
+            "us": "Essence Scarab of Calcification",
+            "lang": "聖甲蟲：鈣化精髓"
+        },
+        {
+            "type": "BaseType",
+            "us": "Essence Scarab of Adaptation",
+            "lang": "聖甲蟲：適性精髓"
+        },
+        {
+            "type": "BaseType",
+            "us": "Domination Scarab",
+            "lang": "支配聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Domination Scarab of Apparitions",
+            "lang": "聖甲蟲：映像支配"
+        },
+        {
+            "type": "BaseType",
+            "us": "Domination Scarab of Evolution",
+            "lang": "聖甲蟲：進化支配"
+        },
+        {
+            "type": "BaseType",
+            "us": "Domination Scarab of Terrors",
+            "lang": "聖甲蟲：惡懼支配"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ritual Scarab of Selectiveness",
+            "lang": "聖甲蟲：揀選祭祀"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ritual Scarab of Wisps",
+            "lang": "聖甲蟲：妖精祭祀"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ritual Scarab of Abundance",
+            "lang": "聖甲蟲：繁榮祭祀"
+        },
+        {
+            "type": "BaseType",
+            "us": "Harvest Scarab",
+            "lang": "豐收聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Harvest Scarab of Doubling",
+            "lang": "聖甲蟲：倍增豐收"
+        },
+        {
+            "type": "BaseType",
+            "us": "Harvest Scarab of Cornucopia",
+            "lang": "聖甲蟲：富饒豐收"
+        },
+        {
+            "type": "BaseType",
+            "us": "Incursion Scarab",
+            "lang": "穿越聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Incursion Scarab of Invasion",
+            "lang": "聖甲蟲：侵略穿越"
+        },
+        {
+            "type": "BaseType",
+            "us": "Incursion Scarab of Champions",
+            "lang": "聖甲蟲：鬥士穿越"
+        },
+        {
+            "type": "BaseType",
+            "us": "Incursion Scarab of Timelines",
+            "lang": "聖甲蟲：時間線穿越"
+        },
+        {
+            "type": "BaseType",
+            "us": "Betrayal Scarab",
+            "lang": "反叛聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Betrayal Scarab of Intelligence",
+            "lang": "聖甲蟲：智慧反叛"
+        },
+        {
+            "type": "BaseType",
+            "us": "Betrayal Scarab of Reinforcements",
+            "lang": "聖甲蟲：支援反叛"
+        },
+        {
+            "type": "BaseType",
+            "us": "Betrayal Scarab of Perpetuation",
+            "lang": "聖甲蟲：永存反叛"
+        },
+        {
+            "type": "BaseType",
+            "us": "Beyond Scarab",
+            "lang": "超越聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Beyond Scarab of Corruption",
+            "lang": "聖甲蟲：腐化超越"
+        },
+        {
+            "type": "BaseType",
+            "us": "Beyond Scarab of Haemophilia",
+            "lang": "聖甲蟲：血病超越"
+        },
+        {
+            "type": "BaseType",
+            "us": "Beyond Scarab of Resurgence",
+            "lang": "聖甲蟲：復興超越"
+        },
+        {
+            "type": "BaseType",
+            "us": "Beyond Scarab of the Invasion",
+            "lang": "聖甲蟲：侵略超越"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ultimatum Scarab",
+            "lang": "通牒聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ultimatum Scarab of Bribing",
+            "lang": "通牒賄賂之聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ultimatum Scarab of Dueling",
+            "lang": "通牒決鬥之聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ultimatum Scarab of Catalysing",
+            "lang": "通牒催化的聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Ultimatum Scarab of Inscription",
+            "lang": "通牒銘文之聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Delirium Scarab",
+            "lang": "譫妄聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Delirium Scarab of Mania",
+            "lang": "聖甲蟲：狂熱譫妄"
+        },
+        {
+            "type": "BaseType",
+            "us": "Delirium Scarab of Paranoia",
+            "lang": "聖甲蟲：偏執譫妄"
+        },
+        {
+            "type": "BaseType",
+            "us": "Delirium Scarab of Neuroses",
+            "lang": "聖甲蟲：神經譫妄"
+        },
+        {
+            "type": "BaseType",
+            "us": "Delirium Scarab of Delusions",
+            "lang": "聖甲蟲：幻覺譫妄"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blight Scarab",
+            "lang": "凋落聖甲蟲"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blight Scarab of Bounty",
+            "lang": "聖甲蟲：珍寶凋落"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blight Scarab of the Blightheart",
+            "lang": "聖甲蟲：枯萎之心凋落"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blight Scarab of Blooming",
+            "lang": "聖甲蟲：綻放凋落"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blight Scarab of Invigoration",
+            "lang": "聖甲蟲：振奮凋落"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Monstrous Lineage",
+            "lang": "聖甲蟲：畸形血脈"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Adversaries",
+            "lang": "聖甲蟲：敵手"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Divinity",
+            "lang": "聖甲蟲：神聖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Hunted Traitors",
+            "lang": "聖甲蟲：通緝叛徒"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Stability",
+            "lang": "聖甲蟲：穩定"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of the Commander",
+            "lang": "聖甲蟲：指揮官"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Evolution",
+            "lang": "聖甲蟲：進化"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Wisps",
+            "lang": "聖甲蟲：妖精"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Bisection",
+            "lang": "聖甲蟲：二分法"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Unity",
+            "lang": "聖甲蟲：團結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scarab of Radiant Storms",
+            "lang": "聖甲蟲：光輝風暴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Horned Scarab of Bloodlines",
+            "lang": "聖甲蟲：血統犄角"
+        },
+        {
+            "type": "BaseType",
+            "us": "Horned Scarab of Nemeses",
+            "lang": "聖甲蟲：復仇犄角"
+        },
+        {
+            "type": "BaseType",
+            "us": "Horned Scarab of Preservation",
+            "lang": "聖甲蟲：庇護犄角"
+        },
+        {
+            "type": "BaseType",
+            "us": "Horned Scarab of Awakening",
+            "lang": "聖甲蟲：覺醒犄角"
+        },
+        {
+            "type": "BaseType",
+            "us": "Horned Scarab of Tradition",
+            "lang": "聖甲蟲：傳統犄角"
+        },
+        {
+            "type": "BaseType",
+            "us": "Horned Scarab of Glittering",
+            "lang": "聖甲蟲：閃亮犄角"
+        },
+        {
+            "type": "BaseType",
+            "us": "Horned Scarab of Pandemonium",
+            "lang": "聖甲蟲：萬劫犄角"
         },
         {
             "type": "BaseType",
@@ -13477,6 +14182,11 @@
             "type": "BaseType",
             "us": "Reflective Oil",
             "lang": "映像油瓶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Prismatic Oil",
+            "lang": "三相之油"
         },
         {
             "type": "BaseType",
@@ -14096,7 +14806,7 @@
         {
             "type": "BaseType",
             "us": "Ogham Candelabra",
-            "lang": "奧格姆坎．德拉布拉"
+            "lang": "奧格姆．德拉布拉"
         },
         {
             "type": "BaseType",
@@ -14332,6 +15042,41 @@
             "type": "BaseType",
             "us": "Crescent Splinter",
             "lang": "新月裂片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Cosmic Fragment",
+            "lang": "宇宙碎片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Decaying Fragment",
+            "lang": "腐朽碎片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Awakening Fragment",
+            "lang": "覺醒碎片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Synthesising Fragment",
+            "lang": "追憶碎片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Reality Fragment",
+            "lang": "現實碎片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Devouring Fragment",
+            "lang": "吞噬碎片"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blazing Fragment",
+            "lang": "熾熱碎片"
         },
         {
             "type": "BaseType",
@@ -15810,8 +16555,18 @@
         },
         {
             "type": "BaseType",
-            "us": "His Judgement",
-            "lang": "他的判斷"
+            "us": "Father's Love",
+            "lang": "父愛"
+        },
+        {
+            "type": "BaseType",
+            "us": "Prismatic Tincture",
+            "lang": "三相萃取物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Rosethorn Tincture",
+            "lang": "玫瑰刺萃取物"
         },
         {
             "type": "BaseType",
@@ -15825,6 +16580,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Borealwood Tincture",
+            "lang": "針葉木萃取物"
+        },
+        {
+            "type": "BaseType",
             "us": "Fulgurite Tincture",
             "lang": "電熔岩萃取物"
         },
@@ -15835,8 +16595,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Rosethorn Tincture",
-            "lang": "玫瑰刺萃取物"
+            "us": "Blood Sap Tincture",
+            "lang": "鮮血液萃取物"
         },
         {
             "type": "BaseType",
@@ -15845,13 +16605,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Borealwood Tincture",
-            "lang": "針葉木萃取物"
-        },
-        {
-            "type": "BaseType",
-            "us": "Blood Sap Tincture",
-            "lang": "鮮血液萃取物"
+            "us": "Sporebloom Tincture",
+            "lang": "孢子花萃取物"
         },
         {
             "type": "BaseType",
@@ -16381,17 +17136,17 @@
         {
             "type": "BaseType",
             "us": "Imperfect Shadow Construct",
-            "lang": "不完美影子生物"
+            "lang": "不完美影子創造物"
         },
         {
             "type": "BaseType",
             "us": "Shadow Construct",
-            "lang": "影子生物"
+            "lang": "影子創造物"
         },
         {
             "type": "BaseType",
             "us": "Perfect Shadow Construct",
-            "lang": "完美影子生物"
+            "lang": "完美影子創造物"
         },
         {
             "type": "BaseType",
@@ -16432,6 +17187,536 @@
             "type": "BaseType",
             "us": "Ethereal Bow",
             "lang": "以太之弓"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Frogs",
+            "lang": "不滅之火青蛙餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Rats",
+            "lang": "不滅之火鼠輩餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Xoph",
+            "lang": "不滅之火索伏餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Tul",
+            "lang": "不滅之火托沃餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Esh",
+            "lang": "不滅之火艾許餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Uul-Netol",
+            "lang": "不滅之火烏爾尼多餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Chayula",
+            "lang": "不滅之火夏烏拉餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Sulphite",
+            "lang": "不滅之火硫酸餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Valako",
+            "lang": "不滅之火瓦拉庫餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Tukohama",
+            "lang": "不滅之火圖克哈瑪餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Tawhoa",
+            "lang": "不滅之火塔赫亞餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Tasalio",
+            "lang": "不滅之火塔薩里奧餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Rongokurai",
+            "lang": "不滅之火隆格庫萊餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Ramako",
+            "lang": "不滅之火雷默科餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Ngamahu",
+            "lang": "不滅之火努葛瑪呼餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Kitava",
+            "lang": "不滅之火奇塔弗餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Hinekora",
+            "lang": "不滅之火悉妮蔻拉餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Arohongui",
+            "lang": "不滅之火艾蘿紅薇餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Abyss",
+            "lang": "不滅之火深淵餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Beidat",
+            "lang": "不滅之火貝達特餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Ghorr",
+            "lang": "不滅之火戈沃餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of K'tash",
+            "lang": "不滅之火克塔什餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Brawling Gemlings",
+            "lang": "不滅之火搏鬥古靈餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Berserking Gemlings",
+            "lang": "不滅之火狂戰古靈餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Frostmage Gemlings",
+            "lang": "不滅之火冰巫古靈餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Artillery Gemlings",
+            "lang": "不滅之火火砲古靈餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Corpsemage Gemlings",
+            "lang": "不滅之火屍巫古靈餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Broken Circle",
+            "lang": "不滅之火破碎之環餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Order of the Chalice",
+            "lang": "不滅之火聖杯之序餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Black Scythe",
+            "lang": "不滅之火黑色之鐮餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Knights of the Sun",
+            "lang": "不滅之火豔陽騎士餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Meatsacks",
+            "lang": "不滅之火肉袋餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Untainted Beasts",
+            "lang": "不滅之火純淨巨獸餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Untainted Apes",
+            "lang": "不滅之火純淨狂猿餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Untainted Rhoas",
+            "lang": "不滅之火純淨恐喙鳥餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Untainted Spitters",
+            "lang": "不滅之火純淨爪蟹餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Untainted Maws",
+            "lang": "不滅之火純淨裂齒獸餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Untainted Chimerals",
+            "lang": "不滅之火純淨龍蜥餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Untainted Devourers",
+            "lang": "不滅之火純淨吞噬獸餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Wildwood Cultists",
+            "lang": "不滅之火荒林信徒餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Wildwood Treants",
+            "lang": "不滅之火荒林樹人餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Wildwood Beasts",
+            "lang": "不滅之火荒林野獸餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Karui Legion",
+            "lang": "不滅之火卡魯戰亂餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Eternal Legion",
+            "lang": "不滅之火不朽戰亂餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Maraketh Legion",
+            "lang": "不滅之火馬拉克斯戰亂餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Templar Legion",
+            "lang": "不滅之火聖宗戰亂餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Vaal Legion",
+            "lang": "不滅之火瓦爾軍隊餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blighted Map",
+            "lang": "凋落的地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blight-ravaged Map",
+            "lang": "凋落蔓延地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Al-Hezmin's Citadel Map",
+            "lang": "奧赫茲明的壁壘地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Baran's Citadel Map",
+            "lang": "巴倫的壁壘地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Drox's Citadel Map",
+            "lang": "圖拉克斯的壁壘地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Veritania's Citadel Map",
+            "lang": "維羅提尼亞的壁壘地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Enslaver-Occupied Map",
+            "lang": "異界·奴役盤據的地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Eradicator-Occupied Map",
+            "lang": "異界·根除盤據的地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Constrictor-Occupied Map",
+            "lang": "異界·干擾盤據的地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Purifier-Occupied Map",
+            "lang": "異界·淨化盤據的地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lockpicking Contract",
+            "lang": "撬鎖契約書"
+        },
+        {
+            "type": "BaseType",
+            "us": "Brute Force Contract",
+            "lang": "蠻力契約書"
+        },
+        {
+            "type": "BaseType",
+            "us": "Perception Contract",
+            "lang": "洞察契約書"
+        },
+        {
+            "type": "BaseType",
+            "us": "Demolition Contract",
+            "lang": "拆除契約書"
+        },
+        {
+            "type": "BaseType",
+            "us": "Counter-Thaumaturgy Contract",
+            "lang": "解咒契約書"
+        },
+        {
+            "type": "BaseType",
+            "us": "Trap Disarmament Contract",
+            "lang": "陷阱拆除契約書"
+        },
+        {
+            "type": "BaseType",
+            "us": "Agility Contract",
+            "lang": "靈敏契約書"
+        },
+        {
+            "type": "BaseType",
+            "us": "Deception Contract",
+            "lang": "詐欺契約書"
+        },
+        {
+            "type": "BaseType",
+            "us": "Engineering Contract",
+            "lang": "工程契約書"
+        },
+        {
+            "type": "BaseType",
+            "us": "Blueprint",
+            "lang": "藍圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Flaring Allflame Ember of Scientists",
+            "lang": "不滅之火·燃耀科技學家餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Shaper",
+            "lang": "不滅之火塑界者餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Elder",
+            "lang": "不滅之火尊師餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Warlord",
+            "lang": "不滅之火征戰軍閥餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Redeemer",
+            "lang": "不滅之火世道救贖者餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Crusader",
+            "lang": "不滅之火聖戰士餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of The Hunter",
+            "lang": "不滅之火狩獵者餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Flaring Allflame Ember of Wildwood Cultists",
+            "lang": "不滅之火·燃耀荒林信徒餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Flaring Allflame Ember of Kalguurans",
+            "lang": "不滅之火·燃耀卡爾葛餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Flaring Allflame Ember of Abyss",
+            "lang": "不滅之火·燃耀深淵餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Flaring Allflame Ember of The First Ones",
+            "lang": "不滅之火·燃耀初始之靈餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Trial Cores",
+            "lang": "不滅之火試煉：核心餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Trial Guards",
+            "lang": "不滅之火試煉：守衛餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Manifested Wealth",
+            "lang": "不滅之火顯現財富餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of the False God",
+            "lang": "不滅之火偽神餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Anarchy",
+            "lang": "不滅之火混亂餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Syndicate Guards",
+            "lang": "不滅之火密教守衛餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Syndicate Escorts",
+            "lang": "不滅之火密教隨從餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Syndicate Assassins",
+            "lang": "不滅之火密教刺客餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Syndicate Researchers",
+            "lang": "不滅之火密教研究員餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Synthetic Fury",
+            "lang": "不滅之火追憶之怒餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Flaring Allflame Ember of the Vaal",
+            "lang": "不滅之火．燃耀瓦爾餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Flaring Allflame Ember of Breachlords",
+            "lang": "不滅之火．燃耀裂痕君王餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Sun Rune",
+            "lang": "太陽符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "Bound Rune",
+            "lang": "邊界符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "Life Rune",
+            "lang": "生命符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "War Rune",
+            "lang": "戰爭符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "River Rune",
+            "lang": "河川符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "Bounty Rune",
+            "lang": "寶藏符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "Journey Rune",
+            "lang": "旅途符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "Mountain Rune",
+            "lang": "山脊符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "Time Rune",
+            "lang": "時間符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "Power Rune",
+            "lang": "能量符文"
+        },
+        {
+            "type": "BaseType",
+            "us": "An Audience With The King",
+            "lang": "謁見國王"
+        },
+        {
+            "type": "BaseType",
+            "us": "Avian Pursuit",
+            "lang": "追擊之翼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Temperance",
+            "lang": "自我約束"
+        },
+        {
+            "type": "BaseType",
+            "us": "Lonely Warrior",
+            "lang": "孤軍奮戰"
+        },
+        {
+            "type": "BaseType",
+            "us": "Toxic Tidings",
+            "lang": "毒浪洶湧"
+        },
+        {
+            "type": "BaseType",
+            "us": "Reflecting Mist",
+            "lang": "映像迷霧"
         },
         {
             "type": "Unique",
@@ -23636,12 +24921,12 @@
         {
             "type": "Unique",
             "us": "The Burden of Shadows",
-            "lang": null
+            "lang": "沉重陰影"
         },
         {
             "type": "Unique",
             "us": "That Which Was Taken",
-            "lang": null
+            "lang": "霸佔"
         },
         {
             "type": "Unique",
@@ -23651,12 +24936,12 @@
         {
             "type": "Unique",
             "us": "Nametaker",
-            "lang": null
+            "lang": "奪名"
         },
         {
             "type": "Unique",
             "us": "The Flawed Refuge",
-            "lang": null
+            "lang": "瑕疵避難"
         },
         {
             "type": "Unique",
@@ -23714,6 +24999,176 @@
             "lang": "贗品．悉妮蔻拉之眼"
         },
         {
+            "type": "Unique",
+            "us": "The Apostate",
+            "lang": "叛教者"
+        },
+        {
+            "type": "Unique",
+            "us": "The Devourer of Minds",
+            "lang": "心靈吞噬者"
+        },
+        {
+            "type": "Unique",
+            "us": "The Tempest Rising",
+            "lang": "風暴崛起"
+        },
+        {
+            "type": "Unique",
+            "us": "Grace of the Goddess",
+            "lang": "女神恩典"
+        },
+        {
+            "type": "Unique",
+            "us": "Ravenous Passion",
+            "lang": "貪婪的激情"
+        },
+        {
+            "type": "Unique",
+            "us": "The Tides of Time",
+            "lang": "時間之潮"
+        },
+        {
+            "type": "Unique",
+            "us": "The Celestial Brace",
+            "lang": "眾星援護"
+        },
+        {
+            "type": "Unique",
+            "us": "The Utmost",
+            "lang": "竭誠者"
+        },
+        {
+            "type": "Unique",
+            "us": "Nevalius Inheritance",
+            "lang": "涅瓦里烏斯背向"
+        },
+        {
+            "type": "Unique",
+            "us": "The Hand of Phrecia",
+            "lang": "費西亞之手"
+        },
+        {
+            "type": "Unique",
+            "us": "Veruso's Ambition",
+            "lang": "維盧梭的野心"
+        },
+        {
+            "type": "Unique",
+            "us": "Grattus Signet",
+            "lang": "格拉圖斯之記"
+        },
+        {
+            "type": "Unique",
+            "us": "The Perandus Pact",
+            "lang": "普蘭德斯協議"
+        },
+        {
+            "type": "Unique",
+            "us": "Curio of Absorption",
+            "lang": "融合之逸品"
+        },
+        {
+            "type": "Unique",
+            "us": "Curio of Consumption",
+            "lang": "消耗之逸品"
+        },
+        {
+            "type": "Unique",
+            "us": "Curio of Potential",
+            "lang": "野心之逸品"
+        },
+        {
+            "type": "Unique",
+            "us": "Curio of Decay",
+            "lang": "腐化之逸品"
+        },
+        {
+            "type": "Unique",
+            "us": "Circle of Ambition",
+            "lang": "野心之環"
+        },
+        {
+            "type": "Unique",
+            "us": "The Hateful Accuser",
+            "lang": "憎惡控告者"
+        },
+        {
+            "type": "Unique",
+            "us": "The Selfish Shepherd",
+            "lang": "自私牧羊人"
+        },
+        {
+            "type": "Unique",
+            "us": "The Queller of Minds",
+            "lang": "心靈鎮壓者"
+        },
+        {
+            "type": "Unique",
+            "us": "The Light of Meaning",
+            "lang": "意涵之光"
+        },
+        {
+            "type": "Unique",
+            "us": "Svalinn",
+            "lang": "史瓦林"
+        },
+        {
+            "type": "Unique",
+            "us": "The Living Blade",
+            "lang": "生者之刃"
+        },
+        {
+            "type": "Unique",
+            "us": "Admiral's Arrogance",
+            "lang": "將軍的傲慢"
+        },
+        {
+            "type": "Unique",
+            "us": "Tawhoa's Felling",
+            "lang": "塔赫亞的殞落"
+        },
+        {
+            "type": "Unique",
+            "us": "Kaom's Command",
+            "lang": "岡姆的命令"
+        },
+        {
+            "type": "Unique",
+            "us": "Ynda's Stand",
+            "lang": "英達的小販"
+        },
+        {
+            "type": "Unique",
+            "us": "Serle's Masterwork",
+            "lang": "瑟雷的傑作"
+        },
+        {
+            "type": "Unique",
+            "us": "Sap of the Seasons",
+            "lang": "季節樹液"
+        },
+        {
+            "type": "Unique",
+            "us": "Mightblood Ire",
+            "lang": "力血之怒"
+        },
+        {
+            "type": "Unique",
+            "us": "Wildfire Phloem",
+            "lang": "野火韌皮"
+        },
+        {
+            "type": "Unique",
+            "us": "The Battle Within",
+            "lang": "不可見之戰"
+        },
+        {
+            "type": "Unique",
+            "us": "Grasping Nightshade",
+            "lang": "束縛夜影"
+        },
+        {
             "type": "Monster",
             "us": "Saqawine Rhoa",
             "lang": "斯卡沃恐喙鳥"
@@ -24005,6 +25460,11 @@
         },
         {
             "type": "Monster",
+            "us": "Fenumal Plagued Arachnid",
+            "lang": "菲恩絲疫病蜘蛛"
+        },
+        {
+            "type": "Monster",
             "us": "Fenumal Hybrid Arachnid",
             "lang": "菲恩絲混血蜘蛛"
         },
@@ -24105,6 +25565,16 @@
         },
         {
             "type": "Monster",
+            "us": "Craicic Sand Spitter",
+            "lang": "奎爾珊噴砂爪蟹"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Shield Crab",
+            "lang": "奎爾珊重盾巨蟹"
+        },
+        {
+            "type": "Monster",
             "us": "Craicic Shield Crab",
             "lang": "奎爾珊重盾巨蟹"
         },
@@ -24190,6 +25660,26 @@
         },
         {
             "type": "Monster",
+            "us": "Craicic Chimeral",
+            "lang": "奎爾珊龍蜥"
+        },
+        {
+            "type": "Monster",
+            "us": "Craicic Chimeral",
+            "lang": "奎爾珊龍蜥"
+        },
+        {
+            "type": "Monster",
+            "us": "Farrul, First of the Plains",
+            "lang": "初始之地費爾羅"
+        },
+        {
+            "type": "Monster",
+            "us": "Farrul, First of the Plains",
+            "lang": "初始之地費爾羅"
+        },
+        {
+            "type": "Monster",
             "us": "Farrul, First of the Plains",
             "lang": "初始之地費爾羅"
         },
@@ -24210,6 +25700,16 @@
         },
         {
             "type": "Monster",
+            "us": "Saqawal, First of the Sky",
+            "lang": "初始之天斯卡沃"
+        },
+        {
+            "type": "Monster",
+            "us": "Saqawal, First of the Sky",
+            "lang": "初始之天斯卡沃"
+        },
+        {
+            "type": "Monster",
             "us": "Fenumus, First of the Night",
             "lang": "初始之夜菲恩絲"
         },
@@ -24217,6 +25717,26 @@
             "type": "Monster",
             "us": "Fenumus, First of the Night",
             "lang": "初始之夜菲恩絲"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumus, First of the Night",
+            "lang": "初始之夜菲恩絲"
+        },
+        {
+            "type": "Monster",
+            "us": "Fenumus, First of the Night",
+            "lang": "初始之夜菲恩絲"
+        },
+        {
+            "type": "Monster",
+            "us": "Craiceann, First of the Deep",
+            "lang": "初始之潭奎爾珊"
+        },
+        {
+            "type": "Monster",
+            "us": "Craiceann, First of the Deep",
+            "lang": "初始之潭奎爾珊"
         },
         {
             "type": "Monster",
@@ -24272,6 +25792,71 @@
             "type": "Monster",
             "us": "Primal Cystcaller",
             "lang": "原始之羊人"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
+        },
+        {
+            "type": "Monster",
+            "us": "Black Mórrigan",
+            "lang": "黑色莫里根"
         }
     ]
 }
