@@ -10,14 +10,6 @@
     },
     {
       "ids": [
-        "explicit.stat_2918708827",
-        "explicit.stat_3669845133"
-      ],
-      "text": "擊殺時有 #% 機率獲得 4 秒迷蹤效果",
-      "count": 2
-    },
-    {
-      "ids": [
         "explicit.stat_3511523149",
         "explicit.stat_91274577"
       ],
@@ -30,14 +22,6 @@
         "explicit.stat_3481736410"
       ],
       "text": "若你近期有擊殺，增加 #% 範圍效果",
-      "count": 2
-    },
-    {
-      "ids": [
-        "explicit.stat_1368271171",
-        "explicit.stat_782259898"
-      ],
-      "text": "每個被擊殺的敵人，獲得 # 魔力",
       "count": 2
     },
     {
@@ -645,14 +629,10 @@
   "allIds": [
     "explicit.stat_818778753",
     "explicit.stat_3301510262",
-    "explicit.stat_2918708827",
-    "explicit.stat_3669845133",
     "explicit.stat_3511523149",
     "explicit.stat_91274577",
     "explicit.stat_923608573",
     "explicit.stat_3481736410",
-    "explicit.stat_1368271171",
-    "explicit.stat_782259898",
     "explicit.stat_1030153674",
     "explicit.stat_1604736568",
     "explicit.stat_3134632618",

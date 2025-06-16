@@ -987,7 +987,7 @@ export default {
       this.isSupported = true
       if (this.searchJson.query.stats[0].filters.length === 0) {
         this.searchStats.forEach((element, index, array) => {
-          let value = {}
+                    let value = {}
           let min = element.min
           let max = element.max
           if (element.isNegative && _.isNumber(min)) {
@@ -1072,7 +1072,7 @@ export default {
           if (error.response.status === 429) {
             errMsg += `\n被 Server 限制發送需求了，請等待後再重試`
           }
-          vm.issueText = `Version: v1.325.0, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.326.0, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -3087,7 +3087,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.325.0\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.326.0\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
