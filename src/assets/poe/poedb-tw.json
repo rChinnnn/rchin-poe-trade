@@ -1,7 +1,7 @@
 {
     "thanks": "非常感謝 poedb 提供翻譯表",
     "code": 200,
-    "size": 5171,
+    "size": 5363,
     "data": [
         {
             "type": "Class",
@@ -369,6 +369,11 @@
             "lang": "金幣"
         },
         {
+            "type": "Class",
+            "us": "Idols",
+            "lang": "魔偶"
+        },
+        {
             "type": "BaseType",
             "us": "Blacksmith's Whetstone",
             "lang": "磨刀石"
@@ -385,8 +390,13 @@
         },
         {
             "type": "BaseType",
-            "us": "Veiled Orb",
-            "lang": "隱匿石"
+            "us": "Veiled Exalted Orb",
+            "lang": "隱匿崇高石"
+        },
+        {
+            "type": "BaseType",
+            "us": "Veiled Chaos Orb",
+            "lang": "隱匿混沌石"
         },
         {
             "type": "BaseType",
@@ -607,6 +617,31 @@
             "type": "BaseType",
             "us": "Filled Coffin",
             "lang": "滿靈柩"
+        },
+        {
+            "type": "BaseType",
+            "us": "Shaper's Exalted Orb",
+            "lang": "塑界者的崇高石"
+        },
+        {
+            "type": "BaseType",
+            "us": "Elder's Exalted Orb",
+            "lang": "尊師的崇高石"
+        },
+        {
+            "type": "BaseType",
+            "us": "Orb of Remembrance",
+            "lang": "回想石"
+        },
+        {
+            "type": "BaseType",
+            "us": "Orb of Unravelling",
+            "lang": "拆解石"
+        },
+        {
+            "type": "BaseType",
+            "us": "Orb of Intention",
+            "lang": "意志石"
         },
         {
             "type": "BaseType",
@@ -2437,6 +2472,11 @@
             "type": "BaseType",
             "us": "Royal Axe",
             "lang": "皇家之斧"
+        },
+        {
+            "type": "BaseType",
+            "us": "Infernal Axe",
+            "lang": "武器外觀：煉獄魔斧"
         },
         {
             "type": "BaseType",
@@ -4906,6 +4946,11 @@
         {
             "type": "BaseType",
             "us": "Conquest Helmet",
+            "lang": "頭部外觀：驍勇征戰者"
+        },
+        {
+            "type": "BaseType",
+            "us": "Conquest Helmet",
             "lang": "征戰頭盔"
         },
         {
@@ -4942,6 +4987,11 @@
             "type": "BaseType",
             "us": "Great Helmet",
             "lang": "巨盔"
+        },
+        {
+            "type": "BaseType",
+            "us": "Crusader Helmet",
+            "lang": "頭部外觀：聖戰軍王"
         },
         {
             "type": "BaseType",
@@ -5906,6 +5956,11 @@
         {
             "type": "BaseType",
             "us": "Scholar Boots",
+            "lang": "腳部外觀：真理智者"
+        },
+        {
+            "type": "BaseType",
+            "us": "Scholar Boots",
             "lang": "學者長靴"
         },
         {
@@ -5937,6 +5992,11 @@
             "type": "BaseType",
             "us": "Sage Slippers",
             "lang": "哲人便鞋"
+        },
+        {
+            "type": "BaseType",
+            "us": "Warlock Boots",
+            "lang": "腳部外觀：咒言術士"
         },
         {
             "type": "BaseType",
@@ -6041,7 +6101,17 @@
         {
             "type": "BaseType",
             "us": "Legion Boots",
+            "lang": "腳部外觀：鬼蛛軍閥"
+        },
+        {
+            "type": "BaseType",
+            "us": "Legion Boots",
             "lang": "軍團長靴"
+        },
+        {
+            "type": "BaseType",
+            "us": "Crusader Boots",
+            "lang": "腳部外觀：聖戰軍王"
         },
         {
             "type": "BaseType",
@@ -6281,6 +6351,11 @@
         {
             "type": "BaseType",
             "us": "Apprentice Gloves",
+            "lang": "手部外觀：幻影傭兵"
+        },
+        {
+            "type": "BaseType",
+            "us": "Apprentice Gloves",
             "lang": "學徒手套"
         },
         {
@@ -6337,6 +6412,11 @@
             "type": "BaseType",
             "us": "Sage Gloves",
             "lang": "哲人手套"
+        },
+        {
+            "type": "BaseType",
+            "us": "Warlock Gloves",
+            "lang": "手部外觀：咒言術士"
         },
         {
             "type": "BaseType",
@@ -6441,7 +6521,17 @@
         {
             "type": "BaseType",
             "us": "Legion Gloves",
+            "lang": "手部外觀：鬼蛛軍閥"
+        },
+        {
+            "type": "BaseType",
+            "us": "Legion Gloves",
             "lang": "軍團手套"
+        },
+        {
+            "type": "BaseType",
+            "us": "Crusader Gloves",
+            "lang": "手部外觀：聖戰軍王"
         },
         {
             "type": "BaseType",
@@ -6555,13 +6645,28 @@
         },
         {
             "type": "BaseType",
+            "us": "Small Life Flask",
+            "lang": "生命藥劑（小）"
+        },
+        {
+            "type": "BaseType",
             "us": "Medium Life Flask",
             "lang": "中型生命藥劑"
         },
         {
             "type": "BaseType",
+            "us": "Medium Life Flask",
+            "lang": "生命藥劑（中）"
+        },
+        {
+            "type": "BaseType",
             "us": "Large Life Flask",
             "lang": "大型生命藥劑"
+        },
+        {
+            "type": "BaseType",
+            "us": "Large Life Flask",
+            "lang": "生命藥劑（大）"
         },
         {
             "type": "BaseType",
@@ -7106,6 +7211,11 @@
         {
             "type": "BaseType",
             "us": "Portal",
+            "lang": "傳送門"
+        },
+        {
+            "type": "BaseType",
+            "us": "Portal",
             "lang": "時空之門"
         },
         {
@@ -7512,6 +7622,11 @@
             "type": "BaseType",
             "us": "Clarity",
             "lang": "清晰"
+        },
+        {
+            "type": "BaseType",
+            "us": "WIP Support",
+            "lang": "WIP 支援"
         },
         {
             "type": "BaseType",
@@ -8801,7 +8916,7 @@
         {
             "type": "BaseType",
             "us": "[UNUSED] Handcast Rapid Fire",
-            "lang": "DNT Handcast Rapid Fire"
+            "lang": null
         },
         {
             "type": "BaseType",
@@ -8836,12 +8951,12 @@
         {
             "type": "BaseType",
             "us": "[UNUSED] Quick Block",
-            "lang": "[DNT] Quick Block"
+            "lang": null
         },
         {
             "type": "BaseType",
             "us": "[UNUSED] Replicate",
-            "lang": "[DNT] Replicate"
+            "lang": null
         },
         {
             "type": "BaseType",
@@ -8871,7 +8986,7 @@
         {
             "type": "BaseType",
             "us": "[UNUSED] Blitz",
-            "lang": "DNT Blitz"
+            "lang": null
         },
         {
             "type": "BaseType",
@@ -8906,7 +9021,7 @@
         {
             "type": "BaseType",
             "us": "[UNUSED] Slice And Dice",
-            "lang": "[DNT] Slice And Dice"
+            "lang": null
         },
         {
             "type": "BaseType",
@@ -9231,6 +9346,11 @@
         {
             "type": "BaseType",
             "us": "Arcane Cloak",
+            "lang": "背飾：奧秘之力披風"
+        },
+        {
+            "type": "BaseType",
+            "us": "Arcane Cloak",
             "lang": "秘能披風"
         },
         {
@@ -9545,6 +9665,11 @@
         },
         {
             "type": "BaseType",
+            "us": "[DNT] Call of the Wild",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
             "us": "Temporal Rift",
             "lang": "時空裂隙"
         },
@@ -9772,6 +9897,11 @@
             "type": "BaseType",
             "us": "Corrupting Cry Support",
             "lang": "汙染戰吼輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "[UNUSED] Conflagration Support",
+            "lang": null
         },
         {
             "type": "BaseType",
@@ -10250,6 +10380,11 @@
         },
         {
             "type": "BaseType",
+            "us": "Gardens Map",
+            "lang": "花園迷宮"
+        },
+        {
+            "type": "BaseType",
             "us": "Arachnid Nest Map",
             "lang": "異蛛巢穴"
         },
@@ -10676,6 +10811,21 @@
         {
             "type": "BaseType",
             "us": "Harbinger Map",
+            "lang": "神諭之殿．歸徒"
+        },
+        {
+            "type": "BaseType",
+            "us": "Harbinger Map",
+            "lang": "神諭之殿．降師"
+        },
+        {
+            "type": "BaseType",
+            "us": "Harbinger Map",
+            "lang": "神諭之殿．神臨"
+        },
+        {
+            "type": "BaseType",
+            "us": "Harbinger Map",
             "lang": "神諭之殿．煉獄"
         },
         {
@@ -10707,6 +10857,21 @@
             "type": "BaseType",
             "us": "Ziggurat Map",
             "lang": "高地神塔地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Courtyard of Wasting Map",
+            "lang": "糜爛之庭地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Chambers of Impurity Map",
+            "lang": "不淨密室地圖"
+        },
+        {
+            "type": "BaseType",
+            "us": "Theatre of Lies Map",
+            "lang": "謊言劇院地圖"
         },
         {
             "type": "BaseType",
@@ -13435,23 +13600,23 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Hybrid Widow",
-            "lang": "奪取之魂：混種黑寡婦"
+            "us": "Captured Soul of Legius Garhall",
+            "lang": "奪取之魂：雷吉斯葛賀爾"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Shadow of the Vaal",
-            "lang": "奪取之魂：瓦爾之影"
+            "us": "Captured Soul of Armala, the Widow",
+            "lang": "奪取之魂：寡婦阿摩拉"
+        },
+        {
+            "type": "BaseType",
+            "us": "Captured Soul of Woad, Mockery of Man",
+            "lang": "奪取之魂：功德法師沃德"
         },
         {
             "type": "BaseType",
             "us": "Captured Soul of Kitava, The Destroyer",
             "lang": "奪取之魂：毀滅者奇塔弗"
-        },
-        {
-            "type": "BaseType",
-            "us": "Captured Soul of The Gorgon",
-            "lang": "奪取之魂：戈耳戈"
         },
         {
             "type": "BaseType",
@@ -13465,18 +13630,18 @@
         },
         {
             "type": "BaseType",
+            "us": "Captured Soul of Fragment of Winter",
+            "lang": "奪取之魂：冬之碎片"
+        },
+        {
+            "type": "BaseType",
             "us": "Captured Soul of Khor, Sister of Shadows",
             "lang": "奪取之魂：暗影姊妹．霍爾"
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of It That Fell",
-            "lang": "奪取之魂：邪靈體"
-        },
-        {
-            "type": "BaseType",
-            "us": "Captured Soul of Mephod, the Earth Scorcher",
-            "lang": "奪取之魂：旱地者密法德"
+            "us": "Captured Soul of Sumter the Twisted",
+            "lang": "奪取之魂：桑特"
         },
         {
             "type": "BaseType",
@@ -13500,8 +13665,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Drek, Apex Hunter",
-            "lang": "奪取之魂：獵者之巔德雷克"
+            "us": "Captured Soul of Leif, the Swift-Handed",
+            "lang": "奪取之魂：快手利夫"
         },
         {
             "type": "BaseType",
@@ -13510,8 +13675,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Captured Soul of Gorulis, Will-Thief",
-            "lang": "奪取之魂：意念竊取者葛羅斯"
+            "us": "Captured Soul of Arachnoxia",
+            "lang": "奪取之魂：黑寡婦"
         },
         {
             "type": "BaseType",
@@ -13970,8 +14135,8 @@
         },
         {
             "type": "BaseType",
-            "us": "Betrayal Scarab of Intelligence",
-            "lang": "聖甲蟲：智慧反叛"
+            "us": "Betrayal Scarab of the Allflame",
+            "lang": "聖甲蟲：不滅之火反叛"
         },
         {
             "type": "BaseType",
@@ -14082,6 +14247,21 @@
             "type": "BaseType",
             "us": "Blight Scarab of Invigoration",
             "lang": "聖甲蟲：振奮凋落"
+        },
+        {
+            "type": "BaseType",
+            "us": "Kalguuran Scarab",
+            "lang": "卡爾葛聖甲蟲：豐收"
+        },
+        {
+            "type": "BaseType",
+            "us": "Kalguuran Scarab of Guarded Riches",
+            "lang": "卡爾葛聖甲蟲：守衛財寶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Kalguuran Scarab of Refinement",
+            "lang": "卡爾葛聖甲蟲：精化"
         },
         {
             "type": "BaseType",
@@ -14450,6 +14630,26 @@
         },
         {
             "type": "BaseType",
+            "us": "[UNUSED] Heist Test Weapon",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "[UNUSED] Heist Test Tool",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "[UNUSED] Heist Test Utility Equipment",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "[UNUSED] Heist Test Reward Equipment",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
             "us": "Forbidden Contract",
             "lang": "禁忌契約書"
         },
@@ -14487,6 +14687,11 @@
             "type": "BaseType",
             "us": "Tattered Cloak",
             "lang": "破損披風"
+        },
+        {
+            "type": "BaseType",
+            "us": "Hooded Cloak",
+            "lang": "背飾：兜風"
         },
         {
             "type": "BaseType",
@@ -14945,7 +15150,7 @@
         },
         {
             "type": "BaseType",
-            "us": "Staff of the first Sin Eater",
+            "us": "Staff of the First Sin Eater",
             "lang": "罪孽嗜者初代長杖"
         },
         {
@@ -15410,6 +15615,21 @@
         },
         {
             "type": "BaseType",
+            "us": "Echo of Trauma",
+            "lang": "創傷之迴響"
+        },
+        {
+            "type": "BaseType",
+            "us": "Echo of Reverence",
+            "lang": "敬畏之迴響"
+        },
+        {
+            "type": "BaseType",
+            "us": "Echo of Loneliness",
+            "lang": "孤獨之迴響"
+        },
+        {
+            "type": "BaseType",
             "us": "Archnemesis Mod",
             "lang": "宿敵詞綴"
         },
@@ -15667,6 +15887,36 @@
             "type": "BaseType",
             "us": "Sanctified Relic",
             "lang": "神化聖物"
+        },
+        {
+            "type": "BaseType",
+            "us": "Minor Idol",
+            "lang": "次要魔偶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Kamasan Idol",
+            "lang": "卡瑪薩魔偶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Totemic Idol",
+            "lang": "圖騰魔偶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Noble Idol",
+            "lang": "高貴魔偶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Burial Idol",
+            "lang": "埋葬魔偶"
+        },
+        {
+            "type": "BaseType",
+            "us": "Conqueror Idol",
+            "lang": "征服者魔偶"
         },
         {
             "type": "BaseType",
@@ -17719,6 +17969,236 @@
             "lang": "映像迷霧"
         },
         {
+            "type": "BaseType",
+            "us": "Syndicate Medallion",
+            "lang": "密教獎章"
+        },
+        {
+            "type": "BaseType",
+            "us": "[DNT] Test Runegraft",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the River",
+            "lang": "河川符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Fortress",
+            "lang": "堡壘符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Combatant",
+            "lang": "戰鬥者符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Sinistral",
+            "lang": "左旋符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Bound",
+            "lang": "緊密符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Warp",
+            "lang": "扭曲符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Soulwick",
+            "lang": "魂芯符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Bellows",
+            "lang": "轟鳴符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Gemcraft",
+            "lang": "寶石工藝符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Blasphemy",
+            "lang": "瀆神符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Gauche",
+            "lang": "笨拙符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "[DNT] Arcane Orders Runegraft",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "[DNT] Martial Orders Runegraft",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Time",
+            "lang": "時間符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Treachery",
+            "lang": "背信符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Quaffing",
+            "lang": "狂飲符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Restitching",
+            "lang": "重新縫合符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Loyalty",
+            "lang": "忠誠符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Witchmark",
+            "lang": "巫印符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Novamark",
+            "lang": "星印符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Recompense",
+            "lang": "補償符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Jeweller",
+            "lang": "工匠符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of Stability",
+            "lang": "穩定符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "[DNT] Limiting Runegraft",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "Runegraft of the Angler",
+            "lang": "長竿符文之結"
+        },
+        {
+            "type": "BaseType",
+            "us": "[DNT] Allflame Ember of Rats",
+            "lang": null
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Kulemak",
+            "lang": "不滅之火骷髏馬克餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Resplendence",
+            "lang": "不滅之火輝煌餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Propagation",
+            "lang": "不滅之火傳播餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Flesh",
+            "lang": "不滅之火血肉餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of the Wildwood",
+            "lang": "不滅之火荒林餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of the Ethereal",
+            "lang": "不滅之火虛靈餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of the Gilded",
+            "lang": "不滅之火鍍金餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Allflame Ember of Toads",
+            "lang": "不滅之火蟾蜍餘燼"
+        },
+        {
+            "type": "BaseType",
+            "us": "Djinn-Touched Vaal Orb",
+            "lang": "巨靈瓦爾寶珠"
+        },
+        {
+            "type": "BaseType",
+            "us": "Fading Reflecting Mist",
+            "lang": "消逝映像迷霧"
+        },
+        {
+            "type": "BaseType",
+            "us": "Gemcutters Lens",
+            "lang": "寶石匠透鏡"
+        },
+        {
+            "type": "BaseType",
+            "us": "Focused Channelling Support",
+            "lang": "專注引導輔助"
+        },
+        {
+            "type": "BaseType",
+            "us": "Runic Luck",
+            "lang": "符文之運"
+        },
+        {
+            "type": "BaseType",
+            "us": "Last Stand",
+            "lang": "最後一博"
+        },
+        {
+            "type": "BaseType",
+            "us": "Damnation",
+            "lang": "咒縛"
+        },
+        {
+            "type": "BaseType",
+            "us": "When Currents Blaze",
+            "lang": "熾炎爆發"
+        },
+        {
+            "type": "BaseType",
+            "us": "History",
+            "lang": "歷史"
+        },
+        {
+            "type": "BaseType",
+            "us": "Order: To me!",
+            "lang": "命令：過來！"
+        },
+        {
             "type": "Unique",
             "us": "Kaom's Primacy",
             "lang": "岡姆的霸業"
@@ -18495,7 +18975,7 @@
         },
         {
             "type": "Unique",
-            "us": "Arimagius' Honor",
+            "us": "Arimagius' Honour",
             "lang": "志士的榮耀之心"
         },
         {
@@ -18522,6 +19002,11 @@
             "type": "Unique",
             "us": "Vizaru's Folly",
             "lang": "維札盧的不堪往事"
+        },
+        {
+            "type": "Unique",
+            "us": "Ylfe Ban",
+            "lang": "禁語"
         },
         {
             "type": "Unique",
@@ -19972,6 +20457,11 @@
             "type": "Unique",
             "us": "Kingmaker",
             "lang": "王者之刃"
+        },
+        {
+            "type": "Unique",
+            "us": "To Dust",
+            "lang": "化為塵土"
         },
         {
             "type": "Unique",
@@ -23680,6 +24170,11 @@
         },
         {
             "type": "Unique",
+            "us": "Terror",
+            "lang": "惡懼"
+        },
+        {
+            "type": "Unique",
             "us": "Stalwart Defenders",
             "lang": "忠誠護衛"
         },
@@ -23800,6 +24295,11 @@
         },
         {
             "type": "Unique",
+            "us": "[UNUSED] Magnetic Ward",
+            "lang": null
+        },
+        {
+            "type": "Unique",
             "us": "Abhorrent Interrogation",
             "lang": "悖逆審訊"
         },
@@ -23902,6 +24402,11 @@
             "type": "Unique",
             "us": "Infused Beachhead",
             "lang": "神域之殿．煉獄"
+        },
+        {
+            "type": "Unique",
+            "us": "[UNUSED] Unique Heist Contract",
+            "lang": null
         },
         {
             "type": "Unique",
@@ -25145,6 +25650,11 @@
         },
         {
             "type": "Unique",
+            "us": "[DNT] Unleash Power Staff",
+            "lang": null
+        },
+        {
+            "type": "Unique",
             "us": "Sap of the Seasons",
             "lang": "季節樹液"
         },
@@ -25167,6 +25677,456 @@
             "type": "Unique",
             "us": "Grasping Nightshade",
             "lang": "束縛夜影"
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] Atlas Relic Keystone",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] Atlas Relic Block League",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] Atlas Relic Free Space",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "Eye of the Djinn",
+            "lang": "巨靈之眼"
+        },
+        {
+            "type": "Unique",
+            "us": "Lone Adventurer",
+            "lang": "孤獨冒險者"
+        },
+        {
+            "type": "Unique",
+            "us": "Twist of Fate",
+            "lang": "命運的轉折"
+        },
+        {
+            "type": "Unique",
+            "us": "Wellspring of Creation",
+            "lang": "創造之泉"
+        },
+        {
+            "type": "Unique",
+            "us": "Dance of Destruction",
+            "lang": "毀滅之舞"
+        },
+        {
+            "type": "Unique",
+            "us": "Singular Focus",
+            "lang": "單一焦點"
+        },
+        {
+            "type": "Unique",
+            "us": "Eldritch Gaze",
+            "lang": "異能凝視"
+        },
+        {
+            "type": "Unique",
+            "us": "Wrath of the Cosmos",
+            "lang": "宇宙之怒"
+        },
+        {
+            "type": "Unique",
+            "us": "Shadow Shaping",
+            "lang": "陰影塑造"
+        },
+        {
+            "type": "Unique",
+            "us": "Extreme Archaeology",
+            "lang": "極限考古學"
+        },
+        {
+            "type": "Unique",
+            "us": "Crop Rotation",
+            "lang": "作物輪作"
+        },
+        {
+            "type": "Unique",
+            "us": "Timeless Conflict",
+            "lang": "永恆鬥爭"
+        },
+        {
+            "type": "Unique",
+            "us": "Unending Nightmare",
+            "lang": "無盡惡夢"
+        },
+        {
+            "type": "Unique",
+            "us": "Immutable Dogma",
+            "lang": "不變教義"
+        },
+        {
+            "type": "Unique",
+            "us": "Arbitrary Tenets",
+            "lang": "武斷原則"
+        },
+        {
+            "type": "Unique",
+            "us": "Endless Tide",
+            "lang": "無盡潮汐"
+        },
+        {
+            "type": "Unique",
+            "us": "Speaker of the Dead",
+            "lang": "死者之言"
+        },
+        {
+            "type": "Unique",
+            "us": "Cassia's Pride",
+            "lang": "卡西亞的驕傲"
+        },
+        {
+            "type": "Unique",
+            "us": "Meticulous Appraiser",
+            "lang": "細膩鑑定師"
+        },
+        {
+            "type": "Unique",
+            "us": "Lucid Dreams",
+            "lang": "清醒夢境"
+        },
+        {
+            "type": "Unique",
+            "us": "Destructive Play",
+            "lang": "毀滅遊戲"
+        },
+        {
+            "type": "Unique",
+            "us": "Bold Undertakings",
+            "lang": "大膽行動"
+        },
+        {
+            "type": "Unique",
+            "us": "Gruelling Gauntlet",
+            "lang": "困苦關卡"
+        },
+        {
+            "type": "Unique",
+            "us": "Ruinous Wager",
+            "lang": "毀滅賭注"
+        },
+        {
+            "type": "Unique",
+            "us": "Thorough Exploration",
+            "lang": "整體勘探"
+        },
+        {
+            "type": "Unique",
+            "us": "Black Thumb",
+            "lang": "黑指"
+        },
+        {
+            "type": "Unique",
+            "us": "Loved by the Sun",
+            "lang": "太陽寵愛"
+        },
+        {
+            "type": "Unique",
+            "us": "Dimensional Barrier",
+            "lang": "次元壁壘"
+        },
+        {
+            "type": "Unique",
+            "us": "Trade Embargo",
+            "lang": "貿易禁令"
+        },
+        {
+            "type": "Unique",
+            "us": "Sealed Domain",
+            "lang": "領域封鎖"
+        },
+        {
+            "type": "Unique",
+            "us": "Servant of Order",
+            "lang": "道德審查"
+        },
+        {
+            "type": "Unique",
+            "us": "Fungal Remission",
+            "lang": "細菌解方"
+        },
+        {
+            "type": "Unique",
+            "us": "Secular Focus",
+            "lang": "世俗目光"
+        },
+        {
+            "type": "Unique",
+            "us": "Straight and Narrow",
+            "lang": "筆直窄道"
+        },
+        {
+            "type": "Unique",
+            "us": "Ominous Silence",
+            "lang": "不祥的寂靜"
+        },
+        {
+            "type": "Unique",
+            "us": "Smash and Grab",
+            "lang": "打砸搶"
+        },
+        {
+            "type": "Unique",
+            "us": "Crystallised Power",
+            "lang": "晶化之力"
+        },
+        {
+            "type": "Unique",
+            "us": "Well Supplied",
+            "lang": "補給充足"
+        },
+        {
+            "type": "Unique",
+            "us": "Perceived Greatness",
+            "lang": "感知的偉大"
+        },
+        {
+            "type": "Unique",
+            "us": "Twisted Wish",
+            "lang": "扭曲之願"
+        },
+        {
+            "type": "Unique",
+            "us": "Wine of the Prophet",
+            "lang": "預言家之酒"
+        },
+        {
+            "type": "Unique",
+            "us": "Coiling Whisper",
+            "lang": "盤繞細語"
+        },
+        {
+            "type": "Unique",
+            "us": "Venarius' Astrolabe",
+            "lang": "維那利斯的星盤"
+        },
+        {
+            "type": "Unique",
+            "us": "Starcaller",
+            "lang": "喚星者"
+        },
+        {
+            "type": "Unique",
+            "us": "Whispers of Infinity",
+            "lang": "無盡低語"
+        },
+        {
+            "type": "Unique",
+            "us": "The Dark Monarch",
+            "lang": "黑暗君主"
+        },
+        {
+            "type": "Unique",
+            "us": "Seven Teachings",
+            "lang": "七大教誨"
+        },
+        {
+            "type": "Unique",
+            "us": "Legacy of the Rose",
+            "lang": "玫瑰的傳承"
+        },
+        {
+            "type": "Unique",
+            "us": "Servant of Decay",
+            "lang": "腐蝕使徒"
+        },
+        {
+            "type": "Unique",
+            "us": "Cadigan's Authority",
+            "lang": "卡迪根的權威"
+        },
+        {
+            "type": "Unique",
+            "us": "Heartless Mind",
+            "lang": "無良心靈"
+        },
+        {
+            "type": "Unique",
+            "us": "The Badmixture",
+            "lang": "不良混合物"
+        },
+        {
+            "type": "Unique",
+            "us": "Faith Shaker",
+            "lang": "信仰撼動者"
+        },
+        {
+            "type": "Unique",
+            "us": "Mystic Refractor",
+            "lang": "神秘的折射器"
+        },
+        {
+            "type": "Unique",
+            "us": "The Dark Bargain",
+            "lang": "幽暗交易"
+        },
+        {
+            "type": "Unique",
+            "us": "Hollowmind",
+            "lang": "空洞心靈"
+        },
+        {
+            "type": "Unique",
+            "us": "Lucan's Art",
+            "lang": "盧坎的藝術作品"
+        },
+        {
+            "type": "Unique",
+            "us": "Fusefingers",
+            "lang": "融合之指"
+        },
+        {
+            "type": "Unique",
+            "us": "Glassmaker's Craft",
+            "lang": "玻璃匠工法"
+        },
+        {
+            "type": "Unique",
+            "us": "Crimson Bloom",
+            "lang": "緋紅繁花"
+        },
+        {
+            "type": "Unique",
+            "us": "Dissenting Chorus",
+            "lang": "異議齊鳴"
+        },
+        {
+            "type": "Unique",
+            "us": "The Hollow Fortress",
+            "lang": "魔域堡壘"
+        },
+        {
+            "type": "Unique",
+            "us": "Azadi Crest",
+            "lang": "愛札丁的榮冠"
+        },
+        {
+            "type": "Unique",
+            "us": "Scornflux",
+            "lang": "蔑視之流"
+        },
+        {
+            "type": "Unique",
+            "us": "Howlcrack",
+            "lang": "狂嗥之痕"
+        },
+        {
+            "type": "Unique",
+            "us": "Binds of Bloody Vengeance",
+            "lang": "血腥復仇的束縛"
+        },
+        {
+            "type": "Unique",
+            "us": "Hand of Heresy",
+            "lang": "異端之手"
+        },
+        {
+            "type": "Unique",
+            "us": "The Avaricious Heart",
+            "lang": "貪婪之心"
+        },
+        {
+            "type": "Unique",
+            "us": "The Biting Braid",
+            "lang": "噬咬護鏈"
+        },
+        {
+            "type": "Unique",
+            "us": "Enmity's Embrace",
+            "lang": "惡言之擁"
+        },
+        {
+            "type": "Unique",
+            "us": "Betrayal's Sting",
+            "lang": "反叛之針"
+        },
+        {
+            "type": "Unique",
+            "us": "Unwilling Embrace",
+            "lang": "不情願的擁抱"
+        },
+        {
+            "type": "Unique",
+            "us": "The Grey Mass",
+            "lang": "斑駁之塊"
+        },
+        {
+            "type": "Unique",
+            "us": "Mysterious Phylactery",
+            "lang": "神秘命匣"
+        },
+        {
+            "type": "Unique",
+            "us": "Prospero's Protection",
+            "lang": "普洛斯彼羅的守護"
+        },
+        {
+            "type": "Unique",
+            "us": "One Thousand Snakes",
+            "lang": "千蛇"
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] Battery of Yixavim",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] The Dented Plate",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] Ancestral Proclamation",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "The Arkhon's Tools",
+            "lang": "執政官的工具"
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] Path of Pain",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] Pace of Violence",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "Squirming Terror",
+            "lang": "扭曲恐懼"
+        },
+        {
+            "type": "Unique",
+            "us": "Spinehail",
+            "lang": "脊雹"
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] The Packmaster",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "[DNT] The Bell Ringer",
+            "lang": null
+        },
+        {
+            "type": "Unique",
+            "us": "Bound By Destiny",
+            "lang": "被命運束縛"
         },
         {
             "type": "Monster",
