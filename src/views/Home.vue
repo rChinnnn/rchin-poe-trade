@@ -1479,7 +1479,7 @@ export default {
       });
       result[result.findIndex(e => e.id === "gem")].entries.forEach(element => { // "id": "gems", "label": "技能寶石"
         if (element.hasOwnProperty('disc')) {
-          if (element.disc === "alt_x" || element.disc === "alt_y") { // 抓出 3.23 變異寶石資料
+          if (element.disc === "alt_x" || element.disc === "alt_y" || element.disc === "alt_z") { // 抓出 3.23 變異寶石資料
             this.transfiguredGems.push(element)
           }
         } else {
