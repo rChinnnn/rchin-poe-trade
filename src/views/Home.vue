@@ -365,7 +365,7 @@
                 <td style="width: 45px;">
                   <b-form-checkbox v-model="item.isSearch"></b-form-checkbox>
                 </td>
-                <td style="width: 55px; cursor: pointer; user-select:none;" :style="statsFontColor(item.type)" @click="item.isSearch = !item.isSearch">{{ item.type }} </td>
+                <td style="width: 70px; cursor: pointer; user-select:none;" :style="statsFontColor(item.type)" @click="item.isSearch = !item.isSearch">{{ item.type }} </td>
                 <td style="cursor: pointer; user-select:none; white-space:pre-wrap;" @click="item.isSearch = !item.isSearch">{{ item.text }} </td>
                 <td style="width: 64px; padding-top: 5px !important;">
                   <div style="padding:0px 4px 0px 6px;">
@@ -808,6 +808,9 @@ export default {
                 "quality": { // 技能品質 isGemQualitySearch
                   "min": 10
                 },
+                "memory_level": { // 3.26 記憶絲縷 
+                  "min": 10
+                },
                 "gem_alternate_quality": { // 寶石替代品質設定 gemQualityTypeInput
                   "option": "alternate", // any alternate
                   "option": "0", // superior(default) 精良的
@@ -987,7 +990,7 @@ export default {
       this.isSupported = true
       if (this.searchJson.query.stats[0].filters.length === 0) {
         this.searchStats.forEach((element, index, array) => {
-                    let value = {}
+          let value = {}
           let min = element.min
           let max = element.max
           if (element.isNegative && _.isNumber(min)) {
@@ -1003,6 +1006,20 @@ export default {
           if (element.option) {
             value.option = element.option
           }
+          
+          // 特殊處理記憶絲縷
+          if (element.id === "memory_level") {
+            if (element.isSearch) {
+              this.searchJson.query.filters.misc_filters.filters.memory_level = {
+                "min": element.min ? element.min : null,
+                "max": element.max ? element.max : null
+              }
+            } else {
+              delete this.searchJson.query.filters.misc_filters.filters.memory_level
+            }
+            return // 跳過後續的stats處理
+          }
+          
           // 比較 element.id 與 duplicateStats 內的 allIds 陣列，如果 element.id 有包含在內，則搜尋詞綴時就改為 type: "count"
           let isCountType = this.duplicateStats.allIds.find(data => data.includes(element.id))
 
@@ -1072,7 +1089,7 @@ export default {
           if (error.response.status === 429) {
             errMsg += `\n被 Server 限制發送需求了，請等待後再重試`
           }
-          vm.issueText = `Version: v1.326.0, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+          vm.issueText = `Version: v1.326.1, Server: ${vm.storeServerString}\n此次搜尋異常！\n${errMsg}\n\`\`\`\n${vm.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
           vm.itemsAPI()
           vm.isSupported = false
           vm.isStatsCollapse = false
@@ -1462,7 +1479,7 @@ export default {
       });
       result[result.findIndex(e => e.id === "gem")].entries.forEach(element => { // "id": "gems", "label": "技能寶石"
         if (element.hasOwnProperty('disc')) {
-          if (element.disc === "alt_x" || element.disc === "alt_y") { // 抓出 3.23 變異寶石資料
+          if (element.disc === "alt_x" || element.disc === "alt_y" || element.disc === "alt_z") { // 抓出 3.23 變異寶石資料
             this.transfiguredGems.push(element)
           }
         } else {
@@ -2422,6 +2439,23 @@ export default {
         let levelValue = parseInt(levelPos.substring(0, levelPosEnd).trim(), 10)
         this.itemLevel.min = levelValue >= 86 ? 86 : levelValue // 物等超過86 只留86
       }
+      // 判斷記憶絲縷等級
+      if (item.indexOf('記憶絲縷: ') > -1) {
+        let memoryPos = item.substring(item.indexOf('記憶絲縷: ') + 5)
+        let memoryPosEnd = memoryPos.indexOf(NL)
+        let memoryValue = parseInt(memoryPos.substring(0, memoryPosEnd).trim(), 10)
+        this.searchStats.push({
+          "id": "memory_level",
+          "text": `記憶絲縷: ${memoryValue}`,
+          "option": '',
+          "min": memoryValue,
+          "max": '',
+          "isValue": true,
+          "isNegative": false,
+          "isSearch": true,
+          "type": "記憶絲縷"
+        })
+      }
       // 判斷插槽連線
       if (item.indexOf('插槽: ') > -1) {
         const regLinkStr = /[A-Z]/g // 全域搜尋大寫英文字母
@@ -3087,7 +3121,7 @@ export default {
         return
       } else {
         this.itemsAPI()
-        this.issueText = `Version: v1.326.0\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
+        this.issueText = `Version: v1.326.1\n尚未支援搜尋該道具\n\`\`\`\n${this.copyText.replace('稀有度: ', 'Rarity: ')}\`\`\``
         this.isSupported = false
         this.isStatsCollapse = false
         return
@@ -3292,6 +3326,7 @@ export default {
               'color': '#ff6e25'
             }
           case '工藝':
+          case '記憶絲縷':
             return {
               'color': '#8181ff'
             }
